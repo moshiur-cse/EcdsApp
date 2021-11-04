@@ -15,4 +15,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\custom-theme\jquery.counterup\demo\" />
+    <Folder Include="wwwroot\lib\custom-theme\waypoints\src\" />
+    <Folder Include="wwwroot\lib\custom-theme\waypoints\test\" />
+  </ItemGroup>
+
 </Project>
