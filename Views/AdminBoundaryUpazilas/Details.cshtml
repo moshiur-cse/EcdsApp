@@ -1,0 +1,43 @@
+﻿@model EcdsApp.Models.AdminBoundaryUpazila
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>AdminBoundaryUpazila</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UpazilaName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UpazilaName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UpazilaNameBangla)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UpazilaNameBangla)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.District)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.District.DistrictGeoCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SortingOrder)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SortingOrder)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.UpazilaGeoCode">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

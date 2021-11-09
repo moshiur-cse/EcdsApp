@@ -1,23 +1,29 @@
-﻿<!-- ========== Left Sidebar Start ========== -->
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Identity
+@using EcdsApp.Models.UserManage;
+@inject SignInManager<UserRegistration> SignInManager
+
+
+<!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
 
     <!-- LOGO -->
     <div class="navbar-brand-box">
-        <a asp-action="Index" asp-controller="Home" class="logo logo-dark">
+        <a asp-controller="Home" asp-action="Dashboard" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="~/images/theme-content/logo-sm.png" alt="" height="22">
+                <img src="images/logo-sm.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="~/images/theme-content/logo-dark.png" alt="" height="20">
+                <img src="images/logo-dark.png" alt="" height="20">
             </span>
         </a>
 
-        <a asp-action="Index" asp-controller="Home" class="logo logo-light">
+        <a asp-controller="Home" asp-action="Dashboard" class="logo logo-light">
             <span class="logo-sm">
-                <img src="~/images/theme-content/logo-sm.png" alt="" height="22">
+                <img src="images/logo-sm.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="~/images/theme-content/logo-light.png" alt="" height="20">
+                <img src="images/logo-light.png" alt="" height="20">
             </span>
         </a>
     </div>
@@ -35,7 +41,7 @@
                 <li class="menu-title">Menu</li>
 
                 <li>
-                    <a href="index.html">
+                    <a asp-controller="Home" asp-action="Dashboard">
                         <i class="uil-home-alt"></i><span class="badge rounded-pill bg-primary float-end">01</span>
                         <span>Dashboard</span>
                     </a>
@@ -43,42 +49,19 @@
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="uil-window-section"></i>
-                        <span>Layouts</span>
+                        <i class="uil-store"></i>
+                        <span>Admin Boundaries</span>
                     </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow">Vertical</a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="layouts-dark-sidebar.html">Dark Sidebar</a></li>
-                                <li><a href="layouts-compact-sidebar.html">Compact Sidebar</a></li>
-                                <li><a href="layouts-icon-sidebar.html">Icon Sidebar</a></li>
-                                <li><a href="layouts-boxed.html">Boxed Width</a></li>
-                                <li><a href="layouts-preloader.html">Preloader</a></li>
-                                <li><a href="layouts-colored-sidebar.html">Colored Sidebar</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow">Horizontal</a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="layouts-horizontal.html">Horizontal</a></li>
-                                <li><a href="layouts-hori-topbar-dark.html">Topbar Dark</a></li>
-                                <li><a href="layouts-hori-boxed-width.html">Boxed Width</a></li>
-                                <li><a href="layouts-hori-preloader.html">Preloader</a></li>
-                            </ul>
-                        </li>
+
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a asp-controller="AdminBoundaryDivisions" asp-action="Index">Division List</a></li>
+                        <li><a asp-controller="AdminBoundaryDistricts" asp-action="Index">District List</a></li>
+                        <li><a asp-controller="AdminBoundaryUpazilas" asp-action="Index">Upazila List</a></li>
                     </ul>
+
                 </li>
 
-                <li class="menu-title">Apps</li>
-
-                <li>
-                    <a href="calendar.html" class="waves-effect">
-                        <i class="uil-calender"></i>
-                        <span>Calendar</span>
-                    </a>
-                </li>
-
+               
                 <li>
                     <a href="chat.html" class=" waves-effect">
                         <i class="uil-comments-alt"></i>

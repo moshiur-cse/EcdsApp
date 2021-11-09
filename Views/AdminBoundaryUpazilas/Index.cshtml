@@ -1,0 +1,54 @@
+﻿@model IEnumerable<EcdsApp.Models.AdminBoundaryUpazila>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UpazilaName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpazilaNameBangla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.District)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SortingOrder)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpazilaName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpazilaNameBangla)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.District.DistrictGeoCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SortingOrder)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UpazilaGeoCode">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UpazilaGeoCode">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UpazilaGeoCode">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

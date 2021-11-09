@@ -9,13 +9,13 @@
     <title>ECDS :: @ViewData["Title"]</title>
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="~/images/favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
     <!-- Bootstrap Css -->
-    <link href="~/lib/custom-theme/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="~/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="~/lib/custom-theme/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="~/lib/custom-theme/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="~/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -24,7 +24,6 @@
     <div id="layout-wrapper">
         <partial name="_HeaderPartial" />
         <partial name="_LeftSidebarMenuPartial" />
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -52,20 +51,21 @@
             </div>
         </div>
     </div>
+    <partial name="_RightSideBar" />
 
     <!-- JAVASCRIPT -->
-    <script src="~/lib/custom-theme/jquery/jquery.min.js"></script>
-    <script src="~/lib/custom-theme/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/custom-theme/metismenu/metisMenu.min.js"></script>
-    <script src="~/lib/custom-theme/simplebar/simplebar.min.js"></script>
-    <script src="~/lib/custom-theme/node-waves/waves.min.js"></script>
-    <script src="~/lib/custom-theme/waypoints/lib/jquery.waypoints.min.js"></script>
-    <script src="~/lib/custom-theme/jquery.counterup/jquery.counterup.min.js"></script>
+    <script src="~/libs/jquery/jquery.min.js"></script>
+    <script src="~/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/libs/metismenu/metisMenu.min.js"></script>
+    <script src="~/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/libs/node-waves/waves.min.js"></script>
+    <script src="~/libs/waypoints/lib/jquery.waypoints.min.js"></script>
+    <script src="~/libs/jquery.counterup/jquery.counterup.min.js"></script>
 
     <!-- apexcharts -->
-    <script src="~/lib/custom-theme/apexcharts/apexcharts.min.js"></script>
+    <script src="~/libs/apexcharts/apexcharts.min.js"></script>
 
-    <script src="~/js/dashboard.init.js"></script>
+    <script src="~/js/pages/dashboard.init.js"></script>
 
     <!-- App js -->
     <script src="~/js/app.js"></script>
