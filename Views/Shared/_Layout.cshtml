@@ -20,11 +20,15 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
  @*data-sidebar="dark"*@
-<body>
+<body data-layout="horizontal" data-topbar="dark">
 
     <div id="layout-wrapper">
-        <partial name="_HeaderPartial" />
-        <partial name="_LeftSidebarMenuPartial" />
+
+        <partial name="_HorizontalHeaderPartial" />
+        @*<partial name="_HeaderPartial" />
+        <partial name="_LeftSidebarMenuPartial" />*@
+
+        
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -43,7 +47,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-sm-end d-none d-sm-block">
-                                    
+
                                     Developed<i class="mdi mdi-at text-danger"></i>by <a href="https://cegisbd.com/" target="_blank" class="text-reset">CEGIS</a>
                                 </div>
                             </div>
