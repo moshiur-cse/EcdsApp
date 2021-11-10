@@ -149,10 +149,10 @@ namespace EcdsApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsStaging())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
@@ -161,21 +161,20 @@ namespace EcdsApp
                 app.UseHsts();
             }
 
+            //app.UseForwardedHeaders(); //For Ip Get
             app.UseHttpsRedirection();
-            app.UseDefaultFiles();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Dashboard}/{id?}");
-                //endpoints.MapRazorPages();
+                endpoints.MapRazorPages();
             });
 
         }
