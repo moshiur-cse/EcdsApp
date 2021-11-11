@@ -4,74 +4,76 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
+                    <h4 class="card-title">Division List  <a asp-action="Create">Create New</a></h4>
+                    <p class="card-title-desc">Division Details Information</p>
 
-                <h4 class="card-title">Division List  <a asp-action="Create">Create New</a></h4>
-                <p class="card-title-desc">Division Details Information</p>
+                    <div class="table-responsive">
+                        <table class="table table-editable table-nowrap align-middle table-edits">
+                            <thead>
 
-                <div class="table-responsive">
-                    <table class="table table-editable table-nowrap align-middle table-edits">
-                        <thead>
-
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.DivisionName)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.DivisionNameBangla)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.SortingOrder)
-                                </th>
-                                <th></th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr data-id="2">
-                                    <td data-field="id">
-                                        @Html.DisplayFor(modelItem => item.DivisionName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DivisionNameBangla)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SortingOrder)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.DivisionGeoCode">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.DivisionGeoCode">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.DivisionGeoCode">Delete</a>
-                                    </td>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.DivisionName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.DivisionNameBangla)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SortingOrder)
+                                    </th>
+                                    <th></th>
                                 </tr>
-                            }
+
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr data-id="2">
+                                        <td data-field="id">
+                                            @Html.DisplayFor(modelItem => item.DivisionName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DivisionNameBangla)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SortingOrder)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.DivisionGeoCode">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.DivisionGeoCode">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.DivisionGeoCode">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
 
 
-                            @*<tr data-id="5">
-                                    <td data-field="id">5</td>
-                                    <td data-field="name">Minnie Walter</td>
-                                    <td data-field="age">27</td>
-                                    <td data-field="gender">Female</td>
-                                    <td>
-                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>*@
-                        </tbody>
-                    </table>
+                                @*<tr data-id="5">
+                                        <td data-field="id">5</td>
+                                        <td data-field="name">Minnie Walter</td>
+                                        <td data-field="age">27</td>
+                                        <td data-field="gender">Female</td>
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>*@
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
-
             </div>
-        </div>
-    </div> <!-- end col -->
-</div> <!-- end row -->
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+</div>

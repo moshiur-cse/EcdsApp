@@ -1,0 +1,389 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<EcdsApp.Models.AdminBoundaryDistrict>
+
+@{
+    ViewData["Title"] = "Map";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <!-- leaflet Css -->
+    <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
+    <style>
+        .custom-map {
+            margin-top: -50px !important
+        }
+
+        .leaflet-map {
+            height: 800px;
+        }
+
+
+        .table > thead > tr > th {
+            width: 15vw !important;
+        }
+
+        .mapLabel {
+            height: auto !important;
+            width: auto !important;
+            /*font-weight: bold;
+            color: #025 line-height: 1;*/
+            padding: 0.2rem 0.3rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.7rem;
+            color: #123;
+            text-shadow: 0 0 1px #aaa;
+            /*background: rgba(250,250,250,0.45);*/
+            border-radius: 0.25rem;
+        }
+
+        .legend_info {
+            padding: 1px;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            font-size: 1vw;
+        }
+
+            .legend_info i {
+                width: 1.5vw;
+                height: 1.5vw;
+                float: left;
+                margin-right: 1vw;
+                opacity: 0.7;
+                font-size: 1vw;
+            }
+
+
+
+            .legend_info p {
+                padding: 0.2vw;
+            }
+
+        .map_btns_content {
+            z-index: 1000;
+            position: absolute;
+            top: 150px;
+            left: auto;
+            right: 1%;
+            width: 50px;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            text-align: right;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .map_btns {
+            display: inline-block;
+            /*border: 2px solid rgba(255, 255, 255, 0.01);*/
+            border: 2px solid rgba(0, 0, 0, 0.25);
+            width: 40px;
+            height: 38px;
+            margin: 0 3px;
+            padding: 6px;
+            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+            color: #777;
+            text-align: center;
+            background-color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            background-clip: padding-box;
+            /*box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);*/
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            transition: background-size 0.15s;
+        }
+
+        .map_opt_content {
+            z-index: 1000;
+            position: absolute;
+            top: 150px;
+            border: 1px solid #e5e7e8;
+            width: auto;
+            min-width: 200px;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+            font: bold 13px/1.5 Roboto, Helvetica, Arial, sans-serif;
+            background: rgba(255, 255, 255, 0.85) none repeat scroll 0 0;
+            -webkit-box-shadow: 0 3px 3px rgba(12, 13, 15, 0.23);
+            -moz-box-shadow: 0 3px 3px rgba(12, 13, 15, 0.23);
+            -ms-box-shadow: 0 3px 3px rgba(12, 13, 15, 0.23);
+            box-shadow: 0 3px 3px rgba(12, 13, 15, 0.23);
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            border-radius: 3px;
+            transition-property: left, right;
+            transition-duration: 0.5s, 0.5s;
+            transition-delay: 0.3s, 0.3s;
+        }
+
+        .map_title {
+            padding: 3px;
+            z-index: 1000;
+            text-align: center;
+            text-decoration: underline;
+            position: absolute;
+            margin-left: 50%;
+            /*top: 110px;*/
+            border: 1px solid #e5e7e8;
+            width: auto;
+            font: bold 17px/1.5 Roboto, Helvetica, Arial, sans-serif;
+            background: rgba(255, 255, 255, 0.85) none repeat scroll 0 0;
+            /*border-radius: 3px*/
+        }
+
+        .map_legend {
+            height: 450px;
+            overflow-y: scroll;
+        }
+
+        .map_bg_layers {
+            color: black;
+            background: #fff;
+        }
+
+        .map_opt_content {
+            min-width: 90px !important;
+            left: 10% !important;
+        }
+
+
+        .my-div-icon {
+            color: black;
+            outline-color: black;
+        }
+    </style>
+}
+<partial name="_MapRightSideBar" />
+<partial name="_MapModals" />
+
+
+
+
+<div class="map_opt_content">
+    <label><input type="checkbox" id="map_label_opt" title="Show/Hide Map Label" />@*Map*@ Label</label>
+    <label><input type="checkbox" id="map_navigation" title="Auto Change Map" />@*Map*@ Navigation</label>
+
+</div>
+
+
+<div class="row map_title" style="text-align:center">
+    <i class="bi bi-arrow-bar-up"></i>
+    <p style="text-align:center" id="map_title">Title: District Map</p>
+</div>
+
+
+<div id="map_btns_content" class="map_btns_content">
+    <div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>
+    <div id="map_reset" class="map_btns map_reset right-bar-toggle waves-effect" title="Reset Map" onclick="mpa_reset();"> </div>
+    <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
+    <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Filter the Map"></div>
+    <div id="map_bg_layers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
+</div>
+
+<div class="row custom-map map_content">
+    <div id="basic-map" class="leaflet-map"></div>
+</div>
+
+
+@section Scripts{
+    <!-- leaflet plugin -->
+    <script src="~/assets/libs/leaflet/leaflet.js"></script>
+
+    <!-- leaflet map.init -->
+    <script src="~/assets/js/pages/leaflet-us-states.js"></script>
+    <script src="~/assets/js/pages/leaflet-map.init.js"></script>
+    <script>
+        var data_layer;
+        var data_layer_Name = { "1":"div.json", "2":"rail_bd.json"};
+
+        
+        mapInit();
+        LayerShowHide();
+
+        function mapInit() {
+
+            var blankUrl = "../images/blank.png",
+                osmUrl = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                googleUrlHy = "http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
+                googleUrlSa = "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+                googleUrlSt = "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+                googleUrlTr = "http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+                mapbUrl = "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYWxoYWRpLWNzZSIsImEiOiJjamx1azJ5emcwamlkM3ZxeHB0ajB0d3I1In0.k_DovXLLPpp7fQ_i685ocA",
+                esriUrl = "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                mapAttrib = "Map data © <a href='https://www.cegisbd.com/' target='_blank'>CEGIS</a>";
+
+            var openstreet = L.tileLayer(osmUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
+                googleHy = L.tileLayer(googleUrlHy, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                googleSa = L.tileLayer(googleUrlSa, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                googleSt = L.tileLayer(googleUrlSt, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                googleTr = L.tileLayer(googleUrlTr, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                //mapboxLi = L.tileLayer(mapbUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, id: "mapbox.light", attribution: mapAttrib }),
+                //mapboxSt = L.tileLayer(mapbUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, id: "mapbox.streets", attribution: mapAttrib }),
+                esri = L.tileLayer(esriUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
+                blank = L.tileLayer(blankUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib });
+
+
+            mymap = new L.Map("basic-map",
+                {
+                    center: new L.LatLng(23.737777, 90.537777),
+                    fullscreenControl: true,
+                    zoomControl: false,
+                    maxZoom: 20,
+                    minZoom: 2,
+                    zoom: 6.0,
+                    layers: [openstreet]
+                });
+
+
+            mymap.setView([23.837777, 90.347777], 7.0);
+
+            var baseMaps = {
+                "Open Street": openstreet,
+                "Google Hybrid": googleHy,
+                "Google Satellite": googleSa,
+                "Google Streets": googleSt,
+                "Google Terrain": googleTr,
+                //"Mapbox Light": mapboxLi,
+                //"Mapbox Streets": mapboxSt,
+                "ESRI": esri,
+                "None": blank
+            };
+
+            //mymap.createPane("admin-layer").style.zIndex = 405;
+            //mymap.createPane("label-layer").style.zIndex = 601;
+
+
+            L.tileLayer("", { attribution: mapAttrib }).addTo(mymap);
+            L.control.scale().addTo(mymap);
+            L.control.zoom().addTo(mymap);
+
+
+
+            //mymap.on('zoomend', function () {
+            //    if ($('#map_navigation').is(":checked")) {
+            //        if (mymap.getZoom() >= 10) {
+            //            mapZoom = mymap.getZoom();
+            //            adminUpazila();
+
+            //        }
+            //        if (mymap.getZoom() <= 7) {
+            //            mapZoom = mymap.getZoom();
+            //            adminDistrict();
+            //        }
+            //    }
+
+            //});
+
+
+            //mymap.on("mousemove",
+            //    function (evt) {
+            //        $("#map_cord_info").html(evt.latlng.lat.toFixed(8) + ", " + evt.latlng.lng.toFixed(8));
+            //    });
+
+
+            $("#map_center").on("click",
+                function (e) {
+                    mymap.setView([23.737777, 90.537777], 7.0);
+                });
+
+            bgLayers = L.control.layers(baseMaps, null, { collapsed: false });
+            bgLayers.addTo(mymap);
+
+            var bgLayersContent = $(bgLayers.getContainer());
+            bgLayersContent.find("a.leaflet-control-layers-toggle").remove();
+            bgLayersContent.find("form.leaflet-control-layers-list").css("display", "block");
+            $("#map_bg_layers").append(bgLayersContent);
+
+        }
+        function LayerShowHide() {
+            var layerPath= "../assets/js/map/map_data/div.json";
+
+            //for (var i = 1; i <= Object.keys(data_layer_Name).length; i++) {
+            //    layerPath = "../assets/js/map/map_data/" + data_layer_Name[i];
+            //    data_layer[i] = L.geoJson(null, {
+            //        style: style,
+            //        onEachFeature: onEachFeature,
+            //    });
+            //    //$.getJSON(layerPath, function (LayerInfo) {
+            //    //    if (!LayerInfo) return;
+            //    //    data_layer.addData(LayerInfo);
+            //    //}).done(function (e) {
+            //    //    mymap.addLayer(data_layer);
+            //    //})
+
+            //}
+            
+            data_layer = L.geoJson(null, {
+                style: style,
+                onEachFeature: onEachFeature,
+            });
+
+            function style(e) {
+                return {
+                    fillColor: '#ff0000',
+                    weight: 3,
+                    opacity: 1,
+                    color: '#0422F7',
+                    dashArray: '1',
+                    fillOpacity: 0.5
+                };
+            }
+
+
+            $.getJSON(layerPath, function (LayerInfo) {
+                if (!LayerInfo) return;
+                data_layer.addData(LayerInfo);
+            }).done(function (e) {
+                mymap.addLayer(data_layer);
+            })
+
+            function onEachFeature(feature, layer) {
+                
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: function (e) {
+                        var layer = e.target;
+
+                        //mymap.fitBounds(e.target.getBounds());
+                        //displayResult(e.target.feature.properties[adminCode]);
+                        layer.bindPopup(feature.properties.div_name + "(" + feature.properties.CNT_LAT + "," + feature.properties.CNT_LONG + ")",);
+                    }
+                });
+            }
+
+            function highlightFeature(e) {
+                var layer = e.target;
+                var popupContent = '<div style="width:250px;text-align:center;">' + layer.feature.properties.div_name + '</div>';
+
+                layer.setStyle({
+                    weight: 3,
+                    color: '#E11F21',
+                    dashArray: '',
+                    fillOpacity: 0.4
+                }).bindPopup(popupContent).openPopup(e.latlng);
+                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                    layer.bringToFront();
+                }
+            }
+
+            function resetHighlight(e) {
+                mymap.closePopup();
+                data_layer.resetStyle(e.target);
+            }
+        }
+    </script>
+
+}
+

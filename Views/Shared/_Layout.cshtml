@@ -9,7 +9,7 @@
     <title>ECDS :: @ViewData["Title"]</title>
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="~/favicon.ico">
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico">
     <!-- Bootstrap Css -->
     <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -19,25 +19,23 @@
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
- @*data-sidebar="dark"*@
-<body data-layout="horizontal" data-topbar="dark">
+@*data-sidebar="dark" data-topbar="colored"*@
+<body data-layout="horizontal" data-topbar="colored">
 
     <div id="layout-wrapper">
 
         <partial name="_HorizontalHeaderPartial" />
         @*<partial name="_HeaderPartial" />
-        <partial name="_LeftSidebarMenuPartial" />*@
+            <partial name="_LeftSidebarMenuPartial" />*@
 
-        
+
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content">
-                <div class="container-fluid">
-                    @RenderBody()
-                </div>
-                <!-- End Page-content -->
+
+                @RenderBody()
 
                 <footer class="footer">
                     <div class="container-fluid">
@@ -57,7 +55,7 @@
             </div>
         </div>
     </div>
-    <partial name="_RightSideBar" />
+    
 
     <!-- JAVASCRIPT -->
     <script src="~/assets/libs/jquery/jquery.min.js"></script>
