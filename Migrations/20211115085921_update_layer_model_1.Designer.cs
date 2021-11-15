@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211115085921_update_layer_model_1")]
+    partial class update_layer_model_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,6 +121,11 @@ namespace EcdsApp.Migrations
                         .HasColumnType("int")
                         .HasColumnName("layer_legend_color_id");
 
+                    b.Property<string>("AdminCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("admin_code");
+
                     b.Property<int>("LayerId")
                         .HasColumnType("int")
                         .HasColumnName("layer_id");
@@ -128,11 +135,6 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)")
                         .HasColumnName("layer_legend_color_code");
-
-                    b.Property<string>("LayerMainAttribureValue")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_value");
 
                     b.Property<int?>("ThemeLayerDetailsLayerId")
                         .HasColumnType("int");
@@ -222,30 +224,10 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(256)")
                         .HasColumnName("layer_file_name");
 
-                    b.Property<string>("LayerMainAttribureCode")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_code");
-
                     b.Property<string>("LayerMainAttribureName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
                         .HasColumnName("layer_main_attribure_name");
-
-                    b.Property<string>("LayerMainAttribureOne")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_one");
-
-                    b.Property<string>("LayerMainAttribureThree")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_three");
-
-                    b.Property<string>("LayerMainAttribureTwo")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_two");
 
                     b.Property<string>("LayerName")
                         .IsRequired()

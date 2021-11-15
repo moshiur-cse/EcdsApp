@@ -1,4 +1,8 @@
-﻿<div class="modal fade bs-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using EcdsApp.Models.ThemeModels
+@model IEnumerable<EcdsApp.Models.ThemeModels.ThemeLayerDetail >
+
+<div class="modal fade bs-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -47,15 +51,45 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content p-3 text-muted">
                                     <div class="tab-pane active" id="navtabs2-home" role="tabpanel">
-                                        <p class="mb-0">
-                                            Raw denim you probably haven't heard of them jean shorts Austin.
-                                            Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache
-                                            cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
-                                            butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi,
-                                            qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                                            iphone. Seitan aliquip quis cardigan american apparel, butcher
-                                            voluptate nisi qui.
-                                        </p>
+
+                                        @foreach (ThemeLayerDetail data in ViewBag.LayerInfoes)
+                                        {
+                                            
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th>Theme</th>
+                                                    <th>Sub-Theme</th>
+                                                    <th>Layer Name</th>
+                                                </tr>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><label>▣ @data.SubThemes.Themes.ThemeName</label></td>
+                                                        @*@(data.SubThemes.Themes.ThemePath/data.SubThemes.SubThemePath/data.LayerPath/data.LayerFileName)*@
+                                                        <td><label>▣ @data.SubThemes.SubThemeName</label></td>
+                                                        <td><input class="layer_class" type="checkbox" id="@data.LayerPath" value="@(data.LayerId)"><label for="@data.LayerPath">@data.LayerName</label></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        }
+                                        @*<label>▣ Administrative Boundaries</label>
+        <div class="p-2">
+            <input class="layer_class" type="checkbox" id="div" value="Division"><label for="div">Division</label>
+            <input class="layer_class" type="checkbox" id="dist" value="District"><label for="dist">District</label>
+            <input class="layer_class" type="checkbox" id="upaz" value="Upazila"><label for="upaz">Upazila</label>
+        </div>
+        <label>▣ Others Map Layers</label>
+        <div class="p-2">
+            <input class="layer_class" type="checkbox" id="mjr_river" value="Major Rivers"><label for="mjr_river">Major Rivers</label>
+            <input class="layer_class" type="checkbox" id="rural_market_bd" value="Rural Market"><label for="rural_market_bd">Rural Market</label>
+            <input class="layer_class" type="checkbox" id="rail_bd" value="Railway"><label for="rail_bd">Railway</label>
+        </div>
+        <label>▣ Road Map Layers</label>
+        <div class="p-2">
+            <input class="layer_class" type="checkbox" id="national_road" value="National Road"><label for="national_road">National Road</label>
+            <input class="layer_class" type="checkbox" id="regional_road" value="Regional Road"><label for="regional_road">Regional Road</label>
+            <input class="layer_class" type="checkbox" id="district_road" value="District Road"><label for="district_road">District Road</label>
+            <input class="layer_class" type="checkbox" id="upazila_road" value="Upazila Road"><label for="upazila_road">Upazila Road</label>
+        </div>*@
                                     </div>
                                     <div class="tab-pane" id="navtabs2-profile" role="tabpanel">
                                         <p class="mb-0">
@@ -190,3 +224,5 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+
+

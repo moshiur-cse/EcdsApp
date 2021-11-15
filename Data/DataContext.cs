@@ -10,6 +10,7 @@ using System.Data;
 using System.Reflection;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models;
+using EcdsApp.Models.ThemeModels;
 //using JRCWebApp.Models.UserLog;
 
 namespace EcdsApp.Data
@@ -32,7 +33,24 @@ namespace EcdsApp.Data
         public DbSet<AdminBoundaryUpazila> AdminBoundaryUpazilas { get; set; }
 
         public virtual DbSet<UserRegistration> UserRegistration { get; set; }
-       
+
+
+        public DbSet<Theme> Themes { get; set; }
+        public DbSet<SubTheme> SubThemes { get; set; }
+        public DbSet<ThemeLayerDetail> ThemeLayerDetails { get; set; }
+        public DbSet<ThemeLayerType> ThemeLayerTypes { get; set; }
+        public DbSet<LayerLegendColor> LayerLegendColors { get; set; }
+
+        
+
+
+
+
+
+
+
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

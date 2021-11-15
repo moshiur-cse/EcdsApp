@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211115083757_add_layer_models")]
+    partial class add_layer_models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,11 +131,6 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(20)")
                         .HasColumnName("layer_legend_color_code");
 
-                    b.Property<string>("LayerMainAttribureValue")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_value");
-
                     b.Property<int?>("ThemeLayerDetailsLayerId")
                         .HasColumnType("int");
 
@@ -202,16 +199,6 @@ namespace EcdsApp.Migrations
                         .HasColumnType("int")
                         .HasColumnName("layer_id");
 
-                    b.Property<string>("FileLatName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("file_lat_name");
-
-                    b.Property<string>("FileLongName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("file_long_name");
-
                     b.Property<bool>("IsLegendColor")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_legend_color");
@@ -221,31 +208,6 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
                         .HasColumnName("layer_file_name");
-
-                    b.Property<string>("LayerMainAttribureCode")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_code");
-
-                    b.Property<string>("LayerMainAttribureName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_name");
-
-                    b.Property<string>("LayerMainAttribureOne")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_one");
-
-                    b.Property<string>("LayerMainAttribureThree")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_three");
-
-                    b.Property<string>("LayerMainAttribureTwo")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_two");
 
                     b.Property<string>("LayerName")
                         .IsRequired()

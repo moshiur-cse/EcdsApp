@@ -184,8 +184,8 @@
 
 
 <div id="map_btns_content" class="map_btns_content">
-    <div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>
-    <div id="map_reset" class="map_btns map_reset right-bar-toggle waves-effect" title="Reset Map" onclick="mpa_reset();"> </div>
+    @*<div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>*@
+    <div id="map_reset" class="map_btns map_reset right-bar-toggle waves-effect" title="Option"> </div>
     <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
     <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Filter the Map"></div>
     <div id="map_bg_layers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
@@ -204,12 +204,11 @@
     <script src="~/assets/js/pages/leaflet-us-states.js"></script>
     <script src="~/assets/js/pages/leaflet-map.init.js"></script>
     <script>
-        var data_layer;
-        var data_layer_Name = { "1":"div.json", "2":"rail_bd.json"};
-
+        var data_layer = {};
         
+
         mapInit();
-        LayerShowHide();
+        /*LayerShowHide();*/
 
         function mapInit() {
 
@@ -306,50 +305,48 @@
             $("#map_bg_layers").append(bgLayersContent);
 
         }
-        function LayerShowHide() {
-            var layerPath= "../assets/js/map/map_data/div.json";
+        function LayerShowHide(layerId,layerName) {
 
-            //for (var i = 1; i <= Object.keys(data_layer_Name).length; i++) {
-            //    layerPath = "../assets/js/map/map_data/" + data_layer_Name[i];
-            //    data_layer[i] = L.geoJson(null, {
-            //        style: style,
-            //        onEachFeature: onEachFeature,
-            //    });
-            //    //$.getJSON(layerPath, function (LayerInfo) {
-            //    //    if (!LayerInfo) return;
-            //    //    data_layer.addData(LayerInfo);
-            //    //}).done(function (e) {
-            //    //    mymap.addLayer(data_layer);
-            //    //})
 
-            //}
-            
-            data_layer = L.geoJson(null, {
-                style: style,
-                onEachFeature: onEachFeature,
-            });
+               
+            var layerPath = "../assets/js/map/map_data/" + layerName;
+            console.log(layerPath);
 
-            function style(e) {
-                return {
-                    fillColor: '#ff0000',
-                    weight: 3,
-                    opacity: 1,
-                    color: '#0422F7',
-                    dashArray: '1',
-                    fillOpacity: 0.5
-                };
+
+            if ($("#" + layerId).prop("checked") == true) {
+
+
+                data_layer[layerName] = L.geoJson(null, {
+                    style: style,
+                    onEachFeature: onEachFeature,
+                });
+
+                function style(e) {
+                    return {
+                        fillColor: '#ff0000',
+                        weight: 3,
+                        opacity: 1,
+                        color: '#0422F7',
+                        dashArray: '1',
+                        fillOpacity: 0.5
+                    };
+                }
+
+
+                $.getJSON(layerPath, function (LayerInfo) {
+                    if (!LayerInfo) return;
+                    data_layer[layerName].addData(LayerInfo);
+                }).done(function (e) {
+                    mymap.addLayer(data_layer[layerName]);
+                })
             }
-
-
-            $.getJSON(layerPath, function (LayerInfo) {
-                if (!LayerInfo) return;
-                data_layer.addData(LayerInfo);
-            }).done(function (e) {
-                mymap.addLayer(data_layer);
-            })
-
+            else {
+                if (mymap.hasLayer(data_layer[layerName])) {
+                    mymap.removeLayer(data_layer[layerName]);
+                }
+            }
             function onEachFeature(feature, layer) {
-                
+
                 layer.on({
                     mouseover: highlightFeature,
                     mouseout: resetHighlight,
@@ -380,10 +377,41 @@
 
             function resetHighlight(e) {
                 mymap.closePopup();
-                data_layer.resetStyle(e.target);
+                data_layer[layerName].resetStyle(e.target);
             }
         }
+        
     </script>
+
+    <script>
+        jQuery('.layer_class').click(function ($) {
+            if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
+                //console.log(jQuery("#"+this.id).val());
+                
+                jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetLayerInformation")",
+                    dataType: "json",
+                    data: { layer_id: jQuery("#"+ this.id).val() },
+                     before: jQuery("#busy-indicator").fadeIn(150),
+                     success: function (items) {
+                         console.log(items);
+                         LayerShowHide(this.id, items.path);
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                    },
+                     complete: jQuery("#busy-indicator").fadeOut(150)
+                });
+
+             
+               
+            }
+        });
+    </script>
+
 
 }
 

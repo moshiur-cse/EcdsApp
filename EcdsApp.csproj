@@ -30,4 +30,9 @@
     <PackageReference Include="ReflectionIT.Mvc.Paging" Version="5.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Theme\" />
+    <Folder Include="wwwroot\assets\js\map\NewFolder\" />
+  </ItemGroup>
+
 </Project>
