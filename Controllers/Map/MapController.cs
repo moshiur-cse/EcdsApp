@@ -31,15 +31,28 @@ namespace EcdsApp.Controllers.Map
         [HttpPost]
         public JsonResult GetLayerInformation(int layer_id)
         {
-            var data = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes)
-                .Where(s => s.LayerId == layer_id)
-                .Select(sd => new
-                {
-                    path = (sd.SubThemes.Themes.ThemePath + "/" + sd.SubThemes.SubThemePath + "/" + sd.LayerPath + "/" + sd.LayerFileName),
-                    mainAtt = sd.LayerMainAttribureName,
-                }).FirstOrDefault();
+           
+                var data = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes)
+                    .Where(s => s.LayerId == layer_id)
+                    .Select(sd => new
+                    {
+                        //path = (sd.SubThemes.Themes.ThemePath +"/" + sd.SubThemes.SubThemePath + "/" + sd.LayerPath + "/" + sd.LayerFileName),
+                        themePath = sd.SubThemes.Themes.ThemePath,
+                        subThemePath = sd.SubThemes.SubThemePath,
+                        layerPath = sd.LayerPath,
+                        layerFileName = sd.LayerFileName,
+                        cLat=sd.FileLatName,
+                        cLong=sd.FileLongName,
+                        mainAtt = sd.LayerMainAttribureName,
+                        mainAttCode=sd.LayerMainAttribureCode,
+                        attOne=sd.LayerMainAttribureOne,
+                        attTwo = sd.LayerMainAttribureTwo,
+                        attTree =sd.LayerMainAttribureThree,
+                        layerTypeId=sd.LayerTypeId,
+                        isLegendColor=sd.IsLegendColor
+                    }).FirstOrDefault();
+                return Json(data);
 
-            return Json(data);
         }
     }
 }

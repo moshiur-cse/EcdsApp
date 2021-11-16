@@ -305,48 +305,43 @@
             $("#map_bg_layers").append(bgLayersContent);
 
         }
-        function LayerShowHide(layerId,layerName) {
-
-
-               
-            var layerPath = "../assets/js/map/map_data/" + layerName;
-            console.log(layerPath);
-
-
+        function LayerShowHide(layerId, filepath, mainAtt,attCode,cLat,cLong,layerTypeid) {
+          
+            var layerPath = "../assets/js/map/map_data/" + filepath;
+           
             if ($("#" + layerId).prop("checked") == true) {
 
 
-                data_layer[layerName] = L.geoJson(null, {
+                data_layer[layerId] = L.geoJson(null, {
                     style: style,
                     onEachFeature: onEachFeature,
                 });
 
-                function style(e) {
-                    return {
-                        fillColor: '#ff0000',
-                        weight: 3,
-                        opacity: 1,
-                        color: '#0422F7',
-                        dashArray: '1',
-                        fillOpacity: 0.5
-                    };
-                }
-
-
                 $.getJSON(layerPath, function (LayerInfo) {
                     if (!LayerInfo) return;
-                    data_layer[layerName].addData(LayerInfo);
+                    data_layer[layerId].addData(LayerInfo);
                 }).done(function (e) {
-                    mymap.addLayer(data_layer[layerName]);
+                    mymap.addLayer(data_layer[layerId]);
                 })
             }
             else {
-                if (mymap.hasLayer(data_layer[layerName])) {
-                    mymap.removeLayer(data_layer[layerName]);
+                if (mymap.hasLayer(data_layer[layerId])) {
+                    mymap.removeLayer(data_layer[layerId]);
                 }
             }
-            function onEachFeature(feature, layer) {
 
+            function style(e) {
+                return {
+                    fillColor: '#ff0000',
+                    weight: 3,
+                    opacity: 1,
+                    color: '#0422F7',
+                    dashArray: '1',
+                    fillOpacity: 0.5
+                };
+            }
+
+            function onEachFeature(feature, layer) {
                 layer.on({
                     mouseover: highlightFeature,
                     mouseout: resetHighlight,
@@ -355,14 +350,14 @@
 
                         //mymap.fitBounds(e.target.getBounds());
                         //displayResult(e.target.feature.properties[adminCode]);
-                        layer.bindPopup(feature.properties.div_name + "(" + feature.properties.CNT_LAT + "," + feature.properties.CNT_LONG + ")",);
+                        layer.bindPopup(feature.properties[mainAtt] + "(" + feature.properties[cLat] + "," + feature.properties[cLong] + ")",);
                     }
                 });
             }
 
             function highlightFeature(e) {
                 var layer = e.target;
-                var popupContent = '<div style="width:250px;text-align:center;">' + layer.feature.properties.div_name + '</div>';
+                var popupContent = '<div style="width:250px;text-align:center;">' + layer.feature.properties[mainAtt] + '</div>';
 
                 layer.setStyle({
                     weight: 3,
@@ -377,7 +372,7 @@
 
             function resetHighlight(e) {
                 mymap.closePopup();
-                data_layer[layerName].resetStyle(e.target);
+                data_layer[layerId].resetStyle(e.target);
             }
         }
         
@@ -387,6 +382,7 @@
         jQuery('.layer_class').click(function ($) {
             if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
                 //console.log(jQuery("#"+this.id).val());
+                var layerId = this.id;
                 
                 jQuery.ajax({
                     type: "POST",
@@ -395,8 +391,23 @@
                     data: { layer_id: jQuery("#"+ this.id).val() },
                      before: jQuery("#busy-indicator").fadeIn(150),
                      success: function (items) {
-                         console.log(items);
-                         LayerShowHide(this.id, items.path);
+                         var path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
+
+
+                             //cLat = sd.FileLatName,
+                             //cLong = sd.FileLongName,
+                             //mainAtt = sd.LayerMainAttribureName,
+                             //mainAttCode = sd.LayerMainAttribureCode,
+                             //attOne = sd.LayerMainAttribureOne,
+                             //attTwo = sd.LayerMainAttribureTwo,
+                             //attTree = sd.LayerMainAttribureThree,
+                             //layerTypeId = sd.LayerTypeId,
+                             //isLegendColor = sd.IsLegendColor
+
+
+
+                         //alert(layerId + ":" + path);
+                         LayerShowHide(layerId, path, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerTypeId);
                     },
                     error: function(ex, status, error) {
                         //msg.init("error",
@@ -404,10 +415,7 @@
                         //    "Failed to load Shape file. " + ex.responseText);
                     },
                      complete: jQuery("#busy-indicator").fadeOut(150)
-                });
-
-             
-               
+                });               
             }
         });
     </script>
