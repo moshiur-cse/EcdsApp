@@ -318,8 +318,7 @@ h4 {
     }
 
 
-.map_legend,
-.map_opt_content {
+.map_legend{
 
     z-index: 1050;
     position: absolute;
@@ -549,21 +548,6 @@ h4 {
     }
 
 
-
-.map_opt_content {
-    top: 10px;
-    left: 5%;
-    right: auto;
-    margin: 0;
-    padding: 5px 10px;
-    color: #235;
-    font: normal 14px/1.25 Roboto, Arial, sans-serif;
-}
-
-    .map_opt_content span {
-        color: #247;
-        font: bold 15px/1.25 Roboto, Arial, sans-serif;
-    }
 
 
 .option-content {

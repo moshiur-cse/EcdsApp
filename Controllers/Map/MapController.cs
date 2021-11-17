@@ -37,6 +37,7 @@ namespace EcdsApp.Controllers.Map
                     .Select(sd => new
                     {
                         //path = (sd.SubThemes.Themes.ThemePath +"/" + sd.SubThemes.SubThemePath + "/" + sd.LayerPath + "/" + sd.LayerFileName),
+                        layerName=sd.LayerName,
                         themePath = sd.SubThemes.Themes.ThemePath,
                         subThemePath = sd.SubThemes.SubThemePath,
                         layerPath = sd.LayerPath,
