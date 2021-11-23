@@ -374,7 +374,7 @@
 
             function resetHighlight(e) {
                 mymap.closePopup();
-                //data_layer[layerId].resetStyle(e.target);
+                data_layer[layerId].resetStyle(e.target);
             }
 
             
@@ -408,9 +408,7 @@
             return color;
         }
         
-    </script>
 
-    <script>
         jQuery('.layer_class').click(function ($) {
             if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
                 //console.log(jQuery("#"+this.id).val());
@@ -451,6 +449,7 @@
                 });               
             }
         });
+        $('.treeview-colorful').mdbTreeview();
     </script>
 
 

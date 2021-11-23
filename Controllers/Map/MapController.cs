@@ -1,4 +1,5 @@
 ﻿using EcdsApp.Data;
+using EcdsApp.Models.ViewModels.Map;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,7 +20,30 @@ namespace EcdsApp.Controllers.Map
         public async Task<IActionResult> BasicMap()
         {
             var dataContext = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes);
-            ViewBag.LayerInfoes=await dataContext.ToListAsync();
+            
+            var themeList = _context.ThemeLayerDetails
+                .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
+                .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
+                .Select(k => new ThemeList
+                {
+                    themeName = k.Key,
+                    subThemeList=k.GroupBy(i => i.SubThemes.SubThemeName)
+                        .Select(j => new SubThemeList
+                        {
+                            subThemeName = j.Key,                           
+                            layerPathList = j.Select(j=>j.LayerPath).ToList(),
+                            layerIdList= j.Select(j => j.LayerId).ToList(),
+                            layerNameList= j.Select(j => j.LayerName).ToList(),
+
+                        }).ToList()
+
+
+                }).ToList();
+           
+            return Json(themeList);
+
+            ViewBag.LayerInfoes = await dataContext.ToListAsync();
+
 
             return View();
         }
@@ -71,5 +95,7 @@ namespace EcdsApp.Controllers.Map
                 return Json(data);
 
         }
+
+        
     }
 }
