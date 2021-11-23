@@ -52,9 +52,7 @@
                                 <div class="tab-content p-3 text-muted">
                                     <div class="tab-pane active" id="navtabs2-home" role="tabpanel">
 
-                                        @foreach (ThemeLayerDetail data in ViewBag.LayerInfoes)
-                                        {
-                                            
+                                          
                                             <table class="table table-bordered">
                                                 <tr>
                                                     <th>Theme</th>
@@ -62,15 +60,27 @@
                                                     <th>Layer Name</th>
                                                 </tr>
                                                 <tbody>
+                                                    @foreach (ThemeLayerDetail data in ViewBag.LayerInfoes)
+                                                    {
+
                                                     <tr>
+
                                                         <td><label>▣ @data.SubThemes.Themes.ThemeName</label></td>
                                                         @*@(data.SubThemes.Themes.ThemePath/data.SubThemes.SubThemePath/data.LayerPath/data.LayerFileName)*@
                                                         <td><label>▣ @data.SubThemes.SubThemeName</label></td>
-                                                        <td><input class="layer_class" type="checkbox" id="@data.LayerPath" value="@(data.LayerId)"><label for="@data.LayerPath">@data.LayerName</label></td>
+                                                        @if (data.LayerId == 1)
+                                                        {
+                                                            <td><input class="layer_class" type="checkbox" id="@data.LayerPath" value="@(data.LayerId)"><label for="@data.LayerPath">@data.LayerName</label></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><input class="layer_class" type="checkbox" id="@data.LayerPath" value="@(data.LayerId)"><label for="@data.LayerPath">@data.LayerName</label></td>
+                                                        }
                                                     </tr>
-                                                </tbody>
+                                                    }
+                                                    </tbody>
                                             </table>
-                                        }
+                                        
                                         @*<label>▣ Administrative Boundaries</label>
         <div class="p-2">
             <input class="layer_class" type="checkbox" id="div" value="Division"><label for="div">Division</label>

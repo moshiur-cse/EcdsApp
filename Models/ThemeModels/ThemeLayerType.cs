@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcdsApp.Models.ThemeModels
 {
-    [Table("lkp_theme_layer_type")]
+    [Table("lkp_theme_layer_types")]
     public class ThemeLayerType
     {
         [Key]

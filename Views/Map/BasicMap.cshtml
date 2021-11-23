@@ -194,7 +194,8 @@
         var legend = L.control({ position: 'bottomright' });
         var legend_div = L.DomUtil.create('div', 'legend_info');
         mapInit();
-        var colorList = [];
+        //LayerShowHide('1', '"administrative'+'\'+'admin_data'+'\' + 'division' + '\'+'divsion.json"', 'div_name', 'div_code', 'C_LAT', 'C_LONG', 'DIVISION', '1');
+        var colorList = {};
       
         function mapInit() {
 
@@ -291,9 +292,12 @@
             $("#map_bg_layers").append(bgLayersContent);
 
         }
-        function LayerShowHide(layerId, filepath, mainAtt, attCode, cLat, cLong,layerName,layerTypeid) {
+        function LayerShowHide(layerId, filepath, mainAtt, attCode, cLat, cLong, layerName, layerTypeid) {
+
+           
           
             var layerPath = "../assets/js/map/map_data/" + filepath;
+            alert(layerPath);
            
             if ($("#" + layerId).prop("checked") == true) {
 
@@ -318,16 +322,19 @@
                     mymap.removeLayer(data_layer[layerId]);
                     mymap.removeLayer(legend);
                     $("p." + layerId).remove();
-                    colorList = [];
+                    colorList = {};
                     
                 }
             }
 
             function style(feature) {              
-                var color = getRandomColor(feature.properties[attCode]);
-                colorList.push(color);
+                //var color = getRandomColor();
+                //colorList[attCode] = color;
+                //colorList.append({ attCode: color });
+
+                colorList[feature.properties[attCode]] = getRandomColor();
                 return {
-                    fillColor: color ,
+                    fillColor: colorList[feature.properties[attCode]] ,
                     weight: 1,
                     opacity: 1,
                     color: '#000000',
@@ -372,16 +379,18 @@
 
             
 
-            console.log(data_layer);
+            console.log(colorList);
         }
         function legendAndInfo(e, mainAtt, attCode, layerId, layerName) {
+
+            
 
             mymap.removeLayer(legend);
             legend_div.innerHTML += '<p class="' + layerId + '">' + layerName+' Legend</p>';
             
             legend.onAdd = function (map) {
                 for (var i = 0; i < e.features.length; i++) {
-                    legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + colorList[i] + '"></i> </p>'; //{' + legendEndRange[i] + '}
+                    legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + colorList[e.features[i].properties[attCode]] + '"></i> </p>'; //{' + legendEndRange[i] + '}
                 }
                 return legend_div;
             };
@@ -389,7 +398,7 @@
             
         }
 
-        function getRandomColor(attCode) {
+        function getRandomColor() {
             var letters = '0123456789ABCDEF';
 
             var color = '#';

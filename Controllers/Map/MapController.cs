@@ -36,21 +36,37 @@ namespace EcdsApp.Controllers.Map
                     .Where(s => s.LayerId == layer_id)
                     .Select(sd => new
                     {
-                        //path = (sd.SubThemes.Themes.ThemePath +"/" + sd.SubThemes.SubThemePath + "/" + sd.LayerPath + "/" + sd.LayerFileName),
+                        
+                        layerId=sd.LayerId,
                         layerName=sd.LayerName,
                         themePath = sd.SubThemes.Themes.ThemePath,
                         subThemePath = sd.SubThemes.SubThemePath,
                         layerPath = sd.LayerPath,
                         layerFileName = sd.LayerFileName,
-                        cLat=sd.FileLatName,
-                        cLong=sd.FileLongName,
-                        mainAtt = sd.LayerMainAttribureName,
-                        mainAttCode=sd.LayerMainAttribureCode,
-                        attOne=sd.LayerMainAttribureOne,
-                        attTwo = sd.LayerMainAttribureTwo,
-                        attTree =sd.LayerMainAttribureThree,
-                        layerTypeId=sd.LayerTypeId,
-                        isLegendColor=sd.IsLegendColor
+                       
+                        mainAttDisName = sd.MainAttributeDisplayName,
+                        mainAtt = sd.MainAttributeName,
+                        mainAttCode=sd.MainAttributeCode,
+
+                        firstAttDisName = sd.FirstAttributeDisplayName,
+                        firstAtt = sd.FirstAttributeName,
+                        firstAttCode = sd.FirstAttributeCode,
+
+                        secondAttDisName = sd.SecondAttributeDisplayName,
+                        secondAtt = sd.SecondAttributeName,
+                        secondAttCode = sd.SecondAttributeCode,
+
+                        thirdAttDisName = sd.ThirdAttributeDisplayName,
+                        thirdAtt = sd.ThirdAttributeName,
+                        thirdAttCode = sd.ThirdAttributeCode,
+
+                        cLat = sd.FileLatName,
+                        cLong = sd.FileLongName,
+
+                        layerTypeId = sd.LayerTypeId,
+                        isLegendColor=sd.IsLegendColor,
+                        legendcolorField=sd.LegendColorFieldName
+
                     }).FirstOrDefault();
                 return Json(data);
 

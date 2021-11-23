@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcdsApp.Models.ThemeModels
 {
-    [Table("tbl_layer_legend_color")]
+    [Table("tbl_layer_legend_colors")]
     public class LayerLegendColor
     {
 
@@ -20,6 +20,7 @@ namespace EcdsApp.Models.ThemeModels
         [Column("layer_id", TypeName = "int")]
         [Display(Name = "Layer Id")]
         public int LayerId { get; set; }
+        [ForeignKey("LayerId")]
         public virtual ThemeLayerDetail ThemeLayerDetails { get; set; }
 
         //[Column("layer_main_attribure_code")]

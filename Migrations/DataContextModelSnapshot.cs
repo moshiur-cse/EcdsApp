@@ -134,14 +134,11 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(256)")
                         .HasColumnName("layer_main_attribure_value");
 
-                    b.Property<int?>("ThemeLayerDetailsLayerId")
-                        .HasColumnType("int");
-
                     b.HasKey("LayerLegendColorId");
 
-                    b.HasIndex("ThemeLayerDetailsLayerId");
+                    b.HasIndex("LayerId");
 
-                    b.ToTable("tbl_layer_legend_color");
+                    b.ToTable("tbl_layer_legend_colors");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.SubTheme", b =>
@@ -212,6 +209,21 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(256)")
                         .HasColumnName("file_long_name");
 
+                    b.Property<string>("FirstAttributeCode")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("first_attribute_code");
+
+                    b.Property<string>("FirstAttributeDisplayName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("first_attribute_display_name");
+
+                    b.Property<string>("FirstAttributeName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("first_attribute_name");
+
                     b.Property<bool>("IsLegendColor")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_legend_color");
@@ -221,31 +233,6 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
                         .HasColumnName("layer_file_name");
-
-                    b.Property<string>("LayerMainAttribureCode")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_code");
-
-                    b.Property<string>("LayerMainAttribureName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_name");
-
-                    b.Property<string>("LayerMainAttribureOne")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_one");
-
-                    b.Property<string>("LayerMainAttribureThree")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_three");
-
-                    b.Property<string>("LayerMainAttribureTwo")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("layer_main_attribure_two");
 
                     b.Property<string>("LayerName")
                         .IsRequired()
@@ -263,9 +250,59 @@ namespace EcdsApp.Migrations
                         .HasColumnType("int")
                         .HasColumnName("layer_type_id");
 
+                    b.Property<string>("LegendColorFieldName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("legend_color_field_name");
+
+                    b.Property<string>("MainAttributeCode")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("main_attribute_code");
+
+                    b.Property<string>("MainAttributeDisplayName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("main_attribute_display_name");
+
+                    b.Property<string>("MainAttributeName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("main_attribute_name");
+
+                    b.Property<string>("SecondAttributeCode")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("second_attribute_code");
+
+                    b.Property<string>("SecondAttributeDisplayName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("second_attribute_display_name");
+
+                    b.Property<string>("SecondAttributeName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("second_attribute_name");
+
                     b.Property<int>("SubThemeId")
                         .HasColumnType("int")
                         .HasColumnName("sub_theme_id");
+
+                    b.Property<string>("ThirdAttributeCode")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("third_attribute_code");
+
+                    b.Property<string>("ThirdAttributeDisplayName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("third_attribute_display_name");
+
+                    b.Property<string>("ThirdAttributeName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("third_attribute_name");
 
                     b.HasKey("LayerId");
 
@@ -290,7 +327,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("LayerTypeId");
 
-                    b.ToTable("lkp_theme_layer_type");
+                    b.ToTable("lkp_theme_layer_types");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.UserRegistration", b =>
@@ -565,7 +602,9 @@ namespace EcdsApp.Migrations
                 {
                     b.HasOne("EcdsApp.Models.ThemeModels.ThemeLayerDetail", "ThemeLayerDetails")
                         .WithMany()
-                        .HasForeignKey("ThemeLayerDetailsLayerId");
+                        .HasForeignKey("LayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ThemeLayerDetails");
                 });

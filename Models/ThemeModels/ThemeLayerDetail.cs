@@ -48,33 +48,74 @@ namespace EcdsApp.Models.ThemeModels
         [ForeignKey("LayerTypeId")]
         public virtual ThemeLayerType ThemeLayerTypes { get; set; }
 
-
-        [Column("layer_main_attribure_name")]
+        //Main Attribute
+        [Column("main_attribute_display_name")]
         [StringLength(256)]
-        [Display(Name = "Layer Main Attribure Name")]
-        public string LayerMainAttribureName { get; set; }
+        [Display(Name = "Main Attribute Display Name")]
+        public string MainAttributeDisplayName { get; set; }
 
-
-        [Column("layer_main_attribure_one")]
+        [Column("main_attribute_name")]
         [StringLength(256)]
-        [Display(Name = "Layer Main Attribure One")]
-        public string LayerMainAttribureOne { get; set; }
+        [Display(Name = "Main Attribute Name")]
+        public string MainAttributeName { get; set; }
 
-        [Column("layer_main_attribure_two")]
+        [Column("main_attribute_code")]
         [StringLength(256)]
-        [Display(Name = "Layer Main Attribure Two")]
-        public string LayerMainAttribureTwo { get; set; }
+        [Display(Name = "Main Attribute Code")]
+        public string MainAttributeCode { get; set; }
 
-        [Column("layer_main_attribure_three")]
+
+        //First Attribute
+        [Column("first_attribute_display_name")]
         [StringLength(256)]
-        [Display(Name = "Layer Main Attribure Three")]
-        public string LayerMainAttribureThree { get; set; }
+        [Display(Name = "First Attribute Display Name")]
+        public string FirstAttributeDisplayName { get; set; }
 
-
-        [Column("layer_main_attribure_code")]
+        [Column("first_attribute_name")]
         [StringLength(256)]
-        [Display(Name = "Layer Main Attribure Code")]
-        public string LayerMainAttribureCode { get; set; }
+        [Display(Name = "First Attribute Name")]
+        public string FirstAttributeName { get; set; }
+
+        [Column("first_attribute_code")]
+        [StringLength(256)]
+        [Display(Name = "First Attribute Code")]
+        public string FirstAttributeCode { get; set; }
+
+
+        //Second Attribute
+        [Column("second_attribute_display_name")]
+        [StringLength(256)]
+        [Display(Name = "Second Attribute Display Name")]
+        public string SecondAttributeDisplayName { get; set; }
+
+        [Column("second_attribute_name")]
+        [StringLength(256)]
+        [Display(Name = "Second Attribute Name")]
+        public string SecondAttributeName { get; set; }
+
+        [Column("second_attribute_code")]
+        [StringLength(256)]
+        [Display(Name = "Second Attribute Code")]
+        public string SecondAttributeCode { get; set; }
+
+
+        //Third Attribute
+        [Column("third_attribute_display_name")]
+        [StringLength(256)]
+        [Display(Name = "Third Attribute Display Name")]
+        public string ThirdAttributeDisplayName { get; set; }
+
+        [Column("third_attribute_name")]
+        [StringLength(256)]
+        [Display(Name = "Third Attribute Name")]
+        public string ThirdAttributeName { get; set; }
+
+        [Column("third_attribute_code")]
+        [StringLength(256)]
+        [Display(Name = "Third Attribute Code")]
+        public string ThirdAttributeCode { get; set; }
+
+
 
         [Column("file_lat_name")]
         [StringLength(256)]
@@ -91,6 +132,11 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Is Legend Color")]
         public bool IsLegendColor { get; set; }
 
+
+        [Column("legend_color_field_name")]
+        [StringLength(256)]
+        [Display(Name = "Legend Color Field Name")]
+        public string LegendColorFieldName { get; set; }
 
 
 
