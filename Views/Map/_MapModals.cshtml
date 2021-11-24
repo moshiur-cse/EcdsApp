@@ -1,6 +1,7 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using EcdsApp.Models.ViewModels.Map
 @using EcdsApp.Models.ThemeModels
-@model IEnumerable<EcdsApp.Models.ThemeModels.ThemeLayerDetail >
+@model IEnumerable<EcdsApp.Models.ThemeModels.ThemeLayerDetail>
 
 <div class="modal fade bs-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -51,37 +52,56 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content p-3 text-muted">
                                     <div class="tab-pane active" id="navtabs2-home" role="tabpanel">
+                                        <div data-simplebar class="sidebar-menu-scroll">
 
-                                          
-                                            <table class="table table-bordered">
-                                                <tr>
-                                                    <th>Theme</th>
-                                                    <th>Sub-Theme</th>
-                                                    <th>Layer Name</th>
-                                                </tr>
-                                                <tbody>
-                                                    @foreach (ThemeLayerDetail data in ViewBag.LayerInfoes)
+                                            <!--- Sidemenu -->
+                                            <div id="sidebar-menu">
+                                                <!-- Left Menu Start -->
+                                                <ul class="metismenu list-unstyled" id="side-menu">
+
+
+                                                    @foreach (ThemeList theme in ViewBag.LayerInfo)
                                                     {
+                                                        <li>
+                                                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                                                <i class="bx bx-plus-medical"></i>
+                                                                <span>@theme.themeName</span>
+                                                            </a>
+                                                            @foreach (SubThemeList subTheme in theme.subThemeList)
+                                                            {
+                                                                <ul class="sub-menu" aria-expanded="true">
+                                                                    <li>
+                                                                        <a href="javascript: void(0);" class="has-arrow">
+                                                                            <i class="bx bx-plus-medical"></i>
+                                                                            <span> @subTheme.subThemeName</span>
+                                                                        </a>
 
-                                                    <tr>
+                                                                        @for (int i = 0; i < subTheme.layerIdList.Count(); i++)
+                                                                        {
+                                                                            <ul class="sub-menu" aria-expanded="true">
+                                                                                <li>
 
-                                                        <td><label>▣ @data.SubThemes.Themes.ThemeName</label></td>
-                                                        @*@(data.SubThemes.Themes.ThemePath/data.SubThemes.SubThemePath/data.LayerPath/data.LayerFileName)*@
-                                                        <td><label>▣ @data.SubThemes.SubThemeName</label></td>
-                                                        @if (data.LayerId == 1)
-                                                        {
-                                                            <td><input class="layer_class" type="checkbox" id="@data.LayerPath" value="@(data.LayerId)"><label for="@data.LayerPath">@data.LayerName</label></td>
-                                                        }
-                                                        else
-                                                        {
-                                                            <td><input class="layer_class" type="checkbox" id="@data.LayerPath" value="@(data.LayerId)"><label for="@data.LayerPath">@data.LayerName</label></td>
-                                                        }
-                                                    </tr>
+                                                                                    <a><input class="layer_class" type="checkbox" id="@subTheme.layerPathList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerPathList[i]">@subTheme.layerNameList[i]</label></a>
+
+                                                                                </li>
+
+                                                                            </ul>
+                                                                        }
+                                                                    </li>
+
+                                                                </ul>
+                                                            }
+
+                                                        </li>
                                                     }
-                                                    </tbody>
-                                            </table>
-                                        
-                                        
+
+                                                </ul>
+                                            </div>
+                                            <!-- Sidebar -->
+                                        </div>
+
+                                       
+
                                     </div>
                                     <div class="tab-pane" id="navtabs2-profile" role="tabpanel">
                                         <p class="mb-0">
@@ -171,64 +191,9 @@
                                         </p>
                                     </div>
                                     <div class="tab-pane" id="navpills2-profile" role="tabpanel">
-                                    
-                                        <div data-simplebar class="sidebar-menu-scroll">
 
-                                            <!--- Sidemenu -->
-                                            <div id="sidebar-menu">
-                                                <!-- Left Menu Start -->
-                                                <ul class="metismenu list-unstyled" id="side-menu">
-                                                   
-                                                   
-                                                    <li>
-                                                        <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                                            <i class="uil-window-section"></i>
-                                                            <span>Layouts</span>
-                                                        </a>
-                                                        <ul class="sub-menu" aria-expanded="true">
-                                                            <li>
-                                                                <a href="javascript: void(0);" class="has-arrow">Vertical</a>
-                                                                <ul class="sub-menu" aria-expanded="true">
-                                                                    <li><a href="layouts-dark-sidebar.html">Dark Sidebar</a></li>
-                                                                    <li><a href="layouts-compact-sidebar.html">Compact Sidebar</a></li>
-                                                                    <li><a href="layouts-icon-sidebar.html">Icon Sidebar</a></li>
-                                                                    <li><a href="layouts-boxed.html">Boxed Width</a></li>
-                                                                    <li><a href="layouts-preloader.html">Preloader</a></li>
-                                                                    <li><a href="layouts-colored-sidebar.html">Colored Sidebar</a></li>
-                                                                </ul>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript: void(0);" class="has-arrow">Horizontal</a>
-                                                                <ul class="sub-menu" aria-expanded="true">
-                                                                    <li><a href="layouts-horizontal.html">Horizontal</a></li>
-                                                                    <li><a href="layouts-hori-topbar-dark.html">Topbar Dark</a></li>
-                                                                    <li><a href="layouts-hori-boxed-width.html">Boxed Width</a></li>
-                                                                    <li><a href="layouts-hori-preloader.html">Preloader</a></li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
+                                        <
 
-                                                   
-
-                                                    <li>
-                                                        <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                                            <i class="dripicons-location"></i>
-                                                            <span>MAP</span>
-                                                        </a>
-                                                        <ul class="sub-menu" aria-expanded="false">
-                                                            <li><a href="auth-login.html">Climate Map</a></li>
-                                                            <li><a href="auth-register.html">Dis</a></li>
-                                                            <li><a href="auth-recoverpw.html">Recover Password</a></li>
-                                                            <li><a href="auth-lock-screen.html">Lock Screen</a></li>
-                                                        </ul>
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-                                            <!-- Sidebar -->
-                                        </div>
-                                       
                                     </div>
                                     <div class="tab-pane" id="navpills2-messages" role="tabpanel">
                                         <p class="mb-0">

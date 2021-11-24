@@ -20,8 +20,8 @@ namespace EcdsApp.Controllers.Map
         public async Task<IActionResult> BasicMap()
         {
             var dataContext = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes);
-            
-            var themeList = _context.ThemeLayerDetails
+
+            ViewBag.LayerInfo = _context.ThemeLayerDetails
                 .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
                 .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
                 .Select(k => new ThemeList
@@ -40,7 +40,7 @@ namespace EcdsApp.Controllers.Map
 
                 }).ToList();
            
-            return Json(themeList);
+            //return Json(themeList);
 
             ViewBag.LayerInfoes = await dataContext.ToListAsync();
 
