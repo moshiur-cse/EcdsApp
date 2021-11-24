@@ -9,25 +9,27 @@
 @section Styles{
     <!-- leaflet Css -->
     <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/assets/libs/leaflet/leaflet.draw.css" />
     <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
     <style>
 
-        
 
-        .leaflet-map {          
+
+        .leaflet-map {
             height: 800px;
         }
         /*body[data-layout=horizontal] .page-content {
             margin-top: calc(80px + 1.25rem) calc(1.25rem / 2) 60px calc(1.25rem / 2);
-            
+
         }*/
         .table > thead > tr > th {
             width: 15vw !important;
         }
-        .leaflet-top .leaflet-control{
-        margin-top:50px!important
+
+        .leaflet-top .leaflet-control {
+            margin-top: 50px !important
         }
-        
+
         .mapLabel {
             height: auto !important;
             width: auto !important;
@@ -111,6 +113,7 @@
         .map_opt_content {
             padding: 5px;
             margin-top: 120px;
+            margin-left:100px;
             z-index: 1000;
             position: absolute;
             border: 1px solid #e5e7e8;
@@ -123,6 +126,7 @@
         .map_title {
             padding: 5px;
             margin-top: 200px;
+            margin-left:100px;
             z-index: 1000;
             position: absolute;
             border: 1px solid #e5e7e8;
@@ -187,11 +191,51 @@
 
 @section Scripts{
     <!-- leaflet plugin -->
+    <script src="~/assets/libs/leaflet/leaflet-src.js"></script>
     <script src="~/assets/libs/leaflet/leaflet.js"></script>
 
+
+    <!-- Leaflet Map Draw -->
+    <script src="~/assets/libs/leaflet/Leaflet.draw.js"></script>
+    <script src="~/assets/libs/leaflet/Leaflet.Draw.Event.js"></script>
+
+    <script src="~/assets/libs/leaflet/Toolbar.js"></script>
+    <script src="~/assets/libs/leaflet/Tooltip.js"></script>
+
+    <script src="~/assets/libs/leaflet/GeometryUtil.js"></script>
+    <script src="~/assets/libs/leaflet/LatLngUtil.js"></script>
+    <script src="~/assets/libs/leaflet/LineUtil.Intersect.js"></script>
+    <script src="~/assets/libs/leaflet/Polygon.Intersect.js"></script>
+    <script src="~/assets/libs/leaflet/Polyline.Intersect.js"></script>
+    <script src="~/assets/libs/leaflet/TouchEvents.js"></script>
+
+    <script src="~/assets/libs/leaflet/DrawToolbar.js"></script>
+    <script src="~/assets/libs/leaflet/Draw.Feature.js"></script>
+    <script src="~/assets/libs/leaflet/Draw.SimpleShape.js"></script>
+    <script src="~/assets/libs/leaflet/Draw.Polyline.js"></script>
+    <script src="~/assets/libs/leaflet/Draw.Marker.js"></script>
+    <script src="~/assets/libs/leaflet/Draw.Circle.js"></script>
+    <script src="~/assets/libs/leaflet/Draw.CircleMarker.js"></script>
+    <script src="~/assets/libs/leaflet/Draw.Polygon.js"></script>
+    <script src="~/assets/libs/leaflet/Draw.Rectangle.js"></script>
+
+    <script src="~/assets/libs/leaflet/EditToolbar.js"></script>
+    <script src="~/assets/libs/leaflet/EditToolbar.Edit.js"></script>
+    <script src="~/assets/libs/leaflet/EditToolbar.Delete.js"></script>
+
+    <script src="~/assets/libs/leaflet/Control.Draw.js"></script>
+
+    <script src="~/assets/libs/leaflet/Edit.Poly.js"></script>
+    <script src="~/assets/libs/leaflet/Edit.SimpleShape.js"></script>
+    <script src="~/assets/libs/leaflet/Edit.Rectangle.js"></script>
+    <script src="~/assets/libs/leaflet/Edit.Marker.js"></script>
+    <script src="~/assets/libs/leaflet/Edit.CircleMarker.js"></script>
+    <script src="~/assets/libs/leaflet/Edit.Circle.js"></script>
+
+
     <!-- leaflet map.init -->
-    <script src="~/assets/js/pages/leaflet-us-states.js"></script>
-    <script src="~/assets/js/pages/leaflet-map.init.js"></script>
+    @*<script src="~/assets/js/pages/leaflet-us-states.js"></script>
+        <script src="~/assets/js/pages/leaflet-map.init.js"></script>*@
     <script>
         var data_layer = {};
         var legend = L.control({ position: 'bottomright' });
@@ -220,6 +264,7 @@
                 //mapboxLi = L.tileLayer(mapbUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, id: "mapbox.light", attribution: mapAttrib }),
                 //mapboxSt = L.tileLayer(mapbUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, id: "mapbox.streets", attribution: mapAttrib }),
                 esri = L.tileLayer(esriUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
+               
                 blank = L.tileLayer(blankUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib });
 
 
@@ -231,8 +276,32 @@
                     maxZoom: 20,
                     minZoom: 2,
                     zoom: 6.0,
-                    layers: [openstreet]
+                    layers: [openstreet],
+                   
                 });
+
+            var drawnItems = L.featureGroup().addTo(mymap);
+
+            mymap.addControl(new L.Control.Draw({
+                edit: {
+                    featureGroup: drawnItems,
+                    poly: {
+                        allowIntersection: false
+                    }
+                },
+                draw: {
+                    polygon: {
+                        allowIntersection: false,
+                        showArea: true
+                    }
+                }
+            }));
+
+            mymap.on(L.Draw.Event.CREATED, function (event) {
+                var layer = event.layer;
+
+                drawnItems.addLayer(layer);
+            });
 
 
             mymap.setView([23.837777, 90.347777], 7.0);
@@ -286,7 +355,7 @@
                     mymap.setView([23.737777, 90.537777], 7.0);
                 });
 
-            bgLayers = L.control.layers(baseMaps, null, { collapsed: false });
+            bgLayers = L.control.layers(baseMaps, {'drawlayer': drawnItems }, { collapsed: false });
             bgLayers.addTo(mymap);
 
             var bgLayersContent = $(bgLayers.getContainer());
@@ -382,11 +451,9 @@
 
 
 
-            console.log(colorList);
+            //console.log(colorList);
         }
         function legendAndInfo(e, mainAtt, attCode, layerId, layerName) {
-
-
 
             mymap.removeLayer(legend);
             legend_div.innerHTML += '<p class="' + layerId + '">' + layerName+' Legend</p>';
@@ -452,7 +519,7 @@
                 });
             }
         });
-        $('.treeview-colorful').mdbTreeview();
+
     </script>
 
 
