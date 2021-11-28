@@ -160,10 +160,17 @@
 /* ================================================================== */
 .leaflet-draw-draw-polyline {
 	/*background-image: #ffff url("../images/map_reset.png") no-repeat center center/80% auto;*/
-	background: transparent url("../images/map_reset.png") no-repeat center left/100% auto;
+	background: transparent url("../images/polyline_icon.png") no-repeat center left/100% auto !important;
 	/*background-image: url('file:///F:\BBS004\EcdsApp\wwwroot\assets\images\map_reset.png');*/
 }
-	.leaflet-draw-toolbar .leaflet-draw-draw-polyline {
+
+.leaflet-draw-draw-rectangle {
+	background: transparent url("../images/rectangler_icon.png") no-repeat center left/100% auto !important;
+}
+.leaflet-draw-draw-polygon {
+	background: transparent url("../images/polygon_icon.png") no-repeat center left/100% auto !important;
+}
+.leaflet-draw-toolbar .leaflet-draw-draw-polyline {
 	background-position: -2px -2px;
 }
 

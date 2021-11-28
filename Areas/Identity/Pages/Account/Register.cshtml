@@ -4,156 +4,99 @@
     ViewData["Title"] = "Register";
 }
 
-
-<div class="account-pages my-5 pt-sm-5 authentication-bg"">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="text-center">
-                    <a asp-action="Dashboard" asp-controller="Home" class="mb-5 d-block auth-logo">
-                        <img src="assets/images/logo-dark.png" alt="" height="22" class="logo logo-dark">
-                        <img src="assets/images/logo-light.png" alt="" height="22" class="logo logo-light">
-                    </a>
+<div class="page-content authentication-bg">
+    @*<div class="account-pages authentication-bg">*@
+        <div class="container">
+            @*<div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center">
+                        <a asp-action="Dashboard" asp-controller="Home" class="mb-5 d-block auth-logo">
+                            <img src="assets/images/logo-dark.png" alt="" height="22" class="logo logo-dark">
+                            <img src="assets/images/logo-light.png" alt="" height="22" class="logo logo-light">
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row align-items-center justify-content-center">
-            <div class="col-md-8 col-lg-6 col-xl-5">
-                <div class="card">
+            </div>*@
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card">
 
-                    <div class="card-body p-4">
+                        <div class="card-body p-4">
 
-                        <div class="text-center mt-2">
-                            <h5 class="text-primary">Register Account</h5>
-                            <p class="text-muted">Get your ECDS account now.</p>
-                        </div>
-                        <div class="p-2 mt-4">
-                            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                                <h4>Create a new account.</h4>
-                                <hr />
-                                <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="text-center mt-2">
+                                <h5 class="text-primary">Register Account</h5>
+                                <p class="text-muted">Get your ECDS account now.</p>
+                            </div>
+                            <div class="p-2 mt-4">
+                                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                                    <h4>Create a new account.</h4>
+                                    <hr />
+                                    <div asp-validation-summary="All" class="text-danger"></div>
 
 
-                                <div class="mb-3">
-                                    <label class="form-label" asp-for="Input.Email">Email</label>
-                                    <input type="email" class="form-control" asp-for="Input.Email" placeholder="Enter email">
-                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label" asp-for="Input.Password">Password</label>
-                                    <input asp-for="Input.Password" class="form-control" />
-                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" asp-for="Input.ConfirmPassword"></label>
-                                    <input asp-for="Input.ConfirmPassword" class="form-control" />
-                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                                </div>
-
-                                @*<button type="submit" class="btn btn-primary">Register</button>*@
-
-                                <div class="mt-3 text-end">
-                                    <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">Register</button>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div class="signin-other-title">
-                                        <h5 class="font-size-14 mb-3 title">Sign up using</h5>
+                                    <div class="mb-3">
+                                        <label class="form-label" asp-for="Input.Email">Email</label>
+                                        <input type="email" class="form-control" asp-for="Input.Email" placeholder="Enter email">
+                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                                     </div>
 
+                                    <div class="mb-3">
+                                        <label class="form-label" asp-for="Input.Password">Password</label>
+                                        <input asp-for="Input.Password" class="form-control" />
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" asp-for="Input.ConfirmPassword"></label>
+                                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                    </div>
 
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <a href="javascript:void()" class="social-list-item bg-primary text-white border-primary">
-                                                <i class="mdi mdi-facebook"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="javascript:void()" class="social-list-item bg-info text-white border-info">
-                                                <i class="mdi mdi-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="javascript:void()" class="social-list-item bg-danger text-white border-danger">
-                                                <i class="mdi mdi-google"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <p class="text-muted mb-0">Already have an account ? <a asp-area="Identity" asp-page="/Account/Login" class="fw-medium text-primary"> Login</a></p>
-                                </div>
-                            </form>
-                        </div>
+                                    @*<button type="submit" class="btn btn-primary">Register</button>*@
 
-                    </div>
-                </div>
-                @*<div class="mt-5 text-center">
-                        <p>©
-                        <script>document.write(new Date().getFullYear())</script> Minible. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
-                    </div>*@
+                                    <div class="mt-3 text-end">
+                                        <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">Register</button>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <div class="signin-other-title">
+                                            <h5 class="font-size-14 mb-3 title">Sign up using</h5>
+                                        </div>
 
-            </div>
-        </div>
-        <!-- end row -->
-    </div>
-</div>
-    @*<div class="row">
-            <div class="col-md-4">
-                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <h4>Create a new account.</h4>
-                    <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" class="form-control" />
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password" class="form-control" />
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.ConfirmPassword"></label>
-                        <input asp-for="Input.ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Register</button>
-                </form>
-            </div>
-            <div class="col-md-6 col-md-offset-2">
-                <section>
-                    <h4>Use another service to register.</h4>
-                    <hr />
-                    @{
-                        if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                        {
-                            <div>
-                                <p>
-                                    There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                                    for details on setting up this ASP.NET application to support logging in via external services.
-                                </p>
+
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <a href="javascript:void()" class="social-list-item bg-primary text-white border-primary">
+                                                    <i class="mdi mdi-facebook"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="javascript:void()" class="social-list-item bg-info text-white border-info">
+                                                    <i class="mdi mdi-twitter"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="javascript:void()" class="social-list-item bg-danger text-white border-danger">
+                                                    <i class="mdi mdi-google"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <p class="text-muted mb-0">Already have an account ? <a asp-area="Identity" asp-page="/Account/Login" class="fw-medium text-primary"> Login</a></p>
+                                    </div>
+                                </form>
                             </div>
-                        }
-                        else
-                        {
-                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                                <div>
-                                    <p>
-                                        @foreach (var provider in Model.ExternalLogins)
-                                        {
-                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                        }
-                                    </p>
-                                </div>
-                            </form>
-                        }
-                    }
-                </section>
-            </div>
-        </div>*@
 
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+    </div>
+@*</div>*@
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
