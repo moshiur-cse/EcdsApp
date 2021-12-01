@@ -6,64 +6,15 @@
     <div data-simplebar class="h-100">
 
         <div class="rightbar-title d-flex align-items-center px-3 py-4">
-            <h5 class="m-0 me-2">Map Settings</h5>
+            <h5 class="m-0 me-2">Map Layer List</h5>
 
             <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
                 <i class="mdi mdi-close noti-icon"></i>
             </a>
         </div>
-        <!--<div data-simplebar class="sidebar-menu-scroll">-->
-
-            <!--- Sidemenu -->
-            <!--<div id="sidebar-menu">-->
-                <!-- Left Menu Start -->
-                <!--<ul class="metismenu list-unstyled" id="side-menu">
-
-
-                    @foreach (ThemeList theme in ViewBag.LayerInfo)
-                    {
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="bx bx-plus-medical"></i>
-                                <span>@theme.themeName</span>
-                            </a>
-                            @foreach (SubThemeList subTheme in theme.subThemeList)
-                            {
-                                <ul class="sub-menu" aria-expanded="true">
-                                    <li>
-                                        <a href="javascript: void(0);" class="has-arrow">
-                                            <i class="bx bx-plus-medical"></i>
-                                            <span> @subTheme.subThemeName</span>
-                                        </a>
-
-                                        @for (int i = 0; i < subTheme.layerIdList.Count(); i++)
-                                        {
-                                            <ul class="sub-menu" aria-expanded="true">
-                                                <li>
-
-                                                    <a><input class="layer_class" type="checkbox" id="@subTheme.layerPathList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerPathList[i]">@subTheme.layerNameList[i]</label></a>
-
-                                                </li>
-
-                                            </ul>
-                                        }
-                                    </li>
-
-                                </ul>
-                            }
-
-                        </li>
-                    }
-
-                </ul>
-            </div>-->
-            <!-- Sidebar -->
-        <!--</div>-->
-
-
-
-
-
+        <div class="map_title" style="text-align:center">
+            <p style="text-align: center; font: bold 17px/1.5 Roboto, Helvetica, Arial, sans-serif;text-decoration:underline" id="map_title"></p>
+        </div>
     </div> <!-- end slimscroll-menu-->
 </div>
 <!-- /Right-bar -->

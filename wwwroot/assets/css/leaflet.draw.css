@@ -2,6 +2,12 @@
 /* Toolbars
 /* ================================================================== */
 
+.leaflet-bar a, .leaflet-bar a:hover{
+	height:50px!important;
+	width:30px!important;
+		
+
+}
 .leaflet-draw-section {
 	position: relative;
 }
@@ -197,6 +203,9 @@
 .leaflet-draw-toolbar .leaflet-draw-draw-circle {
 	background-position: -92px -2px;
 }
+.leaflet-draw-draw-circle {
+	background: transparent url("../images/circle_icion.png") no-repeat center left/100% auto !important;
+}
 
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circle {
 	background-position: -90px -1px;
@@ -206,6 +215,9 @@
 	background-position: -122px -2px;
 }
 
+.leaflet-draw-draw-marker {
+	background: transparent url("../images/marker_icon.png") no-repeat center left/100% auto !important;
+}
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-marker {
 	background-position: -120px -1px;
 }
@@ -217,12 +229,18 @@
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circlemarker {
 	background-position: -271px -1px;
 }
+.leaflet-draw-draw-circlemarker {
+	background: transparent url("../images/circle_marker_icon.png") no-repeat center left/100% auto !important;
+}
 
 /* ================================================================== */
 /* Edit toolbar
 /* ================================================================== */
 
-.leaflet-draw-toolbar .leaflet-draw-edit-edit {
+.leaflet-draw-edit-edit {
+	background: transparent url("../images/edit_icon.png") no-repeat center left/100% auto !important;
+}
+	.leaflet-draw-toolbar .leaflet-draw-edit-edit {
 	background-position: -152px -2px;
 }
 
@@ -232,6 +250,9 @@
 
 .leaflet-draw-toolbar .leaflet-draw-edit-remove {
 	background-position: -182px -2px;
+}
+.leaflet-draw-edit-remove {
+	background: transparent url("../images/delete_icon.png") no-repeat center left/100% auto !important;
 }
 
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-remove {

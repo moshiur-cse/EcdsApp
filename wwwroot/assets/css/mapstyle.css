@@ -19,6 +19,12 @@ input, label, p {
         padding: 0;
     }
 
+#map_label {
+    width: 25px;
+    height: 25px;
+    margin:0;
+}
+
 legend {
     margin-bottom: 5px;
     font-size: 15px;

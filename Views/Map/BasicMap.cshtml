@@ -14,8 +14,6 @@
     <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
     <style>
 
-
-
         .leaflet-map {
             height: 800px;
         }
@@ -124,11 +122,11 @@
             font-size: 1vw;
         }
 
-        .map_title {
+        /*.map_title {
             padding: 5px;
-            margin-top: 400px;
+            margin-top: 400px;*/
             /* margin-left:100px;*/
-            z-index: 1000;
+            /*z-index: 1000;
             position: absolute;
             border: 1px solid #e5e7e8;
             width: auto;
@@ -137,7 +135,7 @@
             font-size: 1vw;
             overflow: scroll;
             height: 300px;
-        }
+        }*/
 
         .map_legend {
             height: 450px;
@@ -167,24 +165,25 @@
 
 
 
-    <div class="map_opt_content">
+    @*<div class="map_opt_content">
         <p><input type="checkbox" id="map_label_opt" title="Show/Hide Map Label" />Label</p>
         <p><input type="checkbox" id="map_navigation" title="Auto Change Map" />Navigation</p>
-    </div>
+    </div>*@
 
 
-    <div class="map_title" style="text-align:center">
+    @*<div class="map_title" style="text-align:center">
         <p style="text-align: center; font: bold 17px/1.5 Roboto, Helvetica, Arial, sans-serif;text-decoration:underline" id="map_title">Layer List</p>
-    </div>
-
-
+    </div>*@
     <div id="map_btns_content" class="map_btns_content">
-        @*<div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>*@
+        <div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>
         <div id="map_reset" class="map_btns map_reset right-bar-toggle waves-effect" title="Option"> </div>
         <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
         <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Filter the Map"></div>
+        <div class="map_btns" title="Show or Hide Map Label"><input type="checkbox" id="map_label" ></div>
+        <div id="map_layer" class="map_btns right-bar-toggle waves-effect" title="Map Layer List"> </div>
         <div id="map_bg_layers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
     </div>
+
 
     <div id="basic-map" class="leaflet-map page-content"></div>
 </div>
@@ -239,6 +238,7 @@
         <script src="~/assets/js/pages/leaflet-map.init.js"></script>*@
     <script>
         var data_layer = {};
+        var mapLabels = {};
         var legend = L.control({ position: 'bottomright' });
         var legend_div = L.DomUtil.create('div', 'legend_info');
         mapInit();
@@ -380,7 +380,23 @@
                 data_layer[layerId] = L.geoJson(null, {
                     style: style,
                     onEachFeature: onEachFeature,
+                   
                 });
+
+
+
+                //var pointLayer = L.geoJSON(null, {
+                //    pointToLayer: function (feature, latlng) {
+                //        label = String(feature.properties.name) // Must convert to string, .bindTooltip can't use straight 'feature.properties.attribute'
+                //        return new L.CircleMarker(latlng, {
+                //            radius: 1,
+                //        }).bindTooltip(label, { permanent: true, opacity: 0.7 }).openTooltip();
+                //    }
+                //});
+                //pointLayer.addData(data_points);
+
+
+
 
                 $.getJSON(layerPath, function (LayerInfo) {
                     if (!LayerInfo) return;
@@ -401,6 +417,7 @@
 
                 }
             }
+            //mapLabelShowHide(data_layer[layerId]);
 
             function style(feature) {
                 //var color = getRandomColor();
@@ -422,6 +439,7 @@
                 layer.on({
                     mouseover: highlightFeature,
                     mouseout: resetHighlight,
+                    
                     click: function (e) {
                         var layer = e.target;
 
@@ -430,6 +448,10 @@
                         layer.bindPopup(feature.properties[mainAtt] + "(" + feature.properties[cLat] + "," + feature.properties[cLong] + ")",);
                     }
                 });
+
+                    layer.bindTooltip(feature.properties[mainAtt], { permanent: true, direction: 'center' }).openTooltip();
+                
+                //mapLabelShowHide(layer);
             }
 
             function highlightFeature(e) {
@@ -452,7 +474,7 @@
                 data_layer[layerId].resetStyle(e.target);
             }
 
-
+            
 
             //console.log(colorList);
         }
@@ -479,6 +501,38 @@
                 color += letters[Math.floor(Math.random() * 16)];
             }
             return color;
+        }
+
+            function mapLabelShowHide(feature, layer) {
+               alert("OK");
+             console.log(features);
+            if ($("#map_label").prop("checked") == true) {
+
+                mapLabels = L.layerGroup();
+
+                L.geoJson(features, {
+                    onEachFeature: function (feature, layer) {
+                        //[51.5, -0.09]
+                        //var label = L.marker(layer.getBounds().getCenter(), {
+                        var label = L.marker([layer.feature.properties.CNT_LAT, layer.feature.properties.CNT_LONG], {
+                            icon: L.divIcon({
+                                className: 'label mapLabel',
+                                html: feature.properties[mainAtt],
+                                iconSize: [100, 40],
+
+                            })
+                        });
+                        mapLabels.addLayer(label);
+                    }
+                }); //.addTo(mymap)
+                mymap.addLayer(mapLabels);
+
+            } else {
+                if (mymap.hasLayer(mapLabels)) {
+                    mymap.removeLayer(mapLabels);
+                }
+
+            }
         }
 
 
