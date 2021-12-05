@@ -40,8 +40,11 @@ namespace EcdsApp.Data
         public DbSet<ThemeLayerDetail> ThemeLayerDetails { get; set; }
         public DbSet<ThemeLayerType> ThemeLayerTypes { get; set; }
         public DbSet<LayerLegendColor> LayerLegendColors { get; set; }
+        public DbSet<MetaDataDetail> MetaDataDetails { get; set; }
 
         
+
+
 
 
 

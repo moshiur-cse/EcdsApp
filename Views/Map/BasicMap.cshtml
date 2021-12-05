@@ -236,14 +236,23 @@
     <!-- leaflet map.init -->
     @*<script src="~/assets/js/pages/leaflet-us-states.js"></script>
         <script src="~/assets/js/pages/leaflet-map.init.js"></script>*@
-    <script>
+<script>
         var data_layer = {};
-        var mapLabels = {};
+        var colorList = {};
+        var userDefinedColorList = {};
+        var userDefinedLegendNameList = {};
+
         var legend = L.control({ position: 'bottomright' });
         var legend_div = L.DomUtil.create('div', 'legend_info');
+
+
+
+
+        var mapLabels = L.layerGroup();
+        //var g_layerId; var g_filepath; var g_mainAtt; var g_attCode; var g_cLat; var g_cLong; var g_layerName; var g_layerTypeid;
         mapInit();
         //LayerShowHide('1', '"administrative'+'\'+'admin_data'+'\' + 'division' + '\'+'divsion.json"', 'div_name', 'div_code', 'C_LAT', 'C_LONG', 'DIVISION', '1');
-        var colorList = {};
+
 
         function mapInit() {
 
@@ -367,8 +376,8 @@
             $("#map_bg_layers").append(bgLayersContent);
 
         }
-        function LayerShowHide(layerId, filepath, mainAtt, attCode, cLat, cLong, layerName, layerTypeid) {
-
+    function LayerShowHide(layerUid, layerId, filepath, mainAtt, attCode, cLat, cLong, firstAttDisName, firstAtt, layerName, layerTypeid, isLegendColor, legendcolorField) {
+            //alert(layerId);
 
 
             var layerPath = "../assets/js/map/map_data/" + filepath;
@@ -376,14 +385,13 @@
 
             if ($("#" + layerId).prop("checked") == true) {
 
+                //g_layerId = layerId; g_filepath = filepath; g_mainAtt = mainAtt; g_attCode = attCode; g_cLat = cLat; g_cLong = cLong; g_layerName = layerName; g_layerTypeid = layerTypeid;
+              
 
                 data_layer[layerId] = L.geoJson(null, {
                     style: style,
                     onEachFeature: onEachFeature,
-                   
                 });
-
-
 
                 //var pointLayer = L.geoJSON(null, {
                 //    pointToLayer: function (feature, latlng) {
@@ -403,7 +411,9 @@
                     data_layer[layerId].addData(LayerInfo);
                 }).done(function (e) {
                     mymap.addLayer(data_layer[layerId]);
-                    legendAndInfo(e, mainAtt, attCode, layerId, layerName);
+
+                    legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
+                    //mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong)
                     $(".map_title").append('<p class="' + layerId +'" style="text-align:left;padding:2px">'+layerName+'</p>')
                 })
             }
@@ -414,6 +424,11 @@
                     mymap.removeLayer(legend);
                     $("p." + layerId).remove();
                     colorList = {};
+                    mymap.removeLayer(mapLabels);
+                    mapLabels = L.layerGroup();
+
+                    userDefinedColorList = {};
+                    userDefinedLegendNameList = {};
 
                 }
             }
@@ -423,44 +438,57 @@
                 //var color = getRandomColor();
                 //colorList[attCode] = color;
                 //colorList.append({ attCode: color });
-
-                colorList[feature.properties[attCode]] = getRandomColor();
-                return {
-                    fillColor: colorList[feature.properties[attCode]] ,
-                    weight: 1,
-                    opacity: 1,
-                    color: '#000000',
-                    dashArray: '1',
-                    fillOpacity: 0.5
-                };
+                if (isLegendColor == 0) {
+                    colorList[feature.properties[attCode]] = getRandomColor();
+                    return {
+                        fillColor: colorList[feature.properties[attCode]],
+                        weight: 1,
+                        opacity: 1,
+                        color: '#000000',
+                        dashArray: '1',
+                        fillOpacity: 0.5
+                    };
+                } else {
+                   
+                    return {
+                        fillColor: userDefinedColorList[layerId+"_"+feature.properties[legendcolorField]],
+                        weight: 1,
+                        opacity: 1,
+                        color: '#000000',
+                        dashArray: '1',
+                        fillOpacity: 0.5
+                    };
+                }
+               
             }
 
             function onEachFeature(feature, layer) {
                 layer.on({
                     mouseover: highlightFeature,
                     mouseout: resetHighlight,
-                    
                     click: function (e) {
                         var layer = e.target;
-
                         //mymap.fitBounds(e.target.getBounds());
                         //displayResult(e.target.feature.properties[adminCode]);
-                        layer.bindPopup(feature.properties[mainAtt] + "(" + feature.properties[cLat] + "," + feature.properties[cLong] + ")",);
+                        layer.bindPopup((firstAtt != null) ? firstAttDisName+" : "+feature.properties[firstAtt]+":"+ feature.properties[mainAtt]:feature.properties[mainAtt] + "(" + feature.properties[cLat] + "," + feature.properties[cLong] + ")",);
                     }
                 });
+                if (cLat != null || cLong != null) {
+                    mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong);
+                } else {
 
-                    layer.bindTooltip(feature.properties[mainAtt], { permanent: true, direction: 'center' }).openTooltip();
-                
-                //mapLabelShowHide(layer);
+                }
+
+
             }
-
+            //cLat, cLong
             function highlightFeature(e) {
                 var layer = e.target;
                 var popupContent = '<div style="width:250px;text-align:center;">' + layer.feature.properties[mainAtt] + '</div>';
 
                 layer.setStyle({
-                    weight: 2,
-                    color: '#E11F21',
+                    //weight: 2,
+                    //color: '#E11F21',
                     dashArray: '',
                     fillOpacity: 0.4
                 }).bindPopup(popupContent).openPopup(e.latlng);
@@ -471,24 +499,48 @@
 
             function resetHighlight(e) {
                 mymap.closePopup();
-                data_layer[layerId].resetStyle(e.target);
+                //data_layer[layerId].resetStyle(e.target);
             }
 
-            
+
 
             //console.log(colorList);
         }
-        function legendAndInfo(e, mainAtt, attCode, layerId, layerName) {
+        function legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField) {
 
             mymap.removeLayer(legend);
             legend_div.innerHTML += '<p class="' + layerId + '">' + layerName+' Legend</p>';
 
-            legend.onAdd = function (map) {
-                for (var i = 0; i < e.features.length; i++) {
-                    legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + colorList[e.features[i].properties[attCode]] + '"></i> </p>'; //{' + legendEndRange[i] + '}
-                }
-                return legend_div;
-            };
+
+            if (isLegendColor == 0) {
+                legend.onAdd = function (map) {
+                    for (var i = 0; i < e.features.length; i++) {
+                            legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + colorList[e.features[i].properties[attCode]] + '"></i> </p>'; //{' + legendEndRange[i] + '}
+                    }
+                    return legend_div;
+                };
+            } else {
+
+                //userDefinedColorList.forEach(myFunction);
+                //console.log(Object.keys(userDefinedColorList).length);
+                legend.onAdd = function (map) {
+                    //for (var i = 0; i < e.features.length; i++) {
+
+                    //    legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + userDefinedColorList[e.features[i].properties[legendcolorField]] + '"></i> </p>'; //{' + legendEndRange[i] + '}
+                    //}
+
+                    $.each(userDefinedColorList, function (index, val) {
+                       
+                        if (index.search(layerId)!=-1) {
+                            legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedLegendNameList[index] + '<i style="background:' + val + '"></i> </p>';
+                        }
+                    });
+
+                    return legend_div;
+                };
+            }
+
+
             legend.addTo(mymap);
 
         }
@@ -503,43 +555,78 @@
             return color;
         }
 
-            function mapLabelShowHide(feature, layer) {
-               alert("OK");
-             console.log(features);
-            if ($("#map_label").prop("checked") == true) {
+    function getUserDefinedColor(layerUid, layerId) {
+             jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetUserDefinedLegendInfo")",
+                    dataType: "json",
+                 data: { layer_id: layerUid },
+                     before: jQuery("#busy-indicator").fadeIn(150),
+                 success: function (items) {
 
-                mapLabels = L.layerGroup();
+                     $.each(items,
+                         function (i, item) {
+                             userDefinedColorList[layerId+"_"+item.attCode] = item.colorCode;
+                             userDefinedLegendNameList[layerId+"_"+item.attCode] = item.attName;
+                         });
+                        
+                        
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                    },
+                     complete: jQuery("#busy-indicator").fadeOut(150)
+             });
 
-                L.geoJson(features, {
-                    onEachFeature: function (feature, layer) {
-                        //[51.5, -0.09]
-                        //var label = L.marker(layer.getBounds().getCenter(), {
-                        var label = L.marker([layer.feature.properties.CNT_LAT, layer.feature.properties.CNT_LONG], {
-                            icon: L.divIcon({
-                                className: 'label mapLabel',
-                                html: feature.properties[mainAtt],
-                                iconSize: [100, 40],
+        
 
-                            })
-                        });
-                        mapLabels.addLayer(label);
-                    }
-                }); //.addTo(mymap)
+        }
+
+
+
+        function mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong) {
+
+            //g_feature = feature, g_layer = layer, g_layerId=layerId,g_mainAtt = mainAtt; g_cLat = cLat; g_cLong = cLong;
+
+
+            var label= L.marker([layer.feature.properties[cLat], layer.feature.properties[cLong]], {
+                    icon: L.divIcon({
+                        className: 'label mapLabel',
+                        html: feature.properties[mainAtt],
+                        iconSize: [100, 40],
+                    })
+                });
+            mapLabels.addLayer(label);
+
+            if (jQuery("#map_label").prop("checked") == true) {
+                mymap.addLayer(mapLabels);
+            }
+            else {
+                if (mymap.hasLayer(mapLabels)) {
+                    mymap.removeLayer(mapLabels);
+                }
+            }
+        }
+
+        jQuery('#map_label').click(function ($) {
+            if (jQuery("#map_label").prop("checked") == true) {
                 mymap.addLayer(mapLabels);
 
             } else {
                 if (mymap.hasLayer(mapLabels)) {
                     mymap.removeLayer(mapLabels);
                 }
-
             }
-        }
-
+        });
 
         jQuery('.layer_class').click(function ($) {
             if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
                 //console.log(jQuery("#"+this.id).val());
                 var layerId = this.id;
+
+
 
                 jQuery.ajax({
                     type: "POST",
@@ -550,21 +637,18 @@
                      success: function (items) {
                          var path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
 
+                         if (items.isLegendColor != 0) {
+                             
+                                /* setTimeout(function () {*/
+                                     getUserDefinedColor(items.layerId, layerId);
+                               /*  }, 1000);*/
+                           
+                             
+                         }
+                         //firstAttDisName = sd.FirstAttributeDisplayName,
+                         //firstAtt = sd.FirstAttributeName,
 
-                             //cLat = sd.FileLatName,
-                             //cLong = sd.FileLongName,
-                             //mainAtt = sd.LayerMainAttribureName,
-                             //mainAttCode = sd.LayerMainAttribureCode,
-                             //attOne = sd.LayerMainAttribureOne,
-                             //attTwo = sd.LayerMainAttribureTwo,
-                             //attTree = sd.LayerMainAttribureThree,
-                             //layerTypeId = sd.LayerTypeId,
-                             //isLegendColor = sd.IsLegendColor
-
-
-
-                         //alert(layerId + ":" + path);
-                         LayerShowHide(layerId, path, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId);
+                         LayerShowHide(items.layerId, layerId, path, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField);
 
                     },
                     error: function(ex, status, error) {
@@ -577,7 +661,7 @@
             }
         });
 
-    </script>
+</script>
 
 
 }

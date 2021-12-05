@@ -96,6 +96,19 @@ namespace EcdsApp.Controllers.Map
 
         }
 
-        
+        [HttpPost]
+       public JsonResult GetUserDefinedLegendInfo(int layer_id)
+        {
+            var data = _context.LayerLegendColors.Where(s => s.LayerId == layer_id).Select(sd => new
+            {
+                attCode=sd.LayerMainAttribureValue,
+                attName = sd.LayerLegendDisplayName,
+                colorCode =sd.LayerLegendColorCode,
+               
+
+            }).ToList();
+            return Json(data);
+        }
+
     }
 }

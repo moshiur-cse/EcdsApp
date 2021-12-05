@@ -40,7 +40,7 @@ namespace EcdsApp.Models.ThemeModels
         public string LayerLegendColorCode { get; set; }
 
         [Column("layer_legend_display_name")]
-        [StringLength(20)]
+        [StringLength(200)]
         [Display(Name = "Layer Legend Display Name")]
         public string LayerLegendDisplayName { get; set; }
     }
