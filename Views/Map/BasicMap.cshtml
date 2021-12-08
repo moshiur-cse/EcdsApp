@@ -17,7 +17,7 @@
         .leaflet-map {
             height: 800px;
         }
-       /* .right-bar{
+        /* .right-bar{
             width:400px!important;
         }*/
         /*body[data-layout=horizontal] .page-content {
@@ -252,12 +252,15 @@
 
         var legend = L.control({ position: 'bottomright' });
         var legend_div = L.DomUtil.create('div', 'legend_info');
+        var div_list = [];
+        var dist_list = [];
+        var upaz_list = [];
 
 
 
 
         var mapLabels = L.layerGroup();
-        //var g_layerId; var g_filepath; var g_mainAtt; var g_attCode; var g_cLat; var g_cLong; var g_layerName; var g_layerTypeid;
+        var g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField;
         mapInit();
         //LayerShowHide('1', '"administrative'+'\'+'admin_data'+'\' + 'division' + '\'+'divsion.json"', 'div_name', 'div_code', 'C_LAT', 'C_LONG', 'DIVISION', '1');
 
@@ -393,7 +396,8 @@
 
             if ($("#" + layerId).prop("checked") == true) {
 
-                //g_layerId = layerId; g_filepath = filepath; g_mainAtt = mainAtt; g_attCode = attCode; g_cLat = cLat; g_cLong = cLong; g_layerName = layerName; g_layerTypeid = layerTypeid;
+                g_layerUid = layerUid; g_layerId = layerId; g_filepath = filepath; g_mainAttDisName = mainAttDisName; g_mainAtt = mainAtt; g_attCode = attCode; g_cLat = cLat; g_cLong = cLong;
+                g_firstAttDisName = firstAttDisName; g_firstAtt = firstAtt; g_layerName = layerName; g_layerTypeid = layerTypeid; g_isLegendColor = isLegendColor; g_legendcolorField = legendcolorField;
 
 
                 data_layer[layerId] = L.geoJson(null, {
@@ -422,15 +426,41 @@
 
                     legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
                     //mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong)
-                    $(".map_title").append('<p class="' + layerId +'" style="text-align:left;padding:2px">'+layerName+'</p>')
+                    //$(".map_title").append('<p class="' + layerId +'" style="text-align:left;padding:2px">'+layerName+'</p>')
+
+                    //data_layer
+
+
+                    //if (index.search(layerId) != -1) {
+                    //}
+                    $(".map_layer_list").empty()
+                    //$("ul").empty()
+
+                    $.each(data_layer, function (index, val) {
+                        if (index == layerId) {
+
+
+                            $(".map_layer_list").append('<li id="map_layer_' + index + '" style="background: rosybrown;"><a href="javascript: void(0);" class="waves-effect"><i class="bx bx-plus-medical"></i><span title="Top Layer">' + index + '</span></a></li>')
+                        } else {
+                            $(".map_layer_list").append('<li id="map_layer_' + index + '"><a href="javascript: void(0);" class="waves-effect"><i class="bx bx-plus-medical"></i><span>' + index + '</span></a></li>')
+                        }
+                    });
+
+
+                    //$(".map_layer_list").append('<li id="map_layer_' + layerId+'"><a href="javascript: void(0);" class="waves-effect"><i class="bx bx-plus-medical"></i><span id="map_title">' + layerName + '</span></a></li>')
                 })
             }
+
+
+
+
 
             else {
                 if (mymap.hasLayer(data_layer[layerId])) {
                     mymap.removeLayer(data_layer[layerId]);
                     mymap.removeLayer(legend);
                     $("p." + layerId).remove();
+                    $("#map_layer_" + layerId).remove();
                     colorList = {};
                     mymap.removeLayer(mapLabels);
                     mapLabels = L.layerGroup();
@@ -439,7 +469,8 @@
                     userDefinedLegendNameList = {};
 
                 }
-            }
+        }
+
             //mapLabelShowHide(data_layer[layerId]);
 
             function style(feature) {
@@ -647,15 +678,11 @@
                          var path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
 
                          if (items.isLegendColor != 0) {
-
                                 /* setTimeout(function () {*/
                                      getUserDefinedColor(items.layerId, layerId);
                                /*  }, 1000);*/
 
-
                          }
-                         //firstAttDisName = sd.FirstAttributeDisplayName,
-                         //firstAtt = sd.FirstAttributeName,
 
                          LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField);
 
@@ -705,7 +732,73 @@
         });
             jQuery("#busy-indicator").fadeOut(150);
 
-    }
+        }
+
+
+        $("#DistCode").on("change",function (evt, adop) {
+                var distCode = $("#DistCode").val(),
+                    $upazila = $("#UpazCode");
+                    codeValue = distCode;
+
+
+
+                $upazila.empty();
+
+
+                if (!distCode) {
+                    mapAttribute(admin, cLat, cLong, mapZoom, codeValue);
+                    return false;
+                }
+
+
+                for (var i = 0; i < indexLenght; i++) {
+                    if (boundary.features[i].properties.dist_code == distCode) {
+                        mapAttribute(admin, boundary.features[i].properties.CNT_LAT, boundary.features[i].properties.CNT_LONG, 9, distCode);
+                        mapZoom = 9;
+                        cLat = boundary.features[i].properties.CNT_LAT;
+                        cLong = boundary.features[i].properties.CNT_LONG;
+                        //mapHighLighter();
+                        break;
+                    }
+                }
+
+
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetUpazilaList")",
+                    dataType: "json",
+                    data: { distCode: distCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function(upazilas) {
+                        $upazila.append(
+                            '<option value="" selected="selected">----- upazila -----</option>');
+                        $.each(upazilas,
+                            function(i, upazila) {
+                                $("<option />").val(upazila.value).html(upazila.text).appendTo($upazila);
+                            });
+                    },
+                    error: function(ex, status, error) {
+                        msg.init("error",
+                            "Error... . . !",
+                            "Failed to load upazila list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+        });
+
+        jQuery('#DivisionList').click(function ($) {
+
+            if (jQuery(this).closest('#DivisionList').prev().find('input[type=checkbox]').prop('checked', true)) {
+
+                alert("OK");
+            }
+        });
+
+        
 
     </script>
 

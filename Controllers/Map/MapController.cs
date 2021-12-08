@@ -1,6 +1,7 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.ViewModels.Map;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,10 @@ namespace EcdsApp.Controllers.Map
         }
         public async Task<IActionResult> BasicMap()
         {
-            var dataContext = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes);
+            //var dataContext = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes);
+            ViewBag.DivList = await _context.AdminBoundaryDivisions.ToListAsync();
+            ViewBag.DistList = await _context.AdminBoundaryDistricts.ToListAsync();
+            ViewBag.UpazList = await _context.AdminBoundaryUpazilas.ToListAsync();
 
             ViewBag.LayerInfo = _context.ThemeLayerDetails
                 .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
@@ -42,7 +46,7 @@ namespace EcdsApp.Controllers.Map
            
             //return Json(themeList);
 
-            ViewBag.LayerInfoes = await dataContext.ToListAsync();
+            //ViewBag.LayerInfoes = await dataContext.ToListAsync();
 
 
             return View();
@@ -109,6 +113,28 @@ namespace EcdsApp.Controllers.Map
             }).ToList();
             return Json(data);
         }
+        [HttpPost]
+        public JsonResult GetDistrictList(string divCode)
+        {
+            var distList = _context.AdminBoundaryDistricts
+                .Where(sd => sd.DivisionGeoCode.Equals(divCode))
+                .Select(sd => new { sd.DistrictGeoCode, sd.DistrictName })
+                .OrderBy(sd => sd.DistrictGeoCode).ToList();
+
+            return Json(new SelectList(distList, "DistrictGeoCode", "DistrictName"));
+        }
+
+        [HttpPost]
+        public JsonResult GetUpazilaList(string distCode)
+        {
+            var upzList = _context.AdminBoundaryUpazilas
+                .Where(sd => sd.DistrictGeoCode.Equals(distCode))
+                .Select(sd => new { sd.UpazilaGeoCode, sd.UpazilaName })
+                .OrderBy(sd => sd.UpazilaGeoCode).ToList();
+
+            return Json(new SelectList(upzList, "UpazilaGeoCode", "UpazilaName"));
+        }
+
 
     }
 }

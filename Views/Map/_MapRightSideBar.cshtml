@@ -1,83 +1,134 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using EcdsApp.Models.ViewModels.Map
-@using EcdsApp.Models.ThemeModels
+@using EcdsApp.Models
 <!-- Right Sidebar -->
 
 <div class="right-bar">
     <div data-simplebar class="h-100">
 
         <div class="rightbar-title d-flex align-items-center px-3 py-4">
-            <h5 class="m-0 me-2">Map Layer List</h5>
 
             <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
                 <i class="mdi mdi-close noti-icon"></i>
             </a>
         </div>
 
-        <div class="map_title" style="text-align:center">
-            <p style="text-align: center; font: bold 17px/1.5 Roboto, Helvetica, Arial, sans-serif;text-decoration:underline" id="map_title"></p>
+
+        <h5 style="margin-left:5px" class="control-group">Map layer List</h5>
+        <div id="sidebar-menu">
+            @*Left Menu Start*@
+            <ul class="metismenu list-unstyled map_layer_list">
+                <li style="text-align:center">No Layer Added</li>
+            </ul>
         </div>
 
+        <div class="row">
+
+            <h5 style="margin-left:5px" class="control-group">Map Filtering</h5>
+
+            <div class="col-xl-4 m-2">
+                <div class="form-check ">
+                    <input type="radio" id="radioDivision" name="radio" class="form-check-input" value="Division"><label class="form-check-label" for="radioDivision">Division</label>
+                </div>
+
+                <div class="form-check">
+                    <input type="radio" id="radioDistrict" name="radio" class="form-check-input" value="District"><label class="form-check-label" for="radioDistrict">District</label>
+                </div>
+
+                <div class="form-check">
+                    <input type="radio" id="radioUpazila" name="radio" class="form-check-input" value="Upazila"><label class="form-check-label" for="radioUpazila">Upazila</label>
+                </div>
+            </div>
 
 
-        <div class="container-fluid d-flex justify-content-center">
-            <div class="list list-row card" id="sortable" data-sortable-id="0" aria-dropeffect="move">
-               
-                <div class="list-item" data-id="9" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
-                   
-                    <div class="flex">
-                        <a href="#" class="item-author text-color" data-abc="true">Steven Hmpire</a>
-                        <div class="item-except text-muted text-sm h-1x">Build a progressive</div>
-                    </div>
-                    <div class="no-wrap">
-                        <div class="item-date text-muted text-sm d-none d-md-block">2 days ago</div>
-                    </div>
-                    <div>
-                        <div class="item-action dropdown">
-                            <a href="#" data-toggle="dropdown" class="text-muted" data-abc="true">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                                    <circle cx="12" cy="12" r="1"></circle>
-                                    <circle cx="12" cy="5" r="1"></circle>
-                                    <circle cx="12" cy="19" r="1"></circle>
-                                </svg>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right bg-black" role="menu">
-                                <a class="dropdown-item" href="#" data-abc="true">See detail </a><a class="dropdown-item download" data-abc="true">Download </a><a class="dropdown-item edit" data-abc="true">Edit</a>
-                                <div class="dropdown-divider"></div> <a class="dropdown-item trash" data-abc="true">Delete item</a>
-                            </div>
-                        </div>
+        </div>
+
+        <div class="accordion" id="DivisionList">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true"
+                            aria-controls="collapseOne">
+                        Select Division
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse"
+                     aria-labelledby="headingOne" data-bs-parent="#DivisionList">
+                    <div class="accordion-body">
+                        <ul class="metismenu list-unstyled">
+                            @foreach (AdminBoundaryDivision item in ViewBag.DivList)
+                            {
+
+                                <li>
+                                    <a><input type="checkbox" id="@item.DivisionGeoCode" value="@item.DivisionGeoCode"><label for="@item.DivisionGeoCode">@item.DivisionName</label></a>
+                                </li>
+
+                            }
+                        </ul>
                     </div>
                 </div>
-                <div class="list-item" data-id="17" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false" style="">
-                   
-                    <div class="flex">
-                        <a href="#" class="item-author text-color" data-abc="true">Alan musk</a>
-                        <div class="item-except text-muted text-sm h-1x">it be advisable f</div>
-                    </div>
-                    <div class="no-wrap">
-                        <div class="item-date text-muted text-sm d-none d-md-block">13/12 18</div>
-                    </div>
-                    <div>
-                        <div class="item-action dropdown">
-                            <a href="#" data-toggle="dropdown" class="text-muted" data-abc="true">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                                    <circle cx="12" cy="12" r="1"></circle>
-                                    <circle cx="12" cy="5" r="1"></circle>
-                                    <circle cx="12" cy="19" r="1"></circle>
-                                </svg>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right bg-black" role="menu">
-                                <a class="dropdown-item" href="#" data-abc="true">See detail </a><a class="dropdown-item download" data-abc="true">Download </a><a class="dropdown-item edit" data-abc="true">Edit</a>
-                                <div class="dropdown-divider"></div> <a class="dropdown-item trash" data-abc="true">Delete item</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              
-               
-                
             </div>
         </div>
+
+        <div class="accordion" id="DistrictList">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="true"
+                            aria-controls="collapseTwo">
+                        Select District
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse"
+                     aria-labelledby="headingOne" data-bs-parent="#DistrictList">
+                    <div class="accordion-body">
+                        <ul class="metismenu list-unstyled">
+                            @foreach (AdminBoundaryDistrict item in ViewBag.DistList)
+                            {
+                                <li>
+                                    <a><input type="checkbox" id="@item.DistrictGeoCode" value="@item.DistrictGeoCode"><label for="@item.DistrictGeoCode">@item.DistrictName</label></a>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion" id="UpazilaList">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingUpazila">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseUpazila" aria-expanded="true"
+                            aria-controls="collapseUpazila">
+                        Select Upazila
+                    </button>
+                </h2>
+                <div id="collapseUpazila" class="accordion-collapse collapse"
+                     aria-labelledby="headingOne" data-bs-parent="#UpazilaList">
+                    <div class="accordion-body">
+                        <ul class="metismenu list-unstyled">
+                            @foreach (AdminBoundaryUpazila item in ViewBag.UpazList)
+                            {
+                                <li>
+                                    <a><input type="checkbox" id="@item.UpazilaGeoCode" value="@item.UpazilaGeoCode"><label for="@item.UpazilaGeoCode">@item.UpazilaName</label></a>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <button id="layerFilter" type="button" class="btn btn-success waves-effect waves-light m-3">
+            <i class="uil uil-check me-2"></i> Apply Filter
+        </button>
+
+
 
 
 
@@ -86,11 +137,11 @@
 
 @section Scripts{
     <script>
-        jQuery(function () {
-            jQuery("#sortable").sortable();
-            jQuery("#sortable").disableSelection();
-        });
+        //jQuery(function () {
+        //    jQuery("#sortable").sortable();
+        //    jQuery("#sortable").disableSelection();
+        //});
     </script>
 }
 
-    <!-- /Right-bar -->
+<!-- /Right-bar -->
