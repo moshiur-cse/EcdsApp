@@ -10,6 +10,8 @@
 }
 .leaflet-draw-section {
 	position: relative;
+	background:white;
+	padding:5px;
 }
 
 .leaflet-draw-toolbar {

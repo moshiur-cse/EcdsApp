@@ -237,13 +237,14 @@ h4 {
     }
 
 
+
 .btn_map_bglayers {
     background: #fff url("../images/layer_bg.png") no-repeat center center/80% auto;
     /*overflow: hidden;*/
 }
 
 .btn_map_layers {
-    background: #fff url("../images/layers.png") no-repeat center center/80% auto;
+    background: #fff url("../images/map_filter.png") no-repeat center center/80% auto;
     /*background: #fff url("../images/search.png") no-repeat center center/80% auto;*/
 }
 
@@ -251,10 +252,13 @@ h4 {
     background: #fff url("../images/map_full_extent.svg") no-repeat center center/80% auto;
 }
 
+#map_layer {
+    background: #fff url("../images/layerList_icon.png") no-repeat center center/80% auto;
+}
+
 
 .map_reset {
     background: #fff url("../images/map_reset.png") no-repeat center center/80% auto;
-    
 }
 .btn_map_download {
     background: #fff url("../images/map_download.png") no-repeat center center/80% auto;
