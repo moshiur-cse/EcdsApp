@@ -3,15 +3,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using System.Data;
 using System.Reflection;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models;
 using EcdsApp.Models.ThemeModels;
-//using JRCWebApp.Models.UserLog;
 
 namespace EcdsApp.Data
 {
@@ -34,25 +30,13 @@ namespace EcdsApp.Data
 
         public virtual DbSet<UserRegistration> UserRegistration { get; set; }
 
-
         public DbSet<Theme> Themes { get; set; }
         public DbSet<SubTheme> SubThemes { get; set; }
         public DbSet<ThemeLayerDetail> ThemeLayerDetails { get; set; }
         public DbSet<ThemeLayerType> ThemeLayerTypes { get; set; }
         public DbSet<LayerLegendColor> LayerLegendColors { get; set; }
         public DbSet<MetaDataDetail> MetaDataDetails { get; set; }
-
         
-
-
-
-
-
-
-
-
-
-
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -110,32 +94,30 @@ namespace EcdsApp.Data
         // Reference:  https://stackoverflow.com/questions/48278258/entity-framework-core-raw-sqlqueries-with-custom-model
         public List<T> ExecSQL<T>(string query)
         {
-            using (var command = Database.GetDbConnection().CreateCommand())
-            {
-                command.CommandText = query;
-                command.CommandType = CommandType.Text;
-                Database.OpenConnection();
+            using var command = Database.GetDbConnection().CreateCommand();
+            command.CommandText = query;
+            command.CommandType = CommandType.Text;
+            Database.OpenConnection();
 
-                List<T> list = new List<T>();
-                using (var result = command.ExecuteReader())
+            var list = new List<T>();
+            using (var result = command.ExecuteReader())
+            {
+                T obj = default(T);
+                while (result.Read())
                 {
-                    T obj = default(T);
-                    while (result.Read())
-                    {
-                        obj = Activator.CreateInstance<T>();
-                        foreach (PropertyInfo prop in obj.GetType().GetProperties())
-                        {                            
-                            if (!object.Equals(result[prop.Name], DBNull.Value))
-                            {                                
-                                prop.SetValue(obj, result[prop.Name], null);
-                            }                                                                                   
-                        }
-                        list.Add(obj);
+                    obj = Activator.CreateInstance<T>();
+                    foreach (var prop in obj.GetType().GetProperties())
+                    {                            
+                        if (!object.Equals(result[prop.Name], DBNull.Value))
+                        {                                
+                            prop.SetValue(obj, result[prop.Name], null);
+                        }                                                                                   
                     }
+                    list.Add(obj);
                 }
-                Database.CloseConnection();
-                return list;
             }
+            Database.CloseConnection();
+            return list;
         }
 
         //#endregion

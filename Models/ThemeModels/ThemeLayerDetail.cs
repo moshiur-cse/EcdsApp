@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace EcdsApp.Models.ThemeModels
 {
@@ -18,6 +16,7 @@ namespace EcdsApp.Models.ThemeModels
 
         [Required]
         [Column("sub_theme_id", TypeName = "int")]
+        [Display(Name = "Sub Theme")]
         public int SubThemeId { get; set; }
         [ForeignKey("SubThemeId")]
         public virtual SubTheme SubThemes { get; set; }
@@ -28,7 +27,6 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Layer Path")]
         public string LayerPath { get; set; }
 
-
         [Required]
         [Column("layer_name")]
         [StringLength(256)]
@@ -38,12 +36,12 @@ namespace EcdsApp.Models.ThemeModels
         [Required]
         [Column("layer_file_name")]
         [StringLength(256)]
-        [Display(Name = "Layer File Name")]
+        [Display(Name = "File Name")]
         public string LayerFileName { get; set; }
-
 
         [Required]
         [Column("layer_type_id", TypeName = "int")]
+        [Display(Name = "Layer Type")]
         public int LayerTypeId { get; set; }
         [ForeignKey("LayerTypeId")]
         public virtual ThemeLayerType ThemeLayerTypes { get; set; }
@@ -64,7 +62,6 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Main Attribute Code")]
         public string MainAttributeCode { get; set; }
 
-
         //First Attribute
         [Column("first_attribute_display_name")]
         [StringLength(256)]
@@ -80,7 +77,6 @@ namespace EcdsApp.Models.ThemeModels
         [StringLength(256)]
         [Display(Name = "First Attribute Code")]
         public string FirstAttributeCode { get; set; }
-
 
         //Second Attribute
         [Column("second_attribute_display_name")]
@@ -98,7 +94,6 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Second Attribute Code")]
         public string SecondAttributeCode { get; set; }
 
-
         //Third Attribute
         [Column("third_attribute_display_name")]
         [StringLength(256)]
@@ -115,8 +110,6 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Third Attribute Code")]
         public string ThirdAttributeCode { get; set; }
 
-
-
         [Column("file_lat_name")]
         [StringLength(256)]
         [Display(Name = "File Latitude Name")]
@@ -127,19 +120,19 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "File Longitude Name")]
         public string FileLongName { get; set; }
 
-
         [Column("is_legend_color")]
-        [Display(Name = "Is Legend Color")]
+        [Display(Name = "Legend Color?")]
         public bool IsLegendColor { get; set; }
-
 
         [Column("legend_color_field_name")]
         [StringLength(256)]
         [Display(Name = "Legend Color Field Name")]
         public string LegendColorFieldName { get; set; }
 
-
-
-
+        //[NotMapped]
+        //[Required]
+        //[Display(Name = "File")]
+        //public List<IFormFile> FilesToUpload { get; set; }
+        //public IFormFile FilesToUpload { get; set; }
     }
 }
