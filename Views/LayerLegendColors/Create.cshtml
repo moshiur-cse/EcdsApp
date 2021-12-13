@@ -1,0 +1,159 @@
+﻿@model EcdsApp.Models.ThemeModels.LayerLegendColor
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Add Layer Legend Color Information</h3>
+                        <br/>
+                        <form>
+                            <div class="row">
+                                <div class="mb-3 col-md-3">
+                                    <label class="form-label">Layer</label>
+                                    <select id="ddlLayerOption" asp-for="LayerId" class="form-control" asp-items="ViewBag.LayerId">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3 col-md-2">
+                                    <label asp-for="LayerMainAttribureValue" class="form-label"></label>
+                                    <input id="txtMainAttrValue" asp-for="LayerMainAttribureValue" class="form-control" />
+                                </div>
+
+                                <div class="mb-3 col-md-2">
+                                    <label class="form-label" asp-for="LayerLegendColorCode"></label>
+                                    <input id="txtLegendColorCode" asp-for="LayerLegendColorCode" class="form-control" />
+                                </div>
+
+                                <div class="mb-3 col-md-3">
+                                    <label class="form-label" asp-for="LayerLegendDisplayName"></label>
+                                    <input id="txtLegendDisplayName" asp-for="LayerLegendDisplayName" class="form-control" />
+                                </div>
+
+                                <div class="col-md-2 align-self-center">
+                                    <div class="d-grid" style="margin-top: 11px">
+                                        <input id="btnSaveLegendColorInfo" type="button" class="btn btn-primary" value="Add" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="table-responsive mt-3">
+                                <table class="table table-nowrap table-striped table-bordered">
+                                    <tbody id="tblLegendColorData"></tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+<script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#ddlLayerOption').change(function () {
+                const layerId = $('#ddlLayerOption option:selected').val();
+                //const layerText = $('#ddlLayerOption option:selected').text();
+
+                GetLayerLegendColorInfo(layerId);
+            });
+
+            $('#btnSaveLegendColorInfo').click(function () {
+
+                var layerText = $('#ddlLayerOption option:selected').text(),
+                    layerId = $('#ddlLayerOption option:selected').val();
+                var formData = {
+                    'LayerId': layerId,
+                    'LayerMainAttribureValue': $('#txtMainAttrValue').val(),
+                    'LayerLegendColorCode': $('#txtLegendColorCode').val(),
+                    'LayerLegendDisplayName': $('#txtLegendDisplayName').val()
+                };
+
+                const url = '@Url.Action("Create", "LayerLegendColors")';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    accept: "application/json; charset=utf-8",
+                    data: formData,
+                    success: function (result) {
+                        alert(result);
+                        GetLayerLegendColorInfo(layerId);
+                        clearFormData();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        const errorMsg = xhr.responseText;
+                        alert(errorMsg);
+                    }
+                });
+            });
+
+        });
+
+        function GetLayerLegendColorInfo(layerId) {
+            const url = '@Url.Action("GetLayerLegendColorInfo", "LayerLegendColors")';
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { layerId: layerId},
+                dataType: "json",
+                success: function (data, status, jqXhr) {
+                    if (data.length > 0) {
+                        var rows = '';
+
+                        $.each(data, function (i, item) {
+                            rows += '<tr><td class="col-md-3">' + item.themeLayerDetails.layerName + '</td><td class="col-md-2 text-center">' + item.layerMainAttribureValue + '</td><td class="col-md-2 text-center">' + item.layerLegendColorCode + '</td><td class="col-md-3 text-center">' + item.layerLegendDisplayName + '</td><td class="col-md-3"><input type="button" onclick="javascript:DeleteLayerLegendColorInfo(' + item.layerLegendColorId + ', ' + item.layerId + '); GetLayerLegendColorInfo(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
+                        });
+
+                        $("#tblLegendColorData").html(rows);
+                    }
+                    else {
+                        $("#tblLegendColorData").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, No Data Found </div></td></tr>');
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#tblLegendColorData").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert"> Sorry! Something Went Wrong</div></td></tr>');
+                }
+            });
+        }
+
+        function DeleteLayerLegendColorInfo(layerLegendColorId, layerId) {
+            const url = '@Url.Action("DeleteLayerLegendColorInfo", "LayerLegendColors")';
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { layerLegendColorId: layerLegendColorId },
+                dataType: "json",
+                success: function (result) {
+                    alert(result);
+                    GetLayerLegendColorInfo(layerId);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    const errorMsg = xhr.responseText;
+                    alert(errorMsg);
+                }
+            });
+        }
+
+        function clearFormData() {
+            //$("#ddlLayerOption option:selected").val('');
+            $('#txtMainAttrValue').val('');
+            $('#txtLegendColorCode').val('');
+            $('#txtLegendDisplayName').val('');
+        }
+</script>
+}

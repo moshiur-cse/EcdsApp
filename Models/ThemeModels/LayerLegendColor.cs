@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcdsApp.Models.ThemeModels
@@ -14,7 +10,7 @@ namespace EcdsApp.Models.ThemeModels
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("layer_legend_color_id", TypeName = "int")]
-        [Display(Name = "Layer Legend Color Id")]
+        [Display(Name = "Legend Color Id")]
         public int LayerLegendColorId { get; set; }
 
         [Column("layer_id", TypeName = "int")]
@@ -23,25 +19,20 @@ namespace EcdsApp.Models.ThemeModels
         [ForeignKey("LayerId")]
         public virtual ThemeLayerDetail ThemeLayerDetails { get; set; }
 
-        //[Column("layer_main_attribure_code")]
-        //[StringLength(20)]
-        //[Display(Name = "Layer Main Attribure Code")]
-        //public string LayerMainAttribureCode { get; set; }
-
         [Column("layer_main_attribure_value")]
         [StringLength(256)]
-        [Display(Name = "Layer Main Attribure Value")]
+        [Display(Name = "Main Attribure Value")]
         public string LayerMainAttribureValue { get; set; }
 
         [Required]
         [Column("layer_legend_color_code")]
         [StringLength(20)]
-        [Display(Name = "Layer Legend Color Code")]
+        [Display(Name = "Legend Color Code")]
         public string LayerLegendColorCode { get; set; }
 
         [Column("layer_legend_display_name")]
         [StringLength(200)]
-        [Display(Name = "Layer Legend Display Name")]
+        [Display(Name = "Legend Display Name")]
         public string LayerLegendDisplayName { get; set; }
     }
 }
