@@ -13,13 +13,13 @@
                     <div class="card-body">
                         <h3 class="card-title">Add Theme Layer Details Information</h3>
 
-                        <form asp-action="Create" class="mt-4" enctype="multipart/form-data" method="post">
+                        <form asp-action="Create" class="mt-4 custom-validation" enctype="multipart/form-data" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label">Theme</label>
                                 <div class="col-md-10">
-                                    <select class="form-select" asp-items="ViewBag.ThemeId">
+                                    <select id="ddlTheme" class="form-select" asp-items="ViewBag.ThemeId" required="" data-parsley-required-message="You must select at least one option.">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -27,7 +27,7 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label">Sub-Theme</label>
                                 <div class="col-md-10">
-                                    <select class="form-select" asp-items="ViewBag.SubThemeId" asp-for="SubThemeId">
+                                    <select id="ddlSubTheme" class="form-select" asp-for="SubThemeId" required="" data-parsley-required-message="You must select at least one option.">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -35,28 +35,31 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label" asp-for="LayerPath"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="LayerPath" class="form-control" />
+                                    <input asp-for="LayerPath" class="form-control" required="" />
                                     <span asp-validation-for="LayerPath" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label" asp-for="LayerName"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="LayerName" class="form-control" />
+                                    <input asp-for="LayerName" class="form-control" required="" />
                                     <span asp-validation-for="LayerName" class="text-danger"></span>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Layer Name.
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label" asp-for="LayerFileName"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="LayerFileName" class="form-control" />
+                                    <input asp-for="LayerFileName" class="form-control" required="" />
                                     <span asp-validation-for="LayerFileName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label">Layer Type</label>
                                 <div class="col-md-10">
-                                    <select class="form-select" asp-items="ViewBag.LayerTypeId" asp-for="LayerTypeId">
+                                    <select class="form-select" asp-items="ViewBag.LayerTypeId" asp-for="LayerTypeId" required="" data-parsley-required-message="You must select at least one option.">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -173,10 +176,15 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label">Upload File</label>
+                                <label class="col-md-2 col-form-label">Upload Geo JSON File</label>
                                 <div class="col-md-10">
-                                    <input class="form-control-file" type="file" name="postedFile" accept="application/JSON"/>
-                                    @*<span asp-validation-for="FilesToUpload" class="text-danger"></span>*@
+                                    <input class="form-control-file" type="file" name="postedFile" accept="application/JSON" required="" data-parsley-required-message="JSON file required" />
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">Upload Shape File</label>
+                                <div class="col-md-10">
+                                    <input class="form-control-file" type="file" name="postedShapeFile" accept=".dbf, .prj, .sbn, .shp, .shx" required="" data-parsley-required-message="Shape Files required" />
                                 </div>
                             </div>
 
@@ -194,5 +202,46 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    
+<script type="text/javascript">
+        $(document).ready(function() {
+            $('#ddlTheme').change(function () {
+                var items = '';
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSubThemeData", "ThemeLayerDetails")',
+                    dataType: "json",
+                    data: { themeId: $('#ddlTheme').val() },
+                    success: function (responseData) {
+                        $('#ddlSubTheme').empty();
+                        $.each(responseData,
+                            function (i, subTheme) {
+                                items += "<option value='" + subTheme.value + "'>" + subTheme.text + "</option>";
+                            });
+                        if (items !== "") {
+                            $('#ddlSubTheme').html(items);
+                        } else {
+                            $('#ddlSubTheme').html("<option value=''>No Data Available Under the Selected Theme</option> ");
+                        }
+                    },
+                    error: function (ex) {
+                        window.Swal.fire({
+                            //position: "top-end",
+                            title: "Error",
+                            text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2000
+                            //allowOutsideClick: false
+                        });
+                    }
+                });
+                return false;
+
+
+            });
+        });
+</script>
 }

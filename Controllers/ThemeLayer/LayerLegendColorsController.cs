@@ -49,7 +49,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         // GET: LayerLegendColors/Create
         public IActionResult Create()
         {
-            ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails, "LayerId", "LayerName");
+            ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(t => t.IsLegendColor), "LayerId", "LayerName");
             return View();
         }
 
@@ -67,7 +67,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             formData.LayerLegendColorId = newLayerLegendColorId;
             _context.Add(formData);
             var response = _context.SaveChanges() > 0;
-            result = response ? "Success" : "Error";
+            result = response ? "Success!" : "Error";
 
             //return RedirectToAction(nameof(Index));
 

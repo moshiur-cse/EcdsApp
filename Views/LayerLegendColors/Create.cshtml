@@ -24,17 +24,17 @@
 
                                 <div class="mb-3 col-md-2">
                                     <label asp-for="LayerMainAttribureValue" class="form-label"></label>
-                                    <input id="txtMainAttrValue" asp-for="LayerMainAttribureValue" class="form-control" />
+                                    <input id="txtMainAttrValue" asp-for="LayerMainAttribureValue" class="form-control edit" />
                                 </div>
 
                                 <div class="mb-3 col-md-2">
                                     <label class="form-label" asp-for="LayerLegendColorCode"></label>
-                                    <input id="txtLegendColorCode" asp-for="LayerLegendColorCode" class="form-control" />
+                                    <input type="text" id="txtLegendColorCode" value="" class="form-control edit" />
                                 </div>
 
                                 <div class="mb-3 col-md-3">
                                     <label class="form-label" asp-for="LayerLegendDisplayName"></label>
-                                    <input id="txtLegendDisplayName" asp-for="LayerLegendDisplayName" class="form-control" />
+                                    <input id="txtLegendDisplayName" asp-for="LayerLegendDisplayName" class="form-control edit" />
                                 </div>
 
                                 <div class="col-md-2 align-self-center">
@@ -64,18 +64,21 @@
 <script type="text/javascript">
         $(document).ready(function () {
 
+            $('#txtLegendColorCode').spectrum({
+                showInitial: true,
+                showInput: true
+            });
+
             $('#ddlLayerOption').change(function () {
                 const layerId = $('#ddlLayerOption option:selected').val();
-                //const layerText = $('#ddlLayerOption option:selected').text();
 
                 GetLayerLegendColorInfo(layerId);
             });
 
             $('#btnSaveLegendColorInfo').click(function () {
 
-                var layerText = $('#ddlLayerOption option:selected').text(),
-                    layerId = $('#ddlLayerOption option:selected').val();
-                var formData = {
+                var layerId = $('#ddlLayerOption option:selected').val();
+                const formData = {
                     'LayerId': layerId,
                     'LayerMainAttribureValue': $('#txtMainAttrValue').val(),
                     'LayerLegendColorCode': $('#txtLegendColorCode').val(),
@@ -89,7 +92,13 @@
                     accept: "application/json; charset=utf-8",
                     data: formData,
                     success: function (result) {
-                        alert(result);
+                        window.Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your work has been saved",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
                         GetLayerLegendColorInfo(layerId);
                         clearFormData();
                     },
@@ -103,6 +112,7 @@
         });
 
         function GetLayerLegendColorInfo(layerId) {
+
             const url = '@Url.Action("GetLayerLegendColorInfo", "LayerLegendColors")';
 
             $.ajax({
@@ -115,7 +125,7 @@
                         var rows = '';
 
                         $.each(data, function (i, item) {
-                            rows += '<tr><td class="col-md-3">' + item.themeLayerDetails.layerName + '</td><td class="col-md-2 text-center">' + item.layerMainAttribureValue + '</td><td class="col-md-2 text-center">' + item.layerLegendColorCode + '</td><td class="col-md-3 text-center">' + item.layerLegendDisplayName + '</td><td class="col-md-3"><input type="button" onclick="javascript:DeleteLayerLegendColorInfo(' + item.layerLegendColorId + ', ' + item.layerId + '); GetLayerLegendColorInfo(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
+                            rows += '<tr><td class="col-md-3">' + item.themeLayerDetails.layerName + '</td><td class="col-md-2 text-center">' + item.layerMainAttribureValue + '</td><td class="col-md-2 text-center">' + item.layerLegendColorCode + '</td><td class="col-md-3 text-center">' + item.layerLegendDisplayName + '</td><td class="col-md-3"><input type="button" onclick="javascript:EditLayerLegendColorInfo(' + item.layerLegendColorId +');" class="btn btn-info" value="Edit" style="margin-right: 15px;" /><input type="button" onclick="javascript:DeleteLayerLegendColorInfo(' + item.layerLegendColorId + ', ' + item.layerId + '); GetLayerLegendColorInfo(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
                         });
 
                         $("#tblLegendColorData").html(rows);
@@ -130,6 +140,10 @@
             });
         }
 
+        function EditLayerLegendColorInfo(layerLegendColorId) {
+            
+        }
+
         function DeleteLayerLegendColorInfo(layerLegendColorId, layerId) {
             const url = '@Url.Action("DeleteLayerLegendColorInfo", "LayerLegendColors")';
 
@@ -139,7 +153,15 @@
                 data: { layerLegendColorId: layerLegendColorId },
                 dataType: "json",
                 success: function (result) {
-                    alert(result);
+                    window.Swal.fire({
+                        position: "top-end",
+                        title: "Deleted!",
+                        text: "Legend Color Information has been deleted.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2000
+                        //allowOutsideClick: false
+                    });
                     GetLayerLegendColorInfo(layerId);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -150,7 +172,6 @@
         }
 
         function clearFormData() {
-            //$("#ddlLayerOption option:selected").val('');
             $('#txtMainAttrValue').val('');
             $('#txtLegendColorCode').val('');
             $('#txtLegendDisplayName').val('');

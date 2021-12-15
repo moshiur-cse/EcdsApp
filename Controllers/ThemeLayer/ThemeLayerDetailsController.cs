@@ -90,6 +90,17 @@ namespace EcdsApp.Controllers.ThemeLayer
             return View(themeLayerDetail);
         }
 
+        public JsonResult GetSubThemeData(int themeId)
+        {
+            var subThemeList = _context.SubThemes.Where(e => e.ThemeId == themeId).ToList();
+            if (subThemeList.Count > 0)
+            {
+                subThemeList.Insert(0, new SubTheme { SubThemeId = 0, SubThemeName = "Select" });
+            }
+
+            return Json(new SelectList(subThemeList, "SubThemeId", "SubThemeName"));
+        }
+
         // GET: ThemeLayerDetails/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
