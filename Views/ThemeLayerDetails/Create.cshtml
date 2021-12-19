@@ -27,9 +27,16 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label">Sub-Theme</label>
                                 <div class="col-md-10">
-                                    <select id="ddlSubTheme" class="form-select" asp-for="SubThemeId" required="" data-parsley-required-message="You must select at least one option.">
+                                    <select id="ddlSubTheme" class="form-select" asp-for="SubThemeId" required="" data-parsley-min="1" data-parsley-required-message="You must select at least one option.">
                                         <option value="">Select</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="LayerName"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="LayerName" class="form-control" required="" />
+                                    <span asp-validation-for="LayerName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -39,16 +46,7 @@
                                     <span asp-validation-for="LayerPath" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="LayerName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="LayerName" class="form-control" required="" />
-                                    <span asp-validation-for="LayerName" class="text-danger"></span>
-                                </div>
-                                <div class="invalid-feedback">
-                                    Please provide a valid Layer Name.
-                                </div>
-                            </div>
+
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label" asp-for="LayerFileName"></label>
                                 <div class="col-md-10">
@@ -178,13 +176,14 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label">Upload Geo JSON File</label>
                                 <div class="col-md-10">
-                                    <input class="form-control-file" type="file" name="postedFile" accept="application/JSON" required="" data-parsley-required-message="JSON file required" />
+                                    <input class="form-control mb-1" type="file" name="geoJsonFile" accept="application/JSON" required="" data-parsley-required-message="JSON file required" />
+                                    <a href="https://mapshaper.org/" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light" target="_blank">Convert your MAP</a>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label">Upload Shape File</label>
                                 <div class="col-md-10">
-                                    <input class="form-control-file" type="file" name="postedShapeFile" accept=".dbf, .prj, .sbn, .shp, .shx" required="" data-parsley-required-message="Shape Files required" />
+                                    <input class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx" required="" data-parsley-required-message="Shape Files required" multiple=""/>
                                 </div>
                             </div>
 

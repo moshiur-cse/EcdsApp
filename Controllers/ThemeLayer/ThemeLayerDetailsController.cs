@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -64,21 +65,42 @@ namespace EcdsApp.Controllers.ThemeLayer
         // POST: ThemeLayerDetails/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName,FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName,IsLegendColor,LegendColorFieldName")] 
-            ThemeLayerDetail themeLayerDetail, List<IFormFile> postedFile)
+        [DisableRequestSizeLimit]
+        public IActionResult Create([Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName,FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName,IsLegendColor,LegendColorFieldName")] 
+            ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
-            if (ModelState.IsValid && postedFile.Count > 0)
+            if (ModelState.IsValid && geoJsonFile.Count > 0 && shapeFile.Count == 4)
             {
+                var jsonFileName = ContentDispositionHeaderValue.Parse(geoJsonFile[0].ContentDisposition).FileName.Value;
+
+                var subThemeObj = _context.SubThemes
+                    .Include(s => s.Themes)
+                    .FirstOrDefault(s => s.SubThemeId == themeLayerDetail.SubThemeId);
+                var themePath = subThemeObj?.Themes.ThemePath;
+                var subThemePath = subThemeObj?.SubThemePath;
+
+                var jsonFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerPath.Trim()}\\{jsonFileName}";
+
+                Directory.CreateDirectory(Directory.GetParent(jsonFilePath).FullName);
+                using var output = System.IO.File.Create(jsonFilePath);
+                geoJsonFile[0].CopyTo(output);
+
+                foreach (var file in shapeFile)
+                {
+                    var shapeFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Value;
+                    var shapeFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerPath.Trim()}\\{shapeFileName}";
+
+                    Directory.CreateDirectory(Directory.GetParent(shapeFilePath).FullName);
+                    using var shapeOutput = System.IO.File.Create(shapeFilePath);
+                    file.CopyTo(shapeOutput);
+                }
+
+                themeLayerDetail.LayerFileName = jsonFileName;
                 var newThemeLayerDetId = (_context.ThemeLayerDetails.Max(s => (int?)s.LayerId) ?? 0) + 1;
                 themeLayerDetail.LayerId = newThemeLayerDetId;
 
-                foreach (var orgFileName in postedFile.Select(file => ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Value))
-                {
-                    themeLayerDetail.LayerFileName = orgFileName;
-                }
-                
                 _context.Add(themeLayerDetail);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }

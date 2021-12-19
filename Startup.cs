@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReflectionIT.Mvc.Paging;
 using System;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace EcdsApp
 {
@@ -70,7 +71,7 @@ namespace EcdsApp
             }).AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders().AddDefaultUI();
 
-
+            services.Configure<FormOptions>(x => x.ValueCountLimit = 1000000);
 
             services.ConfigureApplicationCookie(options =>
             {
