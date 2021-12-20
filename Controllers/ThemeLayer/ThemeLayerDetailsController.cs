@@ -66,41 +66,51 @@ namespace EcdsApp.Controllers.ThemeLayer
         [HttpPost]
         [ValidateAntiForgeryToken]
         [DisableRequestSizeLimit]
-        public IActionResult Create([Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName,FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName,IsLegendColor,LegendColorFieldName")] 
+        public async Task<IActionResult> Create([Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName,FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName,IsLegendColor,LegendColorFieldName")] 
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
             if (ModelState.IsValid && geoJsonFile.Count > 0 && shapeFile.Count == 4)
             {
+                var shapeFileExtList = shapeFile.Select(item => ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Value).Select(Path.GetExtension).ToList();
                 var jsonFileName = ContentDispositionHeaderValue.Parse(geoJsonFile[0].ContentDisposition).FileName.Value;
 
+                if (!(shapeFileExtList.Contains(".dbf") && shapeFileExtList.Contains(".prj") && shapeFileExtList.Contains(".shp") && shapeFileExtList.Contains(".shx") && Path.GetExtension(jsonFileName).Contains(".json")))
+                {
+                    ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
+                    ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
+                    ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
+
+                    return View(themeLayerDetail);
+                }
+                
                 var subThemeObj = _context.SubThemes
                     .Include(s => s.Themes)
                     .FirstOrDefault(s => s.SubThemeId == themeLayerDetail.SubThemeId);
                 var themePath = subThemeObj?.Themes.ThemePath;
                 var subThemePath = subThemeObj?.SubThemePath;
 
-                var jsonFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerPath.Trim()}\\{jsonFileName}";
-
+                var jsonFileFinalName = themeLayerDetail.LayerPath + Path.GetExtension(jsonFileName);
+                var jsonFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerPath.Trim()}\\{jsonFileFinalName}";
                 Directory.CreateDirectory(Directory.GetParent(jsonFilePath).FullName);
-                using var output = System.IO.File.Create(jsonFilePath);
-                geoJsonFile[0].CopyTo(output);
+                await using var output = System.IO.File.Create(jsonFilePath);
+                await geoJsonFile[0].CopyToAsync(output);
 
                 foreach (var file in shapeFile)
                 {
-                    var shapeFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Value;
+                    var shapeFileName = themeLayerDetail.LayerPath + Path.GetExtension(file.FileName);
                     var shapeFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerPath.Trim()}\\{shapeFileName}";
 
                     Directory.CreateDirectory(Directory.GetParent(shapeFilePath).FullName);
-                    using var shapeOutput = System.IO.File.Create(shapeFilePath);
-                    file.CopyTo(shapeOutput);
+                    await using var shapeOutput = System.IO.File.Create(shapeFilePath);
+                    await file.CopyToAsync(shapeOutput);
                 }
 
-                themeLayerDetail.LayerFileName = jsonFileName;
                 var newThemeLayerDetId = (_context.ThemeLayerDetails.Max(s => (int?)s.LayerId) ?? 0) + 1;
                 themeLayerDetail.LayerId = newThemeLayerDetId;
+                themeLayerDetail.LayerFileName = jsonFileFinalName;
 
                 _context.Add(themeLayerDetail);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -127,15 +137,19 @@ namespace EcdsApp.Controllers.ThemeLayer
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var themeLayerDetail = await _context.ThemeLayerDetails.FindAsync(id);
-            if (themeLayerDetail == null)
-            {
+            var themeLayerDetail = await _context.ThemeLayerDetails
+                .Include(st => st.SubThemes)
+                .FirstOrDefaultAsync(st => st.LayerId == id);
+            var themeLayerObj = await _context.Themes.FirstOrDefaultAsync(t => t.ThemeId == themeLayerDetail.SubThemes.ThemeId);
+            if (themeLayerDetail == null || themeLayerObj == null)
                 return NotFound();
-            }
+
+            ViewBag.JsonFileName = themeLayerDetail.LayerFileName;
+            ViewBag.ShapeFileName = "Not Defined";
+
+            ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName", themeLayerObj.ThemeId);
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
             return View(themeLayerDetail);
