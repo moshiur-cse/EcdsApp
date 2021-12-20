@@ -55,6 +55,10 @@ namespace EcdsApp.Controllers.Map
         {
             return View();
         }
+        public IActionResult RasterMap()
+        {
+            return View();
+        }
 
         [HttpPost]
         public JsonResult GetLayerInformation(int layer_id)

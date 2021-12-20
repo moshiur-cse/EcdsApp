@@ -18,6 +18,11 @@ namespace EcdsApp.Models
         [Display(Name = "Upazila Geo-Code")]
         public string UpazilaGeoCode { get; set; }
 
+        //[Column("old_geo_code", Order = 0, TypeName = "varchar(4)")]
+        //[StringLength(4, ErrorMessage = "The {0} must be {1} characters.")]
+        //[Display(Name = "Old Geo-Code")]
+        //public string OldGeoCode { get; set; }
+
         [Required]
         [Column("upz_name",Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]

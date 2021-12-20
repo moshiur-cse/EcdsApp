@@ -18,6 +18,12 @@ namespace EcdsApp.Models
         [Display(Name = "Division Geo-Code")]
         public string DivisionGeoCode { get; set; }
 
+
+        //[Column("old_geo_code", Order = 0, TypeName = "varchar(2)")]
+        //[StringLength(2, ErrorMessage = "The {0} must be {1} characters.")]
+        //[Display(Name = "Old Geo-Code")]
+        //public string OldGeoCode { get; set; }
+
         [Required]
         [Column("div_name", Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]

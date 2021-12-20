@@ -1,0 +1,771 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Raster Map";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <!-- leaflet Css -->
+    <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+    @*<link rel="stylesheet" href="~/assets/libs/leaflet/leaflet.draw.css" />*@
+    <link href="~/assets/css/leaflet.draw.css" rel="stylesheet" />
+    <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
+    <style>
+
+        .leaflet-map {
+            height: 800px;
+        }
+        /* .right-bar{
+            width:400px!important;
+        }*/
+        /*body[data-layout=horizontal] .page-content {
+            margin-top: calc(80px + 1.25rem) calc(1.25rem / 2) 60px calc(1.25rem / 2);
+
+        }*/
+        .table > thead > tr > th {
+            width: 15vw !important;
+        }
+
+        .leaflet-top .leaflet-control {
+            margin-top: 50px !important
+        }
+
+        .mapLabel {
+            height: auto !important;
+            width: auto !important;
+            /*font-weight: bold;
+            color: #025 line-height: 1;*/
+            padding: 0.2rem 0.3rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.7rem;
+            color: #123;
+            text-shadow: 0 0 1px #aaa;
+            /*background: rgba(250,250,250,0.45);*/
+            border-radius: 0.25rem;
+        }
+
+        .legend_info {
+            padding: 1px;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            font-size: 1vw;
+            overflow: scroll;
+            height: 300px;
+        }
+
+            .legend_info i {
+                width: 1.5vw;
+                height: 1.5vw;
+                float: left;
+                margin-right: 1vw;
+                opacity: 0.7;
+                font-size: 1vw;
+            }
+
+
+
+            .legend_info p {
+                padding: 0.2vw;
+            }
+
+        .map_btns_content {
+            z-index: 1000;
+            position: absolute;
+            top: 150px;
+            left: auto;
+            right: 1%;
+            width: 50px;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            text-align: right;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .map_btns {
+            display: inline-block;
+            /*border: 2px solid rgba(255, 255, 255, 0.01);*/
+            border: 2px solid rgba(0, 0, 0, 0.25);
+            width: 40px;
+            height: 38px;
+            margin: 0 3px;
+            padding: 6px;
+            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+            color: #777;
+            text-align: center;
+            background-color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            background-clip: padding-box;
+            /*box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);*/
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            transition: background-size 0.15s;
+        }
+
+        .map_opt_content {
+            padding: 5px;
+            margin-top: 120px;
+            margin-left: 100px;
+            z-index: 1000;
+            position: absolute;
+            border: 1px solid #e5e7e8;
+            width: auto;
+            background: rgba(255, 255, 255, 0.85) none repeat scroll 0 0;
+            border-radius: 3px border-radius: 5px;
+            font-size: 1vw;
+        }
+
+        /*.map_title {
+            padding: 5px;
+            margin-top: 400px;*/
+        /* margin-left:100px;*/
+        /*z-index: 1000;
+            position: absolute;
+            border: 1px solid #e5e7e8;
+            width: auto;
+            background: rgba(255, 255, 255, 0.85) none repeat scroll 0 0;
+            border-radius: 3px border-radius: 5px;
+            font-size: 1vw;
+            overflow: scroll;
+            height: 300px;
+        }*/
+
+        .map_legend {
+            height: 450px;
+            overflow-y: scroll;
+        }
+
+        .map_bg_layers {
+            color: black;
+            background: #fff;
+        }
+
+
+
+
+        .my-div-icon {
+            color: black;
+            outline-color: black;
+        }
+    </style>
+}
+
+    <div>
+        @*<div class="row custom-map map_content">
+            *@
+
+
+
+
+            @*<div class="map_opt_content">
+                <p><input type="checkbox" id="map_label_opt" title="Show/Hide Map Label" />Label</p>
+                <p><input type="checkbox" id="map_navigation" title="Auto Change Map" />Navigation</p>
+            </div>*@
+
+
+            @*<div class="map_title" style="text-align:center">
+                <p style="text-align: center; font: bold 17px/1.5 Roboto, Helvetica, Arial, sans-serif;text-decoration:underline" id="map_title">Layer List</p>
+            </div>*@
+            <div id="map_btns_content" class="map_btns_content">
+                <div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>
+                <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>
+                <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
+                <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Filter the Map"></div>
+                <div class="map_btns" title="Show or Hide Map Label"><input type="checkbox" id="map_label"></div>
+                <div id="map_layer" class="map_btns right-bar-toggle waves-effect" title="Map Layer List"> </div>
+                <div id="map_bg_layers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
+            </div>
+
+
+            <div id="basic-map" class="leaflet-map page-content"></div>
+        </div>
+
+
+        @section Scripts{
+        <!-- leaflet plugin -->
+        <script src="~/assets/libs/leaflet/leaflet.js"></script>
+        @*
+        <script src="~/assets/libs/leaflet/leaflet-src.js"></script>*@
+        @*
+        <script src="~/assets/libs/leaflet/leaflet.js"></script>*@
+
+
+        <!-- Map Export -->
+        <script src="~/assets/libs/leaflet/leaflet_export.js"></script>
+        <script src="~/assets/libs/leaflet/html2canvas.js"></script>
+
+
+
+        <!-- Leaflet Map Draw -->
+        <script src="~/assets/libs/leaflet/Leaflet.draw.js"></script>
+        <script src="~/assets/libs/leaflet/Leaflet.Draw.Event.js"></script>
+
+        <script src="~/assets/libs/leaflet/Toolbar.js"></script>
+        <script src="~/assets/libs/leaflet/Tooltip.js"></script>
+
+        <script src="~/assets/libs/leaflet/GeometryUtil.js"></script>
+        <script src="~/assets/libs/leaflet/LatLngUtil.js"></script>
+        <script src="~/assets/libs/leaflet/LineUtil.Intersect.js"></script>
+        <script src="~/assets/libs/leaflet/Polygon.Intersect.js"></script>
+        <script src="~/assets/libs/leaflet/Polyline.Intersect.js"></script>
+        <script src="~/assets/libs/leaflet/TouchEvents.js"></script>
+
+        <script src="~/assets/libs/leaflet/DrawToolbar.js"></script>
+        <script src="~/assets/libs/leaflet/Draw.Feature.js"></script>
+        <script src="~/assets/libs/leaflet/Draw.SimpleShape.js"></script>
+        <script src="~/assets/libs/leaflet/Draw.Polyline.js"></script>
+        <script src="~/assets/libs/leaflet/Draw.Marker.js"></script>
+        <script src="~/assets/libs/leaflet/Draw.Circle.js"></script>
+        <script src="~/assets/libs/leaflet/Draw.CircleMarker.js"></script>
+        <script src="~/assets/libs/leaflet/Draw.Polygon.js"></script>
+        <script src="~/assets/libs/leaflet/Draw.Rectangle.js"></script>
+
+        <script src="~/assets/libs/leaflet/EditToolbar.js"></script>
+        <script src="~/assets/libs/leaflet/EditToolbar.Edit.js"></script>
+        <script src="~/assets/libs/leaflet/EditToolbar.Delete.js"></script>
+
+        <script src="~/assets/libs/leaflet/Control.Draw.js"></script>
+
+        <script src="~/assets/libs/leaflet/Edit.Poly.js"></script>
+        <script src="~/assets/libs/leaflet/Edit.SimpleShape.js"></script>
+        <script src="~/assets/libs/leaflet/Edit.Rectangle.js"></script>
+        <script src="~/assets/libs/leaflet/Edit.Marker.js"></script>
+        <script src="~/assets/libs/leaflet/Edit.CircleMarker.js"></script>
+        <script src="~/assets/libs/leaflet/Edit.Circle.js"></script>
+        <script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js"></script>
+
+
+
+        <!-- leaflet map.init -->
+        @*
+        <script src="~/assets/js/pages/leaflet-us-states.js"></script>
+        <script src="~/assets/js/pages/leaflet-map.init.js"></script>*@
+        <script>
+            var data_layer = {};
+            var colorList = {};
+            var userDefinedColorList = {};
+            var userDefinedLegendNameList = {};
+
+            var legend = L.control({ position: 'bottomright' });
+            var legend_div = L.DomUtil.create('div', 'legend_info');
+            var div_list = [];
+            var dist_list = [];
+            var upaz_list = [];
+
+
+
+
+            var mapLabels = L.layerGroup();
+            var g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField;
+            mapInit();
+            //LayerShowHide('1', '"administrative'+'\'+'admin_data'+'\' + 'division' + '\'+'divsion.json"', 'div_name', 'div_code', 'C_LAT', 'C_LONG', 'DIVISION', '1');
+
+
+            function mapInit() {
+
+                var blankUrl = "../images/blank.png",
+                    osmUrl = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    googleUrlHy = "http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
+                    googleUrlSa = "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+                    googleUrlSt = "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+                    googleUrlTr = "http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+                    mapbUrl = "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYWxoYWRpLWNzZSIsImEiOiJjamx1azJ5emcwamlkM3ZxeHB0ajB0d3I1In0.k_DovXLLPpp7fQ_i685ocA",
+
+                    myCustomrUrl ="https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibW9zaGl1cmNzZSIsImEiOiJjazExcGZ4bjAwaXltM2NyaDdhajlyd2FkIn0.c_SEmtkCpdNmBpogXYkUng",
+                    esriUrl = "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                    mapAttrib = "Map data © <a href='https://www.cegisbd.com/' target='_blank'>CEGIS</a>";
+
+                var openstreet = L.tileLayer(osmUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
+                    googleHy = L.tileLayer(googleUrlHy, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                    googleSa = L.tileLayer(googleUrlSa, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                    googleSt = L.tileLayer(googleUrlSt, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                    googleTr = L.tileLayer(googleUrlTr, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                    myCustomr = L.tileLayer(myCustomrUrl, { id: 'mapbox.country-boundaries-v1', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                    //mapboxLi = L.tileLayer(mapbUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, id: "mapbox.light", attribution: mapAttrib }),
+                    //mapboxSt = L.tileLayer(mapbUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, id: "mapbox.streets", attribution: mapAttrib }),
+                    esri = L.tileLayer(esriUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
+
+                    blank = L.tileLayer(blankUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib });
+
+
+                mymap = new L.Map("basic-map",
+                    {
+                        center: new L.LatLng(23.737777, 90.537777),
+                        fullscreenControl: true,
+                        zoomControl: false,
+                        maxZoom: 20,
+                        minZoom: 2,
+                        zoom: 6.0,
+                        layers: [openstreet],
+
+                    });
+
+
+
+
+                mymap.setView([23.837777, 90.347777], 7.0);
+
+                var baseMaps = {
+                    "Open Street": openstreet,
+                    "Google Hybrid": googleHy,
+                    "Google Satellite": googleSa,
+                    "Google Streets": googleSt,
+                    "Google Terrain": googleTr,
+                    //"Mapbox Light": mapboxLi,
+                    //"Mapbox Streets": mapboxSt,
+                    "My Customr":myCustomr,
+                    "ESRI": esri,
+                    "None": blank
+                };
+
+                //mymap.createPane("admin-layer").style.zIndex = 405;
+                //mymap.createPane("label-layer").style.zIndex = 601;
+
+
+                L.tileLayer("", { attribution: mapAttrib }).addTo(mymap);
+                L.control.scale().addTo(mymap);
+                L.control.zoom().addTo(mymap);
+
+                var drawnItems = L.featureGroup().addTo(mymap);
+
+                mymap.addControl(new L.Control.Draw({
+                    edit: {
+                        featureGroup: drawnItems,
+                        poly: {
+                            allowIntersection: false
+                        }
+                    },
+                    draw: {
+                        polygon: {
+                            allowIntersection: false,
+                            showArea: true
+                        }
+                    }
+                }));
+
+                mymap.on(L.Draw.Event.CREATED, function (event) {
+                    var layer = event.layer;
+
+                    drawnItems.addLayer(layer);
+                });
+
+
+
+                //mymap.on('zoomend', function () {
+                //    if ($('#map_navigation').is(":checked")) {
+                //        if (mymap.getZoom() >= 10) {
+                //            mapZoom = mymap.getZoom();
+                //            adminUpazila();
+
+                //        }
+                //        if (mymap.getZoom() <= 7) {
+                //            mapZoom = mymap.getZoom();
+                //            adminDistrict();
+                //        }
+                //    }
+
+                //});
+
+
+                //mymap.on("mousemove",
+                //    function (evt) {
+                //        $("#map_cord_info").html(evt.latlng.lat.toFixed(8) + ", " + evt.latlng.lng.toFixed(8));
+                //    });
+
+
+                $("#map_center").on("click",
+                    function (e) {
+                        mymap.setView([23.737777, 90.537777], 7.0);
+                    });
+
+                bgLayers = L.control.layers(baseMaps, { 'drawlayer': drawnItems }, { collapsed: false });
+                bgLayers.addTo(mymap);
+
+
+
+                var bgLayersContent = $(bgLayers.getContainer());
+                bgLayersContent.find("a.leaflet-control-layers-toggle").remove();
+                bgLayersContent.find("form.leaflet-control-layers-list").css("display", "block");
+                $("#map_bg_layers").append(bgLayersContent);
+
+
+                var layerPath = "../assets/js/map/map_data/administrative/administrative_boundary/DEM/dembd1.tif";
+                //var layerPath = "../assets/js/map/map_data/administrative/administrative_boundary/division/division.json";
+
+                //var data_layer = L.geoJson();
+               
+
+
+                //$.getJSON(layerPath, function (LayerInfo) {
+                //    if (!LayerInfo) return;
+                //    data_layer.addData(LayerInfo);
+
+                //}).done(function (e) {
+                //    mymap.addLayer(data_layer);
+                //});
+
+                var layer = new GeoRasterLayer({
+                    georaster: layerPath,
+                    opacity: 0.7,
+                    pixelValuesToColorFn: values => values[0] === 42 ? '#ffffff' : '#000000',
+                    resolution: 64 // optional parameter for adjusting display resolution
+                });
+                layer.addTo(mymap);
+
+            }
+            //function LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, firstAttDisName, firstAtt, layerName, layerTypeid, isLegendColor, legendcolorField) {
+
+           
+            function LayerShowHide() {
+                //alert(layerId);
+
+
+                var layerPath = "../assets/js/map/map_data/administrative/administrative_boundary/DEM/dembd1.tif";
+                //var layerPath = "../assets/js/map/map_data/administrative/administrative_boundary/division/division.json";
+
+
+
+
+                var data_layer = L.geoJson(null, {
+                    style: style,
+                    onEachFeature: onEachFeature,
+                });
+
+
+
+
+                $.getJSON(layerPath, function (LayerInfo) {
+                    if (!LayerInfo) return;
+                    data_layer.addData(LayerInfo);
+
+                }).done(function (e) {
+                    mymap.addLayer(data_layer);
+                })
+
+
+                //mapLabelShowHide(data_layer[layerId]);
+
+                function style(feature) {
+                    //var color = getRandomColor();
+                    //colorList[attCode] = color;
+                    //colorList.append({ attCode: color });
+
+
+                    return {
+                        fillColor: '#000000',
+                        weight: 1,
+                        opacity: 1,
+                        color: '#000000',
+                        dashArray: '1',
+                        fillOpacity: 0.5
+                    };
+
+
+                }
+
+                function onEachFeature(feature, layer) {
+                    layer.on({
+                        mouseover: highlightFeature,
+                        mouseout: resetHighlight,
+                        click: function (e) {
+                            var layer = e.target;
+                            //mymap.fitBounds(e.target.getBounds());
+                            //displayResult(e.target.feature.properties[adminCode]);
+                            //layer.bindPopup('<div style="width:1000px;text-align:center;">Moshiurfdhslfhsd<p>'+mainAttDisName+" : " + feature.properties[mainAtt] + '</p>' + (firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt] + ":" + feature.properties[mainAtt])+'</p>' : " " +'</div>');
+                            layer.bindPopup('<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt]) + '</p>' : " ") + '</div>');
+                        }
+                    });
+
+
+
+                }
+                //cLat, cLong
+                function highlightFeature(e) {
+                    var layer = e.target;
+                    var popupContent = '<div style="width:250px;text-align:center;">' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</div>';
+
+                    layer.setStyle({
+                        //weight: 2,
+                        //color: '#E11F21',
+                        dashArray: '',
+                        fillOpacity: 0.4
+                    }).bindPopup(popupContent).openPopup(e.latlng);
+                    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                        layer.bringToFront();
+                    }
+                }
+
+                function resetHighlight(e) {
+                    mymap.closePopup();
+                    //data_layer[layerId].resetStyle(e.target);
+                }
+
+
+
+                //console.log(colorList);
+            }
+
+
+            function legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField) {
+
+                mymap.removeLayer(legend);
+                legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' Legend</p>';
+
+
+                if (isLegendColor == 0) {
+                    legend.onAdd = function (map) {
+                        for (var i = 0; i < e.features.length; i++) {
+                            legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + colorList[e.features[i].properties[attCode]] + '"></i> </p>'; //{' + legendEndRange[i] + '}
+                        }
+                        return legend_div;
+                    };
+                } else {
+
+                    //userDefinedColorList.forEach(myFunction);
+                    //console.log(Object.keys(userDefinedColorList).length);
+                    legend.onAdd = function (map) {
+                        //for (var i = 0; i < e.features.length; i++) {
+
+                        //    legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + userDefinedColorList[e.features[i].properties[legendcolorField]] + '"></i> </p>'; //{' + legendEndRange[i] + '}
+                        //}
+
+                        $.each(userDefinedColorList, function (index, val) {
+
+                            if (index.search(layerId) != -1) {
+                                legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedLegendNameList[index] + '<i style="background:' + val + '"></i> </p>';
+                            }
+                        });
+
+                        return legend_div;
+                    };
+                }
+
+
+                legend.addTo(mymap);
+
+            }
+
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+            function getUserDefinedColor(layerUid, layerId) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetUserDefinedLegendInfo")",
+                    dataType: "json",
+                    data: { layer_id: layerUid },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                    success: function (items) {
+
+                        $.each(items,
+                            function (i, item) {
+                                userDefinedColorList[layerId + "_" + item.attCode] = item.colorCode;
+                                userDefinedLegendNameList[layerId + "_" + item.attCode] = item.attName;
+                            });
+
+
+                    },
+                    error: function (ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                    },
+                    complete: jQuery("#busy-indicator").fadeOut(150)
+                });
+
+
+
+            }
+
+
+
+            function mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong) {
+
+                //g_feature = feature, g_layer = layer, g_layerId=layerId,g_mainAtt = mainAtt; g_cLat = cLat; g_cLong = cLong;
+
+
+                var label = L.marker([layer.feature.properties[cLat], layer.feature.properties[cLong]], {
+                    icon: L.divIcon({
+                        className: 'label mapLabel',
+                        html: feature.properties[mainAtt],
+                        iconSize: [100, 40],
+                    })
+                });
+                mapLabels.addLayer(label);
+
+                if (jQuery("#map_label").prop("checked") == true) {
+                    mymap.addLayer(mapLabels);
+                }
+                else {
+                    if (mymap.hasLayer(mapLabels)) {
+                        mymap.removeLayer(mapLabels);
+                    }
+                }
+            }
+
+            jQuery('#map_label').click(function ($) {
+                if (jQuery("#map_label").prop("checked") == true) {
+                    mymap.addLayer(mapLabels);
+
+                } else {
+                    if (mymap.hasLayer(mapLabels)) {
+                        mymap.removeLayer(mapLabels);
+                    }
+                }
+            });
+
+            jQuery('.layer_class').click(function ($) {
+                if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
+                    //console.log(jQuery("#"+this.id).val());
+                    var layerId = this.id;
+
+
+
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetLayerInformation")",
+                        dataType: "json",
+                        data: { layer_id: jQuery("#" + this.id).val() },
+                        before: jQuery("#busy-indicator").fadeIn(150),
+                        success: function (items) {
+                            var path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
+
+                            if (items.isLegendColor != 0) {
+                                /* setTimeout(function () {*/
+                                getUserDefinedColor(items.layerId, layerId);
+                                /*  }, 1000);*/
+
+                            }
+
+                            LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField);
+
+                        },
+                        error: function (ex, status, error) {
+                            //msg.init("error",
+                            //    "Error... . . !",
+                            //    "Failed to load Shape file. " + ex.responseText);
+                        },
+                        complete: jQuery("#busy-indicator").fadeOut(150)
+                    });
+                }
+            });
+            function map_reset() {
+                location.reload(true);
+            }
+
+            function afterRender(result) {
+                return result;
+            }
+
+            function afterExport(result) {
+                return result;
+            }
+
+            function downloadMap(caption) {
+                jQuery("#busy-indicator").fadeIn(150);
+
+                var downloadOptions = {
+                    container: mymap._container,
+                    caption: {
+                        text: caption,
+                        font: '30px Arial',
+                        fillStyle: 'black',
+                        position: [100, 200]
+                    },
+                    exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
+                    include: ['.map_btns_content'],
+                    format: 'image/png',
+                    fileName: 'Map.png',
+                    afterRender: afterRender,
+                    afterExport: afterExport
+                };
+                var promise = mymap.downloadExport(downloadOptions);
+                var data = promise.then(function (result) {
+                    return result;
+                });
+                jQuery("#busy-indicator").fadeOut(150);
+
+            }
+
+
+            $("#DistCode").on("change", function (evt, adop) {
+                var distCode = $("#DistCode").val(),
+                    $upazila = $("#UpazCode");
+                codeValue = distCode;
+
+                $upazila.empty();
+
+
+                if (!distCode) {
+                    mapAttribute(admin, cLat, cLong, mapZoom, codeValue);
+                    return false;
+                }
+
+
+                for (var i = 0; i < indexLenght; i++) {
+                    if (boundary.features[i].properties.dist_code == distCode) {
+                        mapAttribute(admin, boundary.features[i].properties.CNT_LAT, boundary.features[i].properties.CNT_LONG, 9, distCode);
+                        mapZoom = 9;
+                        cLat = boundary.features[i].properties.CNT_LAT;
+                        cLong = boundary.features[i].properties.CNT_LONG;
+                        //mapHighLighter();
+                        break;
+                    }
+                }
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetUpazilaList")",
+                    dataType: "json",
+                    data: { distCode: distCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function (upazilas) {
+                        $upazila.append(
+                            '<option value="" selected="selected">----- upazila -----</option>');
+                        $.each(upazilas,
+                            function (i, upazila) {
+                                $("<option />").val(upazila.value).html(upazila.text).appendTo($upazila);
+                            });
+                    },
+                    error: function (ex, status, error) {
+                        msg.init("error",
+                            "Error... . . !",
+                            "Failed to load upazila list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+            });
+
+            jQuery('#DivisionList').click(function ($) {
+
+                if (jQuery(this).closest('#DivisionList').prev().find('input[type=checkbox]').prop('checked', true)) {
+
+                    var layerId = this.id;
+                    //alert("OK");
+                }
+            });
+
+
+
+        </script>
+
+
+        }
+
