@@ -71,7 +71,7 @@ namespace EcdsApp
             }).AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders().AddDefaultUI();
 
-            services.Configure<FormOptions>(x => x.ValueCountLimit = 1000000);
+            services.Configure<FormOptions>(x => x.ValueCountLimit = 104857600);
 
             services.ConfigureApplicationCookie(options =>
             {

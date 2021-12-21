@@ -1,5 +1,4 @@
 ﻿@model EcdsApp.Models.ThemeModels.ThemeLayerDetail
-
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,13 +10,13 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">Add Theme Layer Details Information</h3>
+                        <h3 class="display-6 mb-0">Add Theme Layer Details Information</h3>
 
                         <form asp-action="Create" class="mt-4 custom-validation" enctype="multipart/form-data" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label">Theme</label>
+                                <label class="col-md-2 col-form-label required">Theme</label>
                                 <div class="col-md-10">
                                     <select id="ddlTheme" class="form-select" asp-items="ViewBag.ThemeId" required="" data-parsley-required-message="You must select at least one option.">
                                         <option value="">Select</option>
@@ -25,7 +24,7 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label">Sub-Theme</label>
+                                <label class="col-md-2 col-form-label required">Sub-Theme</label>
                                 <div class="col-md-10">
                                     <select id="ddlSubTheme" class="form-select" asp-for="SubThemeId" required="" data-parsley-min="1" data-parsley-required-message="You must select at least one option.">
                                         <option value="">Select</option>
@@ -33,14 +32,14 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="LayerName"></label>
+                                <label class="col-md-2 col-form-label required" asp-for="LayerName"></label>
                                 <div class="col-md-10">
                                     <input asp-for="LayerName" class="form-control" required="" />
                                     <span asp-validation-for="LayerName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="LayerPath"></label>
+                                <label class="col-md-2 col-form-label required" asp-for="LayerPath"></label>
                                 <div class="col-md-10">
                                     <input asp-for="LayerPath" class="form-control" required="" />
                                     <span asp-validation-for="LayerPath" class="text-danger"></span>
@@ -48,14 +47,14 @@
                             </div>
 
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="LayerFileName"></label>
+                                <label class="col-md-2 col-form-label required" asp-for="LayerFileName"></label>
                                 <div class="col-md-10">
                                     <input asp-for="LayerFileName" class="form-control" required="" />
                                     <span asp-validation-for="LayerFileName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label">Layer Type</label>
+                                <label class="col-md-2 col-form-label required">Layer Type</label>
                                 <div class="col-md-10">
                                     <select class="form-select" asp-items="ViewBag.LayerTypeId" asp-for="LayerTypeId" required="" data-parsley-required-message="You must select at least one option.">
                                         <option value="">Select</option>
@@ -174,22 +173,22 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label">Upload Geo JSON File</label>
+                                <label class="col-md-2 col-form-label required">Upload Geo JSON File</label>
                                 <div class="col-md-10">
                                     <input class="form-control mb-1" type="file" name="geoJsonFile" accept="application/JSON" required="" data-parsley-required-message="JSON file required" />
-                                    <a href="https://mapshaper.org/" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light" target="_blank">Convert your MAP</a>
+                                    <a href="https://mapshaper.org/" class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light" target="_blank">Convert your MAP</a>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label">Upload Shape File</label>
+                                <label class="col-md-2 col-form-label required">Upload Shape File</label>
                                 <div class="col-md-10">
-                                    <input class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx" required="" data-parsley-required-message="Shape Files required" multiple=""/>
+                                    <input class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx" required="" data-parsley-required-message="Shape Files required" multiple="" />
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <input type="submit" value="Save" class="btn btn-primary" />
-                                <a class="btn btn-info" asp-action="Index">Back to List</a>
+                            <div class="mt-4 text-right">
+                                <input type="submit" value="Submit" class="btn btn-rounded btn-success w-lg" />
+                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
                             </div>
                         </form>
                     </div>
@@ -202,8 +201,8 @@
 
 @section Scripts {
     @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
-    
-<script type="text/javascript">
+
+    <script type="text/javascript">
         $(document).ready(function() {
             $('#ddlTheme').change(function () {
                 var items = '';
@@ -242,5 +241,5 @@
 
             });
         });
-</script>
+    </script>
 }
