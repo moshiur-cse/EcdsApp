@@ -4,6 +4,10 @@
 <!-- Right Sidebar -->
 
 <div class="right-bar">
+
+
+
+
     <div data-simplebar class="h-100">
 
         <div class="rightbar-title d-flex align-items-center px-3 py-4">
@@ -22,7 +26,15 @@
             </ul>
         </div>
 
+        <div class="row" style="margin-left:5px">
+            <label for="customRange3" class="form-label">Opocity</label>
+            <input type="range" class="form-range" min="0.0" max="1.0" step="0.1" id="customRange3">
+        </div>
+
         <div class="row">
+
+
+
 
             <h5 style="margin-left:5px" class="control-group">Map Filtering</h5>
 
@@ -43,7 +55,7 @@
 
         </div>
 
-        <div class="accordion" id="DivisionList">
+        <div class="accordion">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -60,7 +72,7 @@
                             {
 
                                 <li>
-                                    <a><input type="checkbox" id="@item.DivisionGeoCode" value="@item.DivisionGeoCode"><label for="@item.DivisionGeoCode">@item.DivisionName</label></a>
+                                    <a><input type="checkbox" id="div_@item.DivisionGeoCode" value="@item.DivisionGeoCode" class="DivisionList"><label for="div_@item.DivisionGeoCode">@item.DivisionName</label></a>
                                 </li>
 
                             }
@@ -86,7 +98,7 @@
                             @foreach (AdminBoundaryDistrict item in ViewBag.DistList)
                             {
                                 <li>
-                                    <a><input type="checkbox" id="@item.DistrictGeoCode" value="@item.DistrictGeoCode"><label for="@item.DistrictGeoCode">@item.DistrictName</label></a>
+                                    <a><input type="checkbox" id="dist_@item.DistrictGeoCode" value="@item.DistrictGeoCode"><label for="dist_@item.DistrictGeoCode">@item.DistrictName</label></a>
                                 </li>
 
                             }
