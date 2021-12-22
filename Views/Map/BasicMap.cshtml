@@ -762,7 +762,7 @@
                                /*  }, 1000);*/
 
                          }
-                         var opacity = 0.1, fillOpacity = 0.1, weight = 1, color = "#000000";
+                         var opacity = 0.6, fillOpacity = 0.6, weight = 1, color = "#000000";
                          LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color);
 
                     },
@@ -813,6 +813,15 @@
 
         }
 
+
+        function DisplayChange(value) {
+            g_opacity = value; g_fillOpacity = value;
+            jQuery("#busy-indicator").fadeIn(150);
+            LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
+            jQuery("#busy-indicator").fadeOut(150);
+        
+
+        }
 
         jQuery("#DistCode").on("change",function (evt, adop) {
                 var distCode = $("#DistCode").val(),

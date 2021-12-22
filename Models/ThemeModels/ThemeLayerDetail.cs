@@ -129,10 +129,46 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Legend Color Field Name")]
         public string LegendColorFieldName { get; set; }
 
+        [Required]
+        [Column("line_color_code")]
+        [StringLength(7)]
+        [Display(Name = "Line Color Code")]
+        public string LineColorCode { get; set; }
+
+
+        [Column("fill_color_code")]
+        [StringLength(7)]
+        [Display(Name = "Fill Color Code")]
+        public string FillColorCode { get; set; }
+
+        [Required]
+        [Column("opacity", TypeName = "decimal(1, 1)")]
+        [Range(0.0, 1.0)]
+        [Display(Name = "Opacity")]
+        public decimal Opacity { get; set; }
+
+        [Required]
+        [Column("fill_opacity", TypeName = "decimal(1, 1)")]
+        [Range(0.0, 1.0)]
+        [Display(Name = "Fill Opacity")]     
+        public decimal FillOpacity { get; set; }
+
+        [Required]
+        [Column("line_weight", TypeName = "decimal(1, 1)")]
+        [Range(0.0, 1.0)]
+        [Display(Name = "Line Weight")]
+        public decimal LineWeight { get; set; }
+
+
+
+
         //[NotMapped]
         //[Required]
         //[Display(Name = "File")]
         //public List<IFormFile> FilesToUpload { get; set; }
         //public IFormFile FilesToUpload { get; set; }
+
+
+      
     }
 }

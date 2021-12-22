@@ -32,6 +32,8 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Theme\" />
+    <Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\division\" />
+    <Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\upazila\" />
     <Folder Include="wwwroot\assets\js\map\NewFolder\" />
   </ItemGroup>
 

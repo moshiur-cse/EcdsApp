@@ -39,6 +39,11 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(2)")
                         .HasColumnName("div_geo_code");
 
+                    b.Property<string>("OldGeoCode")
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)")
+                        .HasColumnName("old_geo_code");
+
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
                         .HasColumnName("sorting_order");
@@ -69,6 +74,11 @@ namespace EcdsApp.Migrations
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("div_name_bangla");
 
+                    b.Property<string>("OldGeoCode")
+                        .HasMaxLength(2)
+                        .HasColumnType("varchar(2)")
+                        .HasColumnName("old_geo_code");
+
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
                         .HasColumnName("sorting_order");
@@ -82,14 +92,29 @@ namespace EcdsApp.Migrations
                 {
                     b.Property<string>("UpazilaGeoCode")
                         .ValueGeneratedOnAdd()
+                        .HasMaxLength(8)
+                        .HasColumnType("varchar(8)")
+                        .HasColumnName("upz_geo_code");
+
+                    b.Property<string>("CityGeoCode")
                         .HasMaxLength(6)
                         .HasColumnType("varchar(6)")
-                        .HasColumnName("upz_geo_code");
+                        .HasColumnName("city_geo_code");
+
+                    b.Property<string>("CityName")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)")
+                        .HasColumnName("city_name");
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
                         .HasColumnName("dist_geo_code");
+
+                    b.Property<string>("OldGeoCode")
+                        .HasMaxLength(6)
+                        .HasColumnType("varchar(6)")
+                        .HasColumnName("old_geo_code");
 
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
@@ -297,6 +322,15 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(256)")
                         .HasColumnName("file_long_name");
 
+                    b.Property<string>("FillColorCode")
+                        .HasMaxLength(7)
+                        .HasColumnType("varchar(7)")
+                        .HasColumnName("fill_color_code");
+
+                    b.Property<decimal>("FillOpacity")
+                        .HasColumnType("decimal(1, 1)")
+                        .HasColumnName("fill_opacity");
+
                     b.Property<string>("FirstAttributeCode")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
@@ -343,6 +377,16 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(256)")
                         .HasColumnName("legend_color_field_name");
 
+                    b.Property<string>("LineColorCode")
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("varchar(7)")
+                        .HasColumnName("line_color_code");
+
+                    b.Property<decimal>("LineWeight")
+                        .HasColumnType("decimal(1, 1)")
+                        .HasColumnName("line_weight");
+
                     b.Property<string>("MainAttributeCode")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
@@ -357,6 +401,10 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
                         .HasColumnName("main_attribute_name");
+
+                    b.Property<decimal>("Opacity")
+                        .HasColumnType("decimal(1, 1)")
+                        .HasColumnName("opacity");
 
                     b.Property<string>("SecondAttributeCode")
                         .HasMaxLength(256)
