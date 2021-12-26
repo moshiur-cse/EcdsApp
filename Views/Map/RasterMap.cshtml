@@ -158,22 +158,10 @@
     </style>
 }
 
-    <div>
-        @*<div class="row custom-map map_content">
-            *@
+        <div>
+            <partial name="_MapRightSideBar" />
+            <partial name="_MapModals" />
 
-
-
-
-            @*<div class="map_opt_content">
-                <p><input type="checkbox" id="map_label_opt" title="Show/Hide Map Label" />Label</p>
-                <p><input type="checkbox" id="map_navigation" title="Auto Change Map" />Navigation</p>
-            </div>*@
-
-
-            @*<div class="map_title" style="text-align:center">
-                <p style="text-align: center; font: bold 17px/1.5 Roboto, Helvetica, Arial, sans-serif;text-decoration:underline" id="map_title">Layer List</p>
-            </div>*@
             <div id="map_btns_content" class="map_btns_content">
                 <div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>
                 <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>

@@ -397,12 +397,9 @@
             $("#map_bg_layers").append(bgLayersContent);
 
         }
-        function LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, firstAttDisName, firstAtt, layerName, layerTypeid, isLegendColor, legendcolorField, admin_code_list, opacity, fillOpacity, weight, color) {
+        function LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, firstAttDisName, firstAtt, layerName, layerTypeid, isLegendColor,
+            legendcolorField, admin_code_list, opacity, fillOpacity, weight, color) {
             //alert(layerId);
-
-
-            
-
 
             if ($("#" + layerId).prop("checked") == true) {
 
@@ -413,7 +410,7 @@
                 g_fillOpacity = fillOpacity;
                 g_weight = weight;
                 g_color = color;
-
+            debugger;
                 var layerPath = "../assets/js/map/map_data/" + filepath;
 
 
@@ -495,10 +492,11 @@
             //mapLabelShowHide(data_layer[layerId]);
 
             function style(feature) {
-
+                
                //alert(feature.properties[attCode] + " : " + admin_code_list);
-
-                if (admin_code_list.includes(feature.properties[attCode].toString()) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 2)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 6))) {
+               //debugger;
+                if (admin_code_list.includes(feature.properties[attCode].toString()) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 2)) ||
+                    admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 6))) {
                     if (isLegendColor == 0) {
                         colorList[feature.properties[attCode]] = getRandomColor();
                         return {
