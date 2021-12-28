@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<EcdsApp.Models.ThemeModels.ThemeLayerDetail>
-
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,9 +10,9 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Theme Layer List  </h4>
+                        <h3 class="display-6 mb-0">List of Theme Layer</h3>
                         <p class="card-title-desc">Theme Layer Details Information</p>
-                        <a asp-action="Create" class="btn btn-primary waves-effect waves-light mb-2">Add New Layer</a>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Layer</a>
                         <div class="table-responsive">
                             <table class="table table-nowrap table-striped table-bordered">
                                 <thead>
@@ -89,12 +88,12 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a asp-action="Edit" asp-route-id="@item.LayerId" class="btn btn-info btn-soft-info waves-effect waves-light">Edit</a>
-                                                <a asp-action="Delete" asp-route-id="@item.LayerId" class="btn btn-danger btn-soft-danger waves-effect waves-light">Delete</a>
+                                                <a asp-action="Edit" asp-route-id="@item.LayerId" class="btn btn-info btn-rounded btn-soft-info waves-effect waves-light">Edit</a>
+                                                <a asp-action="Delete" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)
-                                            </td>
+                                            </td>   
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.LayerPath)
                                             </td>

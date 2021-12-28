@@ -31,7 +31,7 @@ namespace EcdsApp.Models
         //[Required]
         [Column("dist_name_bangla", Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
-        [Display(Name = "District Name(Bangla)")]
+        [Display(Name = "District Name (Bangla)")]
         public string DistrictNameBangla { get; set; }
 
 

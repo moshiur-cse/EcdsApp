@@ -138,7 +138,7 @@
 }
 
 <div>
-    <partial name="_MapRightSideBar" />
+    <partial name="_MapRightSideBarCopy" />
     <partial name="_MapModals" />
 
     <div id="map_btns_content" class="map_btns_content">
@@ -615,9 +615,9 @@
                     return legend_div;
                 };
             } else {
-              
+
                 legend.onAdd = function (map) {
-                    
+
                     $.each(userDefinedColorList, function (index, val) {
 
                         if (index.search(layerId)!=-1) {
@@ -662,6 +662,98 @@
                     mymap.removeLayer(mapLabels);
                 }
             }
+        }
+
+        jQuery('#map_label').click(function ($) {
+            if (jQuery("#map_label").prop("checked") == true) {
+                mymap.addLayer(mapLabels);
+
+            } else {
+                if (mymap.hasLayer(mapLabels)) {
+                    mymap.removeLayer(mapLabels);
+                }
+            }
+        });
+
+        jQuery('.layer_class').click(function ($) {
+            if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
+                //console.log(jQuery("#"+this.id).val());
+                var layerId = this.id;
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetLayerInformation")",
+                    dataType: "json",
+                    data: { layer_id: jQuery("#"+ this.id).val() },
+                     before: jQuery("#busy-indicator").fadeIn(150),
+                     success: function (items) {
+                         var path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
+
+                         if (items.isLegendColor != 0) {
+                                /* setTimeout(function () {*/
+                                     getUserDefinedColor(items.layerId, layerId);
+                               /*  }, 1000);*/
+
+                         }
+                         var opacity = 0.6, fillOpacity = 0.6, weight = 1, color = "#000000";
+                         LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color);
+
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                    },
+                     complete: jQuery("#busy-indicator").fadeOut(150)
+                });
+            }
+        });
+        function map_reset() {
+            location.reload(true);
+        }
+
+        function afterRender(result) {
+            return result;
+        }
+
+        function afterExport(result) {
+            return result;
+        }
+
+        function downloadMap(caption) {
+            jQuery("#busy-indicator").fadeIn(150);
+
+        var downloadOptions = {
+            container: mymap._container,
+            caption: {
+                text: caption,
+                font: '30px Arial',
+                fillStyle: 'black',
+                position: [100, 200]
+            },
+            exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
+            include: ['.map_btns_content'],
+            format: 'image/png',
+            fileName: 'Map.png',
+            afterRender: afterRender,
+            afterExport: afterExport
+        };
+        var promise = mymap.downloadExport(downloadOptions);
+        var data = promise.then(function (result) {
+            return result;
+        });
+            jQuery("#busy-indicator").fadeOut(150);
+
+        }
+
+
+        function DisplayChange(value) {
+            g_opacity = value; g_fillOpacity = value;
+            jQuery("#busy-indicator").fadeIn(150);
+            LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
+            jQuery("#busy-indicator").fadeOut(150);
+
+
         }
 
 
