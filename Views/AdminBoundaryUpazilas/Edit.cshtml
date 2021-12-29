@@ -5,44 +5,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">Edit Upazila Information</h3>
 
-<h4>AdminBoundaryUpazila</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UpazilaGeoCode" />
-            <div class="form-group">
-                <label asp-for="UpazilaName" class="control-label"></label>
-                <input asp-for="UpazilaName" class="form-control" />
-                <span asp-validation-for="UpazilaName" class="text-danger"></span>
+                        <form asp-action="Edit" class="mt-4 custom-validation" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="UpazilaGeoCode" />
+
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">District</label>
+                                <div class="col-md-10">
+                                    <select id="ddlUpazila" class="form-select" asp-items="ViewBag.DistrictName" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label asp-for="UpazilaGeoCode" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="UpazilaGeoCode" class="form-control" required="" />
+                                    <span asp-validation-for="UpazilaGeoCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label asp-for="UpazilaName" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="UpazilaName" class="form-control" required="" />
+                                    <span asp-validation-for="UpazilaName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label asp-for="UpazilaNameBangla" class="col-md-2 col-form-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="UpazilaNameBangla" class="form-control" />
+                                    <span asp-validation-for="UpazilaNameBangla" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label asp-for="SortingOrder" class="col-md-2 col-form-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="SortingOrder" class="form-control" />
+                                    <span asp-validation-for="SortingOrder" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 text-right">
+                                <input type="submit" value="Submit" class="btn btn-rounded btn-success w-lg" />
+                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="UpazilaNameBangla" class="control-label"></label>
-                <input asp-for="UpazilaNameBangla" class="form-control" />
-                <span asp-validation-for="UpazilaNameBangla" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DistrictGeoCode" class="control-label"></label>
-                <select asp-for="DistrictGeoCode" class="form-control" asp-items="ViewBag.DistrictGeoCode"></select>
-                <span asp-validation-for="DistrictGeoCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SortingOrder" class="control-label"></label>
-                <input asp-for="SortingOrder" class="form-control" />
-                <span asp-validation-for="SortingOrder" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

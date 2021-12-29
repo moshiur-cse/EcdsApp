@@ -48,7 +48,7 @@ namespace EcdsApp.Controllers.Region
         // GET: AdminBoundaryDistricts/Create
         public IActionResult Create()
         {
-            ViewData["DivisionGeoCode"] = new SelectList(_context.AdminBoundaryDivisions, "DivisionGeoCode", "DivisionGeoCode");
+            ViewData["DivisionName"] = new SelectList(_context.AdminBoundaryDivisions, "DivisionGeoCode", "DivisionName");
             return View();
         }
 
@@ -82,13 +82,11 @@ namespace EcdsApp.Controllers.Region
             {
                 return NotFound();
             }
-            ViewData["DivisionGeoCode"] = new SelectList(_context.AdminBoundaryDivisions, "DivisionGeoCode", "DivisionGeoCode", adminBoundaryDistrict.DivisionGeoCode);
+            ViewData["DivisionName"] = new SelectList(_context.AdminBoundaryDivisions, "DivisionGeoCode", "DivisionName", adminBoundaryDistrict.DivisionGeoCode);
             return View(adminBoundaryDistrict);
         }
 
         // POST: AdminBoundaryDistricts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("DistrictGeoCode,DistrictName,DistrictNameBangla,DivisionGeoCode,SortingOrder")] AdminBoundaryDistrict adminBoundaryDistrict)
@@ -111,14 +109,13 @@ namespace EcdsApp.Controllers.Region
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DivisionGeoCode"] = new SelectList(_context.AdminBoundaryDivisions, "DivisionGeoCode", "DivisionGeoCode", adminBoundaryDistrict.DivisionGeoCode);
+
+            ViewData["DivisionName"] = new SelectList(_context.AdminBoundaryDivisions, "DivisionGeoCode", "DivisionName", adminBoundaryDistrict.DivisionGeoCode);
             return View(adminBoundaryDistrict);
         }
 

@@ -1,56 +1,87 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<EcdsApp.Models.AdminBoundaryDistrict>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "District List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DistrictName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DistrictNameBangla)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Division)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SortingOrder)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DistrictName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DistrictNameBangla)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Division.DivisionGeoCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SortingOrder)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.DistrictGeoCode">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DistrictGeoCode">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.DistrictGeoCode">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                        <h3 class="display-6 mb-0">List of Districts</h3>
+                        <p class="card-title-desc">District Details Information</p>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-3 w-lg">Add New District</a>
+
+                        <div class="table-responsive mt-2">
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DistrictGeoCode)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DistrictName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DistrictNameBangla)
+                                        </th>
+                                        <th>
+                                            Division Name
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.SortingOrder)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.DistrictGeoCode" class="btn btn-info btn-rounded btn-soft-info waves-effect waves-light">Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@item.DistrictGeoCode" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DistrictGeoCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DistrictName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DistrictNameBangla)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Division.DivisionName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SortingOrder)
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#datatable-buttons").DataTable({
+                lengthChange: !1,
+                buttons: ["copy", "excel", "pdf", "colvis"]
+            }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
+        });
+
+    </script>
+}

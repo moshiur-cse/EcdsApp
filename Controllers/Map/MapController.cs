@@ -55,8 +55,32 @@ namespace EcdsApp.Controllers.Map
         {
             return View();
         }
-        public IActionResult RasterMap()
+
+        public async Task<IActionResult> RasterMap()
         {
+            ViewBag.DivList = await _context.AdminBoundaryDivisions.ToListAsync();
+            ViewBag.DistList = await _context.AdminBoundaryDistricts.ToListAsync();
+            ViewBag.UpazList = await _context.AdminBoundaryUpazilas.ToListAsync();
+
+            ViewBag.LayerInfo = _context.ThemeLayerDetails
+                .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
+                .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
+                .Select(k => new ThemeList
+                {
+                    themeName = k.Key,
+                    subThemeList = k.GroupBy(i => i.SubThemes.SubThemeName)
+                        .Select(j => new SubThemeList
+                        {
+                            subThemeName = j.Key,
+                            layerPathList = j.Select(j => j.LayerPath).ToList(),
+                            layerIdList = j.Select(j => j.LayerId).ToList(),
+                            layerNameList = j.Select(j => j.LayerName).ToList(),
+
+                        }).ToList()
+
+
+                }).ToList();
+
             return View();
         }
 

@@ -32,7 +32,7 @@ namespace EcdsApp.Models
 
         [Column("div_name_bangla", Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
-        [Display(Name = "Division Name(Bangla)")]
+        [Display(Name = "Division Name (Bangla)")]
         public string DivisionNameBangla { get; set; }
 
         [Column("sorting_order", Order = 2, TypeName = "int")]

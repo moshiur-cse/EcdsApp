@@ -48,13 +48,11 @@ namespace EcdsApp.Controllers.Region
         // GET: AdminBoundaryUpazilas/Create
         public IActionResult Create()
         {
-            ViewData["DistrictGeoCode"] = new SelectList(_context.AdminBoundaryDistricts, "DistrictGeoCode", "DistrictGeoCode");
+            ViewData["DistrictName"] = new SelectList(_context.AdminBoundaryDistricts, "DistrictGeoCode", "DistrictName");
             return View();
         }
 
         // POST: AdminBoundaryUpazilas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UpazilaGeoCode,UpazilaName,UpazilaNameBangla,DistrictGeoCode,SortingOrder")] AdminBoundaryUpazila adminBoundaryUpazila)
@@ -82,13 +80,11 @@ namespace EcdsApp.Controllers.Region
             {
                 return NotFound();
             }
-            ViewData["DistrictGeoCode"] = new SelectList(_context.AdminBoundaryDistricts, "DistrictGeoCode", "DistrictGeoCode", adminBoundaryUpazila.DistrictGeoCode);
+            ViewData["DistrictName"] = new SelectList(_context.AdminBoundaryDistricts, "DistrictGeoCode", "DistrictName", adminBoundaryUpazila.DistrictGeoCode);
             return View(adminBoundaryUpazila);
         }
 
         // POST: AdminBoundaryUpazilas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("UpazilaGeoCode,UpazilaName,UpazilaNameBangla,DistrictGeoCode,SortingOrder")] AdminBoundaryUpazila adminBoundaryUpazila)
@@ -111,14 +107,12 @@ namespace EcdsApp.Controllers.Region
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DistrictGeoCode"] = new SelectList(_context.AdminBoundaryDistricts, "DistrictGeoCode", "DistrictGeoCode", adminBoundaryUpazila.DistrictGeoCode);
+            ViewData["DistrictName"] = new SelectList(_context.AdminBoundaryDistricts, "DistrictGeoCode", "DistrictName", adminBoundaryUpazila.DistrictGeoCode);
             return View(adminBoundaryUpazila);
         }
 
