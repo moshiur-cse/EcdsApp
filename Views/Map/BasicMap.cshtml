@@ -389,6 +389,11 @@
             bgLayers = L.control.layers(baseMaps, {'drawlayer': drawnItems }, { collapsed: false });
             bgLayers.addTo(mymap);
 
+            
+            mymap.on('zoomend', function (evt) {
+
+                hideOverlappingTooltips();
+            });
 
 
             var bgLayersContent = $(bgLayers.getContainer());
@@ -397,6 +402,31 @@
             $("#map_bg_layers").append(bgLayersContent);
 
         }
+
+
+        function overlap(rect1, rect2) {
+            return (!(rect1.right < rect2.left ||
+                rect1.left > rect2.right ||
+                rect1.bottom < rect2.top ||
+                rect1.top > rect2.bottom));
+        }
+
+        function hideOverlappingTooltips() {
+            var rects = [];
+            var tooltips = document.getElementsByClassName('myTooltip');
+            for (var i = 0; i < tooltips.length; i++) {
+                tooltips[i].style.visibility = '';
+                rects[i] = tooltips[i].getBoundingClientRect();
+            }
+            for (var i = 0; i < tooltips.length; i++) {
+                if (tooltips[i].style.visibility != 'hidden') {
+                    for (var j = i + 1; j < tooltips.length; j++) {
+                        if (overlap(rects[i], rects[j])) tooltips[j].style.visibility = 'hidden';
+                    }
+                }
+            }
+        }
+
         function LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, firstAttDisName, firstAtt, layerName, layerTypeid, isLegendColor, legendcolorField, admin_code_list, opacity, fillOpacity, weight, color) {
             //alert(layerId);
 
@@ -488,8 +518,7 @@
 
                 userDefinedColorList = {};
                 userDefinedLegendNameList = {};
-
-            }
+                }                
         }
 
             //mapLabelShowHide(data_layer[layerId]);
@@ -578,6 +607,8 @@
                             layer.bindPopup('<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt]) + '</p>' : " ") + '</div>');
                         }
                     });
+
+               
                 //}
 
                 //if (admin_code_list.length == 0) {
@@ -601,8 +632,25 @@
                         mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong);
                     } 
                 
+                layer.bindTooltip(feature.properties[mainAtt].toString(), {
+                    permanent: true,
+                    className: 'myTooltip',
+                    point: L.point(layer.feature.properties[cLat], layer.feature.properties[cLong]),
+                    direction: 'center'
+                });
+
+                //L.marker([layer.feature.properties[cLat], layer.feature.properties[cLong]], {
+                //    radius: 0.1,
+                //}).bindTooltip(feature.properties[mainAtt].toString(), { permanent: true, direction: "center", className: "myTooltip" }).openTooltip();
 
 
+                //L.marker([layer.feature.properties[cLat], layer.feature.properties[cLong]], {
+                //    icon: L.divIcon({
+                //        className: 'label myTooltip',
+                //        html: feature.properties[mainAtt],
+                //        iconSize: [100, 40],
+                //    })
+                //}).bindTooltip(feature.properties[mainAtt].toString(), { permanent: true, direction: "center", className: "myTooltip" }).openTooltip();;
 
 
             }
@@ -729,6 +777,8 @@
             }
         }
 
+
+
         jQuery('#map_label').click(function ($) {
             if (jQuery("#map_label").prop("checked") == true) {
                 mymap.addLayer(mapLabels);
@@ -739,6 +789,8 @@
                 }
             }
         });
+
+
 
         jQuery('.layer_class').click(function ($) {
             if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
