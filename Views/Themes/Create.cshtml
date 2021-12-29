@@ -1,0 +1,47 @@
+﻿@model EcdsApp.Models.ThemeModels.Theme
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">Add Theme Information</h3>
+
+                        <form asp-action="Create" class="mt-4 custom-validation" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="ThemeName"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="ThemeName" class="form-control" required="" />
+                                    <span asp-validation-for="ThemeName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="ThemePath"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="ThemePath" class="form-control" required="" />
+                                    <span asp-validation-for="ThemePath" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 text-right">
+                                <input type="submit" value="Submit" class="btn btn-rounded btn-success w-lg" />
+                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

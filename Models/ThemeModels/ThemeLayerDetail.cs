@@ -135,7 +135,6 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Line Color Code")]
         public string LineColorCode { get; set; }
 
-
         [Column("fill_color_code")]
         [StringLength(7)]
         [Display(Name = "Fill Color Code")]
