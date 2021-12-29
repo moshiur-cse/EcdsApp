@@ -66,7 +66,9 @@ namespace EcdsApp.Controllers.ThemeLayer
         [HttpPost]
         [ValidateAntiForgeryToken]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> Create([Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName,FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName,IsLegendColor,LegendColorFieldName")] 
+        public async Task<IActionResult> Create([Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName," +
+            "FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName," +
+            "IsLegendColor,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight")] 
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
             if (ModelState.IsValid && geoJsonFile.Count > 0 && shapeFile.Count == 4)
@@ -158,7 +160,9 @@ namespace EcdsApp.Controllers.ThemeLayer
         // POST: ThemeLayerDetails/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName,FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName,IsLegendColor,LegendColorFieldName")] ThemeLayerDetail themeLayerDetail)
+        public async Task<IActionResult> Edit(int id, [Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName," +
+            "FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName," +
+            "IsLegendColor,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight")] ThemeLayerDetail themeLayerDetail)
         {
             if (id != themeLayerDetail.LayerId)
             {
@@ -178,10 +182,8 @@ namespace EcdsApp.Controllers.ThemeLayer
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }

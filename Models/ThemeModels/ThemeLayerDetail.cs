@@ -158,17 +158,6 @@ namespace EcdsApp.Models.ThemeModels
         [Range(0.0, 1.0)]
         [Display(Name = "Line Weight")]
         public decimal LineWeight { get; set; }
-
-
-
-
-        //[NotMapped]
-        //[Required]
-        //[Display(Name = "File")]
-        //public List<IFormFile> FilesToUpload { get; set; }
-        //public IFormFile FilesToUpload { get; set; }
-
-
       
     }
 }

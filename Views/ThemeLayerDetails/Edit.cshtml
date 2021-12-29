@@ -168,29 +168,64 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required">Geo JSON File</label>
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control" value="@ViewBag.JsonFileName" readonly="readonly" />
-                                </div>
-                                <div class="col-md-1">
-                                    <input type="button" class="btn btn-danger" value="Remove" />
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="file" class="form-control" />
+                                <label class="col-md-2 col-form-label required" asp-for="LineColorCode"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="LineColorCode" class="form-control" required="" />
+                                    <span asp-validation-for="LineColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required">Shape File</label>
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control" value="@ViewBag.ShapeFileName" readonly="readonly" />
-                                </div>
-                                <div class="col-md-1">
-                                    <input type="button" class="btn btn-danger" value="Remove" />
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="file" class="form-control" />
+                                <label class="col-md-2 col-form-label required" asp-for="FillColorCode"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="FillColorCode" class="form-control" required="" />
+                                    <span asp-validation-for="FillColorCode" class="text-danger"></span>
                                 </div>
                             </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="Opacity"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="Opacity" class="form-control" required="" data-parsley-range="[0.0, 1.0]" />
+                                    <span asp-validation-for="Opacity" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="FillOpacity"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="FillOpacity" class="form-control" required="" />
+                                    <span asp-validation-for="FillOpacity" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="LineWeight"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="LineWeight" class="form-control" required="" />
+                                    <span asp-validation-for="LineWeight" class="text-danger"></span>
+                                </div>
+                            </div>
+                            @*<div class="mb-3 row">
+            <label class="col-md-2 col-form-label required">Geo JSON File</label>
+            <div class="col-md-3">
+                <input type="text" class="form-control" value="@ViewBag.JsonFileName" readonly="readonly" />
+            </div>
+            <div class="col-md-1">
+                <input type="button" class="btn btn-danger" value="Remove" />
+            </div>
+            <div class="col-md-6">
+                <input type="file" class="form-control" />
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-md-2 col-form-label required">Shape File</label>
+            <div class="col-md-3">
+                <input type="text" class="form-control" value="@ViewBag.ShapeFileName" readonly="readonly" />
+            </div>
+            <div class="col-md-1">
+                <input type="button" class="btn btn-danger" value="Remove" />
+            </div>
+            <div class="col-md-6">
+                <input type="file" class="form-control" />
+            </div>
+        </div>*@
 
                             <div class="mt-4 text-right">
                                 <input type="submit" value="Update" class="btn btn-rounded btn-success w-lg" />
