@@ -1,0 +1,57 @@
+﻿@model IEnumerable<EcdsApp.Models.ThemeModels.Theme>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">List of Themes</h3>
+                        <p class="card-title-desc">Theme Details Information</p>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Theme</a>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-nowrap table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ThemeName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ThemePath)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.ThemeId" class="btn btn-info btn-rounded btn-soft-info waves-effect waves-light">Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@item.ThemeId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ThemeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ThemePath)
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

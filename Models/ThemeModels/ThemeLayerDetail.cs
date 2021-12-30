@@ -135,7 +135,6 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Line Color Code")]
         public string LineColorCode { get; set; }
 
-
         [Column("fill_color_code")]
         [StringLength(7)]
         [Display(Name = "Fill Color Code")]
@@ -158,17 +157,6 @@ namespace EcdsApp.Models.ThemeModels
         [Range(0.0, 1.0)]
         [Display(Name = "Line Weight")]
         public decimal LineWeight { get; set; }
-
-
-
-
-        //[NotMapped]
-        //[Required]
-        //[Display(Name = "File")]
-        //public List<IFormFile> FilesToUpload { get; set; }
-        //public IFormFile FilesToUpload { get; set; }
-
-
       
     }
 }

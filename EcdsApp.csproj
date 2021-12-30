@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\assets\js\map\NewFolder\**" />
     <Compile Remove="wwwroot\lib\**" />
+    <Content Remove="wwwroot\assets\js\map\NewFolder\**" />
     <Content Remove="wwwroot\lib\**" />
+    <EmbeddedResource Remove="wwwroot\assets\js\map\NewFolder\**" />
     <EmbeddedResource Remove="wwwroot\lib\**" />
+    <None Remove="wwwroot\assets\js\map\NewFolder\**" />
     <None Remove="wwwroot\lib\**" />
   </ItemGroup>
 
@@ -31,10 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Theme\" />
     <Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\division\" />
     <Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\upazila\" />
-    <Folder Include="wwwroot\assets\js\map\NewFolder\" />
   </ItemGroup>
 
 </Project>
