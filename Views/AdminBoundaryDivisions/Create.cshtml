@@ -3,6 +3,11 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Styles
+{
+    <!-- select2 css -->
+    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+}
 
 <div class="page-content">
     <div class="container-fluid">
@@ -11,7 +16,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="display-6 mb-0">Add Division Information</h3>
-                        
+
                         <form asp-action="Create" class="mt-4 custom-validation" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -51,14 +56,47 @@
                             </div>
 
                         </form>
+                        
+                        @*<div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-control select2">
+                                    <option>Select</option>
+                                    <option value="EL">Electronic</option>
+                                    <option value="FA">Fashion</option>
+                                    <option value="FI">Fitness</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Specifications</label>
+
+                                <select class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
+                                    <option value="HI" selected>High Quality</option>
+                                    <option value="LE" selected>Leather</option>
+                                    <option value="NO">Notifications</option>
+                                    <option value="SI">Sizes</option>
+                                    <option value="DI">Different Color</option>
+                                </select>
+                            </div>
+                        </div>*@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            
         </div>
     </div>
 </div>
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <!-- select 2 plugin -->
+    <script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+    <!-- init js -->
+    <script src="~/assets/js/pages/ecommerce-add-product.init.js"></script>
 }

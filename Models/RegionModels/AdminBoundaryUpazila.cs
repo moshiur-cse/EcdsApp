@@ -11,7 +11,7 @@ namespace EcdsApp.Models
     public class AdminBoundaryUpazila
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Required]
         [Column("upz_geo_code",Order = 0, TypeName = "varchar(8)")]
         [StringLength(8, ErrorMessage = "The {0} must be {1} characters.")]
