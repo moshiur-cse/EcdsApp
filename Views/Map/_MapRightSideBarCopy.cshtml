@@ -1,12 +1,6 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using EcdsApp.Models
 
-@section Styles
-{
-    <!-- select2 css -->
-    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-}
-
 <!-- Right Sidebar -->
 
 <div class="right-bar">
@@ -53,7 +47,7 @@
 
                 <div class="col-md-4">
                     <div class="form-check ">
-                        <input type="radio" id="radioDivision" name="radio" class="form-check-input" value="Division"><label class="form-check-label" for="radioDivision">Division</label>
+                        <input type="radio" id="radioDivision" name="radio" class="form-check-input" value="Division" checked="checked"><label class="form-check-label" for="radioDivision">Division</label>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -69,18 +63,7 @@
             </div>
             <br />
 
-            <div class="row">
-                @*<div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label" class="control-label">Category</label>
-                            <select class="form-control select2">
-                                <option>Select</option>
-                                <option value="EL">Electronic</option>
-                                <option value="FA">Fashion</option>
-                                <option value="FI">Fitness</option>
-                            </select>
-                        </div>
-                    </div>*@
+            @*<div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label class="form-label" class="control-label">Specifications</label>
@@ -94,27 +77,26 @@
                         </select>
                     </div>
                 </div>
-            </div>
+            </div>*@
 
 
-            @*<div class="accordion">
+                <div class="accordion mb-1" id="divisionList">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true"
-                                    aria-controls="collapseOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDivision" aria-expanded="true" aria-controls="collapseDivision">
                                 Select Division
                             </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse"
-                             aria-labelledby="headingOne" data-bs-parent="#DivisionList">
+                        <div id="collapseDivision" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#divisionList">
                             <div class="accordion-body">
                                 <ul class="metismenu list-unstyled">
-                                    @foreach (AdminBoundaryDivision item in ViewBag.DivList)
+                                    @foreach (var item in ViewBag.DivList)
                                     {
 
                                         <li>
-                                            <a><input type="checkbox" id="div_@item.DivisionGeoCode" value="@item.DivisionGeoCode" class="DivisionList"><label for="div_@item.DivisionGeoCode">@item.DivisionName</label></a>
+                                            <a>
+                                                <input type="checkbox" id="div_@item.DivisionGeoCode" value="@item.DivisionGeoCode" class="DivisionItem"> @item.DivisionName
+                                            </a>
                                         </li>
 
                                     }
@@ -124,51 +106,39 @@
                     </div>
                 </div>
 
-                <div class="accordion" id="DistrictList">
+                <div class="accordion mb-1" id="districtList">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="true"
-                                    aria-controls="collapseTwo">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                                 Select District
                             </button>
                         </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse"
-                             aria-labelledby="headingOne" data-bs-parent="#DistrictList">
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#districtList">
                             <div class="accordion-body">
-                                <ul class="metismenu list-unstyled">
-                                    @foreach (AdminBoundaryDistrict item in ViewBag.DistList)
-                                    {
-                                        <li>
-                                            <a><input type="checkbox" id="dist_@item.DistrictGeoCode" value="@item.DistrictGeoCode"><label for="dist_@item.DistrictGeoCode">@item.DistrictName</label></a>
-                                        </li>
-
-                                    }
-                                </ul>
+                                <ul class="metismenu list-unstyled"  id="districtDiv"></ul>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="accordion" id="UpazilaList">
+                <div class="accordion" id="upazilaList">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingUpazila">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseUpazila" aria-expanded="true"
-                                    aria-controls="collapseUpazila">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUpazila" aria-expanded="true" aria-controls="collapseUpazila">
                                 Select Upazila
                             </button>
                         </h2>
-                        <div id="collapseUpazila" class="accordion-collapse collapse"
-                             aria-labelledby="headingOne" data-bs-parent="#UpazilaList">
+                        <div id="collapseUpazila" class="accordion-collapse collapse" aria-labelledby="headingUpazila" data-bs-parent="#upazilaList">
                             <div class="accordion-body">
                                 <ul class="metismenu list-unstyled">
-                                    @foreach (AdminBoundaryUpazila item in ViewBag.UpazList)
+                                    @foreach (var item in ViewBag.UpazList)
                                     {
                                         <li>
-                                            <a><input type="checkbox" id="@item.UpazilaGeoCode" value="@item.UpazilaGeoCode"><label for="@item.UpazilaGeoCode">@item.UpazilaName</label></a>
+                                            <a>
+                                                @*<input type="checkbox" id="@item.UpazilaGeoCode" value="@item.UpazilaGeoCode"> @item.UpazilaName*@
+                                                @*<label for="@item.UpazilaGeoCode">@item.UpazilaName</label>*@
+                                            </a>
                                         </li>
-
                                     }
                                 </ul>
                             </div>
@@ -176,11 +146,8 @@
 
 
                     </div>
-                </div>*@
+                </div>
 
-            @*<button id="layerFilter" type="button" class="btn btn-success waves-effect waves-light m-3">
-                    <i class="uil uil-check me-2"></i> Apply Filter
-                </button>*@
         </div>
 
 
@@ -188,15 +155,8 @@
 </div>
 
 
-@section Scripts{
-
-    <script src="~/assets/libs/jquery/jquery.min.js"></script>
-    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- select 2 plugin -->
-    <script src="~/assets/libs/select2/js/select2.min.js"></script>
-
-    <!-- init js -->
-    <script src="~/assets/js/pages/ecommerce-add-product.init.js"></script>
-}
-
 <!-- /Right-bar -->
+
+<script type="text/javascript">
+    
+</script>

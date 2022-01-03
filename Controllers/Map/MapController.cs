@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EcdsApp.Models;
 
 namespace EcdsApp.Controllers.Map
 {
@@ -141,11 +142,12 @@ namespace EcdsApp.Controllers.Map
             }).ToList();
             return Json(data);
         }
+
         [HttpPost]
-        public JsonResult GetDistrictList(string divCode)
+        public JsonResult GetDistrictList(string[] divisionList)
         {
             var distList = _context.AdminBoundaryDistricts
-                .Where(sd => sd.DivisionGeoCode.Equals(divCode))
+                .Where(sd => divisionList.Contains(sd.DivisionGeoCode))
                 .Select(sd => new { sd.DistrictGeoCode, sd.DistrictName })
                 .OrderBy(sd => sd.DistrictGeoCode).ToList();
 
@@ -153,10 +155,10 @@ namespace EcdsApp.Controllers.Map
         }
 
         [HttpPost]
-        public JsonResult GetUpazilaList(string distCode)
+        public JsonResult GetUpazilaList(string[] upazilaList)
         {
             var upzList = _context.AdminBoundaryUpazilas
-                .Where(sd => sd.DistrictGeoCode.Equals(distCode))
+                .Where(sd => upazilaList.Contains(sd.DistrictGeoCode))
                 .Select(sd => new { sd.UpazilaGeoCode, sd.UpazilaName })
                 .OrderBy(sd => sd.UpazilaGeoCode).ToList();
 
