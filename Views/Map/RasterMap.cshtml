@@ -7,6 +7,8 @@
 
 @section Styles
 {
+    
+
     <!-- leaflet Css -->
     <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/leaflet.draw.css" rel="stylesheet" />
@@ -52,18 +54,18 @@
             height: 300px;
         }
 
-        .legend_info i {
-            width: 1.5vw;
-            height: 1.5vw;
-            float: left;
-            margin-right: 1vw;
-            opacity: 0.7;
-            font-size: 1vw;
-        }
+            .legend_info i {
+                width: 1.5vw;
+                height: 1.5vw;
+                float: left;
+                margin-right: 1vw;
+                opacity: 0.7;
+                font-size: 1vw;
+            }
 
-        .legend_info p {
-            padding: 0.2vw;
-        }
+            .legend_info p {
+                padding: 0.2vw;
+            }
 
         .map_btns_content {
             z-index: 1000;
@@ -133,7 +135,6 @@
             color: black;
             outline-color: black;
         }
-         
     </style>
 }
 
@@ -159,6 +160,8 @@
 
 @section Scripts
 {
+    
+
     <!-- leaflet plugin -->
     <script src="~/assets/libs/leaflet/leaflet.js"></script>
 
@@ -202,8 +205,8 @@
     <script src="~/assets/libs/leaflet/Edit.Marker.js"></script>
     <script src="~/assets/libs/leaflet/Edit.CircleMarker.js"></script>
     <script src="~/assets/libs/leaflet/Edit.Circle.js"></script>
-    
-    
+
+
     <script type="text/javascript">
         var data_layer = {};
         var colorList = {};
@@ -315,6 +318,8 @@
             $("#map_bg_layers").append(bgLayersContent);
 
         }
+
+        //jQuery(".select2").select2();
 
         jQuery('.layer_class').click(function ($) {
             if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {

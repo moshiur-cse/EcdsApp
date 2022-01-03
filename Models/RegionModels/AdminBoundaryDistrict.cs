@@ -11,7 +11,6 @@ namespace EcdsApp.Models
     public class AdminBoundaryDistrict
     {
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         [Column("dist_geo_code", Order = 0, TypeName = "varchar(4)")]
         [Display(Name = "District Geo-Code")]

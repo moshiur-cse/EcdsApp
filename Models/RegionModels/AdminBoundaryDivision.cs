@@ -11,8 +11,7 @@ namespace EcdsApp.Models
     public class AdminBoundaryDivision
     {      
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]       
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("div_geo_code",Order = 0, TypeName = "varchar(2)")]
         [StringLength(2, ErrorMessage = "The {0} must be {1} characters.")]
         [Display(Name = "Division Geo-Code")]
