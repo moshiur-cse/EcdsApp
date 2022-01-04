@@ -133,6 +133,18 @@
             color: black;
             outline-color: black;
         }
+
+        .layer-menu {
+            background-color: #ffffff;
+        }
+
+        .layer-list {
+            position: relative;
+        }
+
+        li {
+            list-style-image: url('../wwwroot/assets/temp/street_view.PNG')
+        }
     </style>
 }
 
@@ -148,7 +160,15 @@
         <div class="map_btns" title="Show or Hide Map Label"><input type="checkbox" id="map_label"></div>
         <div id="map_layer" class="map_btns right-bar-toggle waves-effect" title="Map Layer List"> </div>
         <div id="map_bg_layers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
+        
+        <div id="map_layer_div" class="layer-menu" style="display: none">
+            <ul class="layer-list">
+                <li><img src="~/assets/temp/street_view.PNG"/></li>
+            </ul>
+        </div>
     </div>
+    
+    
 
     <div id="basic-map" class="leaflet-map page-content"></div>
 </div>
@@ -270,8 +290,6 @@
                 "Google Streets": googleSt,
                 "Google Terrain": googleTr,
                 "My Customr": myCustomr,
-                //"Mapbox Light": mapboxLi,
-                //"Mapbox Streets": mapboxSt,
                 "ESRI": esri,
                 "None": blank
             };
@@ -313,12 +331,16 @@
 
 
 
-            var bgLayersContent = $(bgLayers.getContainer());
-            bgLayersContent.find("a.leaflet-control-layers-toggle").remove();
-            bgLayersContent.find("form.leaflet-control-layers-list").css("display", "block");
-            $("#map_bg_layers").append(bgLayersContent);
+            //var bgLayersContent = $(bgLayers.getContainer());
+            //bgLayersContent.find("a.leaflet-control-layers-toggle").remove();
+            //bgLayersContent.find("form.leaflet-control-layers-list").css("display", "block");
+            //$("#map_bg_layers").append(bgLayersContent);
 
         }
+
+        jQuery('#map_bg_layers').click(function() {
+            $('#map_layer_div').toggle("slide");
+        });
 
         var division_list = [];
         //jQuery(".select2").select2();
