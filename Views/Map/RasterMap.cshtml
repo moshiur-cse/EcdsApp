@@ -7,8 +7,6 @@
 
 @section Styles
 {
-    
-
     <!-- leaflet Css -->
     <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/leaflet.draw.css" rel="stylesheet" />
@@ -208,6 +206,7 @@
 
 
     <script type="text/javascript">
+
         var data_layer = {};
         var colorList = {};
         var userDefinedColorList = {};
@@ -216,8 +215,10 @@
         var legend = L.control({ position: 'bottomright' });
         var legend_div = L.DomUtil.create('div', 'legend_info');
         var admin_code_list = [];
-        var dist_list = [];
-        var upaz_list = [];
+
+        
+        var district_list = [];
+        var upazila_list = [];
 
         var g_opacity, g_fillOpacity, g_weight, g_color;
         var mapLabels = L.layerGroup();
@@ -319,7 +320,44 @@
 
         }
 
+        var division_list = [];
         //jQuery(".select2").select2();
+        jQuery('.DivisionItem').click(function () {
+            if (jQuery(this).closest('.DivisionItem').prev().find('input[type=checkbox]').prop('checked', true)) {
+                if (jQuery("#" + this.id).prop("checked") === true) {
+                    //division_list.length = 0;
+                    division_list.push(jQuery("#" + this.id).val());
+                    jQuery("#" + this.id).prop("checked", true);
+                } else {
+                    var index = division_list.indexOf(jQuery("#" + this.id).val());//get index
+                    //remove item from the division array
+                    division_list.splice(index, 1);
+                }
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetDistrictList")',
+                    dataType: "json",
+                    data: { divisionList: division_list },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                    success: function (responseData) {
+                        jQuery("#districtDiv").empty();
+                        jQuery.each(responseData,
+                            function (i, district) {
+                                jQuery("#districtDiv").append("<li><a> <input type='checkbox' class='DistrictItem' id='dist_" + district.value + "' value='" + district.value + "' /> <label for='dist_" + district.value + "'> " + district.text + " </label> </a></li>");
+                            });
+                    },
+                    error: function (ex) {
+                    },
+                    complete: jQuery('#busy-indicator').fadeOut(150)
+                });
+                return false;
+            }
+        });
+
+        jQuery('.DistrictItem').click(function() {
+            alert("clicked");
+        });
 
         jQuery('.layer_class').click(function ($) {
             if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
@@ -690,18 +728,18 @@
                     url: "@Url.Action("GetLayerInformation")",
                     dataType: "json",
                     data: { layer_id: jQuery("#"+ this.id).val() },
-                     before: jQuery("#busy-indicator").fadeIn(150),
-                     success: function (items) {
-                         var path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                    success: function (items) {
+                        var path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
 
-                         if (items.isLegendColor != 0) {
-                                /* setTimeout(function () {*/
-                                     getUserDefinedColor(items.layerId, layerId);
-                               /*  }, 1000);*/
+                        if (items.isLegendColor != 0) {
+                            /* setTimeout(function () {*/
+                            getUserDefinedColor(items.layerId, layerId);
+                            /*  }, 1000);*/
 
-                         }
-                         var opacity = 0.6, fillOpacity = 0.6, weight = 1, color = "#000000";
-                         LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color);
+                        }
+                        var opacity = 0.6, fillOpacity = 0.6, weight = 1, color = "#000000";
+                        LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color);
 
                     },
                     error: function(ex, status, error) {
@@ -709,7 +747,7 @@
                         //    "Error... . . !",
                         //    "Failed to load Shape file. " + ex.responseText);
                     },
-                     complete: jQuery("#busy-indicator").fadeOut(150)
+                    complete: jQuery("#busy-indicator").fadeOut(150)
                 });
             }
         });
@@ -728,25 +766,25 @@
         function downloadMap(caption) {
             jQuery("#busy-indicator").fadeIn(150);
 
-        var downloadOptions = {
-            container: mymap._container,
-            caption: {
-                text: caption,
-                font: '30px Arial',
-                fillStyle: 'black',
-                position: [100, 200]
-            },
-            exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
-            include: ['.map_btns_content'],
-            format: 'image/png',
-            fileName: 'Map.png',
-            afterRender: afterRender,
-            afterExport: afterExport
-        };
-        var promise = mymap.downloadExport(downloadOptions);
-        var data = promise.then(function (result) {
-            return result;
-        });
+            var downloadOptions = {
+                container: mymap._container,
+                caption: {
+                    text: caption,
+                    font: '30px Arial',
+                    fillStyle: 'black',
+                    position: [100, 200]
+                },
+                exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
+                include: ['.map_btns_content'],
+                format: 'image/png',
+                fileName: 'Map.png',
+                afterRender: afterRender,
+                afterExport: afterExport
+            };
+            var promise = mymap.downloadExport(downloadOptions);
+            var data = promise.then(function (result) {
+                return result;
+            });
             jQuery("#busy-indicator").fadeOut(150);
 
         }
