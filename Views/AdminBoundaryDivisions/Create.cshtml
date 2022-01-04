@@ -56,47 +56,48 @@
                             </div>
 
                         </form>
-                        
+
                         @*<div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Category</label>
-                                <select class="form-control select2">
-                                    <option>Select</option>
-                                    <option value="EL">Electronic</option>
-                                    <option value="FA">Fashion</option>
-                                    <option value="FI">Fitness</option>
-                                </select>
-                            </div>
-                        </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-control select2">
+                                        <option>Select</option>
+                                        <option value="EL">Electronic</option>
+                                        <option value="FA">Fashion</option>
+                                        <option value="FI">Fitness</option>
+                                    </select>
+                                </div>
+                            </div>*@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Specifications</label>
 
                                 <select class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
-                                    <option value="HI" selected>High Quality</option>
-                                    <option value="LE" selected>Leather</option>
+                                    <option value="HI">High Quality</option>
+                                    <option value="LE">Leather</option>
                                     <option value="NO">Notifications</option>
                                     <option value="SI">Sizes</option>
                                     <option value="DI">Different Color</option>
                                 </select>
                             </div>
-                        </div>*@
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            
+
         </div>
     </div>
 </div>
 
 
 @section Scripts {
-    
+
     <!-- select 2 plugin -->
     <script src="~/assets/libs/select2/js/select2.min.js"></script>
+  <script>
+      $(".select2").select2();
 
-    <!-- init js -->
-    <script src="~/assets/js/pages/ecommerce-add-product.init.js"></script>
+  </script>
 }

@@ -12,6 +12,9 @@
     @*<link rel="stylesheet" href="~/assets/libs/leaflet/leaflet.draw.css" />*@
     <link href="~/assets/css/leaflet.draw.css" rel="stylesheet" />
     <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
+
+    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
     <style>
 
         .leaflet-map {
@@ -65,8 +68,6 @@
                 opacity: 0.7;
                 font-size: 1vw;
             }
-
-
 
             .legend_info p {
                 padding: 0.2vw;
@@ -162,8 +163,11 @@
 
 <div>
     @*<div class="row custom-map map_content">*@
-    <partial name="_MapRightSideBar" />
+    @*<partial name="_MapRightSideBar" />*@
+
+    <partial name="_MapRightSideBarCopy" />
     <partial name="_MapModals" />
+
 
 
 
@@ -242,12 +246,22 @@
     <script src="~/assets/libs/leaflet/Edit.CircleMarker.js"></script>
     <script src="~/assets/libs/leaflet/Edit.Circle.js"></script>
 
+    <script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+
+
 
 
     <!-- leaflet map.init -->
     @*<script src="~/assets/js/pages/leaflet-us-states.js"></script>
         <script src="~/assets/js/pages/leaflet-map.init.js"></script>*@
     <script>
+      
+        $(function () {
+            jQuery(".select2").select2();
+        });
+        
+
         var data_layer = {};
         var colorList = {};
         var userDefinedColorList = {};
@@ -269,7 +283,7 @@
         mapInit();
         //LayerShowHide('1', '"administrative'+'\'+'admin_data'+'\' + 'division' + '\'+'divsion.json"', 'div_name', 'div_code', 'C_LAT', 'C_LONG', 'DIVISION', '1');
 
-        
+
         function mapInit() {
 
             var blankUrl = "../images/blank.png",
@@ -389,11 +403,11 @@
             bgLayers = L.control.layers(baseMaps, {'drawlayer': drawnItems }, { collapsed: false });
             bgLayers.addTo(mymap);
 
-            
-            mymap.on('zoomend', function (evt) {
 
-                hideOverlappingTooltips();
-            });
+            //mymap.on('zoomend', function (evt) {
+
+            //    hideOverlappingTooltips();
+            //});
 
 
             var bgLayersContent = $(bgLayers.getContainer());
@@ -409,7 +423,7 @@
 
             g_layerUid = layerUid; g_layerId = layerId; g_filepath = filepath; g_mainAttDisName = mainAttDisName; g_mainAtt = mainAtt; g_attCode = attCode; g_cLat = cLat; g_cLong = cLong;
             g_firstAttDisName = firstAttDisName; g_firstAtt = firstAtt; g_layerName = layerName; g_layerTypeid = layerTypeid; g_isLegendColor = isLegendColor; g_legendcolorField = legendcolorField;
-               
+
                 g_opacity = opacity;
                 g_fillOpacity = fillOpacity;
                 g_weight = weight;
@@ -489,21 +503,22 @@
 
                 userDefinedColorList = {};
                 userDefinedLegendNameList = {};
-                }                
+                }
         }
 
             //mapLabelShowHide(data_layer[layerId]);
 
             function style(feature) {
-                
+
                //alert(feature.properties[attCode] + " : " + admin_code_list);
                //debugger;
                 if (admin_code_list.includes(feature.properties[attCode].toString()) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 2)) ||
-                    admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 6))) {
+                    admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 8))) {
                     if (isLegendColor == 0) {
                         colorList[feature.properties[attCode]] = getRandomColor();
+
                         return {
-                            fillColor: colorList[feature.properties[attCode]],
+                            fillColor:'#0000ffff', //colorList[feature.properties[attCode]],
                             weight: weight,
                             opacity: opacity,
                             color: color,
@@ -512,25 +527,34 @@
                         };
                     } else {
 
-                        return {
-                            fillColor: userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]],
-                            weight: 1,
-                            weight: weight,
-                            opacity: opacity,
-                            color: color,
-                            dashArray: '1',
-                            fillOpacity: fillOpacity
-                        };
+
+                        //for (var i = 0; i < userDefinedColorList.le)  //Moshiur
+
+                       
+
+                          
+
+                            return {
+                                //fillColor: userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]],
+                                fillColor: userDefinedColorList[feature.properties[legendcolorField]],
+                                weight: 1,
+                                weight: weight,
+                                opacity: opacity,
+                                color: color,
+                                dashArray: '1',
+                                fillOpacity: fillOpacity
+                            };
+                       
                     }
 
-                } 
-                
+                }
 
+                
                 if (admin_code_list.length == 0) {
                     if (isLegendColor == 0) {
                         colorList[feature.properties[attCode]] = getRandomColor();
                         return {
-                            fillColor: colorList[feature.properties[attCode]],
+                            fillColor:'#ffffff00', //colorList[feature.properties[attCode]],
                             weight: weight,
                             opacity: opacity,
                             color: color,
@@ -539,16 +563,27 @@
                         };
                     } else {
 
-                        return {
-                            fillColor: userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]],
-                            weight: weight,
-                            opacity: opacity,
-                            color: color,
-                            dashArray: '1',
-                            fillOpacity: fillOpacity
-                        };
+                        //alert(userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]]);
+                        //console.log(userDefinedColorList);  //Moshiur
+                        //$.each(userDefinedColorList, function (index, val) {
+
+                        //    if (feature.properties[legendcolorField] == index) {
+                                return {
+                                    /*fillColor: userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]],*/
+                                    fillColor: userDefinedColorList[feature.properties[legendcolorField]],
+                                    weight: weight,
+                                    opacity: opacity,
+                                    color: color,
+                                    dashArray: '1',
+                                    fillOpacity: fillOpacity
+                                };
+
+                            //}
+                            
+                           
+                        //});
                     }
-                   
+
                 }
                 else {
                     return {
@@ -577,10 +612,11 @@
                             //displayResult(e.target.feature.properties[adminCode]);
                             //layer.bindPopup('<div style="width:1000px;text-align:center;">Moshiurfdhslfhsd<p>'+mainAttDisName+" : " + feature.properties[mainAtt] + '</p>' + (firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt] + ":" + feature.properties[mainAtt])+'</p>' : " " +'</div>');
                             layer.bindPopup('<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt]) + '</p>' : " ") + '</div>');
+                            DisplayDetailsInfoes(feature.properties[attCode], mainAtt);
                         }
                     });
 
-               
+
                 //}
 
                 //if (admin_code_list.length == 0) {
@@ -602,14 +638,14 @@
 
                     if (cLat != null || cLong != null) {
                         mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong);
-                    } 
-                
-                layer.bindTooltip(feature.properties[mainAtt].toString(), {
-                    permanent: true,
-                    className: 'myTooltip',
-                    point: L.point(layer.feature.properties[cLat], layer.feature.properties[cLong]),
-                    direction: 'center'
-                });
+                    }
+
+                //layer.bindTooltip(feature.properties[mainAtt].toString(), {
+                //    permanent: true,
+                //    className: 'myTooltip',
+                //    point: L.point(layer.feature.properties[cLat], layer.feature.properties[cLong]),
+                //    direction: 'center'
+                //});
 
                 //L.marker([layer.feature.properties[cLat], layer.feature.properties[cLong]], {
                 //    radius: 0.1,
@@ -662,14 +698,18 @@
                     return legend_div;
                 };
             } else {
-              
+
                 legend.onAdd = function (map) {
-                    
+
                     $.each(userDefinedColorList, function (index, val) {
 
-                        if (index.search(layerId)!=-1) {
+                        //if (index.search(layerId)!=-1) {
+                        //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedLegendNameList[index] + '<i style="background:' + val + '"></i> </p>';
+
+
+                        //if (index.search(layerId)!=-1) {
                             legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedLegendNameList[index] + '<i style="background:' + val + '"></i> </p>';
-                        }
+                        //}
                     });
 
                     return legend_div;
@@ -705,8 +745,10 @@
 
                     $.each(items,
                         function (i, item) {
-                            userDefinedColorList[layerId + "_" + item.attCode] = item.colorCode;
-                            userDefinedLegendNameList[layerId + "_" + item.attCode] = item.attName;
+                            //userDefinedColorList[layerId + "_" + item.attCode] = item.colorCode;
+                            userDefinedColorList[item.attCode] = item.colorCode;
+                            //userDefinedLegendNameList[layerId + "_" + item.attCode] = item.attName;
+                            userDefinedLegendNameList[item.attCode] = item.attName;
                         });
 
 
@@ -843,7 +885,32 @@
             jQuery("#busy-indicator").fadeIn(150);
             LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
             jQuery("#busy-indicator").fadeOut(150);
-        
+
+
+        }
+
+    function DisplayDetailsInfoes(value, name) {
+
+        alert(value+" : "+name);
+        return;
+
+        jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetUpazilaInfoes")",
+                    dataType: "json",
+                    //data: { layer_id: jQuery("#"+ this.id).val() },
+                     before: jQuery("#busy-indicator").fadeIn(150),
+                     success: function (items) {
+
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                    },
+                     complete: jQuery("#busy-indicator").fadeOut(150)
+        });
+
 
         }
 
@@ -904,13 +971,13 @@
 
                 if (jQuery("#" + this.id).prop("checked") == true) {
                     admin_code_list.push(jQuery("#" + this.id).val());
-                   
+
                 } else {
-                    
+
                     var index = admin_code_list.indexOf(jQuery("#" + this.id).val());//get index
                     //remove car from the colors array
                     admin_code_list.splice(index, 1);
-                   
+
                 }
 
                 jQuery("#busy-indicator").fadeIn(150);
@@ -921,11 +988,17 @@
         });
 
 
+        
+        //jQuery('#selectedId').click(function ($) {
+        //    alert("Ok");
+        //    jQuery("#selectedId").select2();
 
+        //});
 
 
        // LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
     </script>
+  
 
 
 }

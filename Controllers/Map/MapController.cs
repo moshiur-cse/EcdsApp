@@ -164,5 +164,11 @@ namespace EcdsApp.Controllers.Map
         }
 
 
+        [HttpPost]
+        public  JsonResult GetUpazilaInfoes()
+        {
+            var upzList =  _context.AdminBoundaryUpazilas.OrderBy(sd => sd.UpazilaGeoCode).ToList();
+            return Json(upzList);
+        }
     }
 }
