@@ -22,8 +22,40 @@ namespace EcdsApp.Controllers.Region
         // GET: AdminBoundaryDivisions
         public async Task<IActionResult> Index()
         {
+
+
+            //List<string> columns = _context.GetColumns<DataContext>("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
+
+          List<string> columns = DataContext.GetColumn("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
+
+
+
+            var column = "DivName,DeoCode";
+            var model = "AdminBoundaryDivisions";
+
+
             return View(await _context.AdminBoundaryDivisions.ToListAsync());
         }
+
+      
+        public async Task<IActionResult> SummaryData(string adminCode, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.DivisionCode = adminCode;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            return View(await _context.AdminBoundaryDivisions.Where(i=>i.DivisionGeoCode==adminCode).ToListAsync());
+        }
+
+        public async Task<IActionResult> DetailsData(int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            return View(await _context.AdminBoundaryDivisions.ToListAsync());
+        }
+
+
 
         // GET: AdminBoundaryDivisions/Details/5
         public async Task<IActionResult> Details(string id)

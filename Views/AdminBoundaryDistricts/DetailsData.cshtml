@@ -1,0 +1,52 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<EcdsApp.Models.AdminBoundaryDistrict>
+@{
+    ViewData["Title"] = "Details Data";
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
+
+    Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
+}
+
+
+<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.DistrictGeoCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DistrictName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DistrictNameBangla)
+            </th>
+            <th>
+                Division Name
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.DistrictGeoCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DistrictName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DistrictNameBangla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Division.DivisionName)
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

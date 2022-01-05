@@ -1,0 +1,187 @@
+﻿@{
+    var AdminCode = ViewBag.AdminCode;
+    var IndicatorId = ViewBag.IndicatorId;
+
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1) ? 1 : 0;
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1) ? 1 : 0;
+
+    Layout = isShowLayout == 1 ? "~/Views/Shared/_Layout.cshtml" : null;
+
+}
+
+
+<div class="card">
+    <div class="card-body">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-justified" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#comp1"
+                   role="tab">
+                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                    <span class="d-none d-sm-block">Summary</span>
+
+
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#comp2" role="tab">
+                    <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                    <span class="d-none d-sm-block">Details</span>
+                </a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+
+            <div id="comp1" class="tab-pane active">
+
+                <div id="comp_info_1" class="text-center" style="min-height:250px; padding:0.75rem;">
+                    <div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                        <span class="sr-only">Loading... . .</span>
+                    </div>
+                </div>
+            </div>
+            <div id="comp2" class="tab-pane">
+
+                <div id="comp_info_2" class="text-center" style="min-height:250px; padding:0.75rem;">
+                    <div class="spinner-grow text-success" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                        <span class="sr-only">Loading... . .</span>
+                    </div>
+                </div>
+            </div>                      
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    var adminValue = "@AdminCode",
+        indicatorId = 1*"@IndicatorId"
+        isShowLayout =1*"@isShowLayout",
+        isShowAction = 1*"@isShowAction";
+
+
+
+
+    if (adminValue && adminValue != '') {
+
+        if (adminValue.length == 2) {
+
+            load_component_data_Division();
+
+        } else if (adminValue.length == 8) {
+            load_component_data_Upazila();
+        }
+        else if (adminValue.length == 4) {
+            load_component_data_District();
+        }
+
+    }
+
+
+    function ajax_load_data(url, data) {
+        return $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "html",
+            data: data,
+        });
+    }
+
+    function load_component_data_Division() {
+
+        var noOfomponent = 2;
+
+        $("#busy-indicator").fadeIn(150);
+
+        ajax_load_data('@Url.Action("SummaryData", "AdminBoundaryDivisions")', { adminCode: adminValue, isShowLayout: isShowLayout, isShowAction: isShowAction })
+            .done(function (compList) {
+                $("#comp_info_1").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
+            });
+
+        ajax_load_data('@Url.Action("DetailsData", "AdminBoundaryDivisions")', { isShowLayout: isShowLayout, isShowAction: isShowAction })
+            .done(function(compList) {
+                $("#comp_info_2").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
+            });
+
+
+        return false;
+    }
+    function load_component_data_District() {
+
+        var noOfomponent = 2;
+
+        $("#busy-indicator").fadeIn(150);
+
+        ajax_load_data('@Url.Action("SummaryData", "AdminBoundaryDistricts")', { adminCode: adminValue, isShowLayout: isShowLayout, isShowAction: isShowAction })
+            .done(function (compList) {
+                $("#comp_info_1").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
+            });
+
+        ajax_load_data('@Url.Action("DetailsData", "AdminBoundaryDistricts")', { isShowLayout: isShowLayout, isShowAction: isShowAction })
+            .done(function(compList) {
+                $("#comp_info_2").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
+            });
+
+
+        return false;
+    }
+
+    function load_component_data_Upazila() {
+
+        var noOfomponent = 2;
+
+        $("#busy-indicator").fadeIn(150);
+
+        ajax_load_data('@Url.Action("SummaryData", "AdminBoundaryUpazilas")', { adminCode: adminValue, isShowLayout: isShowLayout, isShowAction: isShowAction })
+            .done(function (compList) {
+                $("#comp_info_1").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
+            });
+
+        ajax_load_data('@Url.Action("DetailsData", "AdminBoundaryUpazilas")', { isShowLayout: isShowLayout, isShowAction: isShowAction })
+            .done(function(compList) {
+                $("#comp_info_2").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
+            });
+
+
+        return false;
+    }
+
+
+
+</script>

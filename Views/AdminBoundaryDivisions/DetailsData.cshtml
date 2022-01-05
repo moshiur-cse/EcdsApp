@@ -1,0 +1,50 @@
+﻿@model IEnumerable<EcdsApp.Models.AdminBoundaryDivision>
+
+@{
+    ViewData["Title"] = "Details Data";
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
+
+    Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OldGeoCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DivisionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DivisionNameBangla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SortingOrder)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OldGeoCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DivisionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DivisionNameBangla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SortingOrder)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

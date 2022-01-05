@@ -172,5 +172,14 @@ namespace EcdsApp.Controllers.Map
             var upzList =  _context.AdminBoundaryUpazilas.OrderBy(sd => sd.UpazilaGeoCode).ToList();
             return Json(upzList);
         }
+
+        public IActionResult MapComponents(string adminCodeForGetResult, int indicatorId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.IndicatorId = indicatorId;
+            ViewBag.AdminCode = adminCodeForGetResult;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+            return View("MapComponents");
+        }
     }
 }

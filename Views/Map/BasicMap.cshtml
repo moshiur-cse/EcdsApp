@@ -256,11 +256,11 @@
     @*<script src="~/assets/js/pages/leaflet-us-states.js"></script>
         <script src="~/assets/js/pages/leaflet-map.init.js"></script>*@
     <script>
-      
+
         $(function () {
             jQuery(".select2").select2();
         });
-        
+
 
         var data_layer = {};
         var colorList = {};
@@ -455,7 +455,7 @@
                 if (!LayerInfo) return;
 
 
-                LayerInfo =
+                //LayerInfo =
                 //console.log(LayerInfo.features[0].properties[attCode]);
 
 
@@ -465,7 +465,11 @@
             }).done(function (e) {
                 mymap.addLayer(data_layer[layerId]);
 
-                legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
+               
+
+                if (isLegendColor == 1) {
+                    legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
+                }
                 //mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong)
                 //$(".map_title").append('<p class="' + layerId +'" style="text-align:left;padding:2px">'+layerName+'</p>')
 
@@ -530,10 +534,10 @@
 
                         //for (var i = 0; i < userDefinedColorList.le)  //Moshiur
 
-                       
 
-                          
 
+
+                        console.log(feature.properties[legendcolorField]);
                             return {
                                 //fillColor: userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]],
                                 fillColor: userDefinedColorList[feature.properties[legendcolorField]],
@@ -544,12 +548,12 @@
                                 dashArray: '1',
                                 fillOpacity: fillOpacity
                             };
-                       
+
                     }
 
                 }
 
-                
+
                 if (admin_code_list.length == 0) {
                     if (isLegendColor == 0) {
                         colorList[feature.properties[attCode]] = getRandomColor();
@@ -566,6 +570,7 @@
                         //alert(userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]]);
                         //console.log(userDefinedColorList);  //Moshiur
                         //$.each(userDefinedColorList, function (index, val) {
+                        //console.log(feature.properties[legendcolorField]);
 
                         //    if (feature.properties[legendcolorField] == index) {
                                 return {
@@ -579,8 +584,8 @@
                                 };
 
                             //}
-                            
-                           
+
+
                         //});
                     }
 
@@ -611,7 +616,7 @@
                             //mymap.fitBounds(e.target.getBounds());
                             //displayResult(e.target.feature.properties[adminCode]);
                             //layer.bindPopup('<div style="width:1000px;text-align:center;">Moshiurfdhslfhsd<p>'+mainAttDisName+" : " + feature.properties[mainAtt] + '</p>' + (firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt] + ":" + feature.properties[mainAtt])+'</p>' : " " +'</div>');
-                            layer.bindPopup('<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt]) + '</p>' : " ") + '</div>');
+                            //layer.bindPopup('<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt]) + '</p>' : " ") + '</div>');
                             DisplayDetailsInfoes(feature.properties[attCode], mainAtt);
                         }
                     });
@@ -664,8 +669,8 @@
             }
             function highlightFeature(e) {
                 var layer = e.target;
-                var popupContent = '<div style="width:250px;text-align:center;">' +mainAttDisName+" : " + layer.feature.properties[mainAtt] + '</div>';
-
+                //var popupContent = '<div style="width:250px;text-align:center;">' +mainAttDisName+" : " + layer.feature.properties[mainAtt] + '</div>';
+                var popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
                 layer.setStyle({
                     //weight: 2,
                     //color: '#E11F21',
@@ -889,30 +894,7 @@
 
         }
 
-    function DisplayDetailsInfoes(value, name) {
-
-        alert(value+" : "+name);
-        return;
-
-        jQuery.ajax({
-                    type: "POST",
-                    url: "@Url.Action("GetUpazilaInfoes")",
-                    dataType: "json",
-                    //data: { layer_id: jQuery("#"+ this.id).val() },
-                     before: jQuery("#busy-indicator").fadeIn(150),
-                     success: function (items) {
-
-                    },
-                    error: function(ex, status, error) {
-                        //msg.init("error",
-                        //    "Error... . . !",
-                        //    "Failed to load Shape file. " + ex.responseText);
-                    },
-                     complete: jQuery("#busy-indicator").fadeOut(150)
-        });
-
-
-        }
+       
 
         jQuery("#DistCode").on("change",function (evt, adop) {
                 var distCode = $("#DistCode").val(),
@@ -989,7 +971,7 @@
         });
 
 
-        
+
         //jQuery('#selectedId').click(function ($) {
         //    alert("Ok");
         //    jQuery("#selectedId").select2();
@@ -998,8 +980,40 @@
 
 
        // LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
+        function DisplayDetailsInfoes(adminCodeForGetResult, name) {
+
+            //alert(+adminCodeForGetResult+" "+name);
+            //return;
+
+            $("#modalWithDetailsInfo .modal-body").empty();
+            var isShowAction = 1;
+
+
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("MapComponents", "Map")',
+                    dataType: "html",
+                    data: { adminCodeForGetResult: adminCodeForGetResult, indicatorId: name, isShowLayout: 0, isShowAction: isShowAction },
+                    before: $("#busy-indicator").fadeIn(150),
+                }).done(function (compInfo) {
+                    //modal.init("Detail Information", compInfo, true, false);
+
+                    $("#modalWithDetailsInfo .modal-body").append(compInfo);
+                    $('#modalWithDetailsInfo').modal('show');
+
+                    //$("#exampleModalScrollable").init
+                }).fail(function (ex) {
+                    modal.init("Map Components", "...", false, false);
+                    msg.init("error", "Error... . . !", "Failed to load Map information. " + ex.error);
+                }).always(function () {
+                    $("#busy-indicator").fadeOut(150);
+                });
+          
+            return false;
+        }
+
     </script>
-  
+
 
 
 }

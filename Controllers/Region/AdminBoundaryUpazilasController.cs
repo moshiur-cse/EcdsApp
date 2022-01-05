@@ -26,6 +26,23 @@ namespace EcdsApp.Controllers.Region
             return View(await dataContext.ToListAsync());
         }
 
+        public async Task<IActionResult> SummaryData(string adminCode, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.DivisionCode = adminCode;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            return View(await _context.AdminBoundaryUpazilas.Include(a => a.District).Where(i => i.UpazilaGeoCode == adminCode).ToListAsync());
+        }
+
+        public async Task<IActionResult> DetailsData(int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            return View(await _context.AdminBoundaryUpazilas.Include(a => a.District).ToListAsync());
+        }
+
         // GET: AdminBoundaryUpazilas/Details/5
         public async Task<IActionResult> Details(string id)
         {

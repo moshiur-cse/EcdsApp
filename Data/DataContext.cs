@@ -8,6 +8,7 @@ using System.Reflection;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models;
 using EcdsApp.Models.ThemeModels;
+using System.Linq;
 
 namespace EcdsApp.Data
 {
@@ -122,6 +123,30 @@ namespace EcdsApp.Data
 
         //#endregion
         //public DbSet<JRCWebApp.ViewModels.Role> Role { get; set; }
+        public List<string> GetColumns<TEntity>(string modelName)
+        {
+            var property = typeof(TEntity)
+                .GetProperties()
+                .Single(s => s.Name == modelName);
+            
 
+            return property.PropertyType
+                .GetGenericArguments() //Get the generic type of the DbSet
+                .SelectMany(t => t.GetProperties()
+                    .Select(pi => pi.Name)).ToList();
+
+
+        }
+        public static List<string> GetColumn(string modelName)
+        {
+            var property = typeof(DbContext)
+                .GetProperties()
+                .Single(s => s.Name == modelName);
+
+            return property.PropertyType
+                .GetGenericArguments() //Get the generic type of the DbSet
+                .SelectMany(t => t.GetProperties()
+                    .Select(pi => pi.Name)).ToList();
+        }
     }
 }

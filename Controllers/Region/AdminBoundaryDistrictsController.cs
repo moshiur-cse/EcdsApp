@@ -25,7 +25,22 @@ namespace EcdsApp.Controllers.Region
             var dataContext = _context.AdminBoundaryDistricts.Include(a => a.Division);
             return View(await dataContext.ToListAsync());
         }
+        public async Task<IActionResult> SummaryData(string adminCode, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.DivisionCode = adminCode;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
 
+            return View(await _context.AdminBoundaryDistricts.Include(a => a.Division).Where(i => i.DistrictGeoCode == adminCode).ToListAsync());
+        }
+
+        public async Task<IActionResult> DetailsData(int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            return View(await _context.AdminBoundaryDistricts.Include(a => a.Division).ToListAsync());
+        }
         // GET: AdminBoundaryDistricts/Details/5
         public async Task<IActionResult> Details(string id)
         {
