@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EcdsApp.Data;
 using EcdsApp.Models;
+using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace EcdsApp.Controllers.Region
 {
@@ -22,22 +27,66 @@ namespace EcdsApp.Controllers.Region
         // GET: AdminBoundaryDivisions
         public async Task<IActionResult> Index()
         {
+            var columns = _context.GetColumns<DataContext>("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
+            //var columns = DataContext.GetColumn("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
+            var modelName = "AdminBoundaryDivisions";
+            var columnName = "DivisionGeoCode,DivisionName";
 
+            var myDictionary = new Dictionary<string, Type>
+            {
+                {"AdminBoundaryDivisions", typeof(AdminBoundaryDivision)}
+            };
 
-            //List<string> columns = _context.GetColumns<DataContext>("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
+            //DBContext dbContext = new DBContext();
+            //var dbSet = _context.Set(myDictionary[modelName]);
+            var entity = _context.Find(myDictionary[modelName], "10");
 
-          List<string> columns = DataContext.GetColumn("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
+            var result = _context.Query(modelName).ToDynamicList();
 
+            //var query = _context.Set(modelName);
+            //var result = query.ToList();
 
-
-            var column = "DivName,DeoCode";
-            var model = "AdminBoundaryDivisions";
+            //var data = _context.AdminBoundaryDivisions.FromSqlRaw("SELECT * FROM lkp_admin_boundary_divisions").ToList();
+            var data = GetData("div_name", "lkp_admin_boundary_divisions");
+            var jsonData = JsonSerializer.Serialize(data.Result);
+            //var data = _context.ExecSql<AdminBoundaryDivision>("SELECT * FROM lkp_admin_boundary_divisions");
 
 
             return View(await _context.AdminBoundaryDivisions.ToListAsync());
         }
 
-      
+        private async Task<List<string>> GetData(string fieldName, string tableName)
+        {
+            try
+            {
+                var fields = new List<string>();
+
+                var conn = new MySqlConnection("server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
+                await conn.OpenAsync();
+                var cmd = new MySqlCommand("Select " + fieldName + " from " + tableName + " ", conn);
+
+                var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    var field = reader[fieldName].ToString();
+                    if (!string.IsNullOrEmpty(field))
+                    {
+                        fields.Add(field);
+                    }
+                }
+
+                await conn.CloseAsync();
+                return fields;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+
+            return new List<string>();
+        }
+
+
         public async Task<IActionResult> SummaryData(string adminCode, int isShowLayout = 0, int isShowAction = 0)
         {
             ViewBag.DivisionCode = adminCode;

@@ -4,20 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models;
 using EcdsApp.Models.ThemeModels;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EcdsApp.Data
 {
     //DbContext  //DataContext (JRCWebApp.Data)
     public class DataContext : IdentityDbContext<UserRegistration, IdentityRole, string>
     {
-
         //public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,8 +35,6 @@ namespace EcdsApp.Data
         public DbSet<ThemeLayerType> ThemeLayerTypes { get; set; }
         public DbSet<LayerLegendColor> LayerLegendColors { get; set; }
         public DbSet<MetaDataDetail> MetaDataDetails { get; set; }
-        
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -93,7 +89,7 @@ namespace EcdsApp.Data
 
 
         // Reference:  https://stackoverflow.com/questions/48278258/entity-framework-core-raw-sqlqueries-with-custom-model
-        public List<T> ExecSQL<T>(string query)
+        public List<T> ExecSql<T>(string query)
         {
             using var command = Database.GetDbConnection().CreateCommand();
             command.CommandText = query;
@@ -103,13 +99,12 @@ namespace EcdsApp.Data
             var list = new List<T>();
             using (var result = command.ExecuteReader())
             {
-                T obj = default(T);
                 while (result.Read())
                 {
-                    obj = Activator.CreateInstance<T>();
+                    var obj = Activator.CreateInstance<T>();
                     foreach (var prop in obj.GetType().GetProperties())
                     {                            
-                        if (!object.Equals(result[prop.Name], DBNull.Value))
+                        if (!Equals(result[prop.Name], DBNull.Value))
                         {                                
                             prop.SetValue(obj, result[prop.Name], null);
                         }                                                                                   
@@ -122,6 +117,7 @@ namespace EcdsApp.Data
         }
 
         //#endregion
+
         //public DbSet<JRCWebApp.ViewModels.Role> Role { get; set; }
         public List<string> GetColumns<TEntity>(string modelName)
         {
@@ -147,6 +143,41 @@ namespace EcdsApp.Data
                 .GetGenericArguments() //Get the generic type of the DbSet
                 .SelectMany(t => t.GetProperties()
                     .Select(pi => pi.Name)).ToList();
+        }
+
+
+    }
+
+
+    public static partial class CustomExtensions
+    {
+        public static IQueryable Query(this DbContext context, string entityName) => context.Query(context.Model.FindEntityType(entityName).ClrType);
+
+        public static IQueryable Query(this DbContext context, Type entityType) =>
+            (IQueryable)((IDbSetCache)context).GetOrAddSet(context.GetDependencies().SetSource, entityType);
+    }
+
+
+    public static class DbContextExtensions
+    {
+        public static IQueryable<object> Set(this DbContext context, Type t)
+        {
+            return (IQueryable<object>)context.GetType().GetMethod("Set")?.MakeGenericMethod(t).Invoke(context, null);
+        }
+
+        public static IQueryable<object> Set(this DbContext context, string table)
+        {
+            //One way to get the Type
+            var tableType = context.GetType().Assembly.GetExportedTypes().FirstOrDefault(t => t.Name == table);
+
+            //The Second way, get from the dictionary which we've initialized at startup
+            //tableType = TableTypeDictionary[table];
+
+            //The third way, works only if 'table' is an 'assembly qualified type name'
+            tableType = Type.GetType(table);
+
+            var objectContext = context.Set(tableType);
+            return objectContext;
         }
     }
 }
