@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace EcdsApp.Models.UpazilaWiseInfoModels
 {
+    [Table("tbl_upazila_wise_exposure_data")]
     public class UpazilaWiseExposureData
     {
         [Key]
