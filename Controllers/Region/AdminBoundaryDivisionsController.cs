@@ -4,13 +4,10 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EcdsApp.Data;
 using EcdsApp.Models;
-using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace EcdsApp.Controllers.Region
@@ -32,6 +29,14 @@ namespace EcdsApp.Controllers.Region
             var modelName = "AdminBoundaryDivisions";
             var columnName = "DivisionGeoCode,DivisionName";
 
+            var myDictionary1 = new Dictionary<string, Func<DbContext, IQueryable>>
+            {
+                { "AdminBoundaryDivisions", ( DbContext context ) => context.Set<AdminBoundaryDivision>() }
+            };
+
+            var dbSet = myDictionary1[modelName].Invoke(_context);
+            dbSet.ToDynamicList();
+
             var myDictionary = new Dictionary<string, Type>
             {
                 {"AdminBoundaryDivisions", typeof(AdminBoundaryDivision)}
@@ -41,8 +46,7 @@ namespace EcdsApp.Controllers.Region
             //var dbSet = _context.Set(myDictionary[modelName]);
             var entity = _context.Find(myDictionary[modelName], "10");
 
-            var result = _context.Query(modelName).ToDynamicList();
-
+            var result = _context.Query(modelName).ToDynamicListAsync();
             //var query = _context.Set(modelName);
             //var result = query.ToList();
 

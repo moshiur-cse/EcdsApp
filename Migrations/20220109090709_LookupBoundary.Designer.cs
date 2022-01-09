@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220109090709_LookupBoundary")]
+    partial class LookupBoundary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,22 +136,6 @@ namespace EcdsApp.Migrations
                     b.HasIndex("DistrictGeoCode");
 
                     b.ToTable("lkp_admin_boundary_upazilas");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.TabularModels.BoundaryInfo", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("BoundaryName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("boundary_name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("lkp_boundary_info");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.TableColumnInfo", b =>
@@ -396,10 +382,6 @@ namespace EcdsApp.Migrations
                         .HasColumnType("int")
                         .HasColumnName("layer_id");
 
-                    b.Property<int?>("BoundaryInfoId")
-                        .HasColumnType("int")
-                        .HasColumnName("boundary_info_id");
-
                     b.Property<string>("FileLatName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
@@ -513,10 +495,6 @@ namespace EcdsApp.Migrations
                         .HasColumnType("int")
                         .HasColumnName("sub_theme_id");
 
-                    b.Property<int?>("TableInfoId")
-                        .HasColumnType("int")
-                        .HasColumnName("table_info_id");
-
                     b.Property<string>("ThirdAttributeCode")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
@@ -534,13 +512,9 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("LayerId");
 
-                    b.HasIndex("BoundaryInfoId");
-
                     b.HasIndex("LayerTypeId");
 
                     b.HasIndex("SubThemeId");
-
-                    b.HasIndex("TableInfoId");
 
                     b.ToTable("tbl_theme_layer_details");
                 });
@@ -958,10 +932,6 @@ namespace EcdsApp.Migrations
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.ThemeLayerDetail", b =>
                 {
-                    b.HasOne("EcdsApp.Models.TabularModels.BoundaryInfo", "BoundaryInfo")
-                        .WithMany()
-                        .HasForeignKey("BoundaryInfoId");
-
                     b.HasOne("EcdsApp.Models.ThemeModels.ThemeLayerType", "ThemeLayerTypes")
                         .WithMany()
                         .HasForeignKey("LayerTypeId")
@@ -974,15 +944,7 @@ namespace EcdsApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EcdsApp.Models.TabularModels.TableInfo", "TableInfo")
-                        .WithMany()
-                        .HasForeignKey("TableInfoId");
-
-                    b.Navigation("BoundaryInfo");
-
                     b.Navigation("SubThemes");
-
-                    b.Navigation("TableInfo");
 
                     b.Navigation("ThemeLayerTypes");
                 });

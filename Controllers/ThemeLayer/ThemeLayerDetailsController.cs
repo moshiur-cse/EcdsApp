@@ -58,6 +58,8 @@ namespace EcdsApp.Controllers.ThemeLayer
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName");
+            ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
+            ViewData["TableList"] = new SelectList(_context.TableInfos.ToList(), "Id", "TableName");
 
             return View();
         }

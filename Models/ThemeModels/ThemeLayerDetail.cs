@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EcdsApp.Models.TabularModels;
 using Microsoft.AspNetCore.Http;
 
 namespace EcdsApp.Models.ThemeModels
@@ -119,6 +120,18 @@ namespace EcdsApp.Models.ThemeModels
         [StringLength(256)]
         [Display(Name = "File Longitude Name")]
         public string FileLongName { get; set; }
+
+        [Column("boundary_info_id")]
+        [Display(Name = "Regional Boundary")]
+        public int? BoundaryInfoId { get; set; }
+        [ForeignKey("BoundaryInfoId")]
+        public virtual BoundaryInfo BoundaryInfo { get; set; }
+
+        [Column("table_info_id")]
+        [Display(Name = "Table Name")]
+        public int? TableInfoId { get; set; }
+        [ForeignKey("TableInfoId")]
+        public virtual TableInfo TableInfo { get; set; }
 
         [Column("is_legend_color")]
         [Display(Name = "Legend Color?")]

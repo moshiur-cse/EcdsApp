@@ -8,6 +8,8 @@ using EcdsApp.Models.UserManage;
 using EcdsApp.Models;
 using EcdsApp.Models.ThemeModels;
 using System.Linq;
+using EcdsApp.Models.TabularModels;
+using EcdsApp.Models.UpazilaWiseInfoModels;
 using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EcdsApp.Data
@@ -35,6 +37,14 @@ namespace EcdsApp.Data
         public DbSet<ThemeLayerType> ThemeLayerTypes { get; set; }
         public DbSet<LayerLegendColor> LayerLegendColors { get; set; }
         public DbSet<MetaDataDetail> MetaDataDetails { get; set; }
+
+        public DbSet<TableInfo> TableInfos { get; set; }
+        public DbSet<TableColumnInfo> TableColumnInfos { get; set; }
+
+        public DbSet<ExposureCategory> ExposureCategories { get; set; }
+        public DbSet<UpazilaWiseExposureData> UpazilaWiseExposureData { get; set; }
+        public DbSet<BoundaryInfo> BoundaryInfos { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -149,7 +159,7 @@ namespace EcdsApp.Data
     }
 
 
-    public static partial class CustomExtensions
+    public static class CustomExtensions
     {
         public static IQueryable Query(this DbContext context, string entityName) => context.Query(context.Model.FindEntityType(entityName).ClrType);
 
@@ -158,26 +168,5 @@ namespace EcdsApp.Data
     }
 
 
-    public static class DbContextExtensions
-    {
-        public static IQueryable<object> Set(this DbContext context, Type t)
-        {
-            return (IQueryable<object>)context.GetType().GetMethod("Set")?.MakeGenericMethod(t).Invoke(context, null);
-        }
-
-        public static IQueryable<object> Set(this DbContext context, string table)
-        {
-            //One way to get the Type
-            var tableType = context.GetType().Assembly.GetExportedTypes().FirstOrDefault(t => t.Name == table);
-
-            //The Second way, get from the dictionary which we've initialized at startup
-            //tableType = TableTypeDictionary[table];
-
-            //The third way, works only if 'table' is an 'assembly qualified type name'
-            tableType = Type.GetType(table);
-
-            var objectContext = context.Set(tableType);
-            return objectContext;
-        }
-    }
+    
 }
