@@ -34,6 +34,8 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.LayerTypeId)
                                         </th>
+                                        <th>Boundary</th>
+                                        <th>Table Name</th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.MainAttributeDisplayName)
                                         </th>
@@ -82,80 +84,116 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.LegendColorFieldName)
                                         </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.LineColorCode)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.FillColorCode)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Opacity)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.FillOpacity)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.LineWeight)
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>
-                                                <a asp-action="Edit" asp-route-id="@item.LayerId" class="btn btn-info btn-rounded btn-soft-info waves-effect waves-light">Edit</a>
-                                                <a asp-action="Delete" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)
-                                            </td>   
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.LayerPath)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.LayerName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.LayerFileName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ThemeLayerTypes.LayerTypeName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.MainAttributeDisplayName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.MainAttributeName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.MainAttributeCode)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.FirstAttributeDisplayName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.FirstAttributeName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.FirstAttributeCode)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.SecondAttributeDisplayName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.SecondAttributeName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.SecondAttributeCode)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ThirdAttributeDisplayName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ThirdAttributeName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ThirdAttributeCode)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.FileLatName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.FileLongName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.IsLegendColor)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.LegendColorFieldName)
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.LayerId" class="btn btn-info btn-rounded btn-soft-info waves-effect waves-light">Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LayerPath)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LayerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LayerFileName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ThemeLayerTypes.LayerTypeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BoundaryInfo.BoundaryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TableInfo.TableName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MainAttributeDisplayName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MainAttributeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MainAttributeCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FirstAttributeDisplayName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FirstAttributeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FirstAttributeCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SecondAttributeDisplayName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SecondAttributeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SecondAttributeCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ThirdAttributeDisplayName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ThirdAttributeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ThirdAttributeCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FileLatName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FileLongName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.IsLegendColor)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LegendColorFieldName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LineColorCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FillColorCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Opacity)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FillOpacity)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LineWeight)
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

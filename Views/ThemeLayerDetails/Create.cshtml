@@ -64,7 +64,7 @@
                         
                         <div id="tabularLayerDiv" style="display: none">
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label">Region Category</label>
+                                <label id="ddlBoundaryLbl" class="col-md-2 col-form-label">Region Category</label>
                                 <div class="col-md-10">
                                     <select id="ddlBoundary" class="form-select" asp-items="ViewBag.BoundaryList" asp-for="BoundaryInfoId">
                                         <option value="">Select</option>
@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label">Table Name</label>
+                                <label id="ddlTableNamesLbl" class="col-md-2 col-form-label">Table Name</label>
                                 <div class="col-md-10">
                                     <select id="ddlTableNames" class="form-select" asp-items="ViewBag.TableList" asp-for="TableInfoId">
                                         <option value="">Select</option>
@@ -183,14 +183,14 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label" asp-for="LegendColorFieldName"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="LegendColorFieldName" class="form-control" />
+                                    <input id="txtLegendColorFieldName" asp-for="LegendColorFieldName" class="form-control" readonly="readonly"/>
                                     <span asp-validation-for="LegendColorFieldName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label" asp-for="IsLegendColor"></label>
                                 <div class="col-md-10">
-                                    <input class="form-check-input" asp-for="IsLegendColor" style="padding-top: 25px; padding-left: 25px">
+                                    <input id="chkIsLegendColor" class="form-check-input" asp-for="IsLegendColor" style="padding-top: 25px; padding-left: 25px">
                                 </div>
                             </div>
                         </div>
@@ -198,53 +198,53 @@
 
                         
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="LineColorCode"></label>
+                                <label class="col-md-2 col-form-label required" asp-for="LineColorCode"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="LineColorCode" class="form-control" required=""/>
+                                    <input id="txtLineColorCode" asp-for="LineColorCode" required="" class="form-control"/>
                                     <span asp-validation-for="LineColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="FillColorCode"></label>
+                                <label class="col-md-2 col-form-label required" asp-for="FillColorCode"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="FillColorCode" class="form-control" required="" />
+                                    <input id="txtFillColorCode" asp-for="FillColorCode" required="" class="form-control"/>
                                     <span asp-validation-for="FillColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="Opacity"></label>
+                                <label class="col-md-2 col-form-label required" asp-for="Opacity"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="Opacity" class="form-control" required="" data-parsley-range="[0.0, 1.0]"/>
+                                    <input id="txtOpacity" asp-for="Opacity" required="" class="form-control" data-parsley-range="[0.0, 1.0]"/>
                                     <span asp-validation-for="Opacity" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="FillOpacity"></label>
+                                <label class="col-md-2 col-form-label required" asp-for="FillOpacity"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="FillOpacity" class="form-control" required="" />
+                                    <input id="txtFillOpacity" required="" asp-for="FillOpacity" class="form-control"/>
                                     <span asp-validation-for="FillOpacity" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="LineWeight"></label>
+                                <label class="col-md-2 col-form-label required" asp-for="LineWeight"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="LineWeight" class="form-control" required="" />
+                                    <input id="txtLineWeight" required="" asp-for="LineWeight" class="form-control"/>
                                     <span asp-validation-for="LineWeight" class="text-danger"></span>
                                 </div>
                             </div>
                             
-                            <div id="otherLayerDiv2">
+                            <div id="fileUploadDiv" style="display: none">
                                 <div class="mb-3 row">
-                                    <label class="col-md-2 col-form-label required">Upload Geo JSON File</label>
+                                    <label id="jsonFileTypeLbl" class="col-md-2 col-form-label">Upload Geo JSON File</label>
                                     <div class="col-md-10">
-                                        <input class="form-control mb-1" type="file" name="geoJsonFile" accept="application/JSON" required="" data-parsley-required-message="JSON file required" />
+                                        <input id="jsonFileTypeInput" class="form-control mb-1" type="file" name="geoJsonFile" accept="application/JSON"/>
                                         <a href="https://mapshaper.org/" class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light" target="_blank">Convert your MAP</a>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label class="col-md-2 col-form-label required">Upload Shape File</label>
+                                    <label id="shapeFileTypeLbl" class="col-md-2 col-form-label">Upload Shape File</label>
                                     <div class="col-md-10">
-                                        <input class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx" required="" data-parsley-required-message="Shape Files required" multiple="" />
+                                        <input id="shapeFileInput" class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx"/>
                                     </div>
                                 </div>
                             </div>
@@ -266,7 +266,8 @@
     @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
+
             $('#ddlTheme').change(function () {
                 var items = '';
 
@@ -310,11 +311,41 @@
                 if (layerType === "4") {
                     $('#tabularLayerDiv').show();
                     $('#otherLayerDiv').hide();
-                    $('#otherLayerDiv2').hide();
+                    $('#fileUploadDiv').hide();
+
+                    $('#ddlBoundary').attr('required', 'required');
+                    $('#ddlBoundary').attr('data-parsley-required-message', 'You must select at least one option.');
+                    $('#ddlBoundaryLbl').addClass('required');
+
+                    $('#ddlTableNames').attr('required', 'required');
+                    $('#ddlTableNames').attr('data-parsley-required-message', 'You must select at least one option.');
+                    $('#ddlTableNamesLbl').addClass('required');
+
+                    $('#jsonFileTypeInput').prop('required', false);
+                    $('#shapeFileInput').prop('required', false);
+
                 } else {
                     $('#otherLayerDiv').show();
-                    $('#otherLayerDiv2').show();
+                    $('#fileUploadDiv').show();
                     $('#tabularLayerDiv').hide();
+
+                    $('#ddlBoundary').prop('required', false);
+                    $('#ddlTableNames').prop('required', false);
+
+                    $('#jsonFileTypeInput').attr('required', 'required');
+                    $('#jsonFileTypeLbl').addClass('required');
+
+                    $('#shapeFileInput').attr('required', 'required');
+                    $('#shapeFileTypeLbl').addClass('required');
+                }
+            });
+            
+            $('#chkIsLegendColor').change(function() {
+                if($('#chkIsLegendColor').prop("checked") === true) {
+                    $("#txtLegendColorFieldName").prop("readonly", false);
+                }
+                else if($('#chkIsLegendColor').prop("checked") === false){
+                    $("#txtLegendColorFieldName").prop("readonly", true);
                 }
             });
 

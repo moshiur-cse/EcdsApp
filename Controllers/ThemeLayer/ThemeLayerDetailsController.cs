@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EcdsApp.Data;
+using EcdsApp.Models.TabularModels;
 using EcdsApp.Models.ThemeModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +29,12 @@ namespace EcdsApp.Controllers.ThemeLayer
         // GET: ThemeLayerDetails
         public async Task<IActionResult> Index()
         {
-            var dataContext = _context.ThemeLayerDetails.Include(t => t.SubThemes).Include(t => t.ThemeLayerTypes);
+            var dataContext = _context.ThemeLayerDetails
+                .Include(t => t.SubThemes)
+                .Include(t => t.ThemeLayerTypes)
+                .Include(t => t.BoundaryInfo)
+                .Include(t => t.TableInfo);
+
             return View(await dataContext.ToListAsync());
         }
 
@@ -55,11 +61,21 @@ namespace EcdsApp.Controllers.ThemeLayer
         // GET: ThemeLayerDetails/Create
         public IActionResult Create()
         {
+            //var tblList = _context.TableInfos
+            //    .Select(t => new { t.Id, t.TableName })
+            //    .AsQueryable()
+            //    .ToList()
+            //    .GroupBy(g => g.TableName)
+            //    .ToList();
+
+            var tblList = _context.TableInfos.Select(t => t.TableName).Distinct().ToList();
+
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName");
             ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
-            ViewData["TableList"] = new SelectList(_context.TableInfos.ToList(), "Id", "TableName");
+
+            ViewData["TableList"] = new SelectList(tblList);
 
             return View();
         }
@@ -70,10 +86,10 @@ namespace EcdsApp.Controllers.ThemeLayer
         [DisableRequestSizeLimit]
         public async Task<IActionResult> Create([Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName," +
             "FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName," +
-            "IsLegendColor,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight")] 
+            "IsLegendColor,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")] 
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
-            if (ModelState.IsValid && geoJsonFile.Count > 0 && shapeFile.Count == 4)
+            if (ModelState.IsValid)
             {
                 var shapeFileExtList = shapeFile.Select(item => ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Value).Select(Path.GetExtension).ToList();
                 var jsonFileName = ContentDispositionHeaderValue.Parse(geoJsonFile[0].ContentDisposition).FileName.Value;
