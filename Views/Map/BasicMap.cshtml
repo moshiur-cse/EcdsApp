@@ -276,12 +276,13 @@
         var upaz_list = [];
 
         var g_opacity, g_fillOpacity, g_weight, g_color;
+        var g_tableId, g_boundaryId;
 
 
 
 
         var mapLabels = L.layerGroup();
-        var g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField;
+        var g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField;
         mapInit();
         //LayerShowHide('1', '"administrative'+'\'+'admin_data'+'\' + 'division' + '\'+'divsion.json"', 'div_name', 'div_code', 'C_LAT', 'C_LONG', 'DIVISION', '1');
 
@@ -418,18 +419,22 @@
             $("#map_bg_layers").append(bgLayersContent);
 
         }
-        function LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, firstAttDisName, firstAtt, layerName, layerTypeid, isLegendColor, legendcolorField, admin_code_list, opacity, fillOpacity, weight, color) {
+        function LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, firstAttDisName, firstAtt, layerName, layerTypeId, isLegendColor, legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, boundaryId, tableId) {
             //alert(layerId);
 
             if ($("#" + layerId).prop("checked") == true) {
 
             g_layerUid = layerUid; g_layerId = layerId; g_filepath = filepath; g_mainAttDisName = mainAttDisName; g_mainAtt = mainAtt; g_attCode = attCode; g_cLat = cLat; g_cLong = cLong;
-            g_firstAttDisName = firstAttDisName; g_firstAtt = firstAtt; g_layerName = layerName; g_layerTypeid = layerTypeid; g_isLegendColor = isLegendColor; g_legendcolorField = legendcolorField;
+            g_firstAttDisName = firstAttDisName; g_firstAtt = firstAtt; g_layerName = layerName; g_layerTypeId = layerTypeId; g_isLegendColor = isLegendColor; g_legendcolorField = legendcolorField;
 
                 g_opacity = opacity;
                 g_fillOpacity = fillOpacity;
                 g_weight = weight;
                 g_color = color;
+
+                g_boundaryId = boundaryId;
+                g_tableId = tableId;
+
             //debugger;
                 var layerPath = "../assets/js/map/map_data/" + filepath;
 
@@ -520,79 +525,31 @@
                //debugger;
                 if (admin_code_list.includes(feature.properties[attCode].toString()) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 2)) ||
                     admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 8))) {
-                    if (isLegendColor == 0) {
-                        colorList[feature.properties[attCode]] = getRandomColor();
+ 
+                        //colorList[feature.properties[attCode]] = getRandomColor();
 
                         return {
-                            fillColor:'#0000ffff', //colorList[feature.properties[attCode]],
+                            fillColor: isLegendColor == 0 ? '#0000ffff' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
                             weight: weight,
                             opacity: opacity,
                             color: color,
                             dashArray: '1',
                             fillOpacity: fillOpacity
                         };
-                    } else {
+                   
 
+                }else if (admin_code_list.length == 0) {
 
-                        //for (var i = 0; i < userDefinedColorList.le)  //Moshiur
-
-
-
-
-                        console.log(feature.properties[legendcolorField]);
-                            return {
-                                //fillColor: userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]],
-                                fillColor: userDefinedColorList[feature.properties[legendcolorField]],
-                                weight: 1,
-                                weight: weight,
-                                opacity: opacity,
-                                color: color,
-                                dashArray: '1',
-                                fillOpacity: fillOpacity
-                            };
-
-                    }
-
-                }
-
-
-                if (admin_code_list.length == 0) {
-                    if (isLegendColor == 0) {
-                        colorList[feature.properties[attCode]] = getRandomColor();
+                        //colorList[feature.properties[attCode]] = getRandomColor();
                         return {
-                            fillColor:'#ffffff00', //colorList[feature.properties[attCode]],
+                            fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
                             weight: weight,
                             opacity: opacity,
                             color: color,
                             dashArray: '1',
                             fillOpacity: fillOpacity
-                        };
-                    } else {
-
-                        //alert(userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]]);
-                        //console.log(userDefinedColorList);  //Moshiur
-                        //$.each(userDefinedColorList, function (index, val) {
-                        //console.log(feature.properties[legendcolorField]);
-
-                        //    if (feature.properties[legendcolorField] == index) {
-                                return {
-                                    /*fillColor: userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]],*/
-                                    fillColor: userDefinedColorList[feature.properties[legendcolorField]],
-                                    weight: weight,
-                                    opacity: opacity,
-                                    color: color,
-                                    dashArray: '1',
-                                    fillOpacity: fillOpacity
-                                };
-
-                            //}
-
-
-                        //});
-                    }
-
-                }
-                else {
+                        };                  
+                } else {
                     return {
                         fillColor: '#ffffff',
                         weight: 1,
@@ -604,7 +561,6 @@
                     };
 
                 }
-
             }
             function onEachFeature(feature, layer) {
 
@@ -818,10 +774,6 @@
                 //console.log(jQuery("#"+this.id).val());
                 var layerId = this.id;
 
-
-
-
-
                 jQuery.ajax({
                     type: "POST",
                     url: "@Url.Action("GetLayerInformation")",
@@ -837,8 +789,12 @@
                                /*  }, 1000);*/
 
                          }
+                         var opacity = (items.opacity == 0 ? 0.6 : items.opacity), fillOpacity = (items.fillOpacity == 0 ? 0.6 : items.fillOpacity), weight = (items.lineWeight == 0 ? 1 : items.lineWeight), color = (items.lineColorCode == "0" ? "#000000" : items.lineColorCode);
 
                          if (items.layerTypeId == 4) {
+
+                            
+                            
                              var columnBindId = "columnList_" + items.layerId;
 
 
@@ -848,17 +804,26 @@
 
 
                              jQuery("#" + columnBindId).change(function () {
+
                                  var columnName = jQuery("#" + columnBindId).val();
-
-
                                  getMapBindData(tableId, columnName, items.boundaryId);
+                                 var mainAttCodeName;
+
+                                 if (items.boundaryId == 3) {
+                                     path = "administrative/administrative_boundary/upazila/upazila.json";
+                                     mainAttCodeName = "UpazGeoCod";
+                                 }
+
+                                 LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+
+                                 
                              });
+
+
+                         } else {
+                             
+                             LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
                          }
-
-
-
-                         var opacity = 0.6, fillOpacity = 0.6, weight = 1, color = "#000000";
-                         LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color);
 
                     },
                     error: function(ex, status, error) {
@@ -973,7 +938,7 @@
         function DisplayChange(value) {
             g_opacity = value; g_fillOpacity = value;
             jQuery("#busy-indicator").fadeIn(150);
-            LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
+            LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
             jQuery("#busy-indicator").fadeOut(150);
 
 
@@ -1049,7 +1014,7 @@
                 }
 
                 jQuery("#busy-indicator").fadeIn(150);
-                LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
+                LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
                 jQuery("#busy-indicator").fadeOut(150);
             }
 
@@ -1064,7 +1029,7 @@
         //});
 
 
-       // LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeid, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
+       // LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
         function DisplayDetailsInfoes(adminCodeForGetResult, name) {
 
             //alert(+adminCodeForGetResult+" "+name);

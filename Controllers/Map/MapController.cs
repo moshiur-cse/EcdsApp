@@ -126,7 +126,15 @@ namespace EcdsApp.Controllers.Map
                         layerTypeId = sd.LayerTypeId,
                         isLegendColor=sd.IsLegendColor,
                         legendcolorField=sd.LegendColorFieldName,
-                        tableId=sd.TableInfoId,
+
+
+                        fillColorCode = sd.FillColorCode,
+                        lineColorCode = sd.LineColorCode,
+                        opacity = sd.Opacity,
+                        fillOpacity = sd.FillOpacity,
+                        lineWeight = sd.LineWeight,
+
+                        tableId =sd.TableInfoId,
                         boundaryId = sd.BoundaryInfoId,
                         
                     }).FirstOrDefault();

@@ -101,6 +101,8 @@ namespace EcdsApp.Data
         // Reference:  https://stackoverflow.com/questions/48278258/entity-framework-core-raw-sqlqueries-with-custom-model
         public List<T> ExecSql<T>(string query)
         {
+
+
             using var command = Database.GetDbConnection().CreateCommand();
             command.CommandText = query;
             command.CommandType = CommandType.Text;
