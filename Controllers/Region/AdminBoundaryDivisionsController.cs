@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EcdsApp.Data;
 using EcdsApp.Models;
+using EcdsApp.Models.ViewModels.TabularVm;
 using MySql.Data.MySqlClient;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -24,6 +25,8 @@ namespace EcdsApp.Controllers.Region
         // GET: AdminBoundaryDivisions
         public async Task<IActionResult> Index()
         {
+            var data = _context.GetTabularData("div_geo_code,div_name", "lkp_admin_boundary_divisions");
+
             var columns = _context.GetColumns<DataContext>("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
             //var columns = DataContext.GetColumn("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
             var modelName = "AdminBoundaryDivisions";
@@ -46,49 +49,22 @@ namespace EcdsApp.Controllers.Region
             //var dbSet = _context.Set(myDictionary[modelName]);
             var entity = _context.Find(myDictionary[modelName], "10");
 
-            var result = _context.Query(modelName).ToDynamicListAsync();
+            //var result = _context.Query(modelName).ToDynamicListAsync();
             //var query = _context.Set(modelName);
             //var result = query.ToList();
 
             //var data = _context.AdminBoundaryDivisions.FromSqlRaw("SELECT * FROM lkp_admin_boundary_divisions").ToList();
-            var data = GetData("div_name", "lkp_admin_boundary_divisions");
-            var jsonData = JsonSerializer.Serialize(data.Result);
+
+            //var data = _context.GetData("div_name", "lkp_admin_boundary_divisions");
+            //var jsonData = JsonSerializer.Serialize(data2);
+
             //var data = _context.ExecSql<AdminBoundaryDivision>("SELECT * FROM lkp_admin_boundary_divisions");
 
 
             return View(await _context.AdminBoundaryDivisions.ToListAsync());
         }
 
-        private async Task<List<string>> GetData(string fieldName, string tableName)
-        {
-            try
-            {
-                var fields = new List<string>();
-
-                var conn = new MySqlConnection("server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
-                await conn.OpenAsync();
-                var cmd = new MySqlCommand("Select " + fieldName + " from " + tableName + " ", conn);
-
-                var reader = await cmd.ExecuteReaderAsync();
-                while (await reader.ReadAsync())
-                {
-                    var field = reader[fieldName].ToString();
-                    if (!string.IsNullOrEmpty(field))
-                    {
-                        fields.Add(field);
-                    }
-                }
-
-                await conn.CloseAsync();
-                return fields;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.StackTrace);
-            }
-
-            return new List<string>();
-        }
+        
 
 
         public async Task<IActionResult> SummaryData(string adminCode, int isShowLayout = 0, int isShowAction = 0)

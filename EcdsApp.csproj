@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\ViewModels\TabularVm\" />
     <Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\division\" />
     <Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\upazila\" />
   </ItemGroup>

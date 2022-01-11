@@ -74,7 +74,7 @@
                             <div class="mb-3 row">
                                 <label id="ddlTableNamesLbl" class="col-md-2 col-form-label">Table Name</label>
                                 <div class="col-md-10">
-                                    <select id="ddlTableNames" class="form-select" asp-items="ViewBag.TableList" asp-for="TableInfoId">
+                                    <select id="ddlTableNames" class="form-select"  data-parsley-min="1" asp-for="TableInfoId">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -180,22 +180,21 @@
                                     <span asp-validation-for="FileLongName" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="LegendColorFieldName"></label>
-                                <div class="col-md-10">
-                                    <input id="txtLegendColorFieldName" asp-for="LegendColorFieldName" class="form-control" readonly="readonly"/>
-                                    <span asp-validation-for="LegendColorFieldName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="IsLegendColor"></label>
-                                <div class="col-md-10">
-                                    <input id="chkIsLegendColor" class="form-check-input" asp-for="IsLegendColor" style="padding-top: 25px; padding-left: 25px">
-                                </div>
-                            </div>
                         </div>
 
-
+                        <div class="mb-3 row">
+                            <label class="col-md-2 col-form-label" asp-for="LegendColorFieldName"></label>
+                            <div class="col-md-10">
+                                <input id="txtLegendColorFieldName" asp-for="LegendColorFieldName" class="form-control" readonly="readonly"/>
+                                <span asp-validation-for="LegendColorFieldName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-md-2 col-form-label" asp-for="IsLegendColor"></label>
+                            <div class="col-md-10">
+                                <input id="chkIsLegendColor" class="form-check-input" asp-for="IsLegendColor" style="padding-top: 25px; padding-left: 25px">
+                            </div>
+                        </div>
                         
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="LineColorCode"></label>
@@ -265,7 +264,7 @@
 @section Scripts {
     @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
 
-    <script type="text/javascript">
+<script type="text/javascript">
         $(document).ready(function () {
 
             $('#ddlTheme').change(function () {
@@ -301,8 +300,39 @@
                     }
                 });
                 return false;
+            });
 
-
+            $('#ddlSubTheme').change(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetTableInfoData", "ThemeLayerDetails")',
+                    dataType: "json",
+                    data: { subThemeId: $('#ddlSubTheme').val() },
+                    success: function (responseData) {
+                        $('#ddlTableNames').empty();
+                        var items = '';
+                        $.each(responseData,
+                            function (i, tblName) {
+                                items += "<option value='" + tblName.value + "'>" + tblName.text + "</option>";
+                            });
+                        if (items !== "") {
+                            $('#ddlTableNames').html(items);
+                        }
+                        //else {
+                        //    $('#ddlTableNames').html("<option value=''>No Data Available Under the Selected Sub-Theme</option> ");
+                        //}
+                    },
+                    error: function (ex) {
+                        window.Swal.fire({
+                            title: "Error",
+                            text: "Failed to Load Table Data!" + ex.responseText,
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                });
+                return false;
             });
 
             $('#ddlLayerType').change(function() {
@@ -339,7 +369,7 @@
                     $('#shapeFileTypeLbl').addClass('required');
                 }
             });
-            
+
             $('#chkIsLegendColor').change(function() {
                 if($('#chkIsLegendColor').prop("checked") === true) {
                     $("#txtLegendColorFieldName").prop("readonly", false);
@@ -350,5 +380,5 @@
             });
 
         });
-    </script>
+</script>
 }

@@ -68,14 +68,12 @@ namespace EcdsApp.Controllers.ThemeLayer
             //    .GroupBy(g => g.TableName)
             //    .ToList();
 
-            var tblList = _context.TableInfos.Select(t => t.TableName).Distinct().ToList();
+            //var tblList = _context.TableInfos.Select(t => t.TableName).Distinct().ToList();
 
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName");
             ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
-
-            ViewData["TableList"] = new SelectList(tblList);
 
             return View();
         }
@@ -145,12 +143,17 @@ namespace EcdsApp.Controllers.ThemeLayer
         public JsonResult GetSubThemeData(int themeId)
         {
             var subThemeList = _context.SubThemes.Where(e => e.ThemeId == themeId).ToList();
-            if (subThemeList.Count > 0)
-            {
-                subThemeList.Insert(0, new SubTheme { SubThemeId = 0, SubThemeName = "Select" });
-            }
+            subThemeList.Insert(0, new SubTheme { SubThemeId = 0, SubThemeName = "Select" });
 
             return Json(new SelectList(subThemeList, "SubThemeId", "SubThemeName"));
+        }
+
+        public JsonResult GetTableInfoData(int subThemeId)
+        {
+            var tableList = _context.TableInfos.Where(e => e.SubThemeId == subThemeId).ToList();
+            tableList.Insert(0, new TableInfo { Id = 0, DisplayName = "Select" });
+
+            return Json(new SelectList(tableList, "Id", "DisplayName"));
         }
 
         // GET: ThemeLayerDetails/Edit/5

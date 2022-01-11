@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EcdsApp.Models.TabularModels;
-using Microsoft.AspNetCore.Http;
 
 namespace EcdsApp.Models.ThemeModels
 {
