@@ -165,8 +165,5 @@ namespace EcdsApp.Data
 
         public static IQueryable Query(this DbContext context, Type entityType) =>
             (IQueryable)((IDbSetCache)context).GetOrAddSet(context.GetDependencies().SetSource, entityType);
-    }
-
-
-    
+    }   
 }
