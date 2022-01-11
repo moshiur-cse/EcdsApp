@@ -266,6 +266,8 @@
         var colorList = {};
         var userDefinedColorList = {};
         var userDefinedLegendNameList = {};
+        var mapBindData = {};
+
 
         var legend = L.control({ position: 'bottomright' });
         var legend_div = L.DomUtil.create('div', 'legend_info');
@@ -465,7 +467,7 @@
             }).done(function (e) {
                 mymap.addLayer(data_layer[layerId]);
 
-               
+
 
                 if (isLegendColor == 1) {
                     legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
@@ -818,6 +820,8 @@
 
 
 
+
+
                 jQuery.ajax({
                     type: "POST",
                     url: "@Url.Action("GetLayerInformation")",
@@ -833,6 +837,26 @@
                                /*  }, 1000);*/
 
                          }
+
+                         if (items.layerTypeId == 4) {
+                             var columnBindId = "columnList_" + items.layerId;
+
+
+                             jQuery("#" + columnBindId).empty();
+                             var tableId = items.tableId;
+                             getTableColumnList(tableId, columnBindId);
+
+
+                             jQuery("#" + columnBindId).change(function () {
+                                 var columnName = jQuery("#" + columnBindId).val();
+
+
+                                 getMapBindData(tableId, columnName, items.boundaryId);
+                             });
+                         }
+
+
+
                          var opacity = 0.6, fillOpacity = 0.6, weight = 1, color = "#000000";
                          LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color);
 
@@ -844,8 +868,69 @@
                     },
                      complete: jQuery("#busy-indicator").fadeOut(150)
                 });
+
+
             }
+
         });
+
+    function getTableColumnList(tableId, columnBindId) {
+        var $data = $("#" + columnBindId);
+
+             jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetTbleColumnList")",
+                    dataType: "json",
+                    data: { tableId: tableId },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                    success: function (datas) {
+
+                        $data.append(
+                    '<option value="" selected="selected">----- Select -----</option>');
+                $.each(datas,
+                    function (i, item) {
+                        $("<option />").val(item.value).html(item.text).appendTo($data);
+                    });
+
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                    },
+                     complete: jQuery("#busy-indicator").fadeOut(150)
+             });
+
+        }
+
+        function getMapBindData(tableId, columnName, boundaryId) {
+            jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetMapBindData")",
+                    dataType: "json",
+                data: { tableId: tableId, columnName: columnName, boundaryId: boundaryId },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                    success: function (items) {
+
+                        $.each(items,
+                            function (i, item) {
+                                //userDefinedColorList[layerId + "_" + item.attCode] = item.colorCode;
+                                mapBindData[item.code] = item.value;
+                                //userDefinedLegendNameList[layerId + "_" + item.attCode] = item.attName;
+                                //userDefinedLegendNameList[item.attCode] = item.attName;
+                            });
+                        //
+
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                    },
+                     complete: jQuery("#busy-indicator").fadeOut(150)
+             });
+        }
+
         function map_reset() {
             location.reload(true);
         }
@@ -894,7 +979,7 @@
 
         }
 
-       
+
 
         jQuery("#DistCode").on("change",function (evt, adop) {
                 var distCode = $("#DistCode").val(),
@@ -1008,7 +1093,7 @@
                 }).always(function () {
                     $("#busy-indicator").fadeOut(150);
                 });
-          
+
             return false;
         }
 

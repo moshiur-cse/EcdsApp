@@ -39,6 +39,8 @@ namespace EcdsApp.Controllers.Map
                             layerPathList = j.Select(j=>j.LayerPath).ToList(),
                             layerIdList= j.Select(j => j.LayerId).ToList(),
                             layerNameList= j.Select(j => j.LayerName).ToList(),
+                            layerTypeIdList = j.Select(j => j.LayerTypeId).ToList(),
+                            tableIdList= j.Select(j => j.TableInfoId).ToList()
 
                         }).ToList()
 
@@ -76,6 +78,7 @@ namespace EcdsApp.Controllers.Map
                             layerPathList = j.Select(j => j.LayerPath).ToList(),
                             layerIdList = j.Select(j => j.LayerId).ToList(),
                             layerNameList = j.Select(j => j.LayerName).ToList(),
+                            layerTypeIdList = j.Select(j=>j.LayerTypeId).ToList()
 
                         }).ToList()
 
@@ -122,10 +125,53 @@ namespace EcdsApp.Controllers.Map
 
                         layerTypeId = sd.LayerTypeId,
                         isLegendColor=sd.IsLegendColor,
-                        legendcolorField=sd.LegendColorFieldName
-
+                        legendcolorField=sd.LegendColorFieldName,
+                        tableId=sd.TableInfoId,
+                        boundaryId = sd.BoundaryInfoId,
+                        
                     }).FirstOrDefault();
                 return Json(data);
+
+        }
+
+        
+       [HttpPost]
+       public JsonResult GetTbleColumnList(int tableId)
+        {
+            var dataList = _context.TableColumnInfos
+                .Where(sd => sd.TableId==tableId)
+                .Select(sd => new { sd.DbColumnName, sd.DisplayName })
+                .OrderBy(sd => sd.DisplayName).ToList();
+
+            return Json(new SelectList(dataList, "DbColumnName", "DisplayName"));
+        }
+        
+       [HttpPost]
+       public JsonResult GetMapBindData(int tableId, string columnName,int boundaryId)
+        {
+            string tableName = _context.TableInfos.Where(i => i.Id == tableId).Select(i => i.TableName).FirstOrDefault();
+
+            var geoCodeColumnName = "";
+            if (boundaryId == 1)
+            {
+                geoCodeColumnName = "";
+            }
+            else if (boundaryId == 2)
+            {
+                geoCodeColumnName = "";
+            }
+            else if (boundaryId == 3) 
+            {
+                geoCodeColumnName = "upz_geo_code";
+            }
+
+            string columList = geoCodeColumnName + "," + columnName;
+
+            //var data = GetData(columList, tableName);
+
+            var data = "";
+           
+            return Json(data);
 
         }
 
@@ -141,6 +187,7 @@ namespace EcdsApp.Controllers.Map
 
             }).ToList();
             return Json(data);
+
         }
 
         [HttpPost]

@@ -81,7 +81,22 @@
                                                                             <ul class="sub-menu" aria-expanded="true">
                                                                                 <li>
 
-                                                                                    <a><input class="layer_class" type="checkbox" id="@subTheme.layerPathList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerPathList[i]">@subTheme.layerNameList[i]</label></a>
+
+                                                                                    @if (subTheme.layerTypeIdList[i] == 4)
+                                                                                    {
+                                                                                    <a>
+                                                                                        <input class="layer_class" type="checkbox" id="@subTheme.layerPathList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerPathList[i]">@subTheme.layerNameList[i]</label>
+                                                                                        <select class="" id="columnList_@(subTheme.layerIdList[i])">
+                                                                                            <option>--Select--</option>
+                                                                                        </select>
+                                                                                    </a>
+                                                                                        
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <a><input class="layer_class" type="checkbox" id="@subTheme.layerPathList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerPathList[i]">@subTheme.layerNameList[i]</label></a>
+                                                                                    }
+
 
                                                                                 </li>
 
@@ -224,7 +239,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -241,7 +256,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    
+
                 </div>
             </div>
 

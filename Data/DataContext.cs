@@ -210,8 +210,14 @@ namespace EcdsApp.Data
                 Console.WriteLine(e.StackTrace);
             }
 
+<<<<<<< HEAD
             return new List<string>();
         }
     }
 
+=======
+        public static IQueryable Query(this DbContext context, Type entityType) =>
+            (IQueryable)((IDbSetCache)context).GetOrAddSet(context.GetDependencies().SetSource, entityType);
+    }   
+>>>>>>> 6362a6b94fe736520fb552590a360e6490d6c1f2
 }
