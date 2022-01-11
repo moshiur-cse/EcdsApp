@@ -2,9 +2,9 @@
 {
     public class JsonDataBindingViewModel
     {
-        public string Code { get; set; }
+        public dynamic Code { get; set; }
 
         //[Column(TypeName = "decimal(12, 2)")]
-        public string Value { get; set; }
+        public dynamic Value { get; set; }
     }
 }

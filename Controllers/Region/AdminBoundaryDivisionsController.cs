@@ -25,7 +25,7 @@ namespace EcdsApp.Controllers.Region
         // GET: AdminBoundaryDivisions
         public async Task<IActionResult> Index()
         {
-            var data = _context.GetTabularData("div_geo_code,div_name", "lkp_admin_boundary_divisions");
+            var data = _context.GetTabularData("layer_id,opacity", "tbl_theme_layer_details");
 
             var columns = _context.GetColumns<DataContext>("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
             //var columns = DataContext.GetColumn("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
