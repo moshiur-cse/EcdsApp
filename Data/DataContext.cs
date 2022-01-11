@@ -8,9 +8,13 @@ using EcdsApp.Models.UserManage;
 using EcdsApp.Models;
 using EcdsApp.Models.ThemeModels;
 using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 using EcdsApp.Models.TabularModels;
 using EcdsApp.Models.UpazilaWiseInfoModels;
-using Microsoft.EntityFrameworkCore.Internal;
+using EcdsApp.Models.ViewModels.TabularVm;
+using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
 
 namespace EcdsApp.Data
 {
@@ -18,11 +22,15 @@ namespace EcdsApp.Data
     public class DataContext : IdentityDbContext<UserRegistration, IdentityRole, string>
     {
         //public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
                 optionsBuilder.UseMySQL("server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
+        }
+
+        public string GetConnectionString()
+        {
+            return Database.GetDbConnection().ConnectionString = "server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;";
         }
 
         public DbSet<AdminBoundaryDistrict> AdminBoundaryDistricts { get; set; }
@@ -97,6 +105,25 @@ namespace EcdsApp.Data
 
         }
 
+        public JsonResult GetTabularData(string columnName, string tableName)
+        {
+            try
+            {
+                var columnNameSepArray = columnName.Split(',');
+                var sqlQry = "SELECT "+ columnNameSepArray[0] + " AS Code, "+ columnNameSepArray[1] +" AS Value FROM "+ tableName +" ";
+                var queryResult = ExecSql<JsonDataBindingViewModel>(sqlQry);
+                var jsonData = JsonSerializer.Serialize(queryResult);
+
+                return new JsonResult(jsonData);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+
+            return null;
+        }
+
 
         // Reference:  https://stackoverflow.com/questions/48278258/entity-framework-core-raw-sqlqueries-with-custom-model
         public List<T> ExecSql<T>(string query)
@@ -155,18 +182,36 @@ namespace EcdsApp.Data
                     .Select(pi => pi.Name)).ToList();
         }
 
+        public async Task<List<string>> GetData(string columnName, string tableName)
+        {
+            try
+            {
+                var fields = new List<string>();
 
+                var conn = new MySqlConnection(GetConnectionString());
+                await conn.OpenAsync();
+                var cmd = new MySqlCommand("Select " + columnName + " from " + tableName + " ", conn);
+
+                var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    var field = reader[columnName].ToString();
+                    if (!string.IsNullOrEmpty(field))
+                    {
+                        fields.Add(field);
+                    }
+                }
+
+                await conn.CloseAsync();
+                return fields;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+
+            return new List<string>();
+        }
     }
 
-
-    public static class CustomExtensions
-    {
-        public static IQueryable Query(this DbContext context, string entityName) => context.Query(context.Model.FindEntityType(entityName).ClrType);
-
-        public static IQueryable Query(this DbContext context, Type entityType) =>
-            (IQueryable)((IDbSetCache)context).GetOrAddSet(context.GetDependencies().SetSource, entityType);
-    }
-
-
-    
 }
