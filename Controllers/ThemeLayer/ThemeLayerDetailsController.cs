@@ -61,15 +61,6 @@ namespace EcdsApp.Controllers.ThemeLayer
         // GET: ThemeLayerDetails/Create
         public IActionResult Create()
         {
-            //var tblList = _context.TableInfos
-            //    .Select(t => new { t.Id, t.TableName })
-            //    .AsQueryable()
-            //    .ToList()
-            //    .GroupBy(g => g.TableName)
-            //    .ToList();
-
-            //var tblList = _context.TableInfos.Select(t => t.TableName).Distinct().ToList();
-
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName");

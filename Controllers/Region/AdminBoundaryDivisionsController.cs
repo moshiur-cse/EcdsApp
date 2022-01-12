@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic.Core;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EcdsApp.Data;
 using EcdsApp.Models;
-using EcdsApp.Models.ViewModels.TabularVm;
-using MySql.Data.MySqlClient;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace EcdsApp.Controllers.Region
 {
@@ -25,47 +19,8 @@ namespace EcdsApp.Controllers.Region
         // GET: AdminBoundaryDivisions
         public async Task<IActionResult> Index()
         {
-            var data = _context.GetTabularData("layer_id,opacity", "tbl_theme_layer_details");
-
-            var columns = _context.GetColumns<DataContext>("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
-            //var columns = DataContext.GetColumn("AdminBoundaryDivisions"); //GetColumns<DataContext>("SomeProperty");
-            var modelName = "AdminBoundaryDivisions";
-            var columnName = "DivisionGeoCode,DivisionName";
-
-            var myDictionary1 = new Dictionary<string, Func<DbContext, IQueryable>>
-            {
-                { "AdminBoundaryDivisions", ( DbContext context ) => context.Set<AdminBoundaryDivision>() }
-            };
-
-            var dbSet = myDictionary1[modelName].Invoke(_context);
-            dbSet.ToDynamicList();
-
-            var myDictionary = new Dictionary<string, Type>
-            {
-                {"AdminBoundaryDivisions", typeof(AdminBoundaryDivision)}
-            };
-
-            //DBContext dbContext = new DBContext();
-            //var dbSet = _context.Set(myDictionary[modelName]);
-            var entity = _context.Find(myDictionary[modelName], "10");
-
-            //var result = _context.Query(modelName).ToDynamicListAsync();
-            //var query = _context.Set(modelName);
-            //var result = query.ToList();
-
-            //var data = _context.AdminBoundaryDivisions.FromSqlRaw("SELECT * FROM lkp_admin_boundary_divisions").ToList();
-
-            //var data = _context.GetData("div_name", "lkp_admin_boundary_divisions");
-            //var jsonData = JsonSerializer.Serialize(data2);
-
-            //var data = _context.ExecSql<AdminBoundaryDivision>("SELECT * FROM lkp_admin_boundary_divisions");
-
-
             return View(await _context.AdminBoundaryDivisions.ToListAsync());
         }
-
-        
-
 
         public async Task<IActionResult> SummaryData(string adminCode, int isShowLayout = 0, int isShowAction = 0)
         {
@@ -83,8 +38,6 @@ namespace EcdsApp.Controllers.Region
 
             return View(await _context.AdminBoundaryDivisions.ToListAsync());
         }
-
-
 
         // GET: AdminBoundaryDivisions/Details/5
         public async Task<IActionResult> Details(string id)
@@ -111,8 +64,6 @@ namespace EcdsApp.Controllers.Region
         }
 
         // POST: AdminBoundaryDivisions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DivisionGeoCode,DivisionName,DivisionNameBangla,SortingOrder")] AdminBoundaryDivision adminBoundaryDivision)
@@ -143,8 +94,6 @@ namespace EcdsApp.Controllers.Region
         }
 
         // POST: AdminBoundaryDivisions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("DivisionGeoCode,DivisionName,DivisionNameBangla,SortingOrder")] AdminBoundaryDivision adminBoundaryDivision)

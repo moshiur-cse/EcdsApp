@@ -35,5 +35,11 @@ namespace EcdsApp.Models.TabularModels
         [StringLength(50)]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
+
+        [Column("column_type_id")]
+        [Display(Name = "Column Type")]
+        public int? ColumnTypeId { get; set; }
+        [ForeignKey("ColumnTypeId")]
+        public virtual ColumnType ColumnType { get; set; }
     }
 }

@@ -48,11 +48,13 @@ namespace EcdsApp.Data
 
         public DbSet<TableInfo> TableInfos { get; set; }
         public DbSet<TableColumnInfo> TableColumnInfos { get; set; }
+        public DbSet<ColumnType> ColumnTypes { get; set; }
 
         public DbSet<ExposureCategory> ExposureCategories { get; set; }
         public DbSet<UpazilaWiseExposureData> UpazilaWiseExposureData { get; set; }
+        public DbSet<UpazilaWiseRiskIndex> UpazilaWiseRiskIndex { get; set; }
         public DbSet<BoundaryInfo> BoundaryInfos { get; set; }
-
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
