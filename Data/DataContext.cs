@@ -112,9 +112,9 @@ namespace EcdsApp.Data
                 var columnNameSepArray = columnName.Split(',');
                 var sqlQry = "SELECT "+ columnNameSepArray[0] + " AS Code, "+ columnNameSepArray[1] +" AS Value FROM "+ tableName +" ";
                 var queryResult = ExecSql<JsonDataBindingViewModel>(sqlQry);
-                var jsonData = JsonSerializer.Serialize(queryResult);
+                //var jsonData = JsonSerializer.Serialize(queryResult);
 
-                return new JsonResult(jsonData);
+                return new JsonResult(queryResult);
             }
             catch (Exception e)
             {

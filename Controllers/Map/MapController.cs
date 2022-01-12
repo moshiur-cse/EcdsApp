@@ -175,11 +175,11 @@ namespace EcdsApp.Controllers.Map
 
             string columList = geoCodeColumnName + "," + columnName;
 
-            //var data = GetData(columList, tableName);
+            var data = _context.GetTabularData(columList, tableName);
 
-            var data = "";
+            
            
-            return Json(data);
+            return data;
 
         }
 
