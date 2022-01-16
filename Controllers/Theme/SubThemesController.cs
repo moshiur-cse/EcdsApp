@@ -23,6 +23,7 @@ namespace EcdsApp.Controllers.Theme
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.SubThemes.Include(s => s.Themes);
+
             return View(await dataContext.ToListAsync());
         }
 
@@ -53,18 +54,21 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // POST: SubThemes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SubThemeId,ThemeId,SubThemeName,SubThemePath")] SubTheme subTheme)
         {
             if (ModelState.IsValid)
             {
+                var newSubThemeId = (_context.SubThemes.Max(s => (int?)s.SubThemeId) ?? 0) + 1;
+                subTheme.SubThemeId = newSubThemeId;
+
                 _context.Add(subTheme);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName", subTheme.ThemeId);
             return View(subTheme);
         }
@@ -87,8 +91,6 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // POST: SubThemes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("SubThemeId,ThemeId,SubThemeName,SubThemePath")] SubTheme subTheme)
@@ -111,10 +113,8 @@ namespace EcdsApp.Controllers.Theme
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }

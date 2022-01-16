@@ -67,7 +67,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             formData.LayerLegendColorId = newLayerLegendColorId;
             _context.Add(formData);
             var response = _context.SaveChanges() > 0;
-            result = response ? "Success!" : "Error";
+            result = response ? "Success" : "Error";
 
             //return RedirectToAction(nameof(Index));
 
@@ -104,6 +104,14 @@ namespace EcdsApp.Controllers.ThemeLayer
             }
 
             return Json(legendColorDataList);
+        }
+
+        [HttpGet]
+        public IActionResult GetLegendColorPropertyInfo(int layerLegendColorId)
+        {
+            var layerLegendColorObj = _context.LayerLegendColors.FirstOrDefault(l => l.LayerLegendColorId == layerLegendColorId);
+
+            return Json(layerLegendColorObj);
         }
 
         // GET: LayerLegendColors/Edit/5

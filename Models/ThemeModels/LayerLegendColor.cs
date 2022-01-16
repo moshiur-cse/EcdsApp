@@ -21,7 +21,7 @@ namespace EcdsApp.Models.ThemeModels
 
         [Column("layer_main_attribure_value")]
         [StringLength(256)]
-        [Display(Name = "Main Attribure Value")]
+        [Display(Name = "Main Attribute Value")]
         public string LayerMainAttribureValue { get; set; }
 
         [Required]

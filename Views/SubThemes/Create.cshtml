@@ -1,48 +1,51 @@
 ﻿@model EcdsApp.Models.ThemeModels.SubTheme
-
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">Add Sub-Theme Information</h3>
 
-<h4>SubTheme</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SubThemeId" class="control-label"></label>
-                <input asp-for="SubThemeId" class="form-control" />
-                <span asp-validation-for="SubThemeId" class="text-danger"></span>
+                        <form asp-action="Create" class="mt-4 custom-validation" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Theme</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-items="ViewBag.ThemeId" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="SubThemeName"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="SubThemeName" class="form-control" required="" />
+                                    <span asp-validation-for="SubThemeName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="SubThemePath"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="SubThemePath" class="form-control" required="" />
+                                    <span asp-validation-for="SubThemePath" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 text-right">
+                                <input type="submit" value="Submit" class="btn btn-rounded btn-success w-lg" />
+                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ThemeId" class="control-label"></label>
-                <select asp-for="ThemeId" class ="form-control" asp-items="ViewBag.ThemeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="SubThemeName" class="control-label"></label>
-                <input asp-for="SubThemeName" class="form-control" />
-                <span asp-validation-for="SubThemeName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SubThemePath" class="control-label"></label>
-                <input asp-for="SubThemePath" class="form-control" />
-                <span asp-validation-for="SubThemePath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
