@@ -20,7 +20,7 @@ namespace EcdsApp.Models.ThemeModels
         [ForeignKey("SubThemeId")]
         public virtual SubTheme SubThemes { get; set; }
 
-        [Required]
+        //[Required]
         [Column("layer_path")]
         [StringLength(256)]
         [Display(Name = "Layer Path")]
@@ -32,7 +32,7 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Layer Name")]
         public string LayerName { get; set; }
 
-        [Required]
+        //[Required]
         [Column("layer_file_name")]
         [StringLength(256)]
         [Display(Name = "File Name")]

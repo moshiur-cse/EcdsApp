@@ -1,0 +1,80 @@
+﻿@model IEnumerable<EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseExposureData>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body m-0">
+                        <h3 class="display-6 mb-0">List of Exposure Data</h3>
+                        <p class="card-title-desc">Upazila Wise Exposure Information</p>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Record</a>
+                    </div>
+                </div>
+                <div class="table-responsive mb-4">
+                    <table class="table table-centered datatable dt-responsive nowrap table-card-list" style="border-collapse: collapse; border-spacing: 0 12px; width: 100%;">
+                        <thead>
+                            <tr class="bg-transparent">
+                                <th>Upazila</th>
+                                <th>Flood</th>
+                                <th>Storm Surge</th>
+                                <th>Land Slide</th>
+                                <th>Drought</th>
+                                <th>Earthquake</th>
+                                <th>Tsunami</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Upazila.UpazilaName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FloodExposure.CategoryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StormSurgeExposure.CategoryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LandSlideExposure.CategoryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DroughtExposure.CategoryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EarthquakeExposure.CategoryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TsunamiExposure.CategoryName)
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
+                                    <a href="javascript:void(0);" class="px-3 text-danger"><i class="uil uil-trash-alt font-size-18"></i></a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
+        });
+    </script>
+}
+

@@ -10,8 +10,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">Add Layer Legend Color Information</h3>
-                        <br/>
+                        <h3 class="display-6 mb-3">Add Layer Legend Color Information</h3>
+                        <br />
                         <form>
                             <div class="row">
                                 <div class="mb-3 col-md-3">
@@ -59,20 +59,21 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <input type="hidden" id="txtLayerLegendColorId"/>
+                                            <input type="hidden" id="txtLayerLegendColorId" />
+                                            <input type="hidden" id="txtLayerId" class="form-control" />
 
                                             <div class="row">
                                                 <div class="col-md-12 mb-3">
                                                     <label class="form-label required">Main Attribute Value</label>
-                                                    <input id="editTxtMainAttrValue" type="text" class="form-control"/>
+                                                    <input id="editTxtMainAttrValue" type="text" class="form-control" />
                                                 </div>
                                                 <div class="col-md-12 mb-3">
                                                     <label class="form-label required">Legend Color Code</label>
-                                                    <input id="editTxtLegendColorCode" type="text" class="form-control"/>
+                                                    <input id="editTxtLegendColorCode" type="text" class="form-control" />
                                                 </div>
                                                 <div class="col-md-12 mb-3">
                                                     <label class="form-label required">Legend Display Name</label>
-                                                    <input id="editTxtLegendDisplayName" type="text" class="form-control"/>
+                                                    <input id="editTxtLegendDisplayName" type="text" class="form-control" />
                                                 </div>
                                             </div>
                                         </div>
@@ -152,7 +153,7 @@
                             window.Swal.fire({
                                 //position: "top-end",
                                 icon: "success",
-                                title: "Your work has been saved",
+                                title: "Data Added Successfully!",
                                 showConfirmButton: false,
                                 timer: 2500
                             });
@@ -169,7 +170,6 @@
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         const errorMsg = xhr.responseText;
-                        //alert(errorMsg);
                         window.Swal.fire({
                             icon: "error",
                             title: errorMsg,
@@ -183,10 +183,85 @@
 
         });
 
+        $('#btnUpdateLegendColorInfo').click(function() {
+            
+            var layerLegendColorId = $('#txtLayerLegendColorId').val(),
+                layerId = $('#txtLayerId').val(),
+                mainAttrValue = $('#editTxtMainAttrValue').val(),
+                legendColorCode = $('#editTxtLegendColorCode').val(),
+                legendDisplayName = $('#editTxtLegendDisplayName').val();
+            if (mainAttrValue === "" || legendColorCode === "" || legendDisplayName === "") {
+                window.Swal.fire({
+                    icon: "error",
+                    title: "Please fill up all required fields!",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                return;
+            }
+            if (!legendColorCode.startsWith('#') || legendColorCode.length !== 7) {
+                window.Swal.fire({
+                    icon: "error",
+                    title: "Legend Layer Color Code starts with '#' & Length must be 6 Character!",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                return;
+            }
+
+            const formData = {
+                'LayerLegendColorId': layerLegendColorId,
+                'LayerId': layerId,
+                'LayerMainAttribureValue': mainAttrValue,
+                'LayerLegendColorCode': legendColorCode,
+                'LayerLegendDisplayName': legendDisplayName
+            };
+
+            const url = '@Url.Action("Edit", "LayerLegendColors")';
+            $.ajax({
+                type: "POST",
+                url: url,
+                accept: "application/json; charset=utf-8",
+                data: formData,
+                before: jQuery("#busy-indicator").fadeIn(150),
+                success: function (result) {
+                    if (result === "Success") {
+                        window.Swal.fire({
+                            //position: "top-end",
+                            icon: "success",
+                            title: "Data Updated Successfully!",
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                        GetLayerLegendColorInfo(layerId);
+                        setTimeout(function() {
+                            $('#editLegendColorModal').modal('hide');
+                        }, 2500);
+                    } else {
+                        window.Swal.fire({
+                            icon: "error",
+                            title: "Error Updating Data! Please try again",
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    const errorMsg = xhr.responseText;
+                    window.Swal.fire({
+                        icon: "error",
+                        title: errorMsg,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                },
+                complete: jQuery("#busy-indicator").fadeOut(150)
+            });
+        });
+
         function GetLayerLegendColorInfo(layerId) {
 
             const url = '@Url.Action("GetLayerLegendColorInfo", "LayerLegendColors")';
-
             $.ajax({
                 type: "GET",
                 url: url,
@@ -213,29 +288,39 @@
         }
 
         function EditLayerLegendColorInfo(layerLegendColorId) {
-            //alert(layerLegendColorId);
             const url = '@Url.Action("GetLegendColorPropertyInfo", "LayerLegendColors")';
             $.ajax({
                 type: "GET",
                 url: url,
                 data: { layerLegendColorId: layerLegendColorId },
                 dataType: "json",
+                before: jQuery("#busy-indicator").fadeIn(150),
                 success: function (data, status, jqXhr) {
 
                     $('#txtLayerLegendColorId').val(data.layerLegendColorId);
+                    $('#txtLayerId').val(data.layerId);
                     $('#editTxtMainAttrValue').val(data.layerMainAttribureValue);
                     $('#editTxtLegendColorCode').val(data.layerLegendColorCode);
                     $('#editTxtLegendDisplayName').val(data.layerLegendDisplayName);
 
                     $("#editLegendColorModal").modal("show");
-                }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    const errorMsg = xhr.responseText;
+                    window.Swal.fire({
+                        icon: "error",
+                        title: errorMsg,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                },
+                complete: jQuery("#busy-indicator").fadeOut(150)
             });
             
         }
 
         function DeleteLayerLegendColorInfo(layerLegendColorId, layerId) {
             const url = '@Url.Action("DeleteLayerLegendColorInfo", "LayerLegendColors")';
-
             $.ajax({
                 type: "POST",
                 url: url,
@@ -256,7 +341,12 @@
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     const errorMsg = xhr.responseText;
-                    alert(errorMsg);
+                    window.Swal.fire({
+                        icon: "error",
+                        title: errorMsg,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
                 },
                 complete: jQuery("#busy-indicator").fadeOut(150)
             });

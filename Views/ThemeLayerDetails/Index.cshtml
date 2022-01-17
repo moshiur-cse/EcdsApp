@@ -128,7 +128,9 @@
                                             @Html.DisplayFor(modelItem => item.BoundaryInfo.BoundaryName)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.TableInfo.TableName)
+                                            <a target="_blank" asp-controller="UpazilaWiseExposureData" asp-action="Index">
+                                                @Html.DisplayFor(modelItem => item.TableInfo.DisplayName)
+                                            </a>
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.MainAttributeDisplayName)

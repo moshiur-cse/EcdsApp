@@ -80,6 +80,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         {
             var layerLegendColorObj = _context.LayerLegendColors.Find(layerLegendColorId);
             _context.LayerLegendColors.Remove(layerLegendColorObj);
+
             var response = _context.SaveChanges() > 0;
             var result = response ? "Success" : "Error";
 
@@ -133,34 +134,29 @@ namespace EcdsApp.Controllers.ThemeLayer
 
         // POST: LayerLegendColors/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LayerLegendColorId,LayerId,LayerMainAttribureValue,LayerLegendColorCode,LayerLegendDisplayName")] LayerLegendColor layerLegendColor)
+        //[ValidateAntiForgeryToken]
+        public IActionResult Edit(LayerLegendColor formData)
         {
-            if (id != layerLegendColor.LayerLegendColorId)
+            var result = "Error";
+            if (!ModelState.IsValid)
+                return Json(result);
+
+            try
             {
-                return NotFound();
+                _context.Update(formData);
+                var response = _context.SaveChanges() > 0;
+                result = response ? "Success" : "Error";
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!LayerLegendColorExists(formData.LayerLegendColorId))
+                {
+                    return NotFound();
+                }
+                throw;
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(layerLegendColor);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LayerLegendColorExists(layerLegendColor.LayerLegendColorId))
-                    {
-                        return NotFound();
-                    }
-
-                    throw;
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails, "LayerId", "LayerFileName", layerLegendColor.LayerId);
-            return View(layerLegendColor);
+            return Json(result);
         }
 
         // GET: LayerLegendColors/Delete/5

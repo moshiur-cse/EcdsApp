@@ -1,0 +1,90 @@
+﻿@model EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseExposureData
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">Add Exposure Information</h3>
+
+                        <form asp-action="Create" class="mt-4 custom-validation" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Upazila</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="UpazilaGeoCode" asp-items="ViewBag.UpazilaName" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Flood</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="FloodValue" asp-items="ViewBag.FloodValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Storm Surge</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="StormSurgeValue" asp-items="ViewBag.StormSurgeValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Land Slide</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="LandSlideValue" asp-items="ViewBag.LandSlideValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Drought</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="DroughtValue" asp-items="ViewBag.DroughtValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Earthquake</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="EarthquakeValue" asp-items="ViewBag.EarthquakeValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Tsunami</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="TsunamiValue" asp-items="ViewBag.TsunamiValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            
+                            <div class="mt-4 text-right">
+                                <input type="submit" value="Submit" class="btn btn-rounded btn-success w-lg" />
+                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+}

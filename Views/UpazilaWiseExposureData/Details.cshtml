@@ -1,0 +1,61 @@
+﻿@model EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseExposureData
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>UpazilaWiseExposureData</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Upazila)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Upazila.UpazilaGeoCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FloodExposure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FloodExposure.CategoryName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StormSurgeExposure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StormSurgeExposure.CategoryName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LandSlideExposure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LandSlideExposure.CategoryName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DroughtExposure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DroughtExposure.CategoryName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EarthquakeExposure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EarthquakeExposure.CategoryName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TsunamiExposure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TsunamiExposure.CategoryName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
