@@ -147,7 +147,7 @@ namespace EcdsApp.Controllers.Map
        public JsonResult GetTbleColumnList(int tableId)
         {
             var dataList = _context.TableColumnInfos
-                .Where(sd => sd.TableId==tableId)
+                .Where(sd => sd.TableId==tableId && sd.ColumnTypeId==2)
                 .Select(sd => new { sd.DbColumnName, sd.DisplayName })
                 .OrderBy(sd => sd.DisplayName).ToList();
 
@@ -158,20 +158,23 @@ namespace EcdsApp.Controllers.Map
        public JsonResult GetMapBindData(int tableId, string columnName,int boundaryId)
         {
             string tableName = _context.TableInfos.Where(i => i.Id == tableId).Select(i => i.TableName).FirstOrDefault();
+            string geoCodeColumnName = _context.TableColumnInfos.Where(i => i.TableId == tableId && i.ColumnTypeId == 1).Select(i => i.DbColumnName).FirstOrDefault();
 
-            var geoCodeColumnName = "";
-            if (boundaryId == 1)
-            {
-                geoCodeColumnName = "";
-            }
-            else if (boundaryId == 2)
-            {
-                geoCodeColumnName = "";
-            }
-            else if (boundaryId == 3) 
-            {
-                geoCodeColumnName = "upz_geo_code";
-            }
+
+
+            //var geoCodeColumnName = "";
+            //if (boundaryId == 1)
+            //{
+            //    geoCodeColumnName = "";
+            //}
+            //else if (boundaryId == 2)
+            //{
+            //    geoCodeColumnName = "";
+            //}
+            //else if (boundaryId == 3) 
+            //{
+            //    geoCodeColumnName = "upz_geo_code";
+            //}
 
             string columList = geoCodeColumnName + "," + columnName;
 
