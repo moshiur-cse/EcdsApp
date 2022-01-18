@@ -1,0 +1,103 @@
+﻿@model EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseRiskIndex
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>UpazilaWiseRiskIndex</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Upazila)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Upazila.UpazilaGeoCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PeopleAffectedNaturalDisaster)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PeopleAffectedNaturalDisaster)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HeatStressVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HeatStressVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GroundWaterVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GroundWaterVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MangroveForestVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MangroveForestVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LivestockLandVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LivestockLandVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WaterAvailabilityVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WaterAvailabilityVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CropYieldVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CropYieldVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LivestockHealthVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LivestockHealthVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AgriLandAvailabilityVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AgriLandAvailabilityVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FishCultureVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FishCultureVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FishCaptureVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FishCaptureVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RailNetworkVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RailNetworkVulnerability)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoadNetworkVulnerability)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoadNetworkVulnerability)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

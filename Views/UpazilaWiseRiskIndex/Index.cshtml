@@ -1,0 +1,143 @@
+﻿@model IEnumerable<EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseRiskIndex>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+    <style type="text/css">
+        .th .td {
+            max-width: 70px!important;
+        }
+    </style>
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body m-0">
+                        <h3 class="display-6 mb-0">List of  Risk Index</h3>
+                        <p class="card-title-desc">Upazila Wise Risk Index Information</p>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Record</a>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-centered datatable nowrap table-card-list" style="border-collapse: collapse; border-spacing: 0 12px; width: 100%;">
+                        <thead>
+                        <tr class="bg-transparent">
+                            <th>Action</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Upazila.UpazilaName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PeopleAffectedNaturalDisaster)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.HeatStressVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.GroundWaterVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MangroveForestVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LivestockLandVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.WaterAvailabilityVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CropYieldVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LivestockHealthVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AgriLandAvailabilityVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FishCultureVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FishCaptureVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.RailNetworkVulnerability)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.RoadNetworkVulnerability)
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="uil uil-pen font-size-20"></i></a>
+                                    @*<a asp-action="Delete" asp-route-id="@item.Id" class="px-3 text-danger"><i class="uil uil-trash-alt font-size-18"></i></a>*@
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Upazila.UpazilaName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeopleAffectedNaturalDisaster)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HeatStressVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.GroundWaterVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MangroveForestVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LivestockLandVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WaterAvailabilityVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CropYieldVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LivestockHealthVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AgriLandAvailabilityVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FishCultureVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FishCaptureVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RailNetworkVulnerability)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RoadNetworkVulnerability)
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
+        });
+    </script>
+}

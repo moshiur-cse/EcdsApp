@@ -1,0 +1,135 @@
+﻿@model EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseRiskIndex
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">Edit Risk Index Information</h3>
+
+                        <form asp-action="Edit" class="mt-4 custom-validation" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">Upazila</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="UpazilaGeoCode" asp-items="ViewBag.UpazilaName" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="PeopleAffectedNaturalDisaster"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="PeopleAffectedNaturalDisaster" class="form-control" />
+                                    <span asp-validation-for="PeopleAffectedNaturalDisaster" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="HeatStressVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="HeatStressVulnerability" class="form-control" />
+                                    <span asp-validation-for="HeatStressVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="GroundWaterVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="GroundWaterVulnerability" class="form-control" />
+                                    <span asp-validation-for="GroundWaterVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="MangroveForestVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="MangroveForestVulnerability" class="form-control" />
+                                    <span asp-validation-for="MangroveForestVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="LivestockLandVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="LivestockLandVulnerability" class="form-control" />
+                                    <span asp-validation-for="LivestockLandVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="WaterAvailabilityVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="WaterAvailabilityVulnerability" class="form-control" />
+                                    <span asp-validation-for="WaterAvailabilityVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="CropYieldVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="CropYieldVulnerability" class="form-control" />
+                                    <span asp-validation-for="CropYieldVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="LivestockHealthVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="LivestockHealthVulnerability" class="form-control" />
+                                    <span asp-validation-for="LivestockHealthVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="AgriLandAvailabilityVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="AgriLandAvailabilityVulnerability" class="form-control" />
+                                    <span asp-validation-for="AgriLandAvailabilityVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="FishCultureVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="FishCultureVulnerability" class="form-control" />
+                                    <span asp-validation-for="FishCultureVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="FishCaptureVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="FishCaptureVulnerability" class="form-control" />
+                                    <span asp-validation-for="FishCaptureVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="RailNetworkVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="RailNetworkVulnerability" class="form-control" />
+                                    <span asp-validation-for="RailNetworkVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="RoadNetworkVulnerability"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="RoadNetworkVulnerability" class="form-control" />
+                                    <span asp-validation-for="RoadNetworkVulnerability" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="mt-4 text-right">
+                                <input type="submit" value="Update" class="btn btn-rounded btn-success w-lg" />
+                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+}

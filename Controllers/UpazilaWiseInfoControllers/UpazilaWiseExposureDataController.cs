@@ -80,10 +80,15 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         {
             if (ModelState.IsValid)
             {
+                var newId = (_context.UpazilaWiseExposureData.Max(s => (int?)s.Id) ?? 0) + 1;
+                upazilaWiseExposureData.Id = newId;
+
                 _context.Add(upazilaWiseExposureData);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["DroughtValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.DroughtValue);
             ViewData["EarthquakeValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.EarthquakeValue);
             ViewData["FloodValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.FloodValue);
@@ -91,6 +96,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
             ViewData["StormSurgeValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.StormSurgeValue);
             ViewData["TsunamiValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.TsunamiValue);
             ViewData["UpazilaGeoCode"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaGeoCode", upazilaWiseExposureData.UpazilaGeoCode);
+
             return View(upazilaWiseExposureData);
         }
 
@@ -107,6 +113,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
             {
                 return NotFound();
             }
+
             ViewData["DroughtValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.DroughtValue);
             ViewData["EarthquakeValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.EarthquakeValue);
             ViewData["FloodValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.FloodValue);
@@ -114,6 +121,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
             ViewData["StormSurgeValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.StormSurgeValue);
             ViewData["TsunamiValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.TsunamiValue);
             ViewData["UpazilaName"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaName", upazilaWiseExposureData.UpazilaGeoCode);
+
             return View(upazilaWiseExposureData);
         }
 
@@ -140,13 +148,11 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["DroughtValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.DroughtValue);
             ViewData["EarthquakeValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.EarthquakeValue);
             ViewData["FloodValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.FloodValue);
@@ -154,6 +160,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
             ViewData["StormSurgeValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.StormSurgeValue);
             ViewData["TsunamiValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.TsunamiValue);
             ViewData["UpazilaGeoCode"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaGeoCode", upazilaWiseExposureData.UpazilaGeoCode);
+
             return View(upazilaWiseExposureData);
         }
 

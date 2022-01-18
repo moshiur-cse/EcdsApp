@@ -147,7 +147,7 @@ namespace EcdsApp.Models.ThemeModels
         public string LineColorCode { get; set; }
 
         [Column("fill_color_code")]
-        [StringLength(7)]
+        [StringLength(10)]
         [Display(Name = "Fill Color Code")]
         public string FillColorCode { get; set; }
 

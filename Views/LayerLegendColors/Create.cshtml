@@ -147,7 +147,7 @@
                     url: url,
                     accept: "application/json; charset=utf-8",
                     data: formData,
-                    before: jQuery("#busy-indicator").fadeIn(150),
+                    before: $("#busy-indicator").fadeIn(150),
                     success: function (result) {
                         if (result === "Success") {
                             window.Swal.fire({
@@ -177,7 +177,7 @@
                             timer: 2500
                         });
                     },
-                    complete: jQuery("#busy-indicator").fadeOut(150)
+                    complete: $("#busy-indicator").fadeOut(150)
                 });
             });
 
@@ -223,7 +223,7 @@
                 url: url,
                 accept: "application/json; charset=utf-8",
                 data: formData,
-                before: jQuery("#busy-indicator").fadeIn(150),
+                before: $("#busy-indicator").fadeIn(150),
                 success: function (result) {
                     if (result === "Success") {
                         window.Swal.fire({
@@ -255,7 +255,7 @@
                         timer: 2500
                     });
                 },
-                complete: jQuery("#busy-indicator").fadeOut(150)
+                complete: $("#busy-indicator").fadeOut(150)
             });
         });
 
@@ -267,6 +267,7 @@
                 url: url,
                 data: { layerId: layerId},
                 dataType: "json",
+                before: $("#busy-indicator").fadeIn(150),
                 success: function (data, status, jqXhr) {
                     if (data.length > 0) {
                         var rows = '';
@@ -283,7 +284,8 @@
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     $("#tblLegendColorData").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert"> Sorry! Something Went Wrong</div></td></tr>');
-                }
+                },
+                complete: $("#busy-indicator").fadeOut(150)
             });
         }
 
@@ -294,7 +296,7 @@
                 url: url,
                 data: { layerLegendColorId: layerLegendColorId },
                 dataType: "json",
-                before: jQuery("#busy-indicator").fadeIn(150),
+                before: $("#busy-indicator").fadeIn(150),
                 success: function (data, status, jqXhr) {
 
                     $('#txtLayerLegendColorId').val(data.layerLegendColorId);
@@ -314,42 +316,65 @@
                         timer: 2500
                     });
                 },
-                complete: jQuery("#busy-indicator").fadeOut(150)
+                complete: $("#busy-indicator").fadeOut(150)
             });
             
         }
 
         function DeleteLayerLegendColorInfo(layerLegendColorId, layerId) {
-            const url = '@Url.Action("DeleteLayerLegendColorInfo", "LayerLegendColors")';
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: { layerLegendColorId: layerLegendColorId },
-                dataType: "json",
-                before: jQuery("#busy-indicator").fadeIn(150),
-                success: function (result) {
-                    window.Swal.fire({
-                        //position: "top-end",
-                        title: "Deleted!",
-                        text: "Legend Color Information has been deleted.",
-                        icon: "success",
-                        showConfirmButton: false,
-                        timer: 2000
-                        //allowOutsideClick: false
+            Swal.fire({
+                icon: "warning",
+                title: "Are you sure?",
+                text: "You won't be able to Revert this!",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Delete it!",
+                cancelButtonText: "No, Cancel!",
+                confirmButtonClass: "btn btn-success mt-2",
+                cancelButtonClass: "btn btn-danger ms-2 mt-2",
+                buttonsStyling: false,
+                allowOutsideClick: false
+            }).then(function (t) {
+                if (t.isConfirmed) {
+
+                    const url = '@Url.Action("DeleteLayerLegendColorInfo", "LayerLegendColors")';
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { layerLegendColorId: layerLegendColorId },
+                        dataType: "json",
+                        before: jQuery("#busy-indicator").fadeIn(150),
+                        success: function (result) {
+                            window.Swal.fire({
+                                icon: "success",
+                                title: "Deleted!",
+                                text: "Legend Color Information has been deleted."
+                            });
+                            GetLayerLegendColorInfo(layerId);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            const errorMsg = xhr.responseText;
+                            window.Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: errorMsg
+                                //showConfirmButton: false,
+                                //timer: 2500
+                            });
+                        },
+                        complete: jQuery("#busy-indicator").fadeOut(150)
                     });
-                    GetLayerLegendColorInfo(layerId);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    const errorMsg = xhr.responseText;
-                    window.Swal.fire({
+                    
+                }
+                else if (t.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire({
                         icon: "error",
-                        title: errorMsg,
-                        showConfirmButton: false,
-                        timer: 2500
+                        title: "Cancelled",
+                        text: "Your Data is Safe :)"
                     });
-                },
-                complete: jQuery("#busy-indicator").fadeOut(150)
+                }
             });
+
+            
         }
 
         function clearFormData() {

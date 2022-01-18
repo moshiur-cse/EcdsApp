@@ -32,7 +32,7 @@ namespace EcdsApp.Models.TabularModels
 
         [Required]
         [Column("display_name")]
-        [StringLength(50)]
+        [StringLength(100)]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
 

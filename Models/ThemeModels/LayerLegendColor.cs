@@ -26,7 +26,7 @@ namespace EcdsApp.Models.ThemeModels
 
         [Required]
         [Column("layer_legend_color_code")]
-        [StringLength(20)]
+        [StringLength(10)]
         [Display(Name = "Legend Color Code")]
         public string LayerLegendColorCode { get; set; }
 
