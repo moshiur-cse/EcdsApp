@@ -39,211 +39,212 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required" asp-for="LayerPath"></label>
+                                <label class="col-md-2 col-form-label required">Layer Type</label>
                                 <div class="col-md-10">
-                                    <input asp-for="LayerPath" class="form-control" required="" />
+                                    <select id="ddlLayerType" class="form-select" asp-items="ViewBag.LayerTypeId" asp-for="LayerTypeId" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label id="layerPathLbl" class="col-md-2 col-form-label" asp-for="LayerPath"></label>
+                                <div class="col-md-10">
+                                    <input id="layerPathInput" asp-for="LayerPath" class="form-control" />
                                     <span asp-validation-for="LayerPath" class="text-danger"></span>
                                 </div>
                             </div>
 
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required" asp-for="LayerFileName"></label>
+                                <label id="layerFileNameLbl" class="col-md-2 col-form-label" asp-for="LayerFileName"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="LayerFileName" class="form-control" required="" />
+                                    <input id="layerFileNameInput" asp-for="LayerFileName" class="form-control" />
                                     <span asp-validation-for="LayerFileName" class="text-danger"></span>
                                 </div>
                             </div>
-                        <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label required">Layer Type</label>
-                            <div class="col-md-10">
-                                <select id="ddlLayerType" class="form-select" asp-items="ViewBag.LayerTypeId" asp-for="LayerTypeId" required="" data-parsley-required-message="You must select at least one option.">
-                                    <option value="">Select</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div id="tabularLayerDiv" style="display: none">
-                            <div class="mb-3 row">
-                                <label id="ddlBoundaryLbl" class="col-md-2 col-form-label">Region Category</label>
-                                <div class="col-md-10">
-                                    <select id="ddlBoundary" class="form-select" asp-items="ViewBag.BoundaryList" asp-for="BoundaryInfoId">
-                                        <option value="">Select</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label id="ddlTableNamesLbl" class="col-md-2 col-form-label">Table Name</label>
-                                <div class="col-md-10">
-                                    <select id="ddlTableNames" class="form-select"  data-parsley-min="1" asp-for="TableInfoId">
-                                        <option value="">Select</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>   
-                            
-                        <div id="otherLayerDiv" style="display: none">
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="MainAttributeDisplayName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="MainAttributeDisplayName" class="form-control" />
-                                    <span asp-validation-for="MainAttributeDisplayName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="MainAttributeName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="MainAttributeName" class="form-control" />
-                                    <span asp-validation-for="MainAttributeName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="MainAttributeCode"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="MainAttributeCode" class="form-control" />
-                                    <span asp-validation-for="MainAttributeCode" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="FirstAttributeDisplayName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="FirstAttributeDisplayName" class="form-control" />
-                                    <span asp-validation-for="FirstAttributeDisplayName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="FirstAttributeName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="FirstAttributeName" class="form-control" />
-                                    <span asp-validation-for="FirstAttributeName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="FirstAttributeCode"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="FirstAttributeCode" class="form-control" />
-                                    <span asp-validation-for="FirstAttributeCode" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="SecondAttributeDisplayName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="SecondAttributeDisplayName" class="form-control" />
-                                    <span asp-validation-for="SecondAttributeDisplayName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="SecondAttributeName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="SecondAttributeName" class="form-control" />
-                                    <span asp-validation-for="SecondAttributeName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="SecondAttributeCode"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="SecondAttributeCode" class="form-control" />
-                                    <span asp-validation-for="SecondAttributeCode" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="ThirdAttributeDisplayName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="ThirdAttributeDisplayName" class="form-control" />
-                                    <span asp-validation-for="ThirdAttributeDisplayName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="ThirdAttributeName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="ThirdAttributeName" class="form-control" />
-                                    <span asp-validation-for="ThirdAttributeName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="ThirdAttributeCode"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="ThirdAttributeCode" class="form-control" />
-                                    <span asp-validation-for="ThirdAttributeCode" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="FileLatName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="FileLatName" class="form-control" />
-                                    <span asp-validation-for="FileLatName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="FileLongName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="FileLongName" class="form-control" />
-                                    <span asp-validation-for="FileLongName" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label" asp-for="LegendColorFieldName"></label>
-                            <div class="col-md-10">
-                                <input id="txtLegendColorFieldName" asp-for="LegendColorFieldName" class="form-control" readonly="readonly"/>
-                                <span asp-validation-for="LegendColorFieldName" class="text-danger"></span>
+
+                            <div id="tabularLayerDiv" style="display: none">
+                                <div class="mb-3 row">
+                                    <label id="ddlBoundaryLbl" class="col-md-2 col-form-label">Region Category</label>
+                                    <div class="col-md-10">
+                                        <select id="ddlBoundary" class="form-select" asp-items="ViewBag.BoundaryList" asp-for="BoundaryInfoId">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label id="ddlTableNamesLbl" class="col-md-2 col-form-label">Table Name</label>
+                                    <div class="col-md-10">
+                                        <select id="ddlTableNames" class="form-select" data-parsley-min="1" asp-for="TableInfoId">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label" asp-for="IsLegendColor"></label>
-                            <div class="col-md-10">
-                                <input id="chkIsLegendColor" class="form-check-input" asp-for="IsLegendColor" style="padding-top: 25px; padding-left: 25px">
+
+                            <div id="otherLayerDiv" style="display: none">
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="MainAttributeDisplayName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="MainAttributeDisplayName" class="form-control" />
+                                        <span asp-validation-for="MainAttributeDisplayName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="MainAttributeName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="MainAttributeName" class="form-control" />
+                                        <span asp-validation-for="MainAttributeName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="MainAttributeCode"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="MainAttributeCode" class="form-control" />
+                                        <span asp-validation-for="MainAttributeCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="FirstAttributeDisplayName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="FirstAttributeDisplayName" class="form-control" />
+                                        <span asp-validation-for="FirstAttributeDisplayName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="FirstAttributeName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="FirstAttributeName" class="form-control" />
+                                        <span asp-validation-for="FirstAttributeName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="FirstAttributeCode"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="FirstAttributeCode" class="form-control" />
+                                        <span asp-validation-for="FirstAttributeCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="SecondAttributeDisplayName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="SecondAttributeDisplayName" class="form-control" />
+                                        <span asp-validation-for="SecondAttributeDisplayName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="SecondAttributeName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="SecondAttributeName" class="form-control" />
+                                        <span asp-validation-for="SecondAttributeName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="SecondAttributeCode"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="SecondAttributeCode" class="form-control" />
+                                        <span asp-validation-for="SecondAttributeCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="ThirdAttributeDisplayName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="ThirdAttributeDisplayName" class="form-control" />
+                                        <span asp-validation-for="ThirdAttributeDisplayName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="ThirdAttributeName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="ThirdAttributeName" class="form-control" />
+                                        <span asp-validation-for="ThirdAttributeName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="ThirdAttributeCode"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="ThirdAttributeCode" class="form-control" />
+                                        <span asp-validation-for="ThirdAttributeCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="FileLatName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="FileLatName" class="form-control" />
+                                        <span asp-validation-for="FileLatName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label" asp-for="FileLongName"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="FileLongName" class="form-control" />
+                                        <span asp-validation-for="FileLongName" class="text-danger"></span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="IsLegendColor"></label>
+                                <div class="col-md-10">
+                                    <input id="chkIsLegendColor" class="form-check-input" asp-for="IsLegendColor" style="padding-top: 25px; padding-left: 25px">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="LegendColorFieldName"></label>
+                                <div class="col-md-10">
+                                    <input id="txtLegendColorFieldName" asp-for="LegendColorFieldName" class="form-control" readonly="readonly" />
+                                    <span asp-validation-for="LegendColorFieldName" class="text-danger"></span>
+                                </div>
+                            </div>
+
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="LineColorCode"></label>
                                 <div class="col-md-10">
-                                    <input id="txtLineColorCode" asp-for="LineColorCode" required="" class="form-control"/>
+                                    <input id="txtLineColorCode" asp-for="LineColorCode" required="" class="form-control" />
                                     <span asp-validation-for="LineColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="FillColorCode"></label>
                                 <div class="col-md-10">
-                                    <input id="txtFillColorCode" asp-for="FillColorCode" required="" class="form-control"/>
+                                    <input id="txtFillColorCode" asp-for="FillColorCode" required="" class="form-control" />
                                     <span asp-validation-for="FillColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="Opacity"></label>
                                 <div class="col-md-10">
-                                    <input id="txtOpacity" asp-for="Opacity" required="" class="form-control" data-parsley-range="[0.0, 1.0]"/>
+                                    <input id="txtOpacity" asp-for="Opacity" required="" class="form-control" data-parsley-range="[0.0, 1.0]" />
                                     <span asp-validation-for="Opacity" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="FillOpacity"></label>
                                 <div class="col-md-10">
-                                    <input id="txtFillOpacity" required="" asp-for="FillOpacity" class="form-control"/>
+                                    <input id="txtFillOpacity" required="" asp-for="FillOpacity" class="form-control" />
                                     <span asp-validation-for="FillOpacity" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="LineWeight"></label>
                                 <div class="col-md-10">
-                                    <input id="txtLineWeight" required="" asp-for="LineWeight" class="form-control"/>
+                                    <input id="txtLineWeight" required="" asp-for="LineWeight" class="form-control" />
                                     <span asp-validation-for="LineWeight" class="text-danger"></span>
                                 </div>
                             </div>
-                            
+
                             <div id="fileUploadDiv" style="display: none">
                                 <div class="mb-3 row">
                                     <label id="jsonFileTypeLbl" class="col-md-2 col-form-label">Upload Geo JSON File</label>
                                     <div class="col-md-10">
-                                        <input id="jsonFileTypeInput" class="form-control mb-1" type="file" name="geoJsonFile" accept="application/JSON"/>
+                                        <input id="jsonFileTypeInput" class="form-control mb-1" type="file" name="geoJsonFile" accept="application/JSON" />
                                         <a href="https://mapshaper.org/" class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light" target="_blank">Convert your MAP</a>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label id="shapeFileTypeLbl" class="col-md-2 col-form-label">Upload Shape File</label>
                                     <div class="col-md-10">
-                                        <input id="shapeFileInput" class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx"/>
+                                        <input id="shapeFileInput" class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx" />
                                     </div>
                                 </div>
                             </div>
@@ -318,9 +319,6 @@
                         if (items !== "") {
                             $('#ddlTableNames').html(items);
                         }
-                        //else {
-                        //    $('#ddlTableNames').html("<option value=''>No Data Available Under the Selected Sub-Theme</option> ");
-                        //}
                     },
                     error: function (ex) {
                         window.Swal.fire({
@@ -336,7 +334,7 @@
             });
 
             $('#ddlLayerType').change(function() {
-                //alert("triggered");
+                
                 const layerType = $('#ddlLayerType').val();
                 if (layerType === "4") {
                     $('#tabularLayerDiv').show();
@@ -354,6 +352,12 @@
                     $('#jsonFileTypeInput').prop('required', false);
                     $('#shapeFileInput').prop('required', false);
 
+                    $('#layerPathInput').prop('required', false);
+                    $('#layerPathLbl').removeClass('required');
+
+                    $('#layerFileNameInput').prop('required', false);
+                    $('#layerFileNameLbl').removeClass('required');
+
                 } else {
                     $('#otherLayerDiv').show();
                     $('#fileUploadDiv').show();
@@ -361,6 +365,12 @@
 
                     $('#ddlBoundary').prop('required', false);
                     $('#ddlTableNames').prop('required', false);
+
+                    $('#layerFileNameInput').attr('required', 'required');
+                    $('#layerFileNameLbl').addClass('required');
+
+                    $('#layerPathInput').attr('required', 'required');
+                    $('#layerPathLbl').addClass('required');
 
                     $('#jsonFileTypeInput').attr('required', 'required');
                     $('#jsonFileTypeLbl').addClass('required');

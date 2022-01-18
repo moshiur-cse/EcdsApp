@@ -1,64 +1,91 @@
 ﻿@model EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseExposureData
-
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">Edit Exposure Information</h3>
 
-<h4>UpazilaWiseExposureData</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="UpazilaGeoCode" class="control-label"></label>
-                <select asp-for="UpazilaGeoCode" class="form-control" asp-items="ViewBag.UpazilaGeoCode"></select>
-                <span asp-validation-for="UpazilaGeoCode" class="text-danger"></span>
+                        <form asp-action="Edit" class="mt-4 custom-validation" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Upazila</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="UpazilaGeoCode" asp-items="ViewBag.UpazilaName" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Flood</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="FloodValue" asp-items="ViewBag.FloodValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Storm Surge</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="StormSurgeValue" asp-items="ViewBag.StormSurgeValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Land Slide</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="LandSlideValue" asp-items="ViewBag.LandSlideValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Drought</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="DroughtValue" asp-items="ViewBag.DroughtValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Earthquake</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="EarthquakeValue" asp-items="ViewBag.EarthquakeValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Tsunami</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="TsunamiValue" asp-items="ViewBag.TsunamiValue" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="mt-4 text-right">
+                                <input type="submit" value="Update" class="btn btn-rounded btn-success w-lg" />
+                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FloodValue" class="control-label"></label>
-                <select asp-for="FloodValue" class="form-control" asp-items="ViewBag.FloodValue"></select>
-                <span asp-validation-for="FloodValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StormSurgeValue" class="control-label"></label>
-                <select asp-for="StormSurgeValue" class="form-control" asp-items="ViewBag.StormSurgeValue"></select>
-                <span asp-validation-for="StormSurgeValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LandSlideValue" class="control-label"></label>
-                <select asp-for="LandSlideValue" class="form-control" asp-items="ViewBag.LandSlideValue"></select>
-                <span asp-validation-for="LandSlideValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DroughtValue" class="control-label"></label>
-                <select asp-for="DroughtValue" class="form-control" asp-items="ViewBag.DroughtValue"></select>
-                <span asp-validation-for="DroughtValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EarthquakeValue" class="control-label"></label>
-                <select asp-for="EarthquakeValue" class="form-control" asp-items="ViewBag.EarthquakeValue"></select>
-                <span asp-validation-for="EarthquakeValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TsunamiValue" class="control-label"></label>
-                <select asp-for="TsunamiValue" class="form-control" asp-items="ViewBag.TsunamiValue"></select>
-                <span asp-validation-for="TsunamiValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

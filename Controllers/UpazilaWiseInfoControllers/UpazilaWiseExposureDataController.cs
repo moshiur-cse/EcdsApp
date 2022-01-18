@@ -113,7 +113,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
             ViewData["LandSlideValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.LandSlideValue);
             ViewData["StormSurgeValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.StormSurgeValue);
             ViewData["TsunamiValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName", upazilaWiseExposureData.TsunamiValue);
-            ViewData["UpazilaGeoCode"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaGeoCode", upazilaWiseExposureData.UpazilaGeoCode);
+            ViewData["UpazilaName"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaName", upazilaWiseExposureData.UpazilaGeoCode);
             return View(upazilaWiseExposureData);
         }
 
