@@ -3,7 +3,11 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@section Styles
+{
+    <!-- Responsive Table css -->
+    <link href="~/assets/libs/admin-resources/rwd-table/rwd-table.min.css" rel="stylesheet" type="text/css" />
+}
 
 <div class="page-content">
     <div class="container-fluid">
@@ -13,45 +17,51 @@
                     <div class="card-body">
                         <h3 class="display-6 mb-0">List of Sub-Themes</h3>
                         <p class="card-title-desc">Sub-Theme Details Information</p>
-                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Sub-Theme</a>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Sub-Theme</a>
+                    </div>
+                </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-nowrap table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Action</th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Themes.ThemeName)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.SubThemeName)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.SubThemePath)
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                    <tr>
-                                        <td>
-                                            <a asp-action="Edit" class="btn btn-info btn-rounded btn-soft-info waves-effect waves-light" asp-route-id="@item.SubThemeId">Edit</a>
-                                            <a asp-action="Delete" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light" asp-route-id="@item.SubThemeId">Delete</a>
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Themes.ThemeName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.SubThemeName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.SubThemePath)
-                                        </td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-rep-plugin">
+                            <div class="table-responsive mb-0" data-pattern="priority-columns">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th data-priority="1">
+                                                @Html.DisplayNameFor(model => model.Themes.ThemeName)
+                                            </th>
+                                            <th data-priority="2">
+                                                @Html.DisplayNameFor(model => model.SubThemeName)
+                                            </th>
+                                            <th data-priority="3">
+                                                @Html.DisplayNameFor(model => model.SubThemePath)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a asp-action="Edit" asp-route-id="@item.SubThemeId" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                                    @*<a asp-action="Delete" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light" asp-route-id="@item.SubThemeId">Delete</a>*@
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Themes.ThemeName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.SubThemeName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.SubThemePath)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,3 +69,17 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <!-- Responsive Table js -->
+    <script src="~/assets/libs/admin-resources/rwd-table/rwd-table.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(function () { $(".table-responsive").responsiveTable({ addDisplayAllBtn: "btn btn-secondary" }), $(".btn-toolbar [data-toggle=dropdown]").attr("data-bs-toggle", "dropdown") });
+        });
+
+    </script>
+}

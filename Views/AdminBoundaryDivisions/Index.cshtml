@@ -12,56 +12,58 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-
                         <h3 class="display-6 mb-0">List of Divisions</h3>
                         <p class="card-title-desc">Division Details Information</p>
-                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Division</a>
-
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Division</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-nowrap table-striped table-bordered">
                                 <thead>
-                                <tr>
-                                    <th>Action</th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.DivisionGeoCode)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.DivisionName)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.DivisionNameBangla)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.SortingOrder)
-                                    </th>
-                                </tr>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DivisionGeoCode)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DivisionName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DivisionNameBangla)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.SortingOrder)
+                                        </th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr data-id="2">
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.DivisionGeoCode" class="btn btn-info btn-rounded btn-soft-info waves-effect waves-light">Edit</a>
-                                            <a asp-action="Delete" asp-route-id="@item.DivisionGeoCode" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>
-                                        </td>
-                                        <td data-field="id">
-                                            @Html.DisplayFor(modelItem => item.DivisionGeoCode)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DivisionName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DivisionNameBangla)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.SortingOrder)
-                                        </td>
-                                    </tr>
-                                }
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr data-id="2">
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.DivisionGeoCode" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                                @*<a asp-action="Delete" asp-route-id="@item.DivisionGeoCode" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>*@
+                                            </td>
+                                            <td data-field="id">
+                                                @Html.DisplayFor(modelItem => item.DivisionGeoCode)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DivisionName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DivisionNameBangla)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SortingOrder)
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div> <!-- end col -->

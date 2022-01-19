@@ -12,28 +12,32 @@
                     <div class="card-body">
                         <h3 class="display-6 mb-0">List of Themes</h3>
                         <p class="card-title-desc">Theme Details Information</p>
-                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Theme</a>
-                        
-                        <div class="table-responsive">
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Theme</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive m-0">
                             <table class="table table-nowrap table-striped table-bordered">
                                 <thead>
-                                    <tr>
-                                        <th>Action</th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.ThemeName)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.ThemePath)
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ThemeName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ThemePath)
+                                    </th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 @foreach (var item in Model)
                                 {
                                     <tr>
                                         <td>
-                                            <a asp-action="Edit" asp-route-id="@item.ThemeId" class="btn btn-info btn-rounded btn-soft-info waves-effect waves-light">Edit</a>
-                                            <a asp-action="Delete" asp-route-id="@item.ThemeId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>
+                                            <a asp-action="Edit" asp-route-id="@item.ThemeId" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                            @*<a asp-action="Delete" asp-route-id="@item.ThemeId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>*@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.ThemeName)
@@ -46,7 +50,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        
                     </div>
                 </div>
             </div>

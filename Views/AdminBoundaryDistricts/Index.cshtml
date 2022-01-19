@@ -1,8 +1,15 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model IEnumerable<EcdsApp.Models.AdminBoundaryDistrict>
+﻿@model ReflectionIT.Mvc.Paging.PagingList<EcdsApp.Models.AdminBoundaryDistrict>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+
 @{
     ViewData["Title"] = "District List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+    <!-- Responsive Table css -->
+    <link href="~/assets/libs/admin-resources/rwd-table/rwd-table.min.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="page-content">
@@ -11,60 +18,69 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-
                         <h3 class="display-6 mb-0">List of Districts</h3>
                         <p class="card-title-desc">District Details Information</p>
-                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-3 w-lg">Add New District</a>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New District</a>
+                    </div>
+                </div>
 
-                        <div class="table-responsive mt-2">
-                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th>Action</th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.DistrictGeoCode)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.DistrictName)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.DistrictNameBangla)
-                                        </th>
-                                        <th>
-                                            Division Name
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.SortingOrder)
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.DistrictGeoCode" class="btn btn-info btn-rounded btn-soft-info waves-effect waves-light">Edit</a>
-                                            <a asp-action="Delete" asp-route-id="@item.DistrictGeoCode" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DistrictGeoCode)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DistrictName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DistrictNameBangla)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Division.DivisionName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.SortingOrder)
-                                        </td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
+                <div class="card m-0">
+                    <div class="card-body">
+                        <div class="table-rep-plugin">
+                            <div class="table-responsive mb-0" data-pattern="priority-columns">
+                                <table id="tech-companies-1" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th data-priority="1">
+                                                @Html.DisplayNameFor(model => model.DistrictGeoCode)
+                                            </th>
+                                            <th data-priority="2">
+                                                @Html.DisplayNameFor(model => model.DistrictName)
+                                            </th>
+                                            <th data-priority="3">
+                                                @Html.DisplayNameFor(model => model.DistrictNameBangla)
+                                            </th>
+                                            <th data-priority="4">
+                                                Division Name
+                                            </th>
+                                            <th data-priority="5">
+                                                @Html.DisplayNameFor(model => model.SortingOrder)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a asp-action="Edit" asp-route-id="@item.DistrictGeoCode" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                                    @*<a asp-action="Delete" asp-route-id="@item.DistrictGeoCode" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>*@
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DistrictGeoCode)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DistrictName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DistrictNameBangla)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Division.DivisionName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.SortingOrder)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <vc:pager paging-list="@Model" />
                         </div>
                     </div>
                 </div>
@@ -75,12 +91,18 @@
 
 @section Scripts
 {
+    <!-- Responsive Table js -->
+    <script src="~/assets/libs/admin-resources/rwd-table/rwd-table.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#datatable-buttons").DataTable({
-                lengthChange: !1,
-                buttons: ["copy", "excel", "pdf", "colvis"]
-            }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
+
+            $(function () { $(".table-responsive").responsiveTable({ addDisplayAllBtn: "btn btn-secondary" }), $(".btn-toolbar [data-toggle=dropdown]").attr("data-bs-toggle", "dropdown") });
+
+            //$("#datatable-buttons").DataTable({
+            //    lengthChange: !1,
+            //    buttons: ["copy", "excel", "pdf", "colvis"]
+            //}).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
         });
 
     </script>

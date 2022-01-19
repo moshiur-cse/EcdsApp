@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EcdsApp.Data;
 using EcdsApp.Models;
+using ReflectionIT.Mvc.Paging;
 
 namespace EcdsApp.Controllers.Region
 {
@@ -20,10 +19,13 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryDistricts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageIndex = 1)
         {
-            var dataContext = _context.AdminBoundaryDistricts.Include(a => a.Division);
-            return View(await dataContext.ToListAsync());
+            var districtList = _context.AdminBoundaryDistricts
+                .Include(a => a.Division).AsNoTracking();
+            var pagingDisList = await PagingList.CreateAsync((IOrderedQueryable<AdminBoundaryDistrict>)districtList, 15, pageIndex);
+
+            return View(pagingDisList);
         }
         public async Task<IActionResult> SummaryData(string adminCode, int isShowLayout = 0, int isShowAction = 0)
         {
@@ -68,8 +70,6 @@ namespace EcdsApp.Controllers.Region
         }
 
         // POST: AdminBoundaryDistricts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DistrictGeoCode,DistrictName,DistrictNameBangla,DivisionGeoCode,SortingOrder")] AdminBoundaryDistrict adminBoundaryDistrict)

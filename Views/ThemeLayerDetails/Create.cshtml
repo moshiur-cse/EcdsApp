@@ -42,28 +42,12 @@
                                 <label class="col-md-2 col-form-label required">Layer Type</label>
                                 <div class="col-md-10">
                                     <select id="ddlLayerType" class="form-select" asp-items="ViewBag.LayerTypeId" asp-for="LayerTypeId" required="" data-parsley-required-message="You must select at least one option.">
-                                        <option value="">Select</option>
+                                        @*<option value="">Select</option>*@
                                     </select>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label id="layerPathLbl" class="col-md-2 col-form-label" asp-for="LayerPath"></label>
-                                <div class="col-md-10">
-                                    <input id="layerPathInput" asp-for="LayerPath" class="form-control" />
-                                    <span asp-validation-for="LayerPath" class="text-danger"></span>
-                                </div>
-                            </div>
 
-                            <div class="mb-3 row">
-                                <label id="layerFileNameLbl" class="col-md-2 col-form-label" asp-for="LayerFileName"></label>
-                                <div class="col-md-10">
-                                    <input id="layerFileNameInput" asp-for="LayerFileName" class="form-control" />
-                                    <span asp-validation-for="LayerFileName" class="text-danger"></span>
-                                </div>
-                            </div>
-
-
-                            <div id="tabularLayerDiv" style="display: none">
+                        <div id="tabularLayerDiv" style="display: none">
                                 <div class="mb-3 row">
                                     <label id="ddlBoundaryLbl" class="col-md-2 col-form-label">Region Category</label>
                                     <div class="col-md-10">
@@ -75,14 +59,29 @@
                                 <div class="mb-3 row">
                                     <label id="ddlTableNamesLbl" class="col-md-2 col-form-label">Table Name</label>
                                     <div class="col-md-10">
-                                        <select id="ddlTableNames" class="form-select" data-parsley-min="1" asp-for="TableInfoId">
+                                        <select id="ddlTableNames" class="form-select" asp-for="TableInfoId">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
-                            <div id="otherLayerDiv" style="display: none">
+                            <div id="otherLayerDiv">
+                                <div class="mb-3 row">
+                                    <label id="layerPathLbl" class="col-md-2 col-form-label required" asp-for="LayerPath"></label>
+                                    <div class="col-md-10">
+                                        <input id="layerPathInput" asp-for="LayerPath" class="form-control" required="" />
+                                        <span asp-validation-for="LayerPath" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label id="layerFileNameLbl" class="col-md-2 col-form-label required" asp-for="LayerFileName"></label>
+                                    <div class="col-md-10">
+                                        <input id="layerFileNameInput" asp-for="LayerFileName" class="form-control" required="" />
+                                        <span asp-validation-for="LayerFileName" class="text-danger"></span>
+                                    </div>
+                                </div>
                                 <div class="mb-3 row">
                                     <label class="col-md-2 col-form-label" asp-for="MainAttributeDisplayName"></label>
                                     <div class="col-md-10">
@@ -200,49 +199,49 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="LineColorCode"></label>
                                 <div class="col-md-10">
-                                    <input id="txtLineColorCode" asp-for="LineColorCode" required="" class="form-control" />
+                                    <input id="txtLineColorCode" asp-for="LineColorCode" required="" class="form-control" value="#" />
                                     <span asp-validation-for="LineColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="FillColorCode"></label>
                                 <div class="col-md-10">
-                                    <input id="txtFillColorCode" asp-for="FillColorCode" required="" class="form-control" />
+                                    <input id="txtFillColorCode" asp-for="FillColorCode" required="" class="form-control" value="#" />
                                     <span asp-validation-for="FillColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="Opacity"></label>
                                 <div class="col-md-10">
-                                    <input id="txtOpacity" asp-for="Opacity" required="" class="form-control" data-parsley-range="[0.0, 1.0]" />
+                                    <input id="txtOpacity" asp-for="Opacity" required="" class="form-control" value="0.0" data-parsley-range="[0.0, 1.0]" />
                                     <span asp-validation-for="Opacity" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="FillOpacity"></label>
                                 <div class="col-md-10">
-                                    <input id="txtFillOpacity" required="" asp-for="FillOpacity" class="form-control" />
+                                    <input id="txtFillOpacity" required="" asp-for="FillOpacity" class="form-control" value="0.0" />
                                     <span asp-validation-for="FillOpacity" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="LineWeight"></label>
                                 <div class="col-md-10">
-                                    <input id="txtLineWeight" required="" asp-for="LineWeight" class="form-control" />
+                                    <input id="txtLineWeight" required="" asp-for="LineWeight" class="form-control" value="0.0" />
                                     <span asp-validation-for="LineWeight" class="text-danger"></span>
                                 </div>
                             </div>
 
                             <div id="fileUploadDiv" style="display: none">
                                 <div class="mb-3 row">
-                                    <label id="jsonFileTypeLbl" class="col-md-2 col-form-label">Upload Geo JSON File</label>
+                                    <label id="jsonFileTypeLbl" class="col-md-2 col-form-label required">Upload Geo JSON File</label>
                                     <div class="col-md-10">
                                         <input id="jsonFileTypeInput" class="form-control mb-1" type="file" name="geoJsonFile" accept="application/JSON" />
                                         <a href="https://mapshaper.org/" class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light" target="_blank">Convert your MAP</a>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label id="shapeFileTypeLbl" class="col-md-2 col-form-label">Upload Shape File</label>
+                                    <label id="shapeFileTypeLbl" class="col-md-2 col-form-label required">Upload Shape File</label>
                                     <div class="col-md-10">
                                         <input id="shapeFileInput" class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx" multiple/>
                                     </div>
@@ -347,16 +346,17 @@
 
                     $('#ddlTableNames').attr('required', 'required');
                     $('#ddlTableNames').attr('data-parsley-required-message', 'You must select at least one option.');
+                    $('#ddlTableNames').attr('data-parsley-min', '1');
                     $('#ddlTableNamesLbl').addClass('required');
 
                     $('#jsonFileTypeInput').prop('required', false);
                     $('#shapeFileInput').prop('required', false);
 
                     $('#layerPathInput').prop('required', false);
-                    $('#layerPathLbl').removeClass('required');
+                    //$('#layerPathLbl').removeClass('required');
 
                     $('#layerFileNameInput').prop('required', false);
-                    $('#layerFileNameLbl').removeClass('required');
+                    //$('#layerFileNameLbl').removeClass('required');
 
                 } else {
                     $('#otherLayerDiv').show();
@@ -367,16 +367,16 @@
                     $('#ddlTableNames').prop('required', false);
 
                     $('#layerFileNameInput').attr('required', 'required');
-                    $('#layerFileNameLbl').addClass('required');
+                    //$('#layerFileNameLbl').addClass('required');
 
                     $('#layerPathInput').attr('required', 'required');
-                    $('#layerPathLbl').addClass('required');
+                    //$('#layerPathLbl').addClass('required');
 
                     $('#jsonFileTypeInput').attr('required', 'required');
-                    $('#jsonFileTypeLbl').addClass('required');
+                    //$('#jsonFileTypeLbl').addClass('required');
 
                     $('#shapeFileInput').attr('required', 'required');
-                    $('#shapeFileTypeLbl').addClass('required');
+                    //$('#shapeFileTypeLbl').addClass('required');
                 }
             });
 
