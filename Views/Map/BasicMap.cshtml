@@ -712,18 +712,18 @@
 
                 legend.onAdd = function (map) {
 
-                    
 
-                    $.each(userDefinedColorList[layerId], function (index, val) {
 
-                        //if (index.search(layerId)!=-1) {
-                        //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedLegendNameList[index] + '<i style="background:' + val + '"></i> </p>';
-                        //if (index.search(layerId)!=-1) {
+                    for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
+                        legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedColorList[layerId][i].get('name') + '<i style="background:' + userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
+                    }
 
-                        legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedLegendNameList[layerId][index] + '<i style="background:' + val + '"></i> </p>';
+                    //userDefinedColorList[layerId][i].get('color')
 
-                        //}
-                    });
+                    //$.each(userDefinedColorList[layerId], function (index, val) {
+
+                    //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedLegendNameList[layerId][index] + '<i style="background:' + val + '"></i> </p>';
+                    //});
 
                     return legend_div;
                 };
@@ -750,14 +750,6 @@
 
             for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
 
-
-                //console.log("Real:",parseInt(userDefinedColorList[layerId][i].get('value')));
-                //console.log("D:",d);
-
-                //if (parseInt(userDefinedColorList[layerId][i].get('value')) == d) {
-                //    return userDefinedColorList[layerId][i].get('color');
-                //}
-
                 if (d >= userDefinedColorList[layerId][i].get('value') && d < userDefinedColorList[layerId][i + 1].get('value')) {
                     return userDefinedColorList[layerId][i].get('color');
                 }
@@ -766,14 +758,7 @@
                 else if (d >= userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('value')) {
                     return userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('color');
 
-                } 
-
-
-                //else {
-                //    return userDefinedColorList[layerId][i].get('color');
-                //}
-
-
+                }              
 
             }
 
@@ -825,18 +810,10 @@
 
                     $.each(items,
                         function (i, item) {
-                            //userDefinedColorList[layerId][item.attCode] = item.colorCode;
-
-                            colorList[i] = new Map([["color", item.colorCode],["value",item.attCode]]);
-
+                            
+                            colorList[i] = new Map([["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);
+                            //userDefinedLegendNameList[layerId][item.attCode] = item.attName;
                            
-
-
-
-                            //userDefinedColorList[item.attCode] = item.colorCode;
-                            userDefinedLegendNameList[layerId][item.attCode] = item.attName;
-                            //userDefinedLegendNameList[item.attCode] = item.attName;
-                            //userDefinedLegendClassValueListlayerId[item.attCode] = item.attCode;
                         });
                     userDefinedColorList[layerId] = colorList;
 
