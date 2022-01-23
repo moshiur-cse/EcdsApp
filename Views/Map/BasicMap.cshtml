@@ -268,10 +268,10 @@
 
 
         var data_layer = {};
-        var colorList = {};
+        //var colorList = {};
         var userDefinedColorList = {};
-        var userDefinedLegendNameList = {};
-        var userDefinedLegendClassValueList = {};
+        //var userDefinedLegendNameList = {};
+        //var userDefinedLegendClassValueList = {};
         var mapBindData = {};
 
 
@@ -450,11 +450,9 @@
                 mymap.removeLayer(legend);
                 $("p." + layerId).remove();
                 $("#map_layer_" + layerId).remove();
-                colorList = {};
+                //colorList = {};
                 mymap.removeLayer(mapLabels);
                 mapLabels = L.layerGroup();
-                //userDefinedColorList = {};
-                //userDefinedLegendNameList = {};
             }
 
 
@@ -514,35 +512,12 @@
                 mymap.removeLayer(legend);
                 $("p." + layerId).remove();
                 $("#map_layer_" + layerId).remove();
-                colorList = {};
                 mymap.removeLayer(mapLabels);
                 mapLabels = L.layerGroup();
-
-
-                $.each(userDefinedColorList, function (index, val) {
-                    if (index.search(layerId)) {
-                        userDefinedColorList.pop(index);
-                    }
-                });
-
-                $.each(userDefinedLegendNameList, function (index, val) {
-                    if (index.search(layerId)) {
-                        userDefinedLegendNameList.pop(index);
-                    }
-                });
-
-                $.each(userDefinedLegendClassValueList, function (index, val) {
-                    if (index.search(layerId)) {
-                        userDefinedLegendClassValueList.pop(index);
-                    }
-                });
-
+                userDefinedColorList[layerId] = {};
                 jQuery("#columnList_" + layerId).empty();
                 mapBindData[layerId] = {};
 
-                //userDefinedColorList = {};
-                //userDefinedLegendNameList = {};
-                //userDefinedLegendClassValueList = {};
                 }
         }
 
@@ -565,7 +540,7 @@
                    
                         return {
                             //fillColor: isLegendColor == 0 ? '#0000ffff' : userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
-                            fillColor: isLegendColor == 0 ? '#0000ffff' : userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
+                            fillColor: isLegendColor == 0 ? '#0000ffff' : getColor(layerId, mapBindData[layerId][feature.properties[attCode]]), //colorList[feature.properties[attCode]],
                             weight: weight,
                             opacity: opacity,
                             color: color,
@@ -574,7 +549,7 @@
                         };
                    
 
-                } else if (admin_code_list.length == 0) {
+                } else if (admin_code_list.length == 0 && layerTypeId==4) {
                     
                     //console.log(userDefinedColorList[layerId + "_"+mapBindData[feature.properties[attCode]]]);
                     //console.log(layerUid);
@@ -595,15 +570,14 @@
                         };                  
                 } else {
                     return {
-                        fillColor: '#ffffff',
+                        fillColor: '#000000',
                         weight: 1,
                         opacity: 1,
                         transparent: true,
-                        color: '#ffffff',
+                        color: '#000000',
                         dashArray: '1',
                         fillOpacity: 0
                     };
-
                 }
 
               
@@ -670,18 +644,25 @@
                 //        iconSize: [100, 40],
                 //    })
                 //}).bindTooltip(feature.properties[mainAtt].toString(), { permanent: true, direction: "center", className: "myTooltip" }).openTooltip();;
-
-
             }
+
+
             function highlightFeature(e) {
                 var layer = e.target;
-                //var popupContent = '<div style="width:250px;text-align:center;">' +mainAttDisName+" : " + layer.feature.properties[mainAtt] + '</div>';
-                var popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
+
+                var popupContent = "";
+                if (layerTypeId == 4) {
+                    popupContent = '<div style="width:300px;text-align:center;"><p>'  + mapBindData[layerId][layer.feature.properties[attCode]] + '</p></div>';
+                } else {
+
+                   popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
+                }
+
                 layer.setStyle({
                     //weight: 2,
                     //color: '#E11F21',
                     dashArray: '',
-                    fillOpacity: 0.4
+                    //fillOpacity: 0.4
                 }).bindPopup(popupContent).openPopup(e.latlng);
                 if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
                     layer.bringToFront();
@@ -693,8 +674,18 @@
             }
 
         }
+//end Map Layer Hide Show Function
 
 
+
+
+
+
+
+
+
+
+        // Add Legend in Map
         function legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField) {
 
             mymap.removeLayer(legend);
@@ -704,7 +695,7 @@
             if (isLegendColor == 0) {
                 legend.onAdd = function (map) {
                     for (var i = 0; i < e.features.length; i++) {
-                            legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + colorList[e.features[i].properties[attCode]] + '"></i> </p>'; //{' + legendEndRange[i] + '}
+                        legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + getRandomColor() + '"></i> </p>'; //{' + legendEndRange[i] + '}
                     }
                     return legend_div;
                 };
@@ -712,19 +703,9 @@
 
                 legend.onAdd = function (map) {
 
-
-
                     for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
                         legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedColorList[layerId][i].get('name') + '<i style="background:' + userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
                     }
-
-                    //userDefinedColorList[layerId][i].get('color')
-
-                    //$.each(userDefinedColorList[layerId], function (index, val) {
-
-                    //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedLegendNameList[layerId][index] + '<i style="background:' + val + '"></i> </p>';
-                    //});
-
                     return legend_div;
                 };
             }
@@ -733,6 +714,7 @@
 
         }
 
+        //Get Random Color 
         function getRandomColor() {
             var letters = '0123456789ABCDEF';
 
@@ -743,10 +725,9 @@
             return color;
         }
 
-
+        //Get User Defined Color    
         function getColor(layerId, d) {
             
-            console.log(userDefinedColorList);
 
             for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
 
@@ -754,51 +735,19 @@
                     return userDefinedColorList[layerId][i].get('color');
                 }
 
-
                 else if (d >= userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('value')) {
                     return userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('color');
 
                 }              
-
             }
-
-           
-           
-           
-            //return userDefinedColorList[layerId][0];
         }
 
-        //function getColor(d) {
-        //    for (var i = 0; i < legendClassList.length; i++) {
 
-        //        if (d >= legendClassList[i] && d < legendClassList[i + 1]) {
-        //            //console.log(d);
-        //            return legendColorList[i];
-        //        }
-        //        else if (d >= legendClassList[legendClassList.length - 1]) {
-        //            return legendColorList[legendColorList.length - 1];
-        //        }
-
-        //    }
-        //}
-
-
-
-
+        //Set User Defined Color and Legend Name
         function getUserDefinedColor(layerUid, layerId) {
 
-
             userDefinedColorList[layerId] = {};
-            userDefinedLegendNameList[layerId] = {};
-
-
-            //var value = [];
-            //var color = [];
-
             var colorList = [];
-
-
-
 
             jQuery.ajax({
                 type: "POST",
@@ -809,11 +758,8 @@
                 success: function (items) {
 
                     $.each(items,
-                        function (i, item) {
-                            
-                            colorList[i] = new Map([["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);
-                            //userDefinedLegendNameList[layerId][item.attCode] = item.attName;
-                           
+                        function (i, item) {                           
+                            colorList[i] = new Map([["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);                          
                         });
                     userDefinedColorList[layerId] = colorList;
 
@@ -822,6 +768,13 @@
                     //msg.init("error",
                     //    "Error... . . !",
                     //    "Failed to load Shape file. " + ex.responseText);
+
+                    window.Swal.fire({
+                        icon: "error",
+                        title: "Failed to load Shape file. " + ex.responseText,
+                        showConfirmButton: false, //true
+                        timer: 3000   // remove timer
+                    });
                 },
                 complete: jQuery("#busy-indicator").fadeOut(150)
             });
@@ -873,8 +826,14 @@
 
         jQuery('.layer_class').click(function ($) {
             if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
-                //console.log(jQuery("#"+this.id).val());
                 var layerId = this.id;
+
+
+                var opacity;
+                var fillOpacity;
+                var weight;
+                var color;
+                var path;
 
                 jQuery.ajax({
                     type: "POST",
@@ -883,26 +842,57 @@
                     data: { layer_id: jQuery("#"+ this.id).val() },
                      before: jQuery("#busy-indicator").fadeIn(150),
                      success: function (items) {
-                         var path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
+                         
 
                          if (items.isLegendColor != 0) {
-                                /* setTimeout(function () {*/
-                                     getUserDefinedColor(items.layerId, layerId);
-                               /*  }, 1000);*/
+                              getUserDefinedColor(items.layerId, layerId);
 
                          }
-                         var opacity = (items.opacity == 0 ? 0.6 : items.opacity), fillOpacity = (items.fillOpacity == 0 ? 0.6 : items.fillOpacity), weight = (items.lineWeight == 0 ? 1 : items.lineWeight), color = (items.lineColorCode == "0" ? "#000000" : items.lineColorCode);
+                         opacity = (items.opacity == 0 ? 0.6 : items.opacity);
+                         fillOpacity = (items.fillOpacity == 0 ? 0.6 : items.fillOpacity);
+                         weight = (items.lineWeight == 0 ? 1 : items.lineWeight);
+                         color = (items.lineColorCode == "0" ? "#000000" : items.lineColorCode);
+                         path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
 
-                        
+
+
+                         //g_layerUid = items.layerId;
+                         //g_layerId = layerId;
+                         //g_filepath = path;
+                         //g_mainAttDisName = items.mainAttDisName;
+                         //g_mainAtt = items.mainAtt;
+                         //g_attCode = items.mainAttCode;
+                         //g_cLat = items.cLat;
+                         //g_cLong = items.cLong;
+
+                         //g_firstAttDisName = items.firstAttDisName;
+                         //g_firstAtt = items.firstAtt;
+                         //g_layerName = items.layerName;
+                         //g_layerTypeId = items.layerTypeId;
+                         //g_isLegendColor = items.isLegendColor;
+                         //g_legendcolorField = items.legendcolorField;
+
+
+
+
+                         //g_opacity = opacity;
+                         //g_fillOpacity = fillOpacity;
+                         //g_weight = weight;
+                         //g_color = color;
+
+                         //g_boundaryId = items.boundaryId;
+                         //g_tableId = items.tableId;
+
+
+
                          jQuery("#columnList_" + items.layerId).empty();
+
+
                          if (items.layerTypeId == 4) {
                                                      
                              var columnBindId = "columnList_" + items.layerId;
-                            
-                             
+                                                        
                              var tableId = items.tableId;
-
-
                              getTableColumnList(tableId, columnBindId);
 
 
@@ -914,31 +904,40 @@
 
                                  if (items.boundaryId == 3) {
                                      path = "administrative/administrative_boundary/upazila/upazila.json";
+                                     g_filepath = path;
                                      mainAttCodeName = "UpazGeoCod";
+                                     g_mainAtt = "UpazGeoCod";
                                  }
-
-
                                  LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
-                                 
+                                 //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
+
                              });
 
 
-                         } else {
-                             
+                         }else {
+
+                           
                              LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
                          }
 
                     },
                     error: function(ex, status, error) {
-                        //msg.init("error",
-                        //    "Error... . . !",
-                        //    "Failed to load Shape file. " + ex.responseText);
+                        window.Swal.fire({
+                            icon: "error",
+                            title: "Failed to load Shape file. " + ex.responseText,
+                            showConfirmButton: false, //true
+                            timer: 3000   // remove timer
+                        });
                     },
                      complete: jQuery("#busy-indicator").fadeOut(150)
-                });
-
+                    });
+                //alert("OK");
+                //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+                //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
 
             }
+            LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
+
 
         });
 
@@ -981,11 +980,8 @@
                 success: function (items) {
                     mapBindData[layerId] = [];
                         $.each(items,
-                            function (i, item) {
-                                //userDefinedColorList[layerId + "_" + item.attCode] = item.colorCode;
-                                mapBindData[layerId][item.code.toString()] = item.value;
-                                //userDefinedLegendNameList[layerId + "_" + item.attCode] = item.attName;
-                                //userDefinedLegendNameList[item.attCode] = item.attName;
+                            function (i, item) {                               
+                                mapBindData[layerId][item.code.toString()] = item.value;                             
                             });
                         //
                     //console.log(mapBindData[6][10420040]);
@@ -1123,15 +1119,6 @@
         });
 
 
-
-        //jQuery('#selectedId').click(function ($) {
-        //    alert("Ok");
-        //    jQuery("#selectedId").select2();
-
-        //});
-
-
-       // LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color);
         function DisplayDetailsInfoes(adminCodeForGetResult, name) {
 
             //alert(+adminCodeForGetResult+" "+name);
