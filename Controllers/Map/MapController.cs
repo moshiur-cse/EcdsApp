@@ -212,6 +212,11 @@ namespace EcdsApp.Controllers.Map
             return Json(new SelectList(distList, "DistrictGeoCode", "DistrictName"));
         }
 
+
+      
+
+
+
         [HttpPost]
         public JsonResult GetUpazilaList(string[] upazilaList)
         {
