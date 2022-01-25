@@ -550,7 +550,26 @@
                             dashArray: '1',
                             fillOpacity: fillOpacity
                         };
-                } else {
+                }
+
+                else if (isLegendColor = 1 && layerTypeId == 3) {
+
+                    alert(getColor(layerId, feature.properties[legendcolorField]));
+                   
+                    return {
+                        //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
+                        //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[layerId][mapBindData[layerId][feature.properties[attCode]]],
+
+                        fillColor: isLegendColor == 0 ? '#ffffff00' : getColor(layerId, feature.properties[legendcolorField]),
+                        weight: weight,
+                        opacity: opacity,
+                        color: color,
+                        dashArray: '1',
+                        fillOpacity: fillOpacity
+                    };
+                }
+
+                else {
                     return {
                         fillColor: '#000000',
                         weight: 1,
@@ -707,10 +726,17 @@
         }
 
         //Get User Defined Color
-        function getColor(layerId, d) {
+    function getColor(layerId, d) {
+
+        console.log(userDefinedColorList[layerId]);
 
 
-            for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
+        for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
+
+            if (userDefinedColorList[layerId].length == 1) {
+                return userDefinedColorList[layerId][i].get('color');
+
+            }
 
                 if (d >= userDefinedColorList[layerId][i].get('value') && d < userDefinedColorList[layerId][i + 1].get('value')) {
                     return userDefinedColorList[layerId][i].get('color');
@@ -744,6 +770,8 @@
                             colorList[i] = new Map([["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);
                         });
                     userDefinedColorList[layerId] = colorList;
+
+                    
 
                 },
                 error: function (ex, status, error) {
@@ -827,6 +855,7 @@
 
 
                          if (items.isLegendColor != 0) {
+                             /*alert(items.layerId, layerId)*/
                               getUserDefinedColor(items.layerId, layerId);
 
                          }
@@ -895,8 +924,8 @@
 
                              });
 
-
-                         }else {
+                         }
+                         else {
 
 
                              LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
@@ -918,7 +947,7 @@
                 //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
 
             }
-            LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
+            //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
 
 
         });
