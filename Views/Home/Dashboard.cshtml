@@ -1,8 +1,14 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@using EcdsApp.Models.ThemeModels
+﻿@using Newtonsoft.Json
+@model EcdsApp.Models.ViewModels.Dashboard.DashboardVm
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var xLabels = JsonConvert.SerializeObject(Model.UpazilaWiseExposureData.Select(x => x.Upazila.UpazilaName));
+    var yFloodValue = JsonConvert.SerializeObject(Model.UpazilaWiseExposureData.Select(x => x.FloodValue));
+    var yLandSlideValue = JsonConvert.SerializeObject(Model.UpazilaWiseExposureData.Select(x => x.LandSlideValue));
+    var yDroughtValue = JsonConvert.SerializeObject(Model.UpazilaWiseExposureData.Select(x => x.DroughtValue));
 }
 
 <!-- start page title -->
@@ -504,68 +510,50 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-4">Latest Fiver Layer List</h4>
+                        <h4 class="card-title mb-4">Latest Five Layer List</h4>
                         <div class="table-responsive">
                             <table class="table table-centered table-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr class="bg-transparent">
-
-                                        <th>
-                                            Theme Name
-                                        </th>
-
-                                        <th>
-                                            Sub-theme Name
-                                        </th>
-                                        <th>
-                                            Layer Name
-                                        </th>
-
-                                        <th>
-                                            Layer Type
-                                        </th>
+                                        <th>Theme Name</th>
+                                        <th>Sub-theme Name</th>
+                                        <th>Layer Name</th>
+                                        <th>Layer Type</th>
                                         <th>Boundary</th>
                                         <th>Tabular Data</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    @foreach (ThemeLayerDetail item in ViewBag.LayerInfo)
+                                    @foreach (var item in Model.ThemeLayerDetails)
                                     {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.SubThemes.Themes.ThemeName)
-                                        </td>
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SubThemes.Themes.ThemeName)
+                                            </td>
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)
-                                        </td>
-                                       
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LayerName)
-                                        </td>
-                                       
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ThemeLayerTypes.LayerTypeName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BoundaryInfo.BoundaryName)
-                                        </td>
-                                        <td>
-                                            <a class="badge bg-pill bg-soft-info font-size-14" target="_blank" asp-controller="@item.TableInfo?.TableModelName" asp-action="Index" style="color: #191c1e">
-                                                @Html.DisplayFor(modelItem => item.TableInfo.DisplayName)
-                                            </a>
-                                        </td>
-                                        
-                                        
-                                    </tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)
+                                            </td>
+                                           
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.LayerName)
+                                            </td>
+                                           
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ThemeLayerTypes.LayerTypeName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BoundaryInfo.BoundaryName)
+                                            </td>
+                                            <td>
+                                                <a class="badge bg-pill bg-soft-info font-size-14" target="_blank" asp-controller="@item.TableInfo?.TableModelName" asp-action="Index" style="color: #191c1e">
+                                                    @Html.DisplayFor(modelItem => item.TableInfo.DisplayName)
+                                                </a>
+                                            </td>
+                                            
+                                            
+                                        </tr>
                                     }
-
-
-
-
-
                                 </tbody>
                             </table>
                         </div>
@@ -581,5 +569,55 @@
 @section Scripts{
     <!-- apexcharts -->
     <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
-    <script src="~/assets/js/pages/dashboard.init.js"></script>
+    @*<script src="~/assets/js/pages/dashboard.init.js"></script>*@
+    
+<script type="text/javascript">
+        //var options = {
+        //    chart: { height: 339, type: "line", stacked: !1, toolbar: { show: !1 } },
+        //    stroke: { width: [0, 2, 4], curve: "smooth" },
+        //    plotOptions: { bar: { columnWidth: "30%" } },
+        //    colors: ["#5b73e8", "#dfe2e6", "#f1b44c"],
+        //    series: [{ name: "Desktops Copmuter", type: "column", data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30] },
+        //        { name: "Laptops", type: "area", data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43] },
+        //        { name: "Tablets", type: "line", data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39] }],
+        //    fill: {
+        //        opacity: [.85, .25, 1],
+        //        gradient: { inverseColors: !1, shade: "light", type: "vertical", opacityFrom: .85, opacityTo: .55, stops: [0, 100, 100, 100] }
+        //    },
+        //    labels: ["01/01/2003", "02/01/2003", "03/01/2003", "04/01/2003", "05/01/2003", "06/01/2003", "07/01/2003", "08/01/2003", "09/01/2003", "10/01/2003", "11/01/2003"],
+        //    markers: { size: 0 },
+        //    xaxis: { type: "datetime" },
+        //    yaxis: { title: { text: "Points" } },
+        //    tooltip: {
+        //        shared: !0, intersect: !1,
+        //        y: { formatter: function (e) { return void 0 !== e ? e.toFixed(0) + " points" : e } }
+        //    },
+        //    grid: { borderColor: "#f1f1f1" }
+        //};
+
+        var options = {
+            chart: { height: 339, type: "line", stacked: !1, toolbar: { show: !1 } },
+            stroke: { width: [0, 2, 4], curve: "smooth" },
+            plotOptions: { bar: { columnWidth: "30%" } },
+            colors: ["#5b73e8", "#dfe2e6", "#f1b44c"],
+            series: [{ name: "Flood", type: "column", data: @Html.Raw(yFloodValue) },
+                { name: "Land Slide", type: "area", data: @Html.Raw(yLandSlideValue) },
+                { name: "Drought", type: "line", data: [5, 11, 21, 2, 14, 6, 18, 25, 15, 10, 9, 10] }],
+            fill: {
+                opacity: [.85, .25, 1],
+                gradient: { inverseColors: !1, shade: "light", type: "vertical", opacityFrom: .85, opacityTo: .55, stops: [0, 100, 100, 100] }
+            },
+            labels: @Html.Raw(xLabels),
+            markers: { size: 0 },
+            xaxis: { title: { text: "Upazila" } },
+            yaxis: { title: { text: "Value" } },
+            tooltip: {
+                shared: !0, intersect: !1,
+                y: { formatter: function (e) { return void 0 !== e ? e.toFixed(0) + " value" : e } }
+            },
+            grid: { borderColor: "#f1f1f1" }
+        };
+
+        (chart = new ApexCharts(document.querySelector("#sales-analytics-chart"), options)).render();
+</script>
 }
