@@ -30,7 +30,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.ThemeLayerDetails
-                .Include(t => t.SubThemes)
+                .Include(t => t.SubThemes.Themes)
                 .Include(t => t.ThemeLayerTypes)
                 .Include(t => t.BoundaryInfo)
                 .Include(t => t.TableInfo);

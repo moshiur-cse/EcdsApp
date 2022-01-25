@@ -187,9 +187,9 @@
         <div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>
         <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>
         <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
-        <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Filter the Map"></div>
+        <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>
         <div class="map_btns" title="Show or Hide Map Label"><input type="checkbox" id="map_label"></div>
-        <div id="map_layer" class="map_btns right-bar-toggle waves-effect" title="Map Layer List"> </div>
+        <div id="map_layer" class="map_btns right-bar-toggle waves-effect" title="Map Filtering"> </div>
         <div id="map_bg_layers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
     </div>
 
@@ -201,15 +201,10 @@
 @section Scripts{
     <!-- leaflet plugin -->
     <script src="~/assets/libs/leaflet/leaflet.js"></script>
-    @*<script src="~/assets/libs/leaflet/leaflet-src.js"></script>*@
-    @*<script src="~/assets/libs/leaflet/leaflet.js"></script>*@
-
-
+  
     <!-- Map Export -->
     <script src="~/assets/libs/leaflet/leaflet_export.js"></script>
     <script src="~/assets/libs/leaflet/html2canvas.js"></script>
-
-
 
     <!-- Leaflet Map Draw -->
     <script src="~/assets/libs/leaflet/Leaflet.draw.js"></script>
@@ -251,12 +246,6 @@
     <script src="~/assets/libs/select2/js/select2.min.js"></script>
 
 
-
-
-
-    <!-- leaflet map.init -->
-    @*<script src="~/assets/js/pages/leaflet-us-states.js"></script>
-        <script src="~/assets/js/pages/leaflet-map.init.js"></script>*@
 <script>
         const divBoundaryType = 1;
         const distBoundaryType = 2;
@@ -498,7 +487,8 @@
                     });
                 });
         }
-        else {
+            else {
+
             if (mymap.hasLayer(data_layer[layerId])) {
                 mymap.removeLayer(data_layer[layerId]);
                 mymap.removeLayer(legend);
@@ -667,11 +657,6 @@
 
         }
 //end Map Layer Hide Show Function
-
-
-
-
-
 
 
 
