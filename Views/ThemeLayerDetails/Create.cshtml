@@ -47,7 +47,7 @@
                                 </div>
                             </div>
 
-                        <div id="tabularLayerDiv" style="display: none">
+                            <div id="tabularLayerDiv" style="display: none">
                                 <div class="mb-3 row">
                                     <label id="ddlBoundaryLbl" class="col-md-2 col-form-label">Region Category</label>
                                     <div class="col-md-10">
@@ -189,7 +189,7 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="LegendColorFieldName"></label>
+                                <label id="lblLegendColorFieldName" class="col-md-2 col-form-label" asp-for="LegendColorFieldName"></label>
                                 <div class="col-md-10">
                                     <input id="txtLegendColorFieldName" asp-for="LegendColorFieldName" class="form-control" readonly="readonly" />
                                     <span asp-validation-for="LegendColorFieldName" class="text-danger"></span>
@@ -199,14 +199,14 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="LineColorCode"></label>
                                 <div class="col-md-10">
-                                    <input id="txtLineColorCode" asp-for="LineColorCode" required="" class="form-control" value="#" />
+                                    <input id="txtLineColorCode" asp-for="LineColorCode" required="" class="form-control" value="#" data-parsley-length="[7, 9]" />
                                     <span asp-validation-for="LineColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="FillColorCode"></label>
                                 <div class="col-md-10">
-                                    <input id="txtFillColorCode" asp-for="FillColorCode" required="" class="form-control" value="#" />
+                                    <input id="txtFillColorCode" asp-for="FillColorCode" required="" class="form-control" value="#" data-parsley-length="[7, 9]" />
                                     <span asp-validation-for="FillColorCode" class="text-danger"></span>
                                 </div>
                             </div>
@@ -232,18 +232,18 @@
                                 </div>
                             </div>
 
-                            <div id="fileUploadDiv" style="display: none">
+                            <div id="fileUploadDiv">
                                 <div class="mb-3 row">
                                     <label id="jsonFileTypeLbl" class="col-md-2 col-form-label required">Upload Geo JSON File</label>
                                     <div class="col-md-10">
-                                        <input id="jsonFileTypeInput" class="form-control mb-1" type="file" name="geoJsonFile" accept="application/JSON" />
+                                        <input id="jsonFileTypeInput" class="form-control mb-1" type="file" name="geoJsonFile" accept="application/JSON" required="" data-parsley-required-message="Geo-Json file required" />
                                         <a href="https://mapshaper.org/" class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light" target="_blank">Convert your MAP</a>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label id="shapeFileTypeLbl" class="col-md-2 col-form-label required">Upload Shape File</label>
                                     <div class="col-md-10">
-                                        <input id="shapeFileInput" class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx" multiple/>
+                                        <input id="shapeFileInput" class="form-control" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx" multiple required="" data-parsley-required-message="Shape file required"/>
                                     </div>
                                 </div>
                             </div>
@@ -372,10 +372,10 @@
                     $('#layerPathInput').attr('required', 'required');
                     //$('#layerPathLbl').addClass('required');
 
-                    $('#jsonFileTypeInput').attr('required', 'required');
+                    //$('#jsonFileTypeInput').attr('required', 'required');
                     //$('#jsonFileTypeLbl').addClass('required');
 
-                    $('#shapeFileInput').attr('required', 'required');
+                    //$('#shapeFileInput').attr('required', 'required');
                     //$('#shapeFileTypeLbl').addClass('required');
                 }
             });
@@ -383,9 +383,13 @@
             $('#chkIsLegendColor').change(function() {
                 if($('#chkIsLegendColor').prop("checked") === true) {
                     $("#txtLegendColorFieldName").prop("readonly", false);
+                    $('#txtLegendColorFieldName').attr('required', 'required');
+                    $('#lblLegendColorFieldName').addClass('required');
                 }
                 else if($('#chkIsLegendColor').prop("checked") === false){
                     $("#txtLegendColorFieldName").prop("readonly", true);
+                    $('#txtLegendColorFieldName').prop('required', false);
+                    $('#lblLegendColorFieldName').removeClass('required');
                 }
             });
 

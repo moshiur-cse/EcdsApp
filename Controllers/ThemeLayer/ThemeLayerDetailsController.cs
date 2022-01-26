@@ -1,17 +1,17 @@
-﻿using System;
+﻿using EcdsApp.Data;
+using EcdsApp.Models.TabularModels;
+using EcdsApp.Models.ThemeModels;
+using EcdsApp.Models.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models.TabularModels;
-using EcdsApp.Models.ThemeModels;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Net.Http.Headers;
 
 namespace EcdsApp.Controllers.ThemeLayer
 {
@@ -127,6 +127,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
+            ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName", themeLayerDetail.BoundaryInfoId);
 
             return View(themeLayerDetail);
         }
@@ -162,10 +163,17 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             ViewBag.JsonFileName = themeLayerDetail.LayerFileName;
             ViewBag.ShapeFileName = "Not Defined";
+            ViewBag.LayerType = themeLayerDetail.LayerTypeId;
 
-            ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName", themeLayerObj.ThemeId);
-            ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
+            ViewData["ThemeId"] = new SelectList(_context.Themes.Where(t => t.ThemeId == themeLayerObj.ThemeId), "ThemeId", "ThemeName", themeLayerObj.ThemeId);
+            ViewData["SubThemeId"] = new SelectList(_context.SubThemes.Where(s => s.SubThemeId == themeLayerDetail.SubThemeId), "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
+            if (themeLayerDetail.LayerTypeId == AppStaticBase.LayerTypeTabular)
+            {
+                ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName", themeLayerDetail.BoundaryInfoId);
+                ViewData["TableList"] = new SelectList(_context.TableInfos.Where(e => e.SubThemeId == themeLayerDetail.SubThemeId), "Id", "DisplayName", themeLayerDetail.TableInfoId);
+            }
+
             return View(themeLayerDetail);
         }
 
@@ -174,7 +182,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("LayerId,SubThemeId,LayerPath,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName," +
             "FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName," +
-            "IsLegendColor,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight")] ThemeLayerDetail themeLayerDetail)
+            "IsLegendColor,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")] ThemeLayerDetail themeLayerDetail)
         {
             if (id != themeLayerDetail.LayerId)
             {
@@ -194,11 +202,11 @@ namespace EcdsApp.Controllers.ThemeLayer
                     {
                         return NotFound();
                     }
-
                     throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
             return View(themeLayerDetail);

@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EcdsApp.Models.TabularModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EcdsApp.Models.TabularModels;
 
 namespace EcdsApp.Models.ThemeModels
 {
@@ -142,7 +142,7 @@ namespace EcdsApp.Models.ThemeModels
 
         [Required]
         [Column("line_color_code")]
-        [StringLength(7)]
+        [StringLength(10)]
         [Display(Name = "Line Color Code")]
         public string LineColorCode { get; set; }
 
