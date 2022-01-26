@@ -1,8 +1,7 @@
 ﻿using EcdsApp.Data;
+using EcdsApp.Models.ViewModels.Dashboard;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,14 +17,25 @@ namespace EcdsApp.Controllers
         }
         public async Task<IActionResult> Dashboard()
         {
+            var exposureList = _context.UpazilaWiseExposureData
+                .Include(u => u.Upazila)
+                .OrderBy(u => u.Id).Take(12)
+                .ToList();
 
-            ViewBag.LayerInfo = await _context.ThemeLayerDetails
+            var layerInfoList = _context.ThemeLayerDetails
                 .Include(t => t.SubThemes.Themes)
                 .Include(t => t.ThemeLayerTypes)
                 .Include(t => t.BoundaryInfo)
-                .Include(t => t.TableInfo).OrderByDescending(t=>t.LayerId).Take(5).ToListAsync();
+                .Include(t => t.TableInfo)
+                .OrderByDescending(t => t.LayerId).Take(5)
+                .ToList();
 
-            return View();
+            var dashboardModel = new DashboardVm
+            {
+                UpazilaWiseExposureData = exposureList, 
+                ThemeLayerDetails = layerInfoList
+            };
+            return View(dashboardModel);
         }
         //public IActionResult Login()
         //{
