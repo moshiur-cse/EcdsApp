@@ -18,7 +18,7 @@
     <style>
 
         .leaflet-map {
-            height: 800px;
+            min-height: 680px;
         }
 
         /* .right-bar{
@@ -57,18 +57,24 @@
             background: rgba(255,255,255,0.8);
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             border-radius: 5px;
-            font-size: 1vw;
+            /*font-size: 1vw;*/
+            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
             overflow: scroll;
-            height: 300px;
+            min-height: 100px;
+            max-height: 200px;
         }
 
             .legend_info i {
-                width: 1.5vw;
-                height: 1.5vw;
+                /* width: 1.5vw;
+                height: 1.5vw;*/
+                width: 20px;
+                height: 15px;
                 float: left;
-                margin-right: 1vw;
+                /*margin-right: 1vw;*/
+                margin-right: 10px;
                 opacity: 0.7;
-                font-size: 1vw;
+                /*font-size: 1vw;*/
+                font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
             }
 
             .legend_info p {
@@ -517,29 +523,41 @@
 
                 } else if (admin_code_list.length == 0 && layerTypeId==4) {
 
-                    //alert(mapBindData[layerId][feature.properties[attCode]].get('value'));
+                    //console.log(mapBindData[layerId][feature.properties[attCode]].get('value'));
                     //console.log(userDefinedColorList[layerId + "_"+mapBindData[feature.properties[attCode]]]);
                     //console.log(layerUid);
                     //console.log(mapBindData[layerUid][10420040]);
                     //colorList[feature.properties[attCode]] = getRandomColor();
 
+                    //Moshiur
+                    //console.log(attCode);
+                    //console.log(feature.properties[attCode]);
+                    //console.log(layerId);
 
-                        return {
+                    //console.log(mapBindData[layerId]);
+
+                    //console.log(mapBindData[layerId][feature.properties[attCode]]);
+                    //console.log(mapBindData[layerId][feature.properties[attCode]].get('value'));
+
+                    var tDataColor = getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value'));
+                    
+                    //console.log(mapBindData["exposure"]['10040009'].get('value'));
+                    return {
                             //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
                             //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[layerId][mapBindData[layerId][feature.properties[attCode]]],
                             //fillColor: isLegendColor == 0 ? '#ffffff00' : getColor(layerId, mapBindData[layerId][feature.properties[attCode]]),
-                            fillColor: isLegendColor == 0 ? '#ffffff00' : getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value')),
+                            fillColor: isLegendColor == 0 ? '#ffffff00' : tDataColor,
                             weight: weight,
                             opacity: opacity,
-                            color: color,
+                            color: tDataColor,
                             dashArray: '1',
                             fillOpacity: fillOpacity
                         };
                 }
 
                 else if (isLegendColor == 1 && layerTypeId == 3) {
-                  
-                    //alert(getColor(layerId, feature.properties[legendcolorField]));
+                    //console.log(feature.properties[legendcolorField]);
+                    //console.log(getColor(layerId, feature.properties[legendcolorField]));
                    
                     return {
                         //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
@@ -688,13 +706,16 @@
 
             //console.log(Object.keys(data_layer).length);
 
-           legend_div.innerHTML+='<p class="' + layerId + '">' + layerName + ' </p>';
+            jQuery(".legend_info").empty();
 
 
 
             if (isLegendColor == 0) {
                 legend.onAdd = function (map) {
                     for (var i = 0; i < e.features.length; i++) {
+                        if (i == 0) {
+                            legend_div.innerHTML+= '<p class="' + layerId + '">' + layerName + ' </p>';
+                        }
                         legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + getRandomColor() + '"></i> </p>'; //{' + legendEndRange[i] + '}
                     }
                     return legend_div;
@@ -703,9 +724,31 @@
 
                 legend.onAdd = function (map) {
 
-                    for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
-                        legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedColorList[layerId][i].get('name') + '<i style="background:' + userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
-                    }
+
+
+                    jQuery.each(userDefinedColorList, function (index, val) {
+
+                        for (var i = 0; i < userDefinedColorList[index].length; i++) {
+                            
+                            if (i == 0) {
+                                legend_div.innerHTML += '<p class="' + index + '">' + userDefinedColorList[index][i].get('legendName') + ' </p>';
+                            }
+                            legend_div.innerHTML += '<p class="' + index + '">' + userDefinedColorList[index][i].get('name') + '<i style="background:' + userDefinedColorList[index][i].get('color') + '"></i> </p>';
+                        }
+
+                       
+                    });
+                    //for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
+
+                    //    if (i == 0) {
+                    //        legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' </p>';
+                    //    }
+                    //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedColorList[layerId][i].get('name') + '<i style="background:' + userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
+                    //}
+
+                   
+
+
                     return legend_div;
                 };
             }
@@ -728,13 +771,13 @@
         //Get User Defined Color
     function getColor(layerId, d) {
 
-        //console.log(userDefinedColorList[layerId]);
+        //console.log(userDefinedColorList["main_river"][0].get('color'));
 
 
         for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
 
             if (userDefinedColorList[layerId].length == 1) {
-                return userDefinedColorList[layerId][i].get('color');
+                return userDefinedColorList[layerId][0].get('color');
 
             }
 
@@ -751,7 +794,7 @@
 
 
         //Set User Defined Color and Legend Name
-        function getUserDefinedColor(layerUid, layerId) {
+        function getUserDefinedColor(layerUid, layerId,LegendName) {
 
 
             userDefinedColorList[layerId] = {};
@@ -767,7 +810,7 @@
 
                     $.each(items,
                         function (i, item) {
-                            colorList[i] = new Map([["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);
+                            colorList[i] = new Map([["legendName", LegendName],["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);
                         });
                     userDefinedColorList[layerId] = colorList;
 
@@ -837,8 +880,7 @@
         jQuery('.layer_class').click(function ($) {
             //if (jQuery(this).closest('.layer_class').prev().find('input[type=checkbox]').prop('checked', true)) {
                 var layerId = this.id;
-            if (jQuery("#" + layerId).prop("checked") == true) {
-                alert("true");
+            if (jQuery("#" + layerId).prop("checked") == true) {              
                 var opacity;
                 var fillOpacity;
                 var weight;
@@ -852,11 +894,12 @@
                     data: { layer_id: jQuery("#" + this.id).val() },
                     before: jQuery("#busy-indicator").fadeIn(150),
                     success: function (items) {
+                        console.log("Layer log 1");
 
 
-                        if (items.isLegendColor != 0) {
-                            /*alert(items.layerId, layerId)*/
-                            getUserDefinedColor(items.layerId, layerId);
+                        if (items.isLegendColor == 1) {
+                            getUserDefinedColor(items.layerId, layerId, items.layerName);
+                            //console.log(console.log(userDefinedColorList));
 
                         }
                         opacity = (items.opacity == 0 ? 0.6 : items.opacity);
@@ -883,14 +926,10 @@
                         //g_isLegendColor = items.isLegendColor;
                         //g_legendcolorField = items.legendcolorField;
 
-
-
-
                         //g_opacity = opacity;
                         //g_fillOpacity = fillOpacity;
                         //g_weight = weight;
                         //g_color = color;
-
                         //g_boundaryId = items.boundaryId;
                         //g_tableId = items.tableId;
 
@@ -910,7 +949,7 @@
                             jQuery("#" + columnBindId).change(function () {
                                 //userDefinedColorList = {};
                                 var columnName = jQuery("#" + columnBindId).val();
-                                getMapBindData(tableId, columnName, items.boundaryId, layerId);
+                                //getMapBindData(tableId, columnName, items.boundaryId, layerId);
                                 var mainAttCodeName;
 
                                 if (items.boundaryId == 3) {
@@ -919,7 +958,17 @@
                                     mainAttCodeName = "UpazGeoCod";
                                     g_mainAtt = "UpazGeoCod";
                                 }
-                                LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+                                //getMapBindData(tableId, columnName, items.boundaryId, layerId);
+                                jQuery.when(getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function () {
+                                    console.log(mapBindData);
+                                    console.log(userDefinedColorList);
+                                    LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+
+
+                                });
+
+
+                                //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
                                 //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
 
                             });
@@ -937,7 +986,9 @@
                             timer: 3000   // remove timer
                         });
                     },
-                    complete: jQuery("#busy-indicator").fadeOut(150)
+                    complete: function () {
+                        jQuery("#busy-indicator").fadeOut(150)
+                    }
                 });
                 //alert("OK");
                 //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
@@ -946,6 +997,8 @@
             }
             else {
                 if (mymap.hasLayer(data_layer[layerId])) {
+
+                    
                     mymap.removeLayer(data_layer[layerId]);
                     mymap.removeLayer(legend);
                     jQuery("p." + layerId).remove();
@@ -953,11 +1006,14 @@
                     mymap.removeLayer(mapLabels);
                     mapLabels = L.layerGroup();
 
-                    jQuery("#columnList_" + g_layerUid).empty();
+
+                    //jQuery("#columnList_" + layerId).empty();
+
                     delete mapBindData[layerId];
                     delete userDefinedColorList[layerId];
                     delete data_layer[layerId];
                     updateMapLayerList(layerId);
+                    alert($others);
                 }
 
                 //layerId
@@ -997,7 +1053,8 @@
         }
 
     function getMapBindData(tableId, columnName, boundaryId, layerId) {
-             
+        mapBindData[layerId] = {};
+        var dataList = {};
             jQuery.ajax({
                     type: "POST",
                     url: "@Url.Action("GetMapBindData")",
@@ -1005,25 +1062,27 @@
                 data: { tableId: tableId, columnName: columnName, boundaryId: boundaryId },
                     before: jQuery("#busy-indicator").fadeIn(150),
                 success: function (items) {
-                    mapBindData[layerId] = {};
-                    var itemList = [];
-                        $.each(items,
-                            function (i, item) {
-                                //mapBindData[layerId][item.code.toString()] = item.value;
 
-                                itemList[item.code] = new Map([["code", item.code], ["value", item.value]]);
-                            });
+                    $.each(items, function (i, item) {
+
+                        dataList[item.code] = new Map([["code", item.code], ["value", item.value]]);
+                    });
                         //
-                    mapBindData[layerId] = itemList;
-                    console.log(mapBindData);
+                    
+                    //console.log(itemList)
+                    //console.log(mapBindData);
                     //console.log(mapBindData[6][10420040]);
                     },
                     error: function(ex, status, error) {
                         //msg.init("error",
                         //    "Error... . . !",
                         //    "Failed to load Shape file. " + ex.responseText);
-                    },
-                complete: jQuery("#busy-indicator").fadeOut(150)
+                },
+                complete: function () {
+                    mapBindData[layerId] = dataList;
+                    LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
+                    jQuery("#busy-indicator").fadeOut(150);
+                }
 
              });
         }

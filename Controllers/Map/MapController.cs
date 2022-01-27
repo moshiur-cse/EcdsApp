@@ -160,22 +160,6 @@ namespace EcdsApp.Controllers.Map
             string tableName = _context.TableInfos.Where(i => i.Id == tableId).Select(i => i.TableName).FirstOrDefault();
             string geoCodeColumnName = _context.TableColumnInfos.Where(i => i.TableId == tableId && i.ColumnTypeId == 1).Select(i => i.DbColumnName).FirstOrDefault();
 
-
-
-            //var geoCodeColumnName = "";
-            //if (boundaryId == 1)
-            //{
-            //    geoCodeColumnName = "";
-            //}
-            //else if (boundaryId == 2)
-            //{
-            //    geoCodeColumnName = "";
-            //}
-            //else if (boundaryId == 3) 
-            //{
-            //    geoCodeColumnName = "upz_geo_code";
-            //}
-
             string columList = geoCodeColumnName + "," + columnName;
 
             var data = _context.GetTabularData(columList, tableName);
