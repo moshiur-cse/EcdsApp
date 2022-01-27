@@ -556,8 +556,9 @@
                 }
 
                 else if (isLegendColor == 1 && layerTypeId == 3) {
-                    //console.log(feature.properties[legendcolorField]);
+                    console.log(feature.properties[legendcolorField]);
                     //console.log(getColor(layerId, feature.properties[legendcolorField]));
+                    console.log(userDefinedColorList[layerId]);
                    
                     return {
                         //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
@@ -886,6 +887,9 @@
                 var weight;
                 var color;
                 var path;
+                var layerUid;
+                var layerName;
+                var mainAttCodeName;
 
                 jQuery.ajax({
                     type: "POST",
@@ -894,13 +898,10 @@
                     data: { layer_id: jQuery("#" + this.id).val() },
                     before: jQuery("#busy-indicator").fadeIn(150),
                     success: function (items) {
-                        console.log("Layer log 1");
-
-
+                       
                         if (items.isLegendColor == 1) {
                             getUserDefinedColor(items.layerId, layerId, items.layerName);
                             //console.log(console.log(userDefinedColorList));
-
                         }
                         opacity = (items.opacity == 0 ? 0.6 : items.opacity);
                         fillOpacity = (items.fillOpacity == 0 ? 0.6 : items.fillOpacity);
@@ -908,6 +909,8 @@
                         color = (items.lineColorCode == "0" ? "#000000" : items.lineColorCode);
                         path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
 
+                        layerUid = items.layerId;
+                        layerName = items.layerName;
 
 
                         //g_layerUid = items.layerId;
@@ -937,6 +940,13 @@
 
                         jQuery("#columnList_" + items.layerId).empty();
 
+                        if (items.boundaryId == 3) {
+                            path = "administrative/administrative_boundary/upazila/upazila.json";
+                            g_filepath = path;
+                            mainAttCodeName = "UpazGeoCod";
+                            g_mainAtt = "UpazGeoCod";
+                        }
+
 
                         if (items.layerTypeId == 4) {
 
@@ -950,21 +960,24 @@
                                 //userDefinedColorList = {};
                                 var columnName = jQuery("#" + columnBindId).val();
                                 //getMapBindData(tableId, columnName, items.boundaryId, layerId);
-                                var mainAttCodeName;
+                                
 
-                                if (items.boundaryId == 3) {
-                                    path = "administrative/administrative_boundary/upazila/upazila.json";
-                                    g_filepath = path;
-                                    mainAttCodeName = "UpazGeoCod";
-                                    g_mainAtt = "UpazGeoCod";
-                                }
+                                
                                 //getMapBindData(tableId, columnName, items.boundaryId, layerId);
-                                jQuery.when(getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function () {
-                                    console.log(mapBindData);
-                                    console.log(userDefinedColorList);
-                                    LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+                                //jQuery.when(getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function () {
+                                //    console.log(mapBindData);
+                                //    console.log(userDefinedColorList);
+                                //    LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
 
 
+                                //});
+
+                                jQuery.ajax({
+                                    url: getMapBindData(tableId, columnName, items.boundaryId, layerId),
+                                    success: function () {                                        
+                                        LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+
+                                    }
                                 });
 
 
@@ -975,7 +988,14 @@
 
                         }
                         else {
-                            LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+                            jQuery.ajax({
+                                url: getUserDefinedColor(items.layerId, layerId, items.layerName),
+                                success: function () {
+                                    LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+                                }
+                            });
+                            
+                            //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
                         }
                     },
                     error: function (ex, status, error) {
@@ -1013,7 +1033,7 @@
                     delete userDefinedColorList[layerId];
                     delete data_layer[layerId];
                     updateMapLayerList(layerId);
-                    alert($others);
+                    
                 }
 
                 //layerId
@@ -1080,7 +1100,7 @@
                 },
                 complete: function () {
                     mapBindData[layerId] = dataList;
-                    LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
+                    //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
                     jQuery("#busy-indicator").fadeOut(150);
                 }
 
