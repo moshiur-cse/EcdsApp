@@ -36,9 +36,9 @@ namespace EcdsApp.Controllers.Map
                         .Select(j => new SubThemeList
                         {
                             subThemeName = j.Key,                           
-                            //layerPathList = j.Select(j=>j.LayerPath).ToList(),
+                            layerPathList = j.Select(j=>j.LayerName).ToList(), //Update
                             layerIdList= j.Select(j => j.LayerId).ToList(),
-                            layerNameList= j.Select(j => j.LayerName).ToList(),
+                            layerNameList= j.Select(j => j.LayerDisplayName).ToList(), //Update
                             layerTypeIdList = j.Select(j => j.LayerTypeId).ToList(),
                             tableIdList= j.Select(j => j.TableInfoId).ToList()
 
@@ -75,9 +75,9 @@ namespace EcdsApp.Controllers.Map
                         .Select(j => new SubThemeList
                         {
                             subThemeName = j.Key,
-                            //layerPathList = j.Select(j => j.LayerPath).ToList(),
+                            layerPathList = j.Select(j => j.LayerName).ToList(),
                             layerIdList = j.Select(j => j.LayerId).ToList(),
-                            layerNameList = j.Select(j => j.LayerName).ToList(),
+                            layerNameList = j.Select(j => j.LayerDisplayName).ToList(),
                             layerTypeIdList = j.Select(j=>j.LayerTypeId).ToList()
 
                         }).ToList()
@@ -98,10 +98,10 @@ namespace EcdsApp.Controllers.Map
                     {
                         
                         layerId=sd.LayerId,
-                        layerName=sd.LayerName,
+                        layerName=sd.LayerDisplayName, //Update
                         themePath = sd.SubThemes.Themes.ThemePath,
                         subThemePath = sd.SubThemes.SubThemePath,
-                        //layerPath = sd.LayerPath,
+                        layerPath = sd.LayerName, ///Update
                         layerFileName = sd.LayerFileName,
                        
                         mainAttDisName = sd.MainAttributeDisplayName,
