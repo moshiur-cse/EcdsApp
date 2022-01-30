@@ -32,6 +32,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             var dataContext = _context.ThemeLayerDetails
                 .Include(t => t.SubThemes.Themes)
                 .Include(t => t.ThemeLayerTypes)
+                .Include(t => t.LegendColorOption)
                 .Include(t => t.BoundaryInfo)
                 .Include(t => t.TableInfo);
 
@@ -65,6 +66,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName");
             ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
+            ViewData["LegendColorOptionList"] = new SelectList(_context.LegendColorOptions, "Id", "OptionName");
 
             return View();
         }
@@ -98,16 +100,16 @@ namespace EcdsApp.Controllers.ThemeLayer
                 var themePath = subThemeObj?.Themes.ThemePath;
                 var subThemePath = subThemeObj?.SubThemePath;
 
-                var jsonFileFinalName = themeLayerDetail.LayerPath + Path.GetExtension(jsonFileName);
-                var jsonFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerPath.Trim()}\\{jsonFileFinalName}";
+                var jsonFileFinalName = themeLayerDetail.LayerName + Path.GetExtension(jsonFileName);
+                var jsonFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}\\{jsonFileFinalName}";
                 Directory.CreateDirectory(Directory.GetParent(jsonFilePath).FullName);
                 await using var output = System.IO.File.Create(jsonFilePath);
                 await geoJsonFile[0].CopyToAsync(output);
 
                 foreach (var file in shapeFile)
                 {
-                    var shapeFileName = themeLayerDetail.LayerPath + Path.GetExtension(file.FileName);
-                    var shapeFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerPath.Trim()}\\{shapeFileName}";
+                    var shapeFileName = themeLayerDetail.LayerName + Path.GetExtension(file.FileName);
+                    var shapeFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}\\{shapeFileName}";
 
                     Directory.CreateDirectory(Directory.GetParent(shapeFilePath).FullName);
                     await using var shapeOutput = System.IO.File.Create(shapeFilePath);
@@ -168,6 +170,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             ViewData["ThemeId"] = new SelectList(_context.Themes.Where(t => t.ThemeId == themeLayerObj.ThemeId), "ThemeId", "ThemeName", themeLayerObj.ThemeId);
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes.Where(s => s.SubThemeId == themeLayerDetail.SubThemeId), "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
+            ViewData["LegendColorOptionList"] = new SelectList(_context.LegendColorOptions, "Id", "OptionName", themeLayerDetail.LegendColorOptionId);
             if (themeLayerDetail.LayerTypeId == AppStaticBase.LayerTypeTabular)
             {
                 ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName", themeLayerDetail.BoundaryInfoId);
@@ -209,6 +212,7 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
+            ViewData["LegendColorOptionList"] = new SelectList(_context.LegendColorOptions, "Id", "OptionName", themeLayerDetail.LegendColorOptionId);
             return View(themeLayerDetail);
         }
 

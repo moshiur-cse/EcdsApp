@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220130050515_LegendColorOptionAdded")]
+    partial class LegendColorOptionAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,23 +136,6 @@ namespace EcdsApp.Migrations
                     b.HasIndex("DistrictGeoCode");
 
                     b.ToTable("lkp_admin_boundary_upazilas");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DataVerificationState", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("StateName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("state_name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("lkp_data_verification_states");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.BoundaryInfo", b =>
@@ -467,10 +452,6 @@ namespace EcdsApp.Migrations
                         .HasColumnType("int")
                         .HasColumnName("boundary_info_id");
 
-                    b.Property<int?>("DataVerificationStateId")
-                        .HasColumnType("int")
-                        .HasColumnName("data_verification_state");
-
                     b.Property<string>("FileLatName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
@@ -505,12 +486,6 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(256)")
                         .HasColumnName("first_attribute_name");
 
-                    b.Property<string>("LayerDisplayName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("layer_display_name");
-
                     b.Property<string>("LayerFileName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
@@ -518,9 +493,14 @@ namespace EcdsApp.Migrations
 
                     b.Property<string>("LayerName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("layer_name");
+
+                    b.Property<string>("LayerPath")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("layer_path");
 
                     b.Property<int>("LayerTypeId")
                         .HasColumnType("int")
@@ -605,8 +585,6 @@ namespace EcdsApp.Migrations
                     b.HasKey("LayerId");
 
                     b.HasIndex("BoundaryInfoId");
-
-                    b.HasIndex("DataVerificationStateId");
 
                     b.HasIndex("LayerTypeId");
 
@@ -1113,10 +1091,6 @@ namespace EcdsApp.Migrations
                         .WithMany()
                         .HasForeignKey("BoundaryInfoId");
 
-                    b.HasOne("EcdsApp.Models.DataVerificationState", "DataVerificationState")
-                        .WithMany()
-                        .HasForeignKey("DataVerificationStateId");
-
                     b.HasOne("EcdsApp.Models.ThemeModels.ThemeLayerType", "ThemeLayerTypes")
                         .WithMany()
                         .HasForeignKey("LayerTypeId")
@@ -1138,8 +1112,6 @@ namespace EcdsApp.Migrations
                         .HasForeignKey("TableInfoId");
 
                     b.Navigation("BoundaryInfo");
-
-                    b.Navigation("DataVerificationState");
 
                     b.Navigation("LegendColorOption");
 

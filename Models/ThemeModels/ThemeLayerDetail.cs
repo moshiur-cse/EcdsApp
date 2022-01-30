@@ -20,17 +20,19 @@ namespace EcdsApp.Models.ThemeModels
         [ForeignKey("SubThemeId")]
         public virtual SubTheme SubThemes { get; set; }
 
-        //[Required]
-        [Column("layer_path")]
-        [StringLength(256)]
-        [Display(Name = "Layer Path")]
-        public string LayerPath { get; set; }
-
+        //Layer Name
         [Required]
         [Column("layer_name")]
-        [StringLength(256)]
+        [StringLength(100)]
         [Display(Name = "Layer Name")]
         public string LayerName { get; set; }
+
+        //Layer Display Name
+        [Required]
+        [Column("layer_display_name")]
+        [StringLength(100)]
+        [Display(Name = "Layer Display Name")]
+        public string LayerDisplayName { get; set; }
 
         //[Required]
         [Column("layer_file_name")]
@@ -131,9 +133,15 @@ namespace EcdsApp.Models.ThemeModels
         [ForeignKey("TableInfoId")]
         public virtual TableInfo TableInfo { get; set; }
 
-        [Column("is_legend_color")]
-        [Display(Name = "Legend Color?")]
-        public bool IsLegendColor { get; set; }
+        //[Column("is_legend_color")]
+        //[Display(Name = "Legend Color?")]
+        //public bool IsLegendColor { get; set; }
+
+        [Column("legend_color_option_id")]
+        [Display(Name = "Legend Color")]
+        public int? LegendColorOptionId { get; set; }
+        [ForeignKey("LegendColorOptionId")]
+        public virtual LegendColorOption LegendColorOption { get; set; }
 
         [Column("legend_color_field_name")]
         [StringLength(256)]
@@ -168,6 +176,11 @@ namespace EcdsApp.Models.ThemeModels
         [Range(0.0, 1.0)]
         [Display(Name = "Line Weight")]
         public decimal LineWeight { get; set; }
-      
+
+        [Column("data_verification_state")]
+        [Display(Name = "Verification State")]
+        public int? DataVerificationStateId { get; set; }
+        [ForeignKey("DataVerificationStateId")]
+        public virtual DataVerificationState DataVerificationState { get; set; }
     }
 }

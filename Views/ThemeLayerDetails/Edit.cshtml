@@ -38,6 +38,13 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="LayerDisplayName"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="LayerDisplayName" class="form-control" required="" />
+                                    <span asp-validation-for="LayerDisplayName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required">Layer Type</label>
                                 <div class="col-md-10">
                                     <select id="ddlLayerType" class="form-select" asp-items="ViewBag.LayerTypeId" asp-for="LayerTypeId" required="" data-parsley-required-message="You must select at least one option."></select>
@@ -61,13 +68,7 @@
                             }
                             else
                             {
-                                <div class="mb-3 row">
-                                    <label class="col-md-2 col-form-label required" asp-for="LayerPath"></label>
-                                    <div class="col-md-10">
-                                        <input asp-for="LayerPath" class="form-control" required="" />
-                                        <span asp-validation-for="LayerPath" class="text-danger"></span>
-                                    </div>
-                                </div>
+                                
                                 <div class="mb-3 row">
                                     <label class="col-md-2 col-form-label required" asp-for="LayerFileName"></label>
                                     <div class="col-md-10">
@@ -175,10 +176,16 @@
                                 </div>
                             }
 
-                            <div class="mb-3 row">
+                            @*<div class="mb-3 row">
                                 <label class="col-md-2 col-form-label" asp-for="IsLegendColor"></label>
                                 <div class="col-md-10">
                                     <input id="chkIsLegendColor" class="form-check-input" asp-for="IsLegendColor" style="padding-top: 25px; padding-left: 25px">
+                                </div>
+                            </div>*@
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Legend Color</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" asp-for="LegendColorOptionId" asp-items="ViewBag.LegendColorOptionList"></select>
                                 </div>
                             </div>
                             <div class="mb-3 row">

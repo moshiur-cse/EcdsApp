@@ -36,7 +36,7 @@ namespace EcdsApp.Controllers.Map
                         .Select(j => new SubThemeList
                         {
                             subThemeName = j.Key,                           
-                            layerPathList = j.Select(j=>j.LayerPath).ToList(),
+                            //layerPathList = j.Select(j=>j.LayerPath).ToList(),
                             layerIdList= j.Select(j => j.LayerId).ToList(),
                             layerNameList= j.Select(j => j.LayerName).ToList(),
                             layerTypeIdList = j.Select(j => j.LayerTypeId).ToList(),
@@ -75,7 +75,7 @@ namespace EcdsApp.Controllers.Map
                         .Select(j => new SubThemeList
                         {
                             subThemeName = j.Key,
-                            layerPathList = j.Select(j => j.LayerPath).ToList(),
+                            //layerPathList = j.Select(j => j.LayerPath).ToList(),
                             layerIdList = j.Select(j => j.LayerId).ToList(),
                             layerNameList = j.Select(j => j.LayerName).ToList(),
                             layerTypeIdList = j.Select(j=>j.LayerTypeId).ToList()
@@ -101,7 +101,7 @@ namespace EcdsApp.Controllers.Map
                         layerName=sd.LayerName,
                         themePath = sd.SubThemes.Themes.ThemePath,
                         subThemePath = sd.SubThemes.SubThemePath,
-                        layerPath = sd.LayerPath,
+                        //layerPath = sd.LayerPath,
                         layerFileName = sd.LayerFileName,
                        
                         mainAttDisName = sd.MainAttributeDisplayName,
@@ -124,7 +124,7 @@ namespace EcdsApp.Controllers.Map
                         cLong = sd.FileLongName,
 
                         layerTypeId = sd.LayerTypeId,
-                        isLegendColor=sd.IsLegendColor,
+                        isLegendColor=sd.LegendColorOptionId,
                         legendcolorField=sd.LegendColorFieldName,
 
 

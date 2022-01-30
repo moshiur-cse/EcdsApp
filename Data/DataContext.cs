@@ -44,6 +44,7 @@ namespace EcdsApp.Data
         public DbSet<ThemeLayerDetail> ThemeLayerDetails { get; set; }
         public DbSet<ThemeLayerType> ThemeLayerTypes { get; set; }
         public DbSet<LayerLegendColor> LayerLegendColors { get; set; }
+        public DbSet<LegendColorOption> LegendColorOptions { get; set; }
         public DbSet<MetaDataDetail> MetaDataDetails { get; set; }
 
         public DbSet<TableInfo> TableInfos { get; set; }
@@ -54,6 +55,8 @@ namespace EcdsApp.Data
         public DbSet<UpazilaWiseExposureData> UpazilaWiseExposureData { get; set; }
         public DbSet<UpazilaWiseRiskIndex> UpazilaWiseRiskIndex { get; set; }
         public DbSet<BoundaryInfo> BoundaryInfos { get; set; }
+
+        public DbSet<DataVerificationState> DataVerificationStates { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

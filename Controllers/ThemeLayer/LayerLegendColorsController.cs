@@ -49,7 +49,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         // GET: LayerLegendColors/Create
         public IActionResult Create()
         {
-            ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(t => t.IsLegendColor), "LayerId", "LayerName");
+            ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(t => t.LegendColorOptionId == 1), "LayerId", "LayerName");
             return View();
         }
 
