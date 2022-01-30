@@ -142,9 +142,9 @@ namespace EcdsApp.Controllers.ThemeLayer
             return Json(new SelectList(subThemeList, "SubThemeId", "SubThemeName"));
         }
 
-        public JsonResult GetTableInfoData(int subThemeId)
+        public JsonResult GetTableInfoData(int subThemeId, int boundaryId)
         {
-            var tableList = _context.TableInfos.Where(e => e.SubThemeId == subThemeId).ToList();
+            var tableList = _context.TableInfos.Where(e => e.SubThemeId == subThemeId && e.BoundaryId == boundaryId).ToList();
             tableList.Insert(0, new TableInfo { Id = 0, DisplayName = "Select" });
 
             return Json(new SelectList(tableList, "Id", "DisplayName"));

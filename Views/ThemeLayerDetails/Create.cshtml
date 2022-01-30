@@ -183,15 +183,10 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required">Legend Color</label>
                                 <div class="col-md-10">
-                                    <select class="form-select" asp-for="LegendColorOptionId" asp-items="ViewBag.LegendColorOptionList"></select>
+                                    <select id="ddlLegendColorOption" class="form-select" asp-for="LegendColorOptionId" asp-items="ViewBag.LegendColorOptionList"></select>
                                 </div>
                             </div>
-                            @*<div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="IsLegendColor"></label>
-                                <div class="col-md-10">
-                                    <input id="chkIsLegendColor" class="form-check-input" asp-for="IsLegendColor" style="padding-top: 25px; padding-left: 25px">
-                                </div>
-                            </div>*@
+                            
                             <div class="mb-3 row">
                                 <label id="lblLegendColorFieldName" class="col-md-2 col-form-label" asp-for="LegendColorFieldName"></label>
                                 <div class="col-md-10">
@@ -306,12 +301,29 @@
                 return false;
             });
 
-            $('#ddlSubTheme').change(function() {
+            $('#ddlBoundary').change(function () {
+                var subThemeId = $('#ddlSubTheme').val(),
+                    boundaryId = $('#ddlBoundary').val();
+                if (subThemeId === "" || boundaryId === "") {
+                    window.Swal.fire({
+                        title: "Error",
+                        text: "Failed to Load Dropdown Options due to Invalid Selection!",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    return;
+                }
+
+                const url = '@Url.Action("GetTableInfoData", "ThemeLayerDetails")';
                 $.ajax({
                     type: 'GET',
-                    url: '@Url.Action("GetTableInfoData", "ThemeLayerDetails")',
+                    url: url,
                     dataType: "json",
-                    data: { subThemeId: $('#ddlSubTheme').val() },
+                    data: {
+                        subThemeId: subThemeId,
+                        boundaryId: boundaryId
+                    },
                     success: function (responseData) {
                         $('#ddlTableNames').empty();
                         var items = '';
@@ -333,11 +345,11 @@
                         });
                     }
                 });
-                return false;
+                //return false;
             });
 
             $('#ddlLayerType').change(function() {
-                
+
                 const layerType = $('#ddlLayerType').val();
                 if (layerType === "4") {
                     $('#tabularLayerDiv').show();
@@ -384,16 +396,11 @@
                 }
             });
 
-            $('#chkIsLegendColor').change(function() {
-                if($('#chkIsLegendColor').prop("checked") === true) {
-                    $("#txtLegendColorFieldName").prop("readonly", false);
-                    $('#txtLegendColorFieldName').attr('required', 'required');
-                    $('#lblLegendColorFieldName').addClass('required');
-                }
-                else if($('#chkIsLegendColor').prop("checked") === false){
+            $('#ddlLegendColorOption').change(function () {
+                if ($('#ddlLegendColorOption').val() === "0") {
                     $("#txtLegendColorFieldName").prop("readonly", true);
-                    $('#txtLegendColorFieldName').prop('required', false);
-                    $('#lblLegendColorFieldName').removeClass('required');
+                } else {
+                    $("#txtLegendColorFieldName").prop("readonly", false);
                 }
             });
 

@@ -19,6 +19,12 @@ namespace EcdsApp.Models.TabularModels
         [ForeignKey("SubThemeId")]
         public virtual SubTheme SubThemes { get; set; }
 
+        [Column("boundary_id")]
+        [Display(Name = "Regional Boundary")]
+        public int? BoundaryId { get; set; }
+        [ForeignKey("BoundaryId")]
+        public virtual BoundaryInfo BoundaryInfo { get; set; }
+
         [Required]
         [Column("table_name")]
         [StringLength(50)]
