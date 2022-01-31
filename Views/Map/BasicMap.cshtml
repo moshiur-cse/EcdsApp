@@ -258,6 +258,8 @@
         const distBoundaryType = 2;
         const upazBoundaryType = 3;
 
+        var test;
+
         $(function () {
             jQuery(".select2").select2();
         });
@@ -557,9 +559,9 @@
                 }
 
                 else if (isLegendColor == 1 && layerTypeId == 3) {
-                    console.log(feature.properties[legendcolorField]);
+                    //console.log(feature.properties[legendcolorField]);
                     //console.log(getColor(layerId, feature.properties[legendcolorField]));
-                    console.log(userDefinedColorList[layerId]);
+                    //console.log(userDefinedColorList[layerId]);
                    
                     return {
                         //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
@@ -573,9 +575,7 @@
                         fillOpacity: fillOpacity
                     };
                 }
-
-                else {
-                    
+                else {                  
                     return {
                         fillColor: '#000000',
                         weight: 1,
@@ -586,10 +586,6 @@
                         fillOpacity: 0
                     };
                 }
-
-
-
-
             }
             function onEachFeature(feature, layer) {
 
@@ -657,14 +653,24 @@
             function highlightFeature(e) {
                 var layer = e.target;
 
+                //test = layer.feature.properties;
+
+                //console.log(test);
                 //alert(layer.feature.properties[mainAtt]);
                 //mapBindData[layerId][feature.properties[attCode]].get('code')
                 var popupContent = "";
                 if (layerTypeId == 4) {
                     popupContent = '<div style="width:300px;text-align:center;"><p>' + mapBindData[layerId][layer.feature.properties[attCode]].get('value') + '</p></div>';
                 } else {
+                    var mainContent = '';
+                    for (var i = 0; i < Object.getOwnPropertyNames(layer.feature.properties).length; i++) {
+                        //console.log(Object.getOwnPropertyNames(layer.feature.properties)[i] + ":" + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]])
+                        mainContent += '<p>' + Object.getOwnPropertyNames(layer.feature.properties)[i] + " : " + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]]+'</p>';
+                    }
 
-                   popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
+                    //popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
+                    popupContent = '<div style="min-width:200px;text-align:center;">'+mainContent+'</div>';
+
                 }
 
                 layer.bindPopup(popupContent).openPopup(e.latlng);
