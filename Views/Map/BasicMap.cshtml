@@ -656,6 +656,8 @@
 
             function highlightFeature(e) {
                 var layer = e.target;
+
+                //alert(layer.feature.properties[mainAtt]);
                 //mapBindData[layerId][feature.properties[attCode]].get('code')
                 var popupContent = "";
                 if (layerTypeId == 4) {
@@ -665,15 +667,18 @@
                    popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
                 }
 
-                layer.setStyle({
-                    //weight: 2,
-                    //color: '#E11F21',
-                    dashArray: '',
-                    //fillOpacity: 0.4
-                }).bindPopup(popupContent).openPopup(e.latlng);
-                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                    layer.bringToFront();
-                }
+                layer.bindPopup(popupContent).openPopup(e.latlng);
+                
+                //layer.setStyle({
+                //    //weight: 2,
+                //    //color: '#E11F21',
+                //    dashArray: '',
+                //    //fillOpacity: 0.4
+                //}).bindPopup(popupContent).openPopup(e.latlng);
+
+                //if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                //    layer.bringToFront();
+                //}
             }
             function resetHighlight(e) {
                 mymap.closePopup();

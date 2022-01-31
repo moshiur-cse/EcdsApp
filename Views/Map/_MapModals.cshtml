@@ -54,7 +54,7 @@
                                                                         @if (subTheme.layerTypeIdList[i] == 4)
                                                                         {
                                                                             <a>
-                                                                                <input class="layer_class" type="checkbox" id="@subTheme.layerPathList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerPathList[i]">@subTheme.layerNameList[i]</label>
+                                                                                <input class="layer_class" type="checkbox" id="@subTheme.layerNameList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerNameList[i]">@subTheme.layerDisplayNameList[i]</label>
                                                                                 <select class="form-control" id="columnList_@(subTheme.layerIdList[i])">
                                                                                     <option>--Select--</option>
                                                                                 </select>
@@ -63,7 +63,7 @@
                                                                         }
                                                                         else
                                                                         {
-                                                                            <a><input class="layer_class" type="checkbox" id="@subTheme.layerPathList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerPathList[i]">@subTheme.layerNameList[i]</label></a>
+                                                                            <a><input class="layer_class" type="checkbox" id="@subTheme.layerNameList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerNameList[i]">@subTheme.layerDisplayNameList[i]</label></a>
                                                                         }
 
 
