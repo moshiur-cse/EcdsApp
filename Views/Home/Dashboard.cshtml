@@ -633,7 +633,8 @@
             colors: ["#5b73e8", "#dfe2e6", "#f1b44c"],
             series: [{ name: "Flood", type: "column", data: @Html.Raw(yFloodValue) },
                 { name: "Land Slide", type: "area", data: @Html.Raw(yLandSlideValue) },
-                { name: "Drought", type: "line", data: [5, 11, 21, 2, 14, 6, 18, 25, 15, 10, 9, 10] }],
+                { name: "Drought", type: "line", data: @Html.Raw(yDroughtValue) }],
+                //{ name: "Drought", type: "line", data: [5, 11, 21, 2, 14, 6, 18, 25, 15, 10, 9, 10] }],
             fill: {
                 opacity: [.85, .25, 1],
                 gradient: { inverseColors: !1, shade: "light", type: "vertical", opacityFrom: .85, opacityTo: .55, stops: [0, 100, 100, 100] }
