@@ -2,17 +2,20 @@
 /* Toolbars
 /* ================================================================== */
 
-.leaflet-bar a, .leaflet-bar a:hover{
-	height:50px!important;
-	width:30px!important;
-		
+.leaflet-bar a, .leaflet-bar a:hover {
+	height: 50px !important;
+	width: 30px !important;
+}
 
+.leaflet-draw {
+	display: none;
 }
-.leaflet-draw-section {
+
+/*.leaflet-draw-section {
 	position: relative;
-	background:white;
-	padding:5px;
-}
+	background: white;
+	padding: 5px;
+}*/
 
 .leaflet-draw-toolbar {
 	margin-top: 12px;

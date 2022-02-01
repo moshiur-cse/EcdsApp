@@ -42,10 +42,8 @@ namespace EcdsApp.Controllers.Map
                             layerTypeIdList = j.Select(j => j.LayerTypeId).ToList(),
                             tableIdList= j.Select(j => j.TableInfoId).ToList()
 
-                        }).ToList()
-
-
-                }).ToList();
+                        }).OrderBy(i=>i.subThemeName).ToList()
+                }).OrderBy(i=>i.themeName).ToList();
            
             //return Json(themeList);
 
@@ -145,14 +143,14 @@ namespace EcdsApp.Controllers.Map
 
         
        [HttpPost]
-       public JsonResult GetTbleColumnList(int tableId)
+       public   JsonResult GetTbleColumnList(int tableId)
         {
             var dataList = _context.TableColumnInfos
                 .Where(sd => sd.TableId==tableId && sd.ColumnTypeId==2)
                 .Select(sd => new { sd.DbColumnName, sd.DisplayName })
                 .OrderBy(sd => sd.DisplayName).ToList();
 
-            return Json(new SelectList(dataList, "DbColumnName", "DisplayName"));
+            return  Json(new SelectList(dataList, "DbColumnName", "DisplayName"));
         }
         
        [HttpPost]
@@ -165,8 +163,6 @@ namespace EcdsApp.Controllers.Map
 
             var data = _context.GetTabularData(columList, tableName);
 
-            
-           
             return data;
 
         }

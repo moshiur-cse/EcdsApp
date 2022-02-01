@@ -260,6 +260,12 @@ h4 {
 .map_reset {
     background: #fff url("../images/map_reset.png") no-repeat center center/80% auto;
 }
+
+.map_draw_arrow_img {
+    background: #fff url("../images/map_reset.png") no-repeat center center/80% auto;
+}
+
+
 .btn_map_download {
     background: #fff url("../images/map_download.png") no-repeat center center/80% auto;
 }
@@ -267,6 +273,7 @@ h4 {
 .btn_full_screen {
     background: #fff url("../images/map_full_screen.png") no-repeat center center/60% auto;
 }
+
 
 
 .btn_map_bglayers:hover {

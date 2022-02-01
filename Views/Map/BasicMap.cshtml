@@ -82,7 +82,7 @@
                 padding: 0.2vw;
             }
 
-        .map_btns_content {
+        .map_btns_content{
             z-index: 1000;
             position: absolute;
             top: 150px;
@@ -98,6 +98,36 @@
             -ms-user-select: none;
             user-select: none;
         }
+
+        .map_left_content {
+            z-index: 1050;
+            position: absolute;
+            top: 240px;
+            border: 0 none;
+            padding: 5px 6px;
+            cursor: pointer;
+            background: #fff none repeat scroll 0 0;
+            box-shadow: 0 1px 3px 4px rgb(0 0 0 / 25%);
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            border-radius: 3px;
+            transition-property: left, right;
+            transition-duration: 0.15s, 0.15s;
+            transition-delay: 0.15s, 0.15s;
+        }
+        .map_left_content_img {
+            /*            width: 24px;
+            height: 24px;
+            margin-left: 10px;
+            text-align: right;*/
+            /*background: transparent url(../images/arrow_right.png) no-repeat center right/100% auto;*/
+            /*background: transparent url("../images/polyline_icon.png") no-repeat center left/100% auto !important;*/
+            background: transparent url('../images/right-arrow-icon.png') no-repeat center left/100% auto !important;
+            
+        }
+
+
 
         .map_btns {
             display: inline-block;
@@ -191,13 +221,19 @@
             <p style="text-align: center; font: bold 17px/1.5 Roboto, Helvetica, Arial, sans-serif;text-decoration:underline" id="map_title">Layer List</p>
         </div>*@
     <div id="map_btns_content" class="map_btns_content">
-        <div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>
-        <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>
-        <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
         <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>
-        <div class="map_btns" title="Show or Hide Map Label"><input type="checkbox" id="map_label"></div>
         <div id="map_layer" class="map_btns right-bar-toggle waves-effect" title="Map Filtering"> </div>
         <div id="map_bg_layers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>
+        <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>
+        <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
+        <div class="map_btns" title="Show or Hide Map Label"><input type="checkbox" id="map_label"></div>
+        <div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>
+    </div>
+
+    <div id="map_left_content" class="map_left_content">
+        @*<div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>*@
+        <div id="map_layer_draw" class="map_btns map_draw_arrow_img" title="Map Drawing Open"> </div>
+        
     </div>
 
 
@@ -258,7 +294,8 @@
         const distBoundaryType = 2;
         const upazBoundaryType = 3;
 
-        var test;
+    var test;
+    var layerData;
 
         $(function () {
             jQuery(".select2").select2();
@@ -268,7 +305,8 @@
         var data_layer = {};
         //var colorList = {};
         var userDefinedColorList = {};
-        var mapBindData = {};
+    var mapBindData = {};
+
 
 
         var legend = L.control({ position: 'bottomright' });
@@ -351,7 +389,11 @@
 
             L.tileLayer("", { attribution: mapAttrib }).addTo(mymap);
             L.control.scale().addTo(mymap);
-            L.control.zoom().addTo(mymap);
+            //L.control.zoom().addTo(mymap);
+
+            L.control.zoom({
+                position: 'bottomleft'
+            }).addTo(mymap);
 
             var drawnItems = L.featureGroup().addTo(mymap);
 
@@ -447,7 +489,8 @@
                 g_boundaryId = boundaryId;
                 g_tableId = tableId;
 
-                var layerPath = "../assets/js/map/map_data/" + filepath;
+            var layerPath = "../assets/js/map/map_data/" + filepath;
+           
 
 
             if (mymap.hasLayer(data_layer[layerId])) {
@@ -471,6 +514,8 @@
                     if (!LayerInfo) return;
 
                     data_layer[layerId].addData(LayerInfo);
+                    layerData = LayerInfo;
+                    console.log(layerData);
 
                 }).done(function (e) {
                     mymap.addLayer(data_layer[layerId]);
@@ -653,6 +698,7 @@
             function highlightFeature(e) {
                 var layer = e.target;
 
+
                 //test = layer.feature.properties;
 
                 //console.log(test);
@@ -691,6 +737,7 @@
                 //data_layer[layerId].resetStyle(e.target);
             }
 
+            console.log(data_layer[layerId]);
         }
 //end Map Layer Hide Show Function
 
@@ -1079,7 +1126,7 @@
                         //    "Error... . . !",
                         //    "Failed to load Shape file. " + ex.responseText);
                     },
-                     complete: jQuery("#busy-indicator").fadeOut(150)
+                 complete: jQuery("#busy-indicator").fadeOut(150)
              });
 
         }
@@ -1414,6 +1461,14 @@
 
             return false;
         }
+
+
+
+    jQuery('#map_layer_draw').click(function ($) {
+
+        jQuery('.leaflet-draw').toggle();
+        
+    });
 
 </script>
 
