@@ -539,12 +539,8 @@
                                                 @Html.DisplayFor(modelItem => item.LayerName)
                                             </td>
                                            
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ThemeLayerTypes.LayerTypeName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.BoundaryInfo.BoundaryName)
-                                            </td>
+                                            <td>@item.ThemeLayerTypes?.LayerTypeName</td>
+                                            <td>@item.BoundaryInfo?.BoundaryName</td>
                                             <td>
                                                 <a class="badge bg-pill bg-soft-info font-size-14" target="_blank" asp-controller="@item.TableInfo?.TableModelName" asp-action="Index" style="color: #191c1e">
                                                     @Html.DisplayFor(modelItem => item.TableInfo.DisplayName)

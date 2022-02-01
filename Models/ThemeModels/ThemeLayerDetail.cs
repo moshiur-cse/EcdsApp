@@ -172,8 +172,8 @@ namespace EcdsApp.Models.ThemeModels
         public decimal FillOpacity { get; set; }
 
         [Required]
-        [Column("line_weight", TypeName = "decimal(1, 1)")]
-        [Range(0.0, 1.0)]
+        [Column("line_weight", TypeName = "decimal(2, 2)")]
+        [Range(0.0, 10)]
         [Display(Name = "Line Weight")]
         public decimal LineWeight { get; set; }
 
