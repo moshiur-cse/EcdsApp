@@ -1,4 +1,27 @@
-﻿.pageloading, .modal_bg {
+﻿
+#page-topbar {
+    /*background: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)), url('../images/banner.jpg');
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;*/
+    background-image: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)), url('../images/banner.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+
+#web_title {
+    display: block;
+    border: 0 none;
+    border-bottom: 2.5px solid #158ad5;
+    margin: 0;
+    padding: 0;
+    color: #f7e81d!important;
+    font: 700 1.85vw/1.25 Roboto, Noto Sans, Helvetica, Arial, sans-serif!important;
+}
+
+
+.pageloading, .modal_bg {
     display: none;
     z-index: 1075;
     position: fixed;
