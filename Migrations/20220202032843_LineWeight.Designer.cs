@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220202032843_LineWeight")]
+    partial class LineWeight
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -548,7 +550,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("line_color_code");
 
                     b.Property<decimal>("LineWeight")
-                        .HasColumnType("decimal(4, 2)")
+                        .HasColumnType("decimal(2, 2)")
                         .HasColumnName("line_weight");
 
                     b.Property<string>("MainAttributeCode")

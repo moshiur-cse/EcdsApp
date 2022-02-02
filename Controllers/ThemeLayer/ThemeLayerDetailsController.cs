@@ -227,7 +227,7 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             if (ModelState.IsValid)
             {
-                if (geoJsonFile != null || shapeFile != null)
+                if (geoJsonFile.Count > 0 || shapeFile.Count > 0)
                 {
                     var subThemeObj = _context.SubThemes
                         .Include(s => s.Themes)

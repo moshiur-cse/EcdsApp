@@ -179,9 +179,9 @@
                             }
 
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required">Legend Color</label>
+                                <label class="col-md-2 col-form-label">Legend Color</label>
                                 <div class="col-md-10">
-                                    <select id="ddlLegendColorOption" class="form-select" asp-for="LegendColorOptionId" asp-items="ViewBag.LegendColorOptionList" required="" data-parsley-min="0" data-parsley-required-message="You must select at least one option.">
+                                    <select id="ddlLegendColorOption" class="form-select" asp-for="LegendColorOptionId" asp-items="ViewBag.LegendColorOptionList">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -244,9 +244,12 @@
                                         <label id="shapeFileTypeLbl" class="col-md-2 col-form-label">Upload Shape File</label>
                                         <div class="col-md-10">
                                             <input id="shapeFileInput" class="form-control mb-2" type="file" name="shapeFile" accept=".dbf, .prj, .shp, .shx" multiple />
-                                            @foreach (var item in (List<string>) ViewBag.ShapeFileList)
+                                            @if (ViewBag.ShapeFileList != null)
                                             {
-                                                <a class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light">@item</a>
+                                                @foreach (var item in (List<string>) ViewBag.ShapeFileList)
+                                                {
+                                                    <a class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light">@item</a>
+                                                }
                                             }
                                         </div>
                                     </div>
