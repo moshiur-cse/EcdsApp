@@ -244,6 +244,8 @@ namespace EcdsApp.Controllers.ThemeLayer
                             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
                             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
                             ViewData["LegendColorOptionList"] = new SelectList(_context.LegendColorOptions, "Id", "OptionName");
+
+                            ModelState.AddModelError(string.Empty, "Error! Not All Shape files Uploaded Correctly!");
                             return View(themeLayerDetail);
                         }
 
