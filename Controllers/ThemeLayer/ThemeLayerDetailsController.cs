@@ -235,7 +235,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                     var themePath = subThemeObj?.Themes.ThemePath;
                     var subThemePath = subThemeObj?.SubThemePath;
                     var folderPathDirectory = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}";
-                    if (shapeFile != null)
+                    if (shapeFile.Count > 0)
                     {
                         var shapeFileExtList = shapeFile.Select(item => ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Value).Select(Path.GetExtension).ToList();
                         if (!(shapeFileExtList.Contains(".dbf") && shapeFileExtList.Contains(".prj") && shapeFileExtList.Contains(".shp") && shapeFileExtList.Contains(".shx")))
@@ -271,7 +271,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                             await file.CopyToAsync(shapeOutput);
                         }
                     }
-                    if (geoJsonFile != null)
+                    if (geoJsonFile.Count > 0)
                     {
                         foreach (var file in Directory.EnumerateFiles(folderPathDirectory, "*", SearchOption.AllDirectories))
                         {
