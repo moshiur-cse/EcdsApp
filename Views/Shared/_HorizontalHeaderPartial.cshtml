@@ -71,7 +71,7 @@
 
         <div class="d-flex">
 
-            <div class="dropdown d-inline-block d-lg-none ms-2">
+            @*<div class="dropdown d-inline-block d-lg-none ms-2">
                 <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="uil-search"></i>
@@ -90,7 +90,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>*@
 
 
 
@@ -110,10 +110,18 @@
                 {
 
 
-                    <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Login|Register</span>
-                    </button>
+                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <span class=" d-none d-md-inline-block">
+                        <i class="uil uil-user-circle font-size-22 align-middle text-muted me-1"></i> <span class="align-middle">Login|Register</span>
+                    </span>
+                    <span class="d-inline-block d-md-none text-center">
+                        <i class="uil uil-user-circle font-size-22 align-middle text-muted me-1"></i> <span class="align-middle"></span>
+                    </span>
+
+                   @* <i class="uil uil-user-circle font-size-22 align-middle text-muted me-1"></i> <span class="align-middle"></span>*@
+                </button>
 
                     <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Login</span></a>
