@@ -106,7 +106,7 @@
             border: 0 none;
             padding: 5px 6px;
             cursor: pointer;
-            background: #fff none repeat scroll 0 0;
+            background: #ffffff00 none repeat scroll 0 0;
             box-shadow: 0 1px 3px 4px rgb(0 0 0 / 25%);
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
@@ -293,16 +293,8 @@
     var footer_height = $('.footer').height();
 
     $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
-
     $('.map_btns_content').css("top", (top_height+10));
-
     $('.map_left_content').css("top", (top_height + 10));
-
-   /* $('.leaflet-draw-section').css('margin-top', top_height + 60+'px!important');*/
-
-    /*.leaflet-control {
-           margin-top: 50px !important
-       }*/
 
 
     $(window).resize(function () {
@@ -311,8 +303,7 @@
         $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
         $('.map_btns_content').css("top", (top_height+10));
         $('.map_left_content').css("top", (top_height + 10));
-      /*  $('.leaflet-draw-section').css('margin-top', top_height + 60 + 'px!important');*/
-
+     
     });
 
         const divBoundaryType = 1;

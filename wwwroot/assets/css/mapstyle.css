@@ -264,7 +264,7 @@ h4 {
 .map_draw_arrow_img {
     width: 30px;
     height: 30px;
-    margin-left: 5px;
+    margin-left: 4px;
     text-align: right;
     background: #fff url("../images/bottom_arrow.png") no-repeat center center/80% auto;
 }
