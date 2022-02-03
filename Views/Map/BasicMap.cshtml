@@ -17,9 +17,9 @@
 
     <style>
 
-        .leaflet-map {
+       /* .leaflet-map {
             height: 100vh ;
-        }
+        }*/
 
         /* .right-bar{
             width:400px!important;
@@ -34,8 +34,8 @@
             width: 15vw !important;
         }
 
-        .leaflet-top .leaflet-control {
-            margin-top: 50px !important
+        .leaflet-control {
+            margin-top: 90px !important
         }
 
         .mapLabel {
@@ -85,7 +85,7 @@
         .map_btns_content{
             z-index: 1000;
             position: absolute;
-            top: 150px;
+            /*top: 150px;*/
             left: auto;
             right: 1%;
             width: 50px;
@@ -102,7 +102,7 @@
         .map_left_content {
             z-index: 1050;
             position: absolute;
-            top: 240px;
+            /*top: 240px;*/
             border: 0 none;
             padding: 5px 6px;
             cursor: pointer;
@@ -123,8 +123,7 @@
             text-align: right;*/
             /*background: transparent url(../images/arrow_right.png) no-repeat center right/100% auto;*/
             /*background: transparent url("../images/polyline_icon.png") no-repeat center left/100% auto !important;*/
-            background: transparent url('../images/right-arrow-icon.png') no-repeat center left/100% auto !important;
-            
+            background: transparent url('../images/bottom_arrow.png') no-repeat center left/100% auto !important;
         }
 
 
@@ -232,7 +231,7 @@
 
     <div id="map_left_content" class="map_left_content">
         @*<div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>*@
-        <div id="map_layer_draw" class="map_btns map_draw_arrow_img" title="Map Drawing Open"> </div>     
+        <div id="map_layer_draw" class="map_draw_arrow_img" title="Map Drawing Open"> </div>     
     </div>
 
 
@@ -289,6 +288,33 @@
 
 
 <script>
+
+    var top_height = $('#page-topbar').height();
+    var footer_height = $('.footer').height();
+
+    $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+
+    $('.map_btns_content').css("top", (top_height+10));
+
+    $('.map_left_content').css("top", (top_height + 10));
+
+   /* $('.leaflet-draw-section').css('margin-top', top_height + 60+'px!important');*/
+
+    /*.leaflet-control {
+           margin-top: 50px !important
+       }*/
+
+
+    $(window).resize(function () {
+        top_height = $('#page-topbar').height();
+        footer_height = $('.footer').height();
+        $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+        $('.map_btns_content').css("top", (top_height+10));
+        $('.map_left_content').css("top", (top_height + 10));
+      /*  $('.leaflet-draw-section').css('margin-top', top_height + 60 + 'px!important');*/
+
+    });
+
         const divBoundaryType = 1;
         const distBoundaryType = 2;
         const upazBoundaryType = 3;
@@ -1465,9 +1491,19 @@
 
     jQuery('#map_layer_draw').click(function ($) {
 
-        jQuery('.leaflet-draw').toggle();
+       
+
+        if (jQuery('.leaflet-draw').is(':visible')) {
+            jQuery('.leaflet-draw').slideUp();
+
+        } else {
+            jQuery('.leaflet-draw').slideDown();
+
+        }
         
     });
+
+
 
 </script>
 

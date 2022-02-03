@@ -262,7 +262,11 @@ h4 {
 }
 
 .map_draw_arrow_img {
-    background: #fff url("../images/map_reset.png") no-repeat center center/80% auto;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    text-align: right;
+    background: #fff url("../images/bottom_arrow.png") no-repeat center center/80% auto;
 }
 
 
