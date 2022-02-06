@@ -290,7 +290,7 @@
     <script src="~/assets/libs/leaflet/Edit.Circle.js"></script>
 
     <script src="~/assets/libs/select2/js/select2.min.js"></script>
-    <script src="~/assets/libs/jquery-ui-dist/jquery-ui.min.js"></script>
+   @* <script src="~/assets/libs/jquery-ui-dist/jquery-ui.min.js"></script>*@
 
 
     <script>
@@ -298,8 +298,8 @@
     var top_height = $('#page-topbar').height();
     var footer_height = $('.footer').height();
 
-        //$('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
-        $('.leaflet-map').css("height", ($(window).height() - top_height));
+        $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+        //$('.leaflet-map').css("height", ($(window).height() - top_height));
     $('.map_btns_content').css("top", (top_height+10));
     $('.map_left_content').css("top", (top_height + 10));
 
@@ -307,8 +307,8 @@
     $(window).resize(function () {
         top_height = $('#page-topbar').height();
         footer_height = $('.footer').height();
-        //$('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
-        $('.leaflet-map').css("height", ($(window).height() - top_height));
+        $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+       // $('.leaflet-map').css("height", ($(window).height() - top_height));
         $('.map_btns_content').css("top", (top_height+10));
         $('.map_left_content').css("top", (top_height + 10));
 
@@ -329,9 +329,11 @@
 
 
         var data_layer = {};
+
+        var data_layer_details = {};
         //var colorList = {};
         var userDefinedColorList = {};
-    var mapBindData = {};
+        var mapBindData = {};
 
 
 
@@ -420,6 +422,14 @@
             L.control.zoom({
                 position: 'bottomleft'
             }).addTo(mymap);
+
+
+
+            //var zoom = document.getElementsByClassName('leaflet-control-zoom')[0];
+            //var draggableZoom = new L.Draggable(zoom);
+            //draggableZoom.enable();
+
+
 
             var drawnItems = L.featureGroup().addTo(mymap);
 
@@ -515,6 +525,34 @@
                 g_boundaryId = boundaryId;
                 g_tableId = tableId;
 
+            data_layer_details[layerId] = new Map(
+                [
+                    ["layerUid", layerUid],
+                    ["layerId", layerId],
+                    ["filepath", filepath],
+                    ["mainAttDisName", mainAttDisName],
+
+                    ["mainAtt", mainAtt],
+                    ["attCode", attCode],
+                    ["cLat", cLat],
+                    ["cLong", cLong],
+                    ["firstAttDisName", firstAttDisName],
+                    ["firstAtt", firstAtt],
+                    ["layerName", layerName],
+                    ["layerTypeId", layerTypeId],
+                    ["isLegendColor", isLegendColor],
+                    ["legendcolorField", legendcolorField],
+                    ["opacity", opacity],
+                    ["fillOpacity", fillOpacity],
+                    ["weight", weight],
+                    ["color", color],
+                    ["boundaryId", boundaryId],
+                    ["tableId", tableId]
+                ]);
+
+
+
+
             var layerPath = "../assets/js/map/map_data/" + filepath;
 
 
@@ -551,7 +589,7 @@
                     if (isLegendColor == 1) {
                         legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
                     }
-
+                    
                     updateMapLayerList(layerId);
                     //$(".map_layer_list").empty()
 
@@ -634,6 +672,8 @@
                     //console.log(getColor(layerId, feature.properties[legendcolorField]));
                     //console.log(userDefinedColorList[layerId]);
 
+                   
+
                     return {
                         //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
                         //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[layerId][mapBindData[layerId][feature.properties[attCode]]],
@@ -647,14 +687,15 @@
                     };
                 }
                 else {
+                    //alert(color);
                     return {
-                        fillColor: '#000000',
-                        weight: 1,
-                        opacity: 1,
-                        transparent: true,
-                        color: '#000000',
-                        dashArray: '1',
-                        fillOpacity: 0
+                        fillColor: '#ffffff00',
+                        weight: weight,
+                        opacity: opacity,
+                       /* transparent: true,*/
+                        color: color,
+                        /*dashArray: '1',*/
+                        fillOpacity: fillOpacity
                     };
                 }
             }
@@ -770,14 +811,20 @@
     function updateMapLayerList(layerId) {
 
         jQuery(".map_layer_list").empty();
+        //data_layer_details
+        jQuery.each(data_layer_details, function (layerNameU, val) {
 
-        jQuery.each(data_layer, function (index, val) {
+            //if (layerNameU == layerId) {
 
-            if (index == layerId) {
+            //    jQuery(".map_layer_list").append('<li id="map_layer_' + layerNameU + '" onclick= "setTopLayer(' + this.id +');"  style="background: rosybrown;"><a   class="waves-effect"><i class="bx bx-plus-medical"></i><span title="Top Layer">' + data_layer_details[layerNameU].get('layerName') + '</span></a></li>')
+            //} else {
+            //    jQuery(".map_layer_list").append('<li id="map_layer_' + layerNameU + '" onclick= "setTopLayer(' + this.id +');"><a   class="waves-effect"><i class="bx bx-plus-medical"></i><span>' + data_layer_details[layerNameU].get('layerName') + '</span></a></li>')
+            //}
 
-                jQuery(".map_layer_list").append('<li id="map_layer_' + index + '" style="background: rosybrown;"><a href="javascript: void(0);" class="waves-effect"><i class="bx bx-plus-medical"></i><span title="Top Layer">' + index + '</span></a></li>')
+            if (layerNameU == layerId) {
+                jQuery(".map_layer_list").append('<p title="Top Layer"  onclick="setTopLayer(\'' + layerNameU +'\')"  style="background: rosybrown;">' + data_layer_details[layerNameU].get('layerName') + '</p>')
             } else {
-                jQuery(".map_layer_list").append('<li id="map_layer_' + index + '"><a href="javascript: void(0);" class="waves-effect"><i class="bx bx-plus-medical"></i><span>' + index + '</span></a></li>')
+                jQuery(".map_layer_list").append('<p title="Set as Top Layer"  onclick="setTopLayer(\'' + layerNameU +'\')">' + data_layer_details[layerNameU].get('layerName') + '</p>')
             }
         });
     }
@@ -832,7 +879,8 @@
                     //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedColorList[layerId][i].get('name') + '<i style="background:' + userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
                     //}
 
-
+                    var draggable = new L.Draggable(legend_div);
+                    draggable.enable()
 
 
                     return legend_div;
@@ -1117,6 +1165,7 @@
                     delete mapBindData[layerId];
                     delete userDefinedColorList[layerId];
                     delete data_layer[layerId];
+                    delete data_layer_details[layerId];
                     updateMapLayerList(layerId);
 
                 }
@@ -1340,11 +1389,6 @@
                     complete: jQuery("#busy-indicator").fadeOut(150)
                 });
 
-
-
-
-
-
                 jQuery("#busy-indicator").fadeIn(150);
                 LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
                 jQuery("#busy-indicator").fadeOut(150);
@@ -1490,18 +1534,39 @@
 
 
 
-    jQuery('#map_layer_draw').click(function ($) {
+        jQuery('#map_layer_draw').click(function ($) {
 
 
 
-        if (jQuery('.leaflet-draw').is(':visible')) {
-            jQuery('.leaflet-draw').slideUp();
+            if (jQuery('.leaflet-draw').is(':visible')) {
+                jQuery('.leaflet-draw').slideUp();
 
-        } else {
-            jQuery('.leaflet-draw').slideDown();
+            } else {
+                jQuery('.leaflet-draw').slideDown();
+            }
+        });
+    
+        //jQuery('.map_layer_list').click(function ($) {
+
+        //    alert(jQuery(this).closest('li').attr('id'));
+        //});
+
+        
+
+        function setTopLayer(layerName) {
+
+            //console.log(name);
+            //console.log(data_layer_details[layerName].get('layerUid'));
+
+            g_layerId = layerName;
+            jQuery("#busy-indicator").fadeIn(150);
+            LayerShowHide(data_layer_details[layerName].get('layerUid'), data_layer_details[layerName].get('layerId'), data_layer_details[layerName].get('filepath'), data_layer_details[layerName].get('mainAttDisName'), data_layer_details[layerName].get('mainAtt'), data_layer_details[layerName].get('attCode'), data_layer_details[layerName].get('cLat'), data_layer_details[layerName].get('cLong'), data_layer_details[layerName].get('firstAttDisName'), data_layer_details[layerName].get('firstAtt'), data_layer_details[layerName].get('layerName'), data_layer_details[layerName].get('layerTypeId'), data_layer_details[layerName].get('isLegendColor'), data_layer_details[layerName].get('legendcolorField'), admin_code_list, data_layer_details[layerName].get('opacity'), data_layer_details[layerName].get('fillOpacity'), data_layer_details[layerName].get('weight'), data_layer_details[layerName].get('color'), data_layer_details[layerName].get('boundaryId'), data_layer_details[layerName].get('tableId'));
+            jQuery("#busy-indicator").fadeOut(150);
+
         }
-    });
-        $(".legend_info").draggable();
+
+       /* $(".leaflet-control").draggable();*/
+
     </script>
 
 
