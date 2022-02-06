@@ -298,7 +298,8 @@
     var top_height = $('#page-topbar').height();
     var footer_height = $('.footer').height();
 
-    $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+        //$('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+        $('.leaflet-map').css("height", ($(window).height() - top_height));
     $('.map_btns_content').css("top", (top_height+10));
     $('.map_left_content').css("top", (top_height + 10));
 
@@ -306,7 +307,8 @@
     $(window).resize(function () {
         top_height = $('#page-topbar').height();
         footer_height = $('.footer').height();
-        $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+        //$('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+        $('.leaflet-map').css("height", ($(window).height() - top_height));
         $('.map_btns_content').css("top", (top_height+10));
         $('.map_left_content').css("top", (top_height + 10));
 
