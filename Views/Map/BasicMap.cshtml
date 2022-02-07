@@ -169,6 +169,23 @@
             font-size: 1vw;
         }
 
+        #AttributeDiv {
+            display: none;
+            padding: 5px;
+            margin-top: 100px;
+            margin-left: 45px;
+            z-index: 1000;
+            position: absolute;
+            border: 1px solid #e5e7e8;
+            width: auto;
+            background: rgba(255, 255, 255, 0.85) none repeat scroll 0 0;
+            border-radius: 3px border-radius: 5px;
+            font-size: 1vw;
+            max-width: 400px;
+            max-height: 400px;
+            overflow-y: scroll;
+            overflow-x: scroll;
+        }
         /*.map_title {
             padding: 5px;
             margin-top: 400px;*/
@@ -183,7 +200,6 @@
             overflow: scroll;
             height: 300px;
         }*/
-
         .map_legend {
             height: 450px;
             overflow-y: scroll;
@@ -236,7 +252,12 @@
 
     <div id="map_left_content" class="map_left_content">
         @*<div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>*@
-        <div id="map_layer_draw" class="map_draw_arrow_img" title="Draw Map"> </div>
+        <div id="map_layer_draw" class="map_draw_arrow_img" title="Draw Map" style="float:left"> </div>
+        <div id="map_layer_data" class="map_draw_arrow_img" title="Attribute Information" style="float:right"> </div>
+    </div>
+
+    <div id="AttributeDiv">
+        <h3>Attribute Table Information</h3>
     </div>
 
 
@@ -290,7 +311,7 @@
     <script src="~/assets/libs/leaflet/Edit.Circle.js"></script>
 
     <script src="~/assets/libs/select2/js/select2.min.js"></script>
-   @* <script src="~/assets/libs/jquery-ui-dist/jquery-ui.min.js"></script>*@
+    <script src="~/assets/libs/jquery-ui-dist/jquery-ui.min.js"></script>
 
 
     <script>
@@ -313,8 +334,6 @@
         $('.map_left_content').css("top", (top_height + 10));
 
     });
-
-       
 
         const divBoundaryType = 1;
         const distBoundaryType = 2;
@@ -579,7 +598,7 @@
 
                     data_layer[layerId].addData(LayerInfo);
                     layerData = LayerInfo;
-                    console.log(layerData);
+                    /*console.log(layerData);*/
 
                 }).done(function (e) {
                     mymap.addLayer(data_layer[layerId]);
@@ -589,7 +608,7 @@
                     if (isLegendColor == 1) {
                         legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
                     }
-                    
+
                     updateMapLayerList(layerId);
                     //$(".map_layer_list").empty()
 
@@ -672,16 +691,16 @@
                     //console.log(getColor(layerId, feature.properties[legendcolorField]));
                     //console.log(userDefinedColorList[layerId]);
 
-                   
 
+                    var uColor = getColor(layerId, feature.properties[legendcolorField]);
                     return {
                         //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
                         //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[layerId][mapBindData[layerId][feature.properties[attCode]]],
 
-                        fillColor: isLegendColor == 0 ? '#ffffff00' : getColor(layerId, feature.properties[legendcolorField]),
+                        fillColor: isLegendColor == 0 ? '#ffffff00' : uColor ,
                         weight: weight,
                         opacity: opacity,
-                        color: color,
+                        color: uColor,
                         dashArray: '1',
                         fillOpacity: fillOpacity
                     };
@@ -804,7 +823,7 @@
                 //data_layer[layerId].resetStyle(e.target);
             }
 
-            console.log(data_layer[layerId]);
+            /*console.log(data_layer[layerId]);*/
         }
 //end Map Layer Hide Show Function
 
@@ -1074,7 +1093,7 @@
                         jQuery("#columnList_" + items.layerId).empty();
 
                         if (items.boundaryId == 3) {
-                            path = "administrative/administrative_boundary/upazila/upazila.json";
+                            path = items.boundaryPath;
                             g_filepath = path;
                             mainAttCodeName = "UpazGeoCod";
                             g_mainAtt = "UpazGeoCod";
@@ -1532,11 +1551,7 @@
             return false;
         }
 
-
-
         jQuery('#map_layer_draw').click(function ($) {
-
-
 
             if (jQuery('.leaflet-draw').is(':visible')) {
                 jQuery('.leaflet-draw').slideUp();
@@ -1545,13 +1560,13 @@
                 jQuery('.leaflet-draw').slideDown();
             }
         });
-    
+
         //jQuery('.map_layer_list').click(function ($) {
 
         //    alert(jQuery(this).closest('li').attr('id'));
         //});
 
-        
+
 
         function setTopLayer(layerName) {
 
@@ -1565,7 +1580,44 @@
 
         }
 
-       /* $(".leaflet-control").draggable();*/
+        jQuery('#map_layer_data').click(function ($) {
+
+            /* console.log(layerData.features[i].properties.DivName)*/
+
+            jQuery('#AttributeDiv').empty();
+            var tableContent = '<table class="table table-centered table-nowrap mb-0">';
+            for (var i = 0; i < layerData.features.length; i++) {
+
+                if (i == 0) {
+                    tableContent += '<tr>';
+                    for (var j = 0; j < Object.getOwnPropertyNames(layerData.features[i].properties).length; j++) {
+                        tableContent += '<th>' + Object.getOwnPropertyNames(layerData.features[i].properties)[j] + '</th>';
+                    }
+                    tableContent += '</tr>';
+                }
+                tableContent += '<tr>';
+                for (var j = 0; j < Object.getOwnPropertyNames(layerData.features[i].properties).length; j++) {
+                    tableContent += '<td>' + layerData.features[i].properties[Object.getOwnPropertyNames(layerData.features[i].properties)[j]] + '</td>';
+                    //console.log(layerData.features[i].properties[Object.getOwnPropertyNames(layerData.features[i].properties)[j]]);
+                }
+                tableContent += '</tr>';
+            }
+            tableContent += '</table>';
+            jQuery('#AttributeDiv').append(tableContent);
+
+
+            Object.getOwnPropertyNames(layerData.features[0].properties)
+
+            if (jQuery('#AttributeDiv').is(':visible')) {
+                jQuery('#AttributeDiv').slideUp();
+
+            } else {
+                jQuery('#AttributeDiv').slideDown();
+            }
+        });
+
+        $("#AttributeDiv").draggable();
+
 
     </script>
 
