@@ -1,0 +1,121 @@
+﻿@model IEnumerable<EcdsApp.Models.ThemeModels.MetaDataDetail>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body m-0">
+                        <h3 class="display-6 mb-0">List of  Meta Data</h3>
+                        <p class="card-title-desc">Meta Data Details Information</p>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Record</a>
+                    </div>
+                </div>
+                <div class="table-responsive mb-4">
+                    <table class="table table-centered datatable nowrap table-card-list" style="border-collapse: collapse; border-spacing: 0 12px; width: 100%;">
+                        <thead>
+                            <tr class="bg-transparent">
+                                <th>Action</th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.LayerId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Title)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Abstract)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.General)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Quality)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Completeness)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HistoryOfTheDataSet)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PurposeOfProduction)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProcessDescription)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TypeOfDataSet)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DataSetLanguage)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AdditionalInfoSourceForDataSet)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ThemeLayerDetails.LayerDisplayName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Abstract)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.General)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quality)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Completeness)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HistoryOfTheDataSet)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PurposeOfProduction)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProcessDescription)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TypeOfDataSet)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DataSetLanguage)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AdditionalInfoSourceForDataSet)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
+        });
+    </script>
+}

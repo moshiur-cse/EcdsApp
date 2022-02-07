@@ -1,0 +1,146 @@
+﻿@model EcdsApp.Models.BundleDetail
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">Edit Bundle Information</h3>
+
+                        <form asp-action="Edit" class="mt-4 custom-validation" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Theme</label>
+                                <div class="col-md-10">
+                                    <select id="ddlTheme" class="form-select" asp-items="ViewBag.ThemeId" required="" data-parsley-required-message="You must select at least one option."></select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Sub-Theme</label>
+                                <div class="col-md-10">
+                                    <select id="ddlSubTheme" class="form-select" asp-items="ViewBag.SubThemeId" data-parsley-min="1" required="" data-parsley-required-message="You must select at least one option."></select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Layer</label>
+                                <div class="col-md-10">
+                                    <select id="ddlLayer" class="form-select" asp-for="LayerId" asp-items="ViewBag.LayerId" data-parsley-min="1" required="" data-parsley-required-message="You must select at least one option."></select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="FieldName"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="FieldName" class="form-control" required="" />
+                                    <span asp-validation-for="FieldName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required" asp-for="FieldDescription"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="FieldDescription" class="form-control" required="" />
+                                    <span asp-validation-for="FieldDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" asp-for="FieldUnit"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="FieldUnit" class="form-control" />
+                                    <span asp-validation-for="FieldUnit" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 text-right">
+                                <input type="submit" value="Update" class="btn btn-rounded btn-success w-lg" />
+                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#ddlTheme').change(function () {
+                var items = '';
+                $('#ddlLayer').empty();
+                $('#ddlLayer').html("<option value=''>Select</option>");
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSubThemeData", "ThemeLayerDetails")',
+                    dataType: "json",
+                    data: { themeId: $('#ddlTheme').val() },
+                    success: function (responseData) {
+                        $('#ddlSubTheme').empty();
+                        $.each(responseData,
+                            function (i, subTheme) {
+                                items += "<option value='" + subTheme.value + "'>" + subTheme.text + "</option>";
+                            });
+                        if (items !== "") {
+                            $('#ddlSubTheme').html(items);
+                        } else {
+                            $('#ddlSubTheme').html("<option value=''>No Data Available Under the Selected Theme</option> ");
+                        }
+                    },
+                    error: function (ex) {
+                        window.Swal.fire({
+                            title: "Error",
+                            text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                });
+                return false;
+            });
+
+            $('#ddlSubTheme').change(function () {
+                var items = '';
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetLayerData", "ThemeLayerDetails")',
+                    dataType: "json",
+                    data: { subThemeId: $('#ddlSubTheme').val() },
+                    success: function (responseData) {
+                        $('#ddlLayer').empty();
+                        $.each(responseData,
+                            function (i, themeLayer) {
+                                items += "<option value='" + themeLayer.value + "'>" + themeLayer.text + "</option>";
+                            });
+                        if (items !== "") {
+                            $('#ddlLayer').html(items);
+                        } else {
+                            $('#ddlLayer').html("<option value=''>No Data Available Under the Selected Sub-Theme</option> ");
+                        }
+                    },
+                    error: function (ex) {
+                        window.Swal.fire({
+                            title: "Error",
+                            text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+}
