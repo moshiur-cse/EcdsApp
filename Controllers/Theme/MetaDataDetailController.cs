@@ -26,6 +26,15 @@ namespace EcdsApp.Controllers.Theme
             return View(await dataContext.ToListAsync());
         }
 
+
+        public async Task<IActionResult> MetaData(int layerId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.LayerId = layerId;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+            return View(await _context.MetaDataDetails.Include(a => a.ThemeLayerDetails.SubThemes.Themes).Where(i => i.LayerId == layerId).ToListAsync());
+        }
+
         // GET: MetaDataDetail/Details/5
         public async Task<IActionResult> Details(int? id)
         {

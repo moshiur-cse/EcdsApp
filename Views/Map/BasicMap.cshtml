@@ -731,6 +731,7 @@
                             //displayResult(e.target.feature.properties[adminCode]);
                             //layer.bindPopup('<div style="width:1000px;text-align:center;">Moshiurfdhslfhsd<p>'+mainAttDisName+" : " + feature.properties[mainAtt] + '</p>' + (firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt] + ":" + feature.properties[mainAtt])+'</p>' : " " +'</div>');
                             //layer.bindPopup('<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt]) + '</p>' : " ") + '</div>');
+
                             DisplayDetailsInfoes(feature.properties[attCode], mainAtt);
                         }
                     });
@@ -783,7 +784,6 @@
 
             function highlightFeature(e) {
                 var layer = e.target;
-
 
                 //test = layer.feature.properties;
 
@@ -1519,7 +1519,7 @@
     }
 
 
-    function DisplayDetailsInfoes(adminCodeForGetResult, name) {
+        function DisplayDetailsInfoes(adminCodeForGetResult, name) {
 
             //alert(+adminCodeForGetResult+" "+name);
             //return;
@@ -1585,7 +1585,7 @@
             /* console.log(layerData.features[i].properties.DivName)*/
 
             jQuery('#AttributeDiv').empty();
-            var tableContent = '<table class="table table-centered table-nowrap mb-0">';
+            var tableContent = '<div> <button class="btn btn-success"  onclick="showBundleAndMetaData(\'' + g_layerUid +'\')">View Metadata</button><hr/></div><table class="table table-centered table-nowrap mb-0">';
             for (var i = 0; i < layerData.features.length; i++) {
 
                 if (i == 0) {
@@ -1617,6 +1617,36 @@
         });
 
         $("#AttributeDiv").draggable();
+
+        function showBundleAndMetaData(layerId) {
+            alert(layerId);
+
+             $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetMetadata", "Map")',
+                    dataType: "html",
+                    data: { layerId: layerId  },
+                    before: $("#busy-indicator").fadeIn(150),
+                }).done(function (compInfo) {
+                    
+                    $("#modalWithDetailsInfo .modal-body").append(compInfo);
+                    $('#modalWithDetailsInfo').modal('show');
+
+                    //$("#exampleModalScrollable").init
+                }).fail(function (ex) {
+                    window.Swal.fire({
+                        icon: "error",
+                        title: "Failed to load meta-data. " + ex.responseText,
+                        showConfirmButton: false, //true
+                        timer: 3000   // remove timer
+                    });
+                }).always(function () {
+                    $("#busy-indicator").fadeOut(150);
+                });
+
+            return false;
+
+        }
 
 
     </script>
