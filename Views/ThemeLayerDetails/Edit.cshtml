@@ -236,7 +236,10 @@
                                         <label id="jsonFileTypeLbl" class="col-md-2 col-form-label">Upload Geo JSON File</label>
                                         <div class="col-md-10">
                                             <input id="jsonFileTypeInput" class="form-control mb-2" type="file" name="geoJsonFile" accept="application/JSON" />
-                                            <a class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light">@ViewBag.JsonFileName</a>
+                                            @if (ViewBag.JsonFileName != null)
+                                            {
+                                                <a class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light">@ViewBag.JsonFileName</a>
+                                            }
                                             @*<a href="https://mapshaper.org/" class="btn btn-soft-purple btn-sm btn-rounded waves-effect waves-light" target="_blank">Convert your MAP</a>*@
                                         </div>
                                     </div>

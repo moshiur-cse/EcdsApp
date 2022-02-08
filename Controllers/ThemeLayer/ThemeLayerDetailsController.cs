@@ -177,24 +177,27 @@ namespace EcdsApp.Controllers.ThemeLayer
             var shapeFileList = new List<string>();
             var jsonFileName = "";
             var folderPathDirectory = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}";
-            //var allFiles = Directory.EnumerateFiles(folderPathDirectory, "*.*", SearchOption.AllDirectories);
-            foreach (var file in Directory.EnumerateFiles(folderPathDirectory, "*", SearchOption.AllDirectories))
+            if (Directory.Exists(folderPathDirectory))
             {
-                var fileInfo = new FileInfo(file);
-                switch (fileInfo.Extension)
+                var allFiles = Directory.EnumerateFiles(folderPathDirectory, "*.*", SearchOption.AllDirectories);
+                foreach (var file in allFiles)
                 {
-                    case ".dbf":
-                    case ".prj":
-                    case ".shp":
-                    case ".shx":
-                        shapeFileList.Add(fileInfo.Name);
-                        break;
-                    case ".json":
-                        jsonFileName = fileInfo.Name;
-                        break;
+                    var fileInfo = new FileInfo(file);
+                    switch (fileInfo.Extension)
+                    {
+                        case ".dbf":
+                        case ".prj":
+                        case ".shp":
+                        case ".shx":
+                            shapeFileList.Add(fileInfo.Name);
+                            break;
+                        case ".json":
+                            jsonFileName = fileInfo.Name;
+                            break;
+                    }
                 }
             }
-
+            
             ViewBag.ShapeFileList = shapeFileList;
             ViewBag.JsonFileName = jsonFileName;
             ViewBag.LayerType = themeLayerDetail.LayerTypeId;
