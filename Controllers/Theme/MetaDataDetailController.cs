@@ -32,7 +32,7 @@ namespace EcdsApp.Controllers.Theme
             ViewBag.LayerId = layerId;
             ViewBag.IsShowLayout = isShowLayout;
             ViewBag.IsShowAction = isShowAction;
-            return View(await _context.MetaDataDetails.Include(a => a.ThemeLayerDetails.SubThemes.Themes).Where(i => i.LayerId == layerId).ToListAsync());
+            return View(await _context.MetaDataDetails.Include(a => a.ThemeLayerDetails.SubThemes.Themes).Where(i => i.LayerId == layerId).FirstOrDefaultAsync());
         }
 
         // GET: MetaDataDetail/Details/5

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<EcdsApp.Models.BundleDetail>
+@{
+    ViewData["Title"] = "Details Data";
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
+
+    Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
+}
+
+
+<table class="table table-centered datatable nowrap table-card-list" style="border-collapse: collapse; border-spacing: 0 12px; width: 100%;">
+    <thead>
+        <tr class="bg-transparent">
+
+            <th>
+                Theme Name
+            </th>
+            <th>
+                Sub-Theme Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LayerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldUnit)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThemeLayerDetails.SubThemes.Themes.ThemeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThemeLayerDetails.SubThemes.SubThemeName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ThemeLayerDetails.LayerDisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FieldName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FieldDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FieldUnit)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+

@@ -26,6 +26,14 @@ namespace EcdsApp.Controllers
             return View(await dataContext.ToListAsync());
         }
 
+        public async Task<IActionResult> BundleData(int layerId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.LayerId = layerId;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+            return View(await _context.BundleDetails.Include(a => a.ThemeLayerDetails.SubThemes.Themes).Where(i => i.LayerId == layerId).ToListAsync());
+        }
+
         // GET: BundleDetail/Details/5
         public async Task<IActionResult> Details(int? id)
         {

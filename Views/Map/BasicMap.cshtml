@@ -1619,8 +1619,8 @@
         $("#AttributeDiv").draggable();
 
         function showBundleAndMetaData(layerId) {
-            alert(layerId);
-
+            //alert(layerId);
+            $("#modalWithDetailsInfo .modal-body").empty();
              $.ajax({
                     type: "GET",
                     url: '@Url.Action("GetMetadata", "Map")',
@@ -1643,15 +1643,9 @@
                 }).always(function () {
                     $("#busy-indicator").fadeOut(150);
                 });
-
             return false;
-
         }
-
-
     </script>
-
-
 
 }
 
