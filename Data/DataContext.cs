@@ -47,9 +47,7 @@ namespace EcdsApp.Data
         public DbSet<LegendColorOption> LegendColorOptions { get; set; }
         public DbSet<MetaDataDetail> MetaDataDetails { get; set; }
 
-        public DbSet<BundleDetatil> BundleDetatils { get; set; }
-
-        
+        public DbSet<BundleDetail> BundleDetails { get; set; }
 
         public DbSet<TableInfo> TableInfos { get; set; }
         public DbSet<TableColumnInfo> TableColumnInfos { get; set; }

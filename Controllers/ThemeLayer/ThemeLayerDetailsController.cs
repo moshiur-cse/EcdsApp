@@ -147,6 +147,14 @@ namespace EcdsApp.Controllers.ThemeLayer
             return Json(new SelectList(subThemeList, "SubThemeId", "SubThemeName"));
         }
 
+        public JsonResult GetLayerData(int subThemeId)
+        {
+            var layerList = _context.ThemeLayerDetails.Where(e => e.SubThemeId == subThemeId).ToList();
+            //layerList.Insert(0, new ThemeLayerDetail { LayerId = 0, LayerName = "Select" });
+
+            return Json(new SelectList(layerList, "LayerId", "LayerDisplayName"));
+        }
+
         public JsonResult GetTableInfoData(int subThemeId, int boundaryId)
         {
             var tableList = _context.TableInfos.Where(e => e.SubThemeId == subThemeId && e.BoundaryId == boundaryId).ToList();

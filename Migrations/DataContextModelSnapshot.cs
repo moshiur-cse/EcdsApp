@@ -136,6 +136,40 @@ namespace EcdsApp.Migrations
                     b.ToTable("lkp_admin_boundary_upazilas");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.BundleDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("FieldDescription")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("field_description");
+
+                    b.Property<string>("FieldName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("field_name");
+
+                    b.Property<string>("FieldUnit")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("field_unit");
+
+                    b.Property<int>("LayerId")
+                        .HasColumnType("int")
+                        .HasColumnName("layer_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LayerId");
+
+                    b.ToTable("tbl_bundle_details");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.DataVerificationState", b =>
                 {
                     b.Property<int>("Id")
@@ -340,7 +374,7 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("abstract");
 
-                    b.Property<string>("AdditionalInfoSourceForDataset")
+                    b.Property<string>("AdditionalInfoSourceForDataSet")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)")
@@ -352,7 +386,7 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("completeness");
 
-                    b.Property<string>("DatasetLanguage")
+                    b.Property<string>("DataSetLanguage")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)")
@@ -364,7 +398,7 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("general");
 
-                    b.Property<string>("HistoryOfTheDataset")
+                    b.Property<string>("HistoryOfTheDataSet")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)")
@@ -398,7 +432,7 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("title");
 
-                    b.Property<string>("TypeOfDataset")
+                    b.Property<string>("TypeOfDataSet")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)")
@@ -1050,6 +1084,17 @@ namespace EcdsApp.Migrations
                         .HasForeignKey("DistrictGeoCode");
 
                     b.Navigation("District");
+                });
+
+            modelBuilder.Entity("EcdsApp.Models.BundleDetail", b =>
+                {
+                    b.HasOne("EcdsApp.Models.ThemeModels.ThemeLayerDetail", "ThemeLayerDetails")
+                        .WithMany()
+                        .HasForeignKey("LayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ThemeLayerDetails");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.TableColumnInfo", b =>

@@ -3,7 +3,7 @@
 /* ================================================================== */
 
 .leaflet-bar a, .leaflet-bar a:hover {
-	height: 40px !important;
+	height: 35px !important;
 	width: 30px !important;
 }
 
@@ -177,12 +177,15 @@
 
 .leaflet-draw-draw-rectangle {
 	background: transparent url("../images/rectangler_icon.png") no-repeat center left/100% auto !important;
+	background-size: 100% 100%;
 }
 .leaflet-draw-draw-polygon {
 	background: transparent url("../images/polygon_icon.png") no-repeat center left/100% auto !important;
+	background-size: 100% 100%;
 }
 .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
 	background-position: -2px -2px;
+
 }
 
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
@@ -210,6 +213,7 @@
 }
 .leaflet-draw-draw-circle {
 	background: transparent url("../images/circle_icion.png") no-repeat center left/100% auto !important;
+	background-size: 100% 100%;
 }
 
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circle {
@@ -222,6 +226,9 @@
 
 .leaflet-draw-draw-marker {
 	background: transparent url("../images/marker_icon.png") no-repeat center left/100% auto !important;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center right;
 }
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-marker {
 	background-position: -120px -1px;

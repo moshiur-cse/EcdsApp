@@ -169,6 +169,23 @@
             font-size: 1vw;
         }
 
+        #AttributeDiv {
+            display: none;
+            padding: 5px;
+            margin-top: 100px;
+            margin-left: 45px;
+            z-index: 1000;
+            position: absolute;
+            border: 1px solid #e5e7e8;
+            width: auto;
+            background: rgba(255, 255, 255, 0.85) none repeat scroll 0 0;
+            border-radius: 3px border-radius: 5px;
+            font-size: 1vw;
+            max-width: 400px;
+            max-height: 400px;
+            overflow-y: scroll;
+            overflow-x: scroll;
+        }
         /*.map_title {
             padding: 5px;
             margin-top: 400px;*/
@@ -183,7 +200,6 @@
             overflow: scroll;
             height: 300px;
         }*/
-
         .map_legend {
             height: 450px;
             overflow-y: scroll;
@@ -236,7 +252,12 @@
 
     <div id="map_left_content" class="map_left_content">
         @*<div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>*@
-        <div id="map_layer_draw" class="map_draw_arrow_img" title="Draw Map"> </div>
+        <div id="map_layer_draw" class="map_draw_arrow_img" title="Draw Map" style="float:left"> </div>
+        <div id="map_layer_data" class="map_draw_arrow_img" title="Attribute Information" style="float:right"> </div>
+    </div>
+
+    <div id="AttributeDiv">
+        <h3>Attribute Table Information</h3>
     </div>
 
 
@@ -298,7 +319,8 @@
     var top_height = $('#page-topbar').height();
     var footer_height = $('.footer').height();
 
-    $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+        $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+        //$('.leaflet-map').css("height", ($(window).height() - top_height));
     $('.map_btns_content').css("top", (top_height+10));
     $('.map_left_content').css("top", (top_height + 10));
 
@@ -307,12 +329,11 @@
         top_height = $('#page-topbar').height();
         footer_height = $('.footer').height();
         $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+       // $('.leaflet-map').css("height", ($(window).height() - top_height));
         $('.map_btns_content').css("top", (top_height+10));
         $('.map_left_content').css("top", (top_height + 10));
 
     });
-
-       
 
         const divBoundaryType = 1;
         const distBoundaryType = 2;
@@ -327,9 +348,11 @@
 
 
         var data_layer = {};
+
+        var data_layer_details = {};
         //var colorList = {};
         var userDefinedColorList = {};
-    var mapBindData = {};
+        var mapBindData = {};
 
 
 
@@ -418,6 +441,14 @@
             L.control.zoom({
                 position: 'bottomleft'
             }).addTo(mymap);
+
+
+
+            //var zoom = document.getElementsByClassName('leaflet-control-zoom')[0];
+            //var draggableZoom = new L.Draggable(zoom);
+            //draggableZoom.enable();
+
+
 
             var drawnItems = L.featureGroup().addTo(mymap);
 
@@ -513,6 +544,34 @@
                 g_boundaryId = boundaryId;
                 g_tableId = tableId;
 
+            data_layer_details[layerId] = new Map(
+                [
+                    ["layerUid", layerUid],
+                    ["layerId", layerId],
+                    ["filepath", filepath],
+                    ["mainAttDisName", mainAttDisName],
+
+                    ["mainAtt", mainAtt],
+                    ["attCode", attCode],
+                    ["cLat", cLat],
+                    ["cLong", cLong],
+                    ["firstAttDisName", firstAttDisName],
+                    ["firstAtt", firstAtt],
+                    ["layerName", layerName],
+                    ["layerTypeId", layerTypeId],
+                    ["isLegendColor", isLegendColor],
+                    ["legendcolorField", legendcolorField],
+                    ["opacity", opacity],
+                    ["fillOpacity", fillOpacity],
+                    ["weight", weight],
+                    ["color", color],
+                    ["boundaryId", boundaryId],
+                    ["tableId", tableId]
+                ]);
+
+
+
+
             var layerPath = "../assets/js/map/map_data/" + filepath;
 
 
@@ -539,7 +598,7 @@
 
                     data_layer[layerId].addData(LayerInfo);
                     layerData = LayerInfo;
-                    console.log(layerData);
+                    /*console.log(layerData);*/
 
                 }).done(function (e) {
                     mymap.addLayer(data_layer[layerId]);
@@ -632,27 +691,30 @@
                     //console.log(getColor(layerId, feature.properties[legendcolorField]));
                     //console.log(userDefinedColorList[layerId]);
 
+
+                    var uColor = getColor(layerId, feature.properties[legendcolorField]);
                     return {
                         //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
                         //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[layerId][mapBindData[layerId][feature.properties[attCode]]],
 
-                        fillColor: isLegendColor == 0 ? '#ffffff00' : getColor(layerId, feature.properties[legendcolorField]),
+                        fillColor: isLegendColor == 0 ? '#ffffff00' : uColor ,
                         weight: weight,
                         opacity: opacity,
-                        color: color,
+                        color: uColor,
                         dashArray: '1',
                         fillOpacity: fillOpacity
                     };
                 }
                 else {
+                    //alert(color);
                     return {
-                        fillColor: '#000000',
-                        weight: 1,
-                        opacity: 1,
-                        transparent: true,
-                        color: '#000000',
-                        dashArray: '1',
-                        fillOpacity: 0
+                        fillColor: '#ffffff00',
+                        weight: weight,
+                        opacity: opacity,
+                       /* transparent: true,*/
+                        color: color,
+                        /*dashArray: '1',*/
+                        fillOpacity: fillOpacity
                     };
                 }
             }
@@ -669,6 +731,7 @@
                             //displayResult(e.target.feature.properties[adminCode]);
                             //layer.bindPopup('<div style="width:1000px;text-align:center;">Moshiurfdhslfhsd<p>'+mainAttDisName+" : " + feature.properties[mainAtt] + '</p>' + (firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt] + ":" + feature.properties[mainAtt])+'</p>' : " " +'</div>');
                             //layer.bindPopup('<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + feature.properties[firstAtt]) + '</p>' : " ") + '</div>');
+
                             DisplayDetailsInfoes(feature.properties[attCode], mainAtt);
                         }
                     });
@@ -722,7 +785,6 @@
             function highlightFeature(e) {
                 var layer = e.target;
 
-
                 //test = layer.feature.properties;
 
                 //console.log(test);
@@ -761,21 +823,27 @@
                 //data_layer[layerId].resetStyle(e.target);
             }
 
-            console.log(data_layer[layerId]);
+            /*console.log(data_layer[layerId]);*/
         }
 //end Map Layer Hide Show Function
 
     function updateMapLayerList(layerId) {
 
         jQuery(".map_layer_list").empty();
+        //data_layer_details
+        jQuery.each(data_layer_details, function (layerNameU, val) {
 
-        jQuery.each(data_layer, function (index, val) {
+            //if (layerNameU == layerId) {
 
-            if (index == layerId) {
+            //    jQuery(".map_layer_list").append('<li id="map_layer_' + layerNameU + '" onclick= "setTopLayer(' + this.id +');"  style="background: rosybrown;"><a   class="waves-effect"><i class="bx bx-plus-medical"></i><span title="Top Layer">' + data_layer_details[layerNameU].get('layerName') + '</span></a></li>')
+            //} else {
+            //    jQuery(".map_layer_list").append('<li id="map_layer_' + layerNameU + '" onclick= "setTopLayer(' + this.id +');"><a   class="waves-effect"><i class="bx bx-plus-medical"></i><span>' + data_layer_details[layerNameU].get('layerName') + '</span></a></li>')
+            //}
 
-                jQuery(".map_layer_list").append('<li id="map_layer_' + index + '" style="background: rosybrown;"><a href="javascript: void(0);" class="waves-effect"><i class="bx bx-plus-medical"></i><span title="Top Layer">' + index + '</span></a></li>')
+            if (layerNameU == layerId) {
+                jQuery(".map_layer_list").append('<p title="Top Layer"  onclick="setTopLayer(\'' + layerNameU +'\')"  style="background: rosybrown;">' + data_layer_details[layerNameU].get('layerName') + '</p>')
             } else {
-                jQuery(".map_layer_list").append('<li id="map_layer_' + index + '"><a href="javascript: void(0);" class="waves-effect"><i class="bx bx-plus-medical"></i><span>' + index + '</span></a></li>')
+                jQuery(".map_layer_list").append('<p title="Set as Top Layer"  onclick="setTopLayer(\'' + layerNameU +'\')">' + data_layer_details[layerNameU].get('layerName') + '</p>')
             }
         });
     }
@@ -830,7 +898,8 @@
                     //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedColorList[layerId][i].get('name') + '<i style="background:' + userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
                     //}
 
-
+                    var draggable = new L.Draggable(legend_div);
+                    draggable.enable()
 
 
                     return legend_div;
@@ -1024,7 +1093,7 @@
                         jQuery("#columnList_" + items.layerId).empty();
 
                         if (items.boundaryId == 3) {
-                            path = "administrative/administrative_boundary/upazila/upazila.json";
+                            path = items.boundaryPath;
                             g_filepath = path;
                             mainAttCodeName = "UpazGeoCod";
                             g_mainAtt = "UpazGeoCod";
@@ -1115,6 +1184,7 @@
                     delete mapBindData[layerId];
                     delete userDefinedColorList[layerId];
                     delete data_layer[layerId];
+                    delete data_layer_details[layerId];
                     updateMapLayerList(layerId);
 
                 }
@@ -1338,11 +1408,6 @@
                     complete: jQuery("#busy-indicator").fadeOut(150)
                 });
 
-
-
-
-
-
                 jQuery("#busy-indicator").fadeIn(150);
                 LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
                 jQuery("#busy-indicator").fadeOut(150);
@@ -1454,7 +1519,7 @@
     }
 
 
-    function DisplayDetailsInfoes(adminCodeForGetResult, name) {
+        function DisplayDetailsInfoes(adminCodeForGetResult, name) {
 
             //alert(+adminCodeForGetResult+" "+name);
             //return;
@@ -1486,20 +1551,104 @@
             return false;
         }
 
+        jQuery('#map_layer_draw').click(function ($) {
+
+            if (jQuery('.leaflet-draw').is(':visible')) {
+                jQuery('.leaflet-draw').slideUp();
+
+            } else {
+                jQuery('.leaflet-draw').slideDown();
+            }
+        });
+
+        //jQuery('.map_layer_list').click(function ($) {
+
+        //    alert(jQuery(this).closest('li').attr('id'));
+        //});
 
 
-    jQuery('#map_layer_draw').click(function ($) {
 
+        function setTopLayer(layerName) {
 
+            //console.log(name);
+            //console.log(data_layer_details[layerName].get('layerUid'));
 
-        if (jQuery('.leaflet-draw').is(':visible')) {
-            jQuery('.leaflet-draw').slideUp();
+            g_layerId = layerName;
+            jQuery("#busy-indicator").fadeIn(150);
+            LayerShowHide(data_layer_details[layerName].get('layerUid'), data_layer_details[layerName].get('layerId'), data_layer_details[layerName].get('filepath'), data_layer_details[layerName].get('mainAttDisName'), data_layer_details[layerName].get('mainAtt'), data_layer_details[layerName].get('attCode'), data_layer_details[layerName].get('cLat'), data_layer_details[layerName].get('cLong'), data_layer_details[layerName].get('firstAttDisName'), data_layer_details[layerName].get('firstAtt'), data_layer_details[layerName].get('layerName'), data_layer_details[layerName].get('layerTypeId'), data_layer_details[layerName].get('isLegendColor'), data_layer_details[layerName].get('legendcolorField'), admin_code_list, data_layer_details[layerName].get('opacity'), data_layer_details[layerName].get('fillOpacity'), data_layer_details[layerName].get('weight'), data_layer_details[layerName].get('color'), data_layer_details[layerName].get('boundaryId'), data_layer_details[layerName].get('tableId'));
+            jQuery("#busy-indicator").fadeOut(150);
 
-        } else {
-            jQuery('.leaflet-draw').slideDown();
         }
-    });
-        $(".legend_info").draggable();
+
+        jQuery('#map_layer_data').click(function ($) {
+
+            /* console.log(layerData.features[i].properties.DivName)*/
+
+            jQuery('#AttributeDiv').empty();
+            var tableContent = '<div> <button class="btn btn-success"  onclick="showBundleAndMetaData(\'' + g_layerUid +'\')">View Metadata</button><hr/></div><table class="table table-centered table-nowrap mb-0">';
+            for (var i = 0; i < layerData.features.length; i++) {
+
+                if (i == 0) {
+                    tableContent += '<tr>';
+                    for (var j = 0; j < Object.getOwnPropertyNames(layerData.features[i].properties).length; j++) {
+                        tableContent += '<th>' + Object.getOwnPropertyNames(layerData.features[i].properties)[j] + '</th>';
+                    }
+                    tableContent += '</tr>';
+                }
+                tableContent += '<tr>';
+                for (var j = 0; j < Object.getOwnPropertyNames(layerData.features[i].properties).length; j++) {
+                    tableContent += '<td>' + layerData.features[i].properties[Object.getOwnPropertyNames(layerData.features[i].properties)[j]] + '</td>';
+                    //console.log(layerData.features[i].properties[Object.getOwnPropertyNames(layerData.features[i].properties)[j]]);
+                }
+                tableContent += '</tr>';
+            }
+            tableContent += '</table>';
+            jQuery('#AttributeDiv').append(tableContent);
+
+
+            Object.getOwnPropertyNames(layerData.features[0].properties)
+
+            if (jQuery('#AttributeDiv').is(':visible')) {
+                jQuery('#AttributeDiv').slideUp();
+
+            } else {
+                jQuery('#AttributeDiv').slideDown();
+            }
+        });
+
+        $("#AttributeDiv").draggable();
+
+        function showBundleAndMetaData(layerId) {
+            alert(layerId);
+
+             $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetMetadata", "Map")',
+                    dataType: "html",
+                    data: { layerId: layerId  },
+                    before: $("#busy-indicator").fadeIn(150),
+                }).done(function (compInfo) {
+                    
+                    $("#modalWithDetailsInfo .modal-body").append(compInfo);
+                    $('#modalWithDetailsInfo').modal('show');
+
+                    //$("#exampleModalScrollable").init
+                }).fail(function (ex) {
+                    window.Swal.fire({
+                        icon: "error",
+                        title: "Failed to load meta-data. " + ex.responseText,
+                        showConfirmButton: false, //true
+                        timer: 3000   // remove timer
+                    });
+                }).always(function () {
+                    $("#busy-indicator").fadeOut(150);
+                });
+
+            return false;
+
+        }
+
+
     </script>
 
 

@@ -91,7 +91,7 @@ namespace EcdsApp.Controllers.Map
         public JsonResult GetLayerInformation(int layer_id)
         {
            
-                var data = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes)
+                var data = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes).Include(s => s.BoundaryInfo)
                     .Where(s => s.LayerId == layer_id)
                     .Select(sd => new
                     {
@@ -135,7 +135,8 @@ namespace EcdsApp.Controllers.Map
 
                         tableId =sd.TableInfoId,
                         boundaryId = sd.BoundaryInfoId,
-                        
+                        boundaryPath=sd.BoundaryInfo.BoundaryPath
+
                     }).FirstOrDefault();
                 return Json(data);
 
@@ -225,5 +226,15 @@ namespace EcdsApp.Controllers.Map
             ViewBag.IsShowAction = isShowAction;
             return View("MapComponents");
         }
+        public IActionResult GetMetadata(int layerId)
+        {
+            ViewBag.LayerId = layerId;
+            ViewBag.IsShowLayout = 0;
+            ViewBag.IsShowAction = 0;
+            return View("MetadataAndBundle");
+        }
+
+
+        
     }
 }

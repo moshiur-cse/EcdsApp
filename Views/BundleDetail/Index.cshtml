@@ -1,0 +1,74 @@
+﻿@model IEnumerable<EcdsApp.Models.BundleDetail>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body m-0">
+                        <h3 class="display-6 mb-0">List of  Bundle</h3>
+                        <p class="card-title-desc">Bundle Details Information</p>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Record</a>
+                    </div>
+                </div>
+                <div class="table-responsive mb-4">
+                    <table class="table table-centered datatable nowrap table-card-list" style="border-collapse: collapse; border-spacing: 0 12px; width: 100%;">
+                        <thead>
+                            <tr class="bg-transparent">
+                                <th>Action</th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.LayerId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FieldName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FieldDescription)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FieldUnit)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ThemeLayerDetails.LayerDisplayName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FieldName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FieldDescription)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FieldUnit)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
+        });
+    </script>
+}
