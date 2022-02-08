@@ -47,7 +47,7 @@ namespace EcdsApp
 
             services.AddMemoryCache(); //RMO
             services.AddDbContext<DataContext>();
-            services.AddIdentity<UserRegistration, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // User settings
                 options.User.RequireUniqueEmail = true;

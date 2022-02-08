@@ -1,25 +1,24 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EcdsApp.Models;
+using EcdsApp.Models.TabularModels;
+using EcdsApp.Models.ThemeModels;
+using EcdsApp.Models.UpazilaWiseInfoModels;
+using EcdsApp.Models.UserManage;
+using EcdsApp.Models.ViewModels.TabularVm;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using EcdsApp.Models.UserManage;
-using EcdsApp.Models;
-using EcdsApp.Models.ThemeModels;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using EcdsApp.Models.TabularModels;
-using EcdsApp.Models.UpazilaWiseInfoModels;
-using EcdsApp.Models.ViewModels.TabularVm;
-using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
 
 namespace EcdsApp.Data
 {
     //DbContext  //DataContext (JRCWebApp.Data)
-    public class DataContext : IdentityDbContext<UserRegistration, IdentityRole, string>
+    public class DataContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         //public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -37,7 +36,7 @@ namespace EcdsApp.Data
         public DbSet<AdminBoundaryDivision> AdminBoundaryDivisions { get; set; }
         public DbSet<AdminBoundaryUpazila> AdminBoundaryUpazilas { get; set; }
 
-        public virtual DbSet<UserRegistration> UserRegistration { get; set; }
+        public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         public DbSet<Theme> Themes { get; set; }
         public DbSet<SubTheme> SubThemes { get; set; }
@@ -59,28 +58,30 @@ namespace EcdsApp.Data
         public DbSet<BoundaryInfo> BoundaryInfos { get; set; }
 
         public DbSet<DataVerificationState> DataVerificationStates { get; set; }
-        
+
+        public DbSet<UserAccessModule> UserAccessModules { get; set; }
+        public DbSet<UserPermittedContent> UserPermittedContents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<UserRegistration>().ToTable("users").Property(p => p.Id).HasColumnName("user_id");
+            modelBuilder.Entity<ApplicationUser>().ToTable("users").Property(p => p.Id).HasColumnName("user_id");
 
-            modelBuilder.Entity<UserRegistration>().Property(p => p.UserName).HasColumnName("user_name");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.NormalizedUserName).HasColumnName("normalized_user_name");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.Email).HasColumnName("email");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.NormalizedEmail).HasColumnName("normalized_email");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.EmailConfirmed).HasColumnName("email_confirmed");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.PasswordHash).HasColumnName("password_hash");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.SecurityStamp).HasColumnName("security_stamp");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.ConcurrencyStamp).HasColumnName("concurrency_stamp");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.PhoneNumber).HasColumnName("phone_number");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.PhoneNumberConfirmed).HasColumnName("phone_number_confirmed");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.TwoFactorEnabled).HasColumnName("two_factor_enabled");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.LockoutEnd).HasColumnName("lockout_end");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.LockoutEnabled).HasColumnName("lockout_enabled");
-            modelBuilder.Entity<UserRegistration>().Property(p => p.AccessFailedCount).HasColumnName("access_failed_count"); 
-                                  
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.UserName).HasColumnName("user_name");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.NormalizedUserName).HasColumnName("normalized_user_name");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.Email).HasColumnName("email");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.NormalizedEmail).HasColumnName("normalized_email");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.EmailConfirmed).HasColumnName("email_confirmed");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.PasswordHash).HasColumnName("password_hash");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.SecurityStamp).HasColumnName("security_stamp");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.ConcurrencyStamp).HasColumnName("concurrency_stamp");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.PhoneNumber).HasColumnName("phone_number");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.PhoneNumberConfirmed).HasColumnName("phone_number_confirmed");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.TwoFactorEnabled).HasColumnName("two_factor_enabled");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.LockoutEnd).HasColumnName("lockout_end");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.LockoutEnabled).HasColumnName("lockout_enabled");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.AccessFailedCount).HasColumnName("access_failed_count");
+
             modelBuilder.Entity<IdentityRole>().ToTable("user_role_lists").Property(p => p.Id).HasColumnName("role_id");          
             modelBuilder.Entity<IdentityRole>().Property(p => p.Name).HasColumnName("name");           
             modelBuilder.Entity<IdentityRole>().Property(p => p.NormalizedName).HasColumnName("normalized_name");           

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<IdentityRole>
+@{
+    ViewData["Title"] = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body m-0">
+                        <h3 class="display-6 mb-0">List of Role</h3>
+                        <p class="card-title-desc">Role Details Information</p>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Role</a>
+                    </div>
+                </div>
+                <div class="table-responsive mb-4">
+                    <table class="table table-centered datatable nowrap table-card-list" style="border-collapse: collapse; border-spacing: 0 12px; width: 100%;">
+                        <thead>
+                        <tr class="bg-transparent">
+                            <th>Action</th>
+                            <th>Id</th>
+                            <th>Role Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                </td>
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,8 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using EcdsApp.Models.UserManage
+﻿@using EcdsApp.Models.UserManage
 
-@inject SignInManager<UserRegistration> SignInManager
-@inject UserManager<UserRegistration> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
