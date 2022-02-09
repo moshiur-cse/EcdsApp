@@ -55,6 +55,9 @@ namespace EcdsApp.Data
         public DbSet<ExposureCategory> ExposureCategories { get; set; }
         public DbSet<UpazilaWiseExposureData> UpazilaWiseExposureData { get; set; }
         public DbSet<UpazilaWiseRiskIndex> UpazilaWiseRiskIndex { get; set; }
+        public DbSet<UpazilaWisePoverty> UpazilaWisePoverties { get; set; }
+
+        
         public DbSet<BoundaryInfo> BoundaryInfos { get; set; }
 
         public DbSet<DataVerificationState> DataVerificationStates { get; set; }
