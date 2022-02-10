@@ -164,8 +164,8 @@
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
 
-                <div class="card">
-                    <div class="card-body">
+                <div id="chart" class="card">
+                    <!--<div class="card-body">
                         <div class="float-end">
                             <div class="dropdown">
                                 <a class="dropdown-toggle text-reset" href="#" id="dropdownMenuButton1"
@@ -198,9 +198,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- end row-->
+                        </div>--> <!-- end row-->
 
-                        <div class="row align-items-center g-0 mt-3">
+                        <!--<div class="row align-items-center g-0 mt-3">
                             <div class="col-sm-3">
                                 <p class="text-truncate mt-1 mb-0"><i class="mdi mdi-circle-medium text-info me-2"></i> iPhones </p>
                             </div>
@@ -212,9 +212,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- end row-->
+                        </div>--> <!-- end row-->
 
-                        <div class="row align-items-center g-0 mt-3">
+                        <!--<div class="row align-items-center g-0 mt-3">
                             <div class="col-sm-3">
                                 <p class="text-truncate mt-1 mb-0"><i class="mdi mdi-circle-medium text-success me-2"></i> Android </p>
                             </div>
@@ -226,9 +226,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- end row-->
+                        </div>--> <!-- end row-->
 
-                        <div class="row align-items-center g-0 mt-3">
+                        <!--<div class="row align-items-center g-0 mt-3">
                             <div class="col-sm-3">
                                 <p class="text-truncate mt-1 mb-0"><i class="mdi mdi-circle-medium text-warning me-2"></i> Tablets </p>
                             </div>
@@ -240,9 +240,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- end row-->
+                        </div>--> <!-- end row-->
 
-                        <div class="row align-items-center g-0 mt-3">
+                        <!--<div class="row align-items-center g-0 mt-3">
                             <div class="col-sm-3">
                                 <p class="text-truncate mt-1 mb-0"><i class="mdi mdi-circle-medium text-purple me-2"></i> Cables </p>
                             </div>
@@ -254,9 +254,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- end row-->
+                        </div>--> <!-- end row-->
 
-                    </div> <!-- end card-body-->
+                    <!--</div>--> <!-- end card-body-->
                 </div> <!-- end card-->
             </div> <!-- end Col -->
         </div> <!-- end row-->
@@ -646,6 +646,57 @@
             grid: { borderColor: "#f1f1f1" }
         };
 
-        (chart = new ApexCharts(document.querySelector("#sales-analytics-chart"), options)).render();
+    (chart = new ApexCharts(document.querySelector("#sales-analytics-chart"), options)).render();
+
+
+
+    var option1 = {
+        series: [44, 33, 54, 45],
+        chart: {
+            width: 380,
+            type: 'pie',
+        },
+        colors: ['#93C3EE', '#E5C6A0', '#669DB5', '#94A74A'],
+        fill: {
+            type: 'image',
+            opacity: 0.85,
+            image: {
+                src: ['../ecds/assets/images/logo-sm-original.png', '../../assets/images/1101098.png', '../../assets/images/4679113782_ca13e2e6c0_z.jpg', '../../assets/images/2979121308_59539a3898_z.jpg'],
+                width: 25,
+                imagedHeight: 25
+            },
+        },
+        stroke: {
+            width: 4
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                colors: ['#111']
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                borderWidth: 0
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), option1);
+    chart.render();
+
+
+
 </script>
 }

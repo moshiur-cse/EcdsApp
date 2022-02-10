@@ -37,6 +37,12 @@ namespace EcdsApp.Controllers
             };
             return View(dashboardModel);
         }
+
+
+         public IActionResult index()
+        {
+            return View();
+        }
         //public IActionResult Login()
         //{
         //    return View();
