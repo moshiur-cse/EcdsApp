@@ -64,7 +64,6 @@
             border-radius: 5px;
             /*font-size: 1vw;*/
             font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
-
             overflow: scroll;
             min-height: 100px;
             max-height: 400px;
@@ -658,13 +657,15 @@
 
                     //Moshiur
                     //console.log(attCode);
-                    //console.log(feature.properties[attCode]);
-                    //console.log(layerId);
+                    console.log(feature.properties[attCode]);
+                    console.log(layerId);
 
-                    //console.log(mapBindData[layerId]);
+                    console.log(mapBindData[layerId]);
 
-                    //console.log(mapBindData[layerId][feature.properties[attCode]]);
+                    console.log(mapBindData[layerId][feature.properties[attCode]]);
                     //console.log(mapBindData[layerId][feature.properties[attCode]].get('value'));
+
+
 
                     var tDataColor = getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value'));
 
@@ -1088,6 +1089,21 @@
 
                         jQuery("#columnList_" + items.layerId).empty();
 
+                       
+
+                        if (items.boundaryId == 1) {
+                            path = items.boundaryPath;
+                            g_filepath = path;
+                            mainAttCodeName = "DivGeoCode";
+                            g_mainAtt = "DivGeoCode";
+                        }
+
+                        if (items.boundaryId == 2) {
+                            path = items.boundaryPath;
+                            g_filepath = path;
+                            mainAttCodeName = "DistGeoCod";
+                            g_mainAtt = "DistGeoCod";
+                        }
                         if (items.boundaryId == 3) {
                             path = items.boundaryPath;
                             g_filepath = path;
@@ -1582,34 +1598,49 @@
 
             if (typeof layerData === "undefined") {
                 window.Swal.fire({
-                icon: "error",
-                title: "Failed to load data: Please add a layer ",
-                showConfirmButton: false, //true
-                timer: 3000   // remove timer
+                    icon: "error",
+                    title: "Failed to load data: Please add a layer ",
+                    showConfirmButton: false, //true
+                    timer: 3000   // remove timer
                 });
-                return false;          
-            }
+                return false;
+            } else {
 
 
-            jQuery('#AttributeDiv').empty();
-            var tableContent = '<div> <button class="btn btn-success"  onclick="showBundleAndMetaData(\'' + g_layerUid +'\')">View Metadata</button><hr/></div><table class="table table-centered table-nowrap mb-0">';
-            for (var i = 0; i < layerData.features.length; i++) {
+                jQuery('#AttributeDiv').empty();
 
-                if (i == 0) {
+
+                var tableContent = '<div> <button class="btn btn-success"  onclick="showBundleAndMetaData(\'' + g_layerUid + '\')">View Metadata</button><hr/></div><table class="table table-centered table-nowrap mb-0">';
+
+
+                for (var i = 0; i < layerData.features.length; i++) {
+
+                    if (i == 0) {
+                        tableContent += '<tr>';
+                        for (var j = 0; j < Object.getOwnPropertyNames(layerData.features[i].properties).length; j++) {
+                            tableContent += '<th>' + Object.getOwnPropertyNames(layerData.features[i].properties)[j] + '</th>';
+                        }
+                        if (g_layerTypeId == 4) {
+                            tableContent += '<th>Value</th>';
+                        }
+                        tableContent += '</tr>';
+                    }
                     tableContent += '<tr>';
                     for (var j = 0; j < Object.getOwnPropertyNames(layerData.features[i].properties).length; j++) {
-                        tableContent += '<th>' + Object.getOwnPropertyNames(layerData.features[i].properties)[j] + '</th>';
+                        tableContent += '<td>' + layerData.features[i].properties[Object.getOwnPropertyNames(layerData.features[i].properties)[j]] + '</td>';
+
+                    }
+                    if (g_layerTypeId == 4) {
+                        tableContent += '<td>' + mapBindData[g_layerId][layerData.features[i].properties[g_attCode]].get('value') + '</td>';
                     }
                     tableContent += '</tr>';
                 }
-                tableContent += '<tr>';
-                for (var j = 0; j < Object.getOwnPropertyNames(layerData.features[i].properties).length; j++) {
-                    tableContent += '<td>' + layerData.features[i].properties[Object.getOwnPropertyNames(layerData.features[i].properties)[j]] + '</td>';
-                }
-                tableContent += '</tr>';
+
+
+
+                tableContent += '</table>';
+                jQuery('#AttributeDiv').append(tableContent);
             }
-            tableContent += '</table>';
-            jQuery('#AttributeDiv').append(tableContent);
 
 
             /*Object.getOwnPropertyNames(layerData.features[0].properties)*/
@@ -1636,7 +1667,7 @@
                     data: { layerId: layerId  },
                     before: $("#busy-indicator").fadeIn(150),
                 }).done(function (compInfo) {
-                    
+
                     $("#modalWithDetailsInfo .modal-body").append(compInfo);
                     $('#modalWithDetailsInfo').modal('show');
 

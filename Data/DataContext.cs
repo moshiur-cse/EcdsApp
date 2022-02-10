@@ -1,4 +1,5 @@
 ﻿using EcdsApp.Models;
+using EcdsApp.Models.DistrictWiseInfoModels;
 using EcdsApp.Models.TabularModels;
 using EcdsApp.Models.ThemeModels;
 using EcdsApp.Models.UpazilaWiseInfoModels;
@@ -57,7 +58,11 @@ namespace EcdsApp.Data
         public DbSet<UpazilaWiseRiskIndex> UpazilaWiseRiskIndex { get; set; }
         public DbSet<UpazilaWisePoverty> UpazilaWisePoverties { get; set; }
 
+
+        public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }
         
+
+
         public DbSet<BoundaryInfo> BoundaryInfos { get; set; }
 
         public DbSet<DataVerificationState> DataVerificationStates { get; set; }
