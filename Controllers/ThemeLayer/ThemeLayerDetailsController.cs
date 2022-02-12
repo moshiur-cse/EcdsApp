@@ -171,16 +171,13 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             var themeLayerDetail = await _context.ThemeLayerDetails
                 .Include(st => st.SubThemes)
+                .Include(st => st.SubThemes.Themes)
                 .FirstOrDefaultAsync(st => st.LayerId == id);
-            var themeLayerObj = await _context.Themes.FirstOrDefaultAsync(t => t.ThemeId == themeLayerDetail.SubThemes.ThemeId);
-            if (themeLayerDetail == null || themeLayerObj == null)
+            if (themeLayerDetail?.SubThemes?.Themes == null)
                 return NotFound();
 
-            var subThemeObj = _context.SubThemes
-                .Include(s => s.Themes)
-                .FirstOrDefault(s => s.SubThemeId == themeLayerDetail.SubThemeId);
-            var themePath = subThemeObj?.Themes.ThemePath;
-            var subThemePath = subThemeObj?.SubThemePath;
+            var themePath = themeLayerDetail.SubThemes.Themes.ThemePath;
+            var subThemePath = themeLayerDetail.SubThemes.SubThemePath;
 
             var shapeFileList = new List<string>();
             var jsonFileName = "";
@@ -210,8 +207,9 @@ namespace EcdsApp.Controllers.ThemeLayer
             ViewBag.JsonFileName = jsonFileName;
             ViewBag.LayerType = themeLayerDetail.LayerTypeId;
 
-            ViewData["ThemeId"] = new SelectList(_context.Themes.Where(t => t.ThemeId == themeLayerObj.ThemeId), "ThemeId", "ThemeName", themeLayerObj.ThemeId);
-            ViewData["SubThemeId"] = new SelectList(_context.SubThemes.Where(s => s.SubThemeId == themeLayerDetail.SubThemeId), "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
+            var themeId = themeLayerDetail.SubThemes.Themes.ThemeId;
+            ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName", themeId);
+            ViewData["SubThemeId"] = new SelectList(_context.SubThemes.Where(s => s.ThemeId == themeId), "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
             ViewData["LegendColorOptionList"] = new SelectList(_context.LegendColorOptions, "Id", "OptionName", themeLayerDetail.LegendColorOptionId);
             if (themeLayerDetail.LayerTypeId == AppStaticBase.LayerTypeTabular)
@@ -238,11 +236,11 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             if (ModelState.IsValid)
             {
+                var subThemeObj = _context.SubThemes
+                    .Include(s => s.Themes)
+                    .FirstOrDefault(s => s.SubThemeId == themeLayerDetail.SubThemeId);
                 if (geoJsonFile.Count > 0 || shapeFile.Count > 0)
                 {
-                    var subThemeObj = _context.SubThemes
-                        .Include(s => s.Themes)
-                        .FirstOrDefault(s => s.SubThemeId == themeLayerDetail.SubThemeId);
                     var themePath = subThemeObj?.Themes.ThemePath;
                     var subThemePath = subThemeObj?.SubThemePath;
                     var folderPathDirectory = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}";
@@ -314,6 +312,20 @@ namespace EcdsApp.Controllers.ThemeLayer
                         await geoJsonFile[0].CopyToAsync(output);
 
                         themeLayerDetail.LayerFileName = jsonFileFinalName;
+                    }
+                }
+                //in case of theme & sub-theme change
+                else
+                {
+                    var themeLayerExtObj = await _context.ThemeLayerDetails
+                        .Include(t => t.SubThemes)
+                        .Include(t => t.SubThemes.Themes)
+                        .FirstOrDefaultAsync(t => t.LayerId == id);
+                    var sourceThemePath = themeLayerExtObj.SubThemes.Themes.ThemePath;
+                    var sourceSubThemePath = themeLayerExtObj.SubThemes.SubThemePath;
+                    if (themeLayerExtObj.SubThemeId != themeLayerDetail.SubThemeId)
+                    {
+                        var sourcePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{sourceThemePath?.Trim()}\\{sourceSubThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}";
                     }
                 }
                 try

@@ -279,6 +279,41 @@
         $(document).ready(function() {
             $('#ddlLayerType option:not(:selected)').attr('disabled', 'disabled');
 
+            $('#ddlTheme').change(function () {
+                var items = '';
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSubThemeData", "ThemeLayerDetails")',
+                    dataType: "json",
+                    data: { themeId: $('#ddlTheme').val() },
+                    success: function (responseData) {
+                        $('#ddlSubTheme').empty();
+                        $.each(responseData,
+                            function (i, subTheme) {
+                                items += "<option value='" + subTheme.value + "'>" + subTheme.text + "</option>";
+                            });
+                        if (items !== "") {
+                            $('#ddlSubTheme').html(items);
+                        } else {
+                            $('#ddlSubTheme').html("<option value=''>No Data Available Under the Selected Theme</option> ");
+                        }
+                    },
+                    error: function (ex) {
+                        window.Swal.fire({
+                            //position: "top-end",
+                            title: "Error",
+                            text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2000
+                            //allowOutsideClick: false
+                        });
+                    }
+                });
+                return false;
+            });
+
             $('#ddlBoundary').change(function () {
                 var subThemeId = $('#ddlSubTheme').val(),
                     boundaryId = $('#ddlBoundary').val();
