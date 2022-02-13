@@ -29,11 +29,15 @@ namespace EcdsApp.Controllers
                 .Include(t => t.TableInfo)
                 .OrderByDescending(t => t.LayerId).Take(5)
                 .ToList();
+            var layerData = await _context.DistrictWisePoverties.ToListAsync();
+            var legendData=await _context.LayerLegendColors.Where(i=>i.LayerId==11).ToListAsync();
 
             var dashboardModel = new DashboardVm
             {
                 UpazilaWiseExposureData = exposureList, 
-                ThemeLayerDetails = layerInfoList
+                ThemeLayerDetails = layerInfoList,
+                DistrictWisePoverties= layerData,
+                LayerLegendColors= legendData
             };
             return View(dashboardModel);
         }
