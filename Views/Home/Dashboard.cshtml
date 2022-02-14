@@ -8,43 +8,64 @@
     var layerData = JsonConvert.SerializeObject(Model.DistrictWisePoverties);
     var legendData = JsonConvert.SerializeObject(Model.LayerLegendColors);
 
-    var xLabels = JsonConvert.SerializeObject(Model.UpazilaWiseExposureData.Select(x => x.Upazila.UpazilaName));
-    var yFloodValue = JsonConvert.SerializeObject(Model.UpazilaWiseExposureData.Select(x => x.FloodValue));
-    var yLandSlideValue = JsonConvert.SerializeObject(Model.UpazilaWiseExposureData.Select(x => x.LandSlideValue));
-    var yDroughtValue = JsonConvert.SerializeObject(Model.UpazilaWiseExposureData.Select(x => x.DroughtValue));
+    var xLabels = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.District.DistrictName));
+    var yMale = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Male));
+    var yFemale = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Female));
+    var yUrban = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Urban));
+    var yRural = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Rural));
+    var yOther = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Other));
+    var yTotal = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Total));
 
 }
 @section Styles{
 
     <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
+    <link href="~/assets/libs/bootstrap/css/bootstrap-select.css" rel="stylesheet" />
+
+    @*<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />*@
     <style>
-            .legend_info {
-                padding: 1px;
-                background: rgba(255,255,255,0.8);
-                box-shadow: 0 0 15px rgba(0,0,0,0.2);
-                border-radius: 5px;
-                /*font-size: 1vw;*/
+        .legend_info {
+            padding: 1px;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            /*font-size: 1vw;*/
+            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+            /*overflow: scroll;*/
+            min-height: 100px;
+            max-height: 400px;
+            /* resize: both;*/
+            text-align: left;
+        }
+
+            .legend_info i {
+                width: 20px;
+                height: 15px;
+                float: left;
+                margin-right: 10px;
+                opacity: 0.7;
                 font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
-                /*overflow: scroll;*/
-                min-height: 100px;
-                max-height: 400px;
-               /* resize: both;*/
             }
 
-                .legend_info i {
+            .legend_info p {
+                padding: 0.2vw;
+            }
 
-                    width: 20px;
-                    height: 15px;
-                    float: left;
-                    margin-right: 10px;
-                    opacity: 0.7;
-                    font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
-                }
-
-                .legend_info p {
-                    padding: 0.2vw;
-                }
+        .mapLabel {
+            height: auto !important;
+            width: auto !important;
+            /*font-weight: bold;
+            color: #025 line-height: 1;*/
+            padding: 0.2rem 0.3rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.5rem;
+            color: #000000;
+            text-shadow: 0 0 1px #aaa;
+            background: rgba(250,250,250,0.45);
+            border-radius: 0.25rem;
+        }
     </style>
 }
 
@@ -71,6 +92,7 @@
 
             <div class="col-md-6 col-xl-3">
                 <div class="card">
+
                     <div class="card-body">
                         <div class="float-end mt-2">
                             <div id="orders-chart"> </div>
@@ -126,10 +148,28 @@
             <div class="col-xl-6">
                 <div class="card">
                     <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            District Wise Population
+                            <select id="DistCode" class="selectpicker form-control" asp-items="ViewBag.DistrictList" multiple="multiple" data-live-search="true" data-max-options="10">
+                            @*<option value="" selected="selected">----- district -----</option>*@
+                            </select>
 
-                        <div class="mt-3">
-                            <div id="exposure_chart" class="apex-charts" dir="ltr"></div>
+
+
+                            @*<select class="select2 form-control select2-multiple" asp-items="ViewBag.DistrictList" multiple="multiple" data-placeholder="Choose ..."></select>*@
+                            
+                        </h4>
+
+                        @*<div id="exposure_chart" class="apex-charts" dir="ltr">
+
+                            </div>*@
+
+                        <div id="exposure_chart" class=" apex-charts text-center" style="min-height:600px; padding:0.75rem;">
+                            @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                                    <span class="sr-only">Loading... . .</span>
+                                </div>*@
                         </div>
+
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
             </div> <!-- end col-->
@@ -212,16 +252,23 @@
     <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
     @*<script src="~/assets/js/pages/dashboard.init.js"></script>*@
     <script src="~/assets/js/pages/dashboard.init.js"></script>
-
+    <script src="~/assets/libs/bootstrap/js/bootstrap-select.js"></script>
+    @*<script src="~/assets/libs/select2/js/select2.min.js"></script>*@
     <script type="text/javascript">
         var dashboard_map;
         var legend = L.control({ position: 'topright' });
         var legend_div = L.DomUtil.create('div', 'legend_info');
-        var legendcolorField = "DistGeoCode";
-        mapInit();
-        addLayer();
+        var mapLabels = L.layerGroup();
+        var legendcolorField = "DistGeoCod";
+
         var legend_data = [];
         var layer_Data = [];
+        layerMapData = {};
+        getMapData();
+        mapInit();
+        addLayer();
+        loadChart();
+
 
         function mapInit() {
             var openstreet = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { id: 'MapID', minZoom: 0, maxZoom: 25 }),
@@ -232,7 +279,7 @@
             dashboard_map = new L.Map("dashboard_map",
                 {
                     center: new L.LatLng(23.737777, 90.537777),
-                    fullscreenControl: true,
+                    fullscreenControl: false,
                     zoomControl: false,
                     maxZoom: 20,
                     minZoom: 2,
@@ -244,9 +291,6 @@
             L.control.zoom({
                 position: 'bottomleft'
             }).addTo(dashboard_map);
-
-
-
         }
 
         function addLayer() {
@@ -264,7 +308,7 @@
                 dashboard_map.addLayer(layerData);
             });
             function style(feature) {
-                var color = getColor(feature.properties[legendcolorField]);
+                var color = getColor(layerMapData[feature.properties[legendcolorField]]);
                 return {
                     fillColor: color,
                     weight: 1,
@@ -274,24 +318,35 @@
                     /*dashArray: '1',*/
                     fillOpacity: 0.9
                 };
+
             }
             function onEachFeature(feature, layer) {
                 layer.on({
                     mouseover: highlightFeature,
                     mouseout: resetHighlight,
                 });
+
+                var label = L.marker([layer.feature.properties['CntLat'], layer.feature.properties['CntLong']], {
+                    icon: L.divIcon({
+                        className: 'label mapLabel',
+                        html: feature.properties['DistName'],
+                        iconSize: [50, 20],
+                    })
+                });
+                mapLabels.addLayer(label);
+                //dashboard_map.addLayer(mapLabels);
             }
             function highlightFeature(e) {
                 var layer = e.target;
-                var popupContent = '<div style="width:300px;text-align:center;"><p>' + layer.feature.properties["DistGeoCod"] + '</p></div>';
-                layer.bindPopup(popupContent).openPopup(e.latlng);
+                var popupContent = '<div style="width:120px;text-align:center;"><p>' + layer.feature.properties["DistName"]+" : " + layerMapData[layer.feature.properties["DistGeoCod"]] + '(%)</p></div>';
+                //layer.bindPopup(popupContent).openPopup(e.latlng);
 
-                //layer.setStyle({
-                //    //weight: 2,
-                //    //color: '#E11F21',
-                //    dashArray: '',
-                //    //fillOpacity: 0.4
-                //}).bindPopup(popupContent).openPopup(e.latlng);
+                layer.setStyle({
+                    weight: 2,
+                    //color: '#E11F21',
+                    dashArray: '',
+                    fillOpacity: 0.4
+                }).bindPopup(popupContent).openPopup(e.latlng);
 
                 //if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
                 //    layer.bringToFront();
@@ -304,8 +359,7 @@
 
             legend.onAdd = function (map) {
                 legend_data =@Html.Raw(legendData);
-                legend_div.innerHTML += '<p>Poverty Rate </p><hr/>';
-
+                legend_div.innerHTML += '<p style="text-decoration: underline;">District Wise Poverty Rate(%) </p>';
                 for (var i = 0; i<legend_data.length; i++) {
 
                     legend_div.innerHTML += '<p class="">' + legend_data[i].LayerLegendDisplayName + '<i style="background:' + legend_data[i].LayerLegendColorCode + '"></i> </p>';
@@ -317,9 +371,6 @@
 
         function getColor(d) {
 
-            //console.log(userDefinedColorList["main_river"][0].get('color'));
-            //LayerMainAttribureValue
-
             for (var i = 0; i < legend_data.length; i++) {
                 if (d >= legend_data[i].LayerMainAttribureValue && d < legend_data[i+1].LayerMainAttribureValue) {
                     return legend_data[i].LayerLegendColorCode;
@@ -330,72 +381,119 @@
             }
         }
         function getMapData() {
-
+            layer_Data =@Html.Raw(layerData);
+            for (var i = 0; i < layer_Data.length; i++) {
+                layerMapData[layer_Data[i].DistrictGeoCode] = layer_Data[i].PovertyRate;
+            }
         }
 
 
 
-        $(function () {
-            function groupTable($rows, startIndex, total) {
-                if (total === 0) {
-                    return;
-                }
-                var i, currentIndex = startIndex, count = 1, lst = [];
-                var tds = $rows.find('td:eq(' + currentIndex + ')');
-                var ctrl = $(tds[0]);
-                lst.push($rows[0]);
-                for (i = 1; i <= tds.length; i++) {
-                    if (ctrl.text() === $(tds[i]).text()) {
-                        count++;
-                        $(tds[i]).addClass('deleted');
-                        lst.push($rows[i]);
-                    } else {
-                        if (count > 1) {
-                            ctrl.attr('rowspan', count);
-                            groupTable($(lst), startIndex + 1, total - 1);
-                        }
-                        count = 1;
-                        lst = [];
-                        ctrl = $(tds[i]);
-                        lst.push($rows[i]);
-                    }
-                }
-            }
+        //$(function () {
+        //    function groupTable($rows, startIndex, total) {
+        //        if (total === 0) {
+        //            return;
+        //        }
+        //        var i, currentIndex = startIndex, count = 1, lst = [];
+        //        var tds = $rows.find('td:eq(' + currentIndex + ')');
+        //        var ctrl = $(tds[0]);
+        //        lst.push($rows[0]);
+        //        for (i = 1; i <= tds.length; i++) {
+        //            if (ctrl.text() === $(tds[i]).text()) {
+        //                count++;
+        //                $(tds[i]).addClass('deleted');
+        //                lst.push($rows[i]);
+        //            } else {
+        //                if (count > 1) {
+        //                    ctrl.attr('rowspan', count);
+        //                    groupTable($(lst), startIndex + 1, total - 1);
+        //                }
+        //                count = 1;
+        //                lst = [];
+        //                ctrl = $(tds[i]);
+        //                lst.push($rows[i]);
+        //            }
+        //        }
+        //    }
 
-            groupTable($('#tblLayerData tr:has(td)'), 0, 2);
-            $('#tblLayerData .deleted').remove();
+        //    groupTable($('#tblLayerData tr:has(td)'), 0, 2);
+        //    $('#tblLayerData .deleted').remove();
+        //});
+
+        $('#DistCode').selectpicker();
+        $("#DistCode").change(function () {
+            loadChart();
         });
 
-        var options = {
-            chart: { height: 339, type: "line", stacked: !1, toolbar: { show: !1 } },
-            stroke: { width: [0, 2, 4], curve: "smooth" },
-            plotOptions: { bar: { columnWidth: "30%" } },
-            colors: ["#5b73e8", "#dfe2e6", "#f1b44c"],
-            series: [{ name: "Flood", type: "column", data: @Html.Raw(yFloodValue) },
-                { name: "Land Slide", type: "area", data: @Html.Raw(yLandSlideValue) },
-                { name: "Drought", type: "line", data: @Html.Raw(yDroughtValue) }],
-                //{ name: "Drought", type: "line", data: [5, 11, 21, 2, 14, 6, 18, 25, 15, 10, 9, 10] }],
-            fill: {
-                opacity: [.85, .25, 1],
-                gradient: { inverseColors: !1, shade: "light", type: "vertical", opacityFrom: .85, opacityTo: .55, stops: [0, 100, 100, 100] }
-            },
-            labels: @Html.Raw(xLabels),
-            markers: { size: 0 },
-            xaxis: { title: { text: "Upazila" } },
-            yaxis: { title: { text: "Value" } },
-            tooltip: {
-                shared: !0, intersect: !1,
-                y: { formatter: function (e) { return void 0 !== e ? e.toFixed(0) + " value" : e } }
-            },
-            grid: { borderColor: "#f1f1f1" }
-        };
-
-        (chart = new ApexCharts(document.querySelector("#exposure_chart"), options)).render();
+        function loadChart() {
+            var dist = [];
+            var male = [];
+            var female = [];
+            var total = [];
+            var distCodeList = $('#DistCode').val();
 
 
+            if (distCodeList.length > 0) {
+                distCodeList = [$("#DistCode").val()];
 
+            } else {
+                distCodeList = ["1004", "1006", "1009", "1042", "1079"];
+            }
 
+            alert(distCodeList);
+            jQuery.ajax({
+                type: "POST",
+                url: "@Url.Action("GetChartData")",
+                dataType: "json",
+                data: { distCodeList: distCodeList },
+                before: jQuery("#busy-indicator").fadeIn(150),
+                success: function (datas) {
+                    $.each(datas, function (i, item) {
+                        dist.push(item.distName);
+                        male.push(item.male);
+                        female.push(item.female);
+                        total.push(item.total);
 
+                    });
+
+                },
+                error: function (ex, status, error) {
+
+                },
+                complete: function () {
+                    var optionsChart = {
+                        chart: { height: 300, type: "line", stacked: !1, toolbar: { show: !1 } },
+                        stroke: { width: [0, 2, 4], curve: "smooth" },
+                        plotOptions: { bar: { columnWidth: "30%" } },
+                        colors: ["#F2520C", "#F1B44C", "#5B73E8"], //"#F2860C","#F2E10C", "#F2B30C",
+                        series: [
+                            { name: "Male", type: "column", data: male },
+                            { name: "Female", type: "line", data: female },
+
+                            { name: "Total Population", type: "area", data: total }
+                        ],
+                        //{ name: "Drought", type: "line", data: [5, 11, 21, 2, 14, 6, 18, 25, 15, 10, 9, 10] }],
+                        fill: {
+                            opacity: [.85, .85, 0.5],
+                            gradient: { inverseColors: !1, shade: "light", type: "vertical", opacityFrom: .85, opacityTo: .55, stops: [0, 100, 100, 100] }
+                        },
+                        labels: dist,
+                        markers: { size: 0 },
+                        xaxis: { title: { text: "District" } },
+                        yaxis: { title: { text: "Population" } },
+                        tooltip: {
+                            shared: !0, intersect: !1,
+                            y: { formatter: function (e) { return void 0 !== e ? e.toFixed(0) + "" : e } }
+                        },
+                        grid: { borderColor: "#f1f1f1" }
+                    };
+
+                    (chart = new ApexCharts(document.querySelector("#exposure_chart"), optionsChart)).render();
+
+                    jQuery("#busy-indicator").fadeOut(150);
+                }
+            });
+        }
 
     </script>
 }
