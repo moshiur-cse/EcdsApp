@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220214045035_DistrictPopulationModel")]
+    partial class DistrictPopulationModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -915,29 +917,14 @@ namespace EcdsApp.Migrations
                         .HasColumnType("int")
                         .HasColumnName("access_failed_count");
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
-                        .HasColumnName("address");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text")
                         .HasColumnName("concurrency_stamp");
 
-                    b.Property<string>("DateOfBirth")
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("date_of_birth");
-
                     b.Property<DateTime?>("DateOfCreation")
                         .HasColumnType("datetime")
                         .HasColumnName("date_of_creation");
-
-                    b.Property<string>("Designation")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("designation");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -948,16 +935,6 @@ namespace EcdsApp.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("email_confirmed");
 
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("first_name");
-
-                    b.Property<string>("FullName")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("full_name");
-
                     b.Property<bool>("IsVerified")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_verified");
@@ -966,11 +943,6 @@ namespace EcdsApp.Migrations
                         .HasColumnType("datetime")
                         .HasColumnName("last_modified_date");
 
-                    b.Property<string>("LastName")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("last_name");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("lockout_enabled");
@@ -978,11 +950,6 @@ namespace EcdsApp.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp")
                         .HasColumnName("lockout_end");
-
-                    b.Property<string>("MobileNo")
-                        .HasMaxLength(11)
-                        .HasColumnType("varchar(11)")
-                        .HasColumnName("mobile_no");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -993,11 +960,6 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
                         .HasColumnName("normalized_user_name");
-
-                    b.Property<string>("Organization")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("organization");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text")

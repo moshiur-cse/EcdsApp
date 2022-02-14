@@ -1,7 +1,9 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.ViewModels.Dashboard;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,9 +19,9 @@ namespace EcdsApp.Controllers
         }
         public async Task<IActionResult> Dashboard()
         {
-            var exposureList = _context.UpazilaWiseExposureData
-                .Include(u => u.Upazila)
-                .OrderBy(u => u.Id).Take(12)
+            var population = _context.DistrictWisePopulations
+                .Include(u => u.District.Division)
+                .OrderBy(u => u.Id).Take(10)
                 .ToList();
 
             var layerInfoList = _context.ThemeLayerDetails
@@ -29,11 +31,16 @@ namespace EcdsApp.Controllers
                 .Include(t => t.TableInfo)
                 .OrderByDescending(t => t.LayerId).Take(5)
                 .ToList();
+            var layerData = await _context.DistrictWisePoverties.ToListAsync();
+            var legendData=await _context.LayerLegendColors.Where(i=>i.LayerId==11).ToListAsync();
+            ViewBag.DistrictList = new SelectList(_context.AdminBoundaryDistricts.OrderBy(i => i.DistrictName), "DistrictGeoCode", "DistrictName");
 
             var dashboardModel = new DashboardVm
             {
-                UpazilaWiseExposureData = exposureList, 
-                ThemeLayerDetails = layerInfoList
+                DistrictWisePopulations = population, 
+                ThemeLayerDetails = layerInfoList,
+                DistrictWisePoverties= layerData,
+                LayerLegendColors= legendData
             };
             return View(dashboardModel);
         }
@@ -43,6 +50,21 @@ namespace EcdsApp.Controllers
         {
             return View();
         }
+        public JsonResult GetChartData(List<string> distCodeList)
+        {
+
+            var data = _context.DistrictWisePopulations.Include(d => d.District).Where(i => distCodeList.Contains(i.DistrictGeoCode)).
+                Select(j => new
+                {
+                    distName = j.District.DistrictName,
+                    male = j.Male,
+                    female = j.Female,
+                    total = j.Total
+                }).ToList();
+               
+            return Json(data);
+        }
+
         //public IActionResult Login()
         //{
         //    return View();
