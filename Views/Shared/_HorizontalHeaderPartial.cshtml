@@ -1,7 +1,8 @@
 ﻿ddTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@using Microsoft.AspNetCore.Identity
 @using EcdsApp.Models.UserManage
-@inject SignInManager<ApplicationUser> SignInManager
+@using EcdsApp.Models.ViewModels
+@inject SignInManager<ApplicationUser> _signInManager
+@inject UserManager<ApplicationUser> _userManager
 
 <header id="page-topbar">
     <img class="logo" src="~/assets/images/logo-light.png" style="float:left">
@@ -31,9 +32,8 @@
                 </button>
             </div>
 
-            <div class="dropdown d-inline-block">
-
-                @if (!SignInManager.IsSignedIn(User))
+            @*<div class="dropdown d-inline-block">
+                @if (!_signInManager.IsSignedIn(User))
                 {
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class=" d-none d-md-inline-block">
@@ -67,9 +67,42 @@
 
                     </div>
                 }
-
-            </div>
+            </div>*@
             
+        <div class="dropdown d-inline-block">
+            @if (_signInManager.IsSignedIn(User))
+            {
+                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user" src="~/assets/images/users/avatar.png"
+                         alt="Header Avatar">
+                    <span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">@User.Identity?.Name</span>
+                    <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="#"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">View Profile</span></a>
+                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                        <button type="submit" class="dropdown-item"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">Sign out</span></button>
+                    </form>
+
+                </div>
+            }
+            else
+            {
+                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user" src="~/assets/images/users/avatar.png"
+                         alt="Header Avatar">
+                    <span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">User</span>
+                    <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <!-- item-->
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Login</span></a>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Register</span></a>
+                </div>
+            }
+        </div>
         </div>
     </div>
     <div class="container-fluid">
@@ -86,73 +119,75 @@
                             </a>
                         </li>
 
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
-                                <i class="uil-apps me-2"></i>Layer<div class="arrow-down"></div>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="topnav-pages">
-                                <div class="dropdown">
-                                    <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
-                                       role="button">
-                                        Admin Boundaries <div class="arrow-down"></div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
-                                        <a class="dropdown-item" asp-controller="AdminBoundaryDivisions" asp-action="Index">Division</a>
-                                        <a class="dropdown-item" asp-controller="AdminBoundaryDistricts" asp-action="Index">District</a>
-                                        <a class="dropdown-item" asp-controller="AdminBoundaryUpazilas" asp-action="Index">Upazila</a>
+                        @if (_signInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
+                                    <i class="uil-apps me-2"></i>Layer<div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
+                                           role="button">
+                                            Admin Boundaries <div class="arrow-down"></div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
+                                            <a class="dropdown-item" asp-controller="AdminBoundaryDivisions" asp-action="Index">Division</a>
+                                            <a class="dropdown-item" asp-controller="AdminBoundaryDistricts" asp-action="Index">District</a>
+                                            <a class="dropdown-item" asp-controller="AdminBoundaryUpazilas" asp-action="Index">Upazila</a>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="dropdown">
-                                    <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
-                                       role="button">
-                                        Theme <div class="arrow-down"></div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
-                                        <a class="dropdown-item" asp-controller="Themes" asp-action="Index">Theme</a>
-                                        <a class="dropdown-item" asp-controller="SubThemes" asp-action="Index">Sub-Theme</a>
-                                        <a class="dropdown-item" asp-controller="MetaDataDetail" asp-action="Index">Meta Data</a>
-                                        <a class="dropdown-item" asp-controller="BundleDetail" asp-action="Index">Bundle</a>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
+                                           role="button">
+                                            Theme <div class="arrow-down"></div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
+                                            <a class="dropdown-item" asp-controller="Themes" asp-action="Index">Theme</a>
+                                            <a class="dropdown-item" asp-controller="SubThemes" asp-action="Index">Sub-Theme</a>
+                                            <a class="dropdown-item" asp-controller="MetaDataDetail" asp-action="Index">Meta Data</a>
+                                            <a class="dropdown-item" asp-controller="BundleDetail" asp-action="Index">Bundle</a>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="dropdown">
-                                    <a class="dropdown-item dropdown-toggle arrow-none" asp-action="Index" asp-controller="ThemeLayerDetails" id="topnav-ecommerce" role="button">
-                                        Layers
-                                    </a>
-                                </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" asp-action="Index" asp-controller="ThemeLayerDetails" id="topnav-ecommerce" role="button">
+                                            Layers
+                                        </a>
+                                    </div>
 
-                                <div class="dropdown">
-                                    <a class="dropdown-item dropdown-toggle arrow-none" asp-action="Create" asp-controller="LayerLegendColors" id="topnav-ecommerce" role="button">
-                                        Layer Legend Color
-                                    </a>
-                                </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" asp-action="Create" asp-controller="LayerLegendColors" id="topnav-ecommerce" role="button">
+                                            Layer Legend Color
+                                        </a>
+                                    </div>
 
-                            </div>
-                        </li>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
+                                    <i class="uil-apps me-2"></i>Admin <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                                    <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Users">Users</a>
+                                    <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Roles">User Roles</a>
+                                    @*<a class="dropdown-item">Role Access Control</a>*@
+                                </div>
+                            </li>
+                        }
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
                                 <i class="uil-apps me-2"></i>Map <div class="arrow-down"></div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-pages">
                                 <a class="dropdown-item" asp-controller="Map" asp-action="BasicMap">Map View</a>
-                                @*<a class="dropdown-item" asp-controller="Map" asp-action="ThematicMap">Thematic Map</a>
-                                <a class="dropdown-item" asp-controller="Map" asp-action="RasterMap">Raster Map</a>*@
+                                @*<a class="dropdown-item" asp-controller="Map" asp-action="ThematicMap">Thematic Map</a>*@
+                                @*<a class="dropdown-item" asp-controller="Map" asp-action="RasterMap">Raster Map</a>*@
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
-                                <i class="uil-apps me-2"></i>Admin <div class="arrow-down"></div>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="topnav-pages">
-                                <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Users">Users</a>
-                                <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Roles">User Roles</a>
-                                @*<a class="dropdown-item">Role Access Control</a>*@
-                            </div>
-                        </li>
-
-
                     </ul>
                 </div>
             </nav>
