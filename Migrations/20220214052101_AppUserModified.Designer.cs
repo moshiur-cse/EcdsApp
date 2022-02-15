@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220214052101_AppUserModified")]
+    partial class AppUserModified
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,48 +187,6 @@ namespace EcdsApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("lkp_data_verification_states");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulation", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("DistrictGeoCode")
-                        .HasMaxLength(4)
-                        .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
-
-                    b.Property<int>("Female")
-                        .HasColumnType("int")
-                        .HasColumnName("female");
-
-                    b.Property<int>("Male")
-                        .HasColumnType("int")
-                        .HasColumnName("male");
-
-                    b.Property<int>("Other")
-                        .HasColumnType("int")
-                        .HasColumnName("other");
-
-                    b.Property<int>("Rural")
-                        .HasColumnType("int")
-                        .HasColumnName("rural");
-
-                    b.Property<int>("Total")
-                        .HasColumnType("int")
-                        .HasColumnName("total");
-
-                    b.Property<int>("Urban")
-                        .HasColumnType("int")
-                        .HasColumnName("urban");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistrictGeoCode");
-
-                    b.ToTable("tbl_district_wise_population");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePoverty", b =>
@@ -1319,15 +1279,6 @@ namespace EcdsApp.Migrations
                         .IsRequired();
 
                     b.Navigation("ThemeLayerDetails");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulation", b =>
-                {
-                    b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
-                        .WithMany()
-                        .HasForeignKey("DistrictGeoCode");
-
-                    b.Navigation("District");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePoverty", b =>

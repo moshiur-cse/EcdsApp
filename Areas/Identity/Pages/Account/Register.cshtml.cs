@@ -47,6 +47,41 @@ namespace EcdsApp.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "First Name")]
+            [StringLength(50)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            [StringLength(50)]
+            public string LastName { get; set; }
+
+            [Display(Name = "Date Of Birth")]
+            [StringLength(20)]
+            public string DateOfBirth { get; set; }
+
+            [Display(Name = "Address")]
+            [StringLength(500)]
+            public string Address { get; set; }
+
+            [Required]
+            [Display(Name = "Mobile No")]
+            [StringLength(11)]
+            public string MobileNo { get; set; }
+
+            [Display(Name = "Organization")]
+            [StringLength(100)]
+            public string Organization { get; set; }
+
+            [Display(Name = "Designation")]
+            [StringLength(50)]
+            public string Designation { get; set; }
+
+            [Display(Name = "UserName")]
+            [StringLength(20)]
+            public string UserName { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -75,7 +110,19 @@ namespace EcdsApp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser
+                {
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    FullName = string.Concat(Input.FirstName, " ", Input.LastName),
+                    Email = Input.Email,
+                    MobileNo = Input.MobileNo,
+                    DateOfBirth = Input.DateOfBirth,
+                    Address = Input.Address,
+                    Organization = Input.Organization,
+                    Designation = Input.Designation,
+                    UserName = Input.UserName
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
