@@ -11,60 +11,78 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="display-6 mb-0">Add Bundle Information</h3>
-
-                        <form asp-action="Create" class="mt-4 custom-validation" method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required">Theme</label>
-                                <div class="col-md-10">
-                                    <select id="ddlTheme" class="form-select" asp-items="ViewBag.ThemeId" required="" data-parsley-required-message="You must select at least one option.">
+                        
+                        <form class="mt-4 custom-validation">
+                            <div class="row">
+                                <div class="mb-3 col-md-3">
+                                    <label class="form-label required">Layer</label>
+                                    <select id="ddlLayerOption" asp-for="LayerId" class="form-control" asp-items="ViewBag.LayerId">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required">Sub-Theme</label>
-                                <div class="col-md-10">
-                                    <select id="ddlSubTheme" class="form-select" required="" data-parsley-required-message="You must select at least one option.">
-                                        <option value="">Select</option>
-                                    </select>
+
+                                <div class="mb-3 col-md-2">
+                                    <label asp-for="FieldName" class="form-label required"></label>
+                                    <input id="txtFieldName" asp-for="FieldName" class="form-control" />
                                 </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required">Layer</label>
-                                <div class="col-md-10">
-                                    <select id="ddlLayer" class="form-select" asp-for="LayerId" data-parsley-min="1" required="" data-parsley-required-message="You must select at least one option.">
-                                        <option value="">Select</option>
-                                    </select>
+
+                                <div class="mb-3 col-md-2">
+                                    <label class="form-label required" asp-for="FieldDescription"></label>
+                                    <input id="txtFieldDescription" asp-for="FieldDescription" class="form-control" />
                                 </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required" asp-for="FieldName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="FieldName" class="form-control" required="" />
-                                    <span asp-validation-for="FieldName" class="text-danger"></span>
+
+                                <div class="mb-3 col-md-3">
+                                    <label class="form-label" asp-for="FieldUnit"></label>
+                                    <input id="txtFieldUnit" asp-for="FieldUnit" class="form-control" />
                                 </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required" asp-for="FieldDescription"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="FieldDescription" class="form-control" required="" />
-                                    <span asp-validation-for="FieldDescription" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" asp-for="FieldUnit"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="FieldUnit" class="form-control" />
-                                    <span asp-validation-for="FieldUnit" class="text-danger"></span>
+
+                                <div class="col-md-2 align-self-center">
+                                    <div class="d-grid" style="margin-top: 11px">
+                                        <input id="btnSaveBundleInfo" type="button" class="btn btn-primary" value="Add" />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="mt-4 text-right">
-                                <input type="submit" value="Submit" class="btn btn-rounded btn-success w-lg" />
-                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
+                            <div class="table-responsive mt-3">
+                                <table class="table table-nowrap table-striped table-bordered">
+                                    <tbody id="tblBundleInfoData"></tbody>
+                                </table>
                             </div>
+
+                            <!--  Large modal example -->
+                            <div id="editBundleInfoModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content" style="margin-top: 190px">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="myLargeModalLabel">Edit Bundle Information</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" id="txtBundleInfoId" />
+                                            <input type="hidden" id="txtLayerId" class="form-control" />
+
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3">
+                                                    <label class="form-label required">Field Name</label>
+                                                    <input id="editTxtFieldName" type="text" class="form-control" />
+                                                </div>
+                                                <div class="col-md-12 mb-3">
+                                                    <label class="form-label required">Field Description</label>
+                                                    <input id="editTxtFieldDescription" type="text" class="form-control" />
+                                                </div>
+                                                <div class="col-md-12 mb-3">
+                                                    <label class="form-label">Field Unit</label>
+                                                    <input id="editTxtFieldUnit" type="text" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                            <button id="btnUpdateBundleInfo" type="button" class="btn btn-success">Update</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
                         </form>
                     </div>
                 </div>
@@ -77,74 +95,265 @@
 @section Scripts
 {
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#ddlTheme').change(function () {
-                var items = '';
-                $('#ddlLayer').empty();
-                $('#ddlLayer').html("<option value=''>Select</option>");
+        $(document).ready(function () {
 
-                $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("GetSubThemeData", "ThemeLayerDetails")',
-                    dataType: "json",
-                    data: { themeId: $('#ddlTheme').val() },
-                    success: function (responseData) {
-                        $('#ddlSubTheme').empty();
-                        $.each(responseData,
-                            function (i, subTheme) {
-                                items += "<option value='" + subTheme.value + "'>" + subTheme.text + "</option>";
-                            });
-                        if (items !== "") {
-                            $('#ddlSubTheme').html(items);
-                        } else {
-                            $('#ddlSubTheme').html("<option value=''>No Data Available Under the Selected Theme</option> ");
-                        }
-                    },
-                    error: function (ex) {
-                        window.Swal.fire({
-                            title: "Error",
-                            text: "Failed to Load Sub-Theme Data!" + ex.responseText,
-                            icon: "error",
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    }
-                });
-                return false;
+            $('#ddlLayerOption').change(function () {
+                const layerId = $('#ddlLayerOption option:selected').val();
+
+                GetBundleInfoList(layerId);
             });
 
-            $('#ddlSubTheme').change(function () {
-                var items = '';
+            $('#btnSaveBundleInfo').click(function () {
 
+                var layerId = $('#ddlLayerOption option:selected').val(),
+                    fieldName = $('#txtFieldName').val(),
+                    fieldDescription = $('#txtFieldDescription').val(),
+                    fieldUnit = $('#txtFieldUnit').val();
+                if (layerId === "" || fieldName === "" || fieldDescription === "") {
+                    window.Swal.fire({
+                        icon: "error",
+                        title: "Please fill up all required fields!",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    return;
+                }
+
+                const formData = {
+                    'LayerId': layerId,
+                    'FieldName': $('#txtFieldName').val(),
+                    'FieldDescription': $('#txtFieldDescription').val(),
+                    'FieldUnit': $('#txtFieldUnit').val()
+                };
+
+                const url = '@Url.Action("Create", "BundleDetail")';
                 $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("GetLayerData", "ThemeLayerDetails")',
-                    dataType: "json",
-                    data: { subThemeId: $('#ddlSubTheme').val() },
-                    success: function (responseData) {
-                        $('#ddlLayer').empty();
-                        $.each(responseData,
-                            function (i, themeLayer) {
-                                items += "<option value='" + themeLayer.value + "'>" + themeLayer.text + "</option>";
+                    type: "POST",
+                    url: url,
+                    accept: "application/json; charset=utf-8",
+                    data: formData,
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function (result) {
+                        if (result === "Success") {
+                            window.Swal.fire({
+                                icon: "success",
+                                title: "Data Added Successfully!",
+                                showConfirmButton: false,
+                                timer: 2500
                             });
-                        if (items !== "") {
-                            $('#ddlLayer').html(items);
+                            GetBundleInfoList(layerId);
+                            clearFormData();
                         } else {
-                            $('#ddlLayer').html("<option value=''>No Data Available Under the Selected Sub-Theme</option> ");
+                            window.Swal.fire({
+                                icon: "error",
+                                title: "Error Saving Data! Please try again",
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
                         }
                     },
-                    error: function (ex) {
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        const errorMsg = xhr.responseText;
                         window.Swal.fire({
-                            title: "Error",
-                            text: "Failed to Load Sub-Theme Data!" + ex.responseText,
                             icon: "error",
+                            title: errorMsg,
                             showConfirmButton: false,
-                            timer: 2000
+                            timer: 2500
                         });
-                    }
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
                 });
-                return false;
             });
         });
+        //document-ready end
+
+        $('#btnUpdateBundleInfo').click(function() {
+
+            var bundleId = $('#txtBundleInfoId').val(),
+                layerId = $('#txtLayerId').val(),
+                fieldName = $('#editTxtFieldName').val(),
+                fieldDescription = $('#editTxtFieldDescription').val(),
+                fieldUnit = $('#editTxtFieldUnit').val();
+            if (fieldName === "" || fieldDescription === "") {
+                window.Swal.fire({
+                    icon: "error",
+                    title: "Please fill up all required fields!",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                return;
+            }
+            
+            const formData = {
+                'Id': bundleId,
+                'LayerId': layerId,
+                'FieldName': fieldName,
+                'FieldDescription': fieldDescription,
+                'FieldUnit': fieldUnit
+            };
+
+            const url = '@Url.Action("Edit", "BundleDetail")';
+            $.ajax({
+                type: "POST",
+                url: url,
+                accept: "application/json; charset=utf-8",
+                data: formData,
+                before: $("#busy-indicator").fadeIn(150),
+                success: function (result) {
+                    if (result === "Success") {
+                        window.Swal.fire({
+                            //position: "top-end",
+                            icon: "success",
+                            title: "Data Updated Successfully!",
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                        GetBundleInfoList(layerId);
+                        setTimeout(function() {
+                            $('#editBundleInfoModal').modal('hide');
+                        }, 2500);
+                    } else {
+                        window.Swal.fire({
+                            icon: "error",
+                            title: "Error Updating Data! Please try again",
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    const errorMsg = xhr.responseText;
+                    window.Swal.fire({
+                        icon: "error",
+                        title: errorMsg,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                },
+                complete: $("#busy-indicator").fadeOut(150)
+            });
+        });
+
+        function GetBundleInfoList(layerId) {
+            const url = '@Url.Action("GetBundleInfo", "BundleDetail")';
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { layerId: layerId},
+                dataType: "json",
+                before: $("#busy-indicator").fadeIn(150),
+                success: function (data, status, jqXhr) {
+                    if (data.length > 0) {
+                        var rows = '';
+
+                        $.each(data, function (i, item) {
+                            rows += '<tr><td class="col-md-3">' + item.themeLayerDetails.layerName + '</td><td class="col-md-2 text-center">' + item.fieldName + '</td><td class="col-md-2 text-center">' + item.fieldDescription + '</td><td class="col-md-3 text-center">' + item.fieldUnit + '</td><td class="col-md-3"><input type="button" onclick="javascript:EditBundleInfo(' + item.id + ');" class="btn btn-info" value="Edit" style="margin-right: 15px;" /><input type="button" onclick="javascript:DeleteBundleInfo(' + item.id + ', ' + item.layerId + '); GetBundleInfoList(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
+                        });
+
+                        $("#tblBundleInfoData").html(rows);
+                    }
+                    else {
+                        $("#tblBundleInfoData").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, No Data Found </div></td></tr>');
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#tblBundleInfoData").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert"> Sorry! Something Went Wrong</div></td></tr>');
+                },
+                complete: $("#busy-indicator").fadeOut(150)
+            });
+        }
+
+        function EditBundleInfo(bundleId) {
+            const url = '@Url.Action("GetBundlePropertyInfo", "BundleDetail")';
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { bundleId: bundleId },
+                dataType: "json",
+                before: $("#busy-indicator").fadeIn(150),
+                success: function (data, status, jqXhr) {
+
+                    $('#txtBundleInfoId').val(data.id);
+                    $('#txtLayerId').val(data.layerId);
+                    $('#editTxtFieldName').val(data.fieldName);
+                    $('#editTxtFieldDescription').val(data.fieldDescription);
+                    $('#editTxtFieldUnit').val(data.fieldUnit);
+
+                    $("#editBundleInfoModal").modal("show");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    const errorMsg = xhr.responseText;
+                    window.Swal.fire({
+                        icon: "error",
+                        title: errorMsg,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                },
+                complete: $("#busy-indicator").fadeOut(150)
+            });
+
+        }
+
+        function DeleteBundleInfo(bundleId, layerId) {
+            Swal.fire({
+                icon: "warning",
+                title: "Are you sure?",
+                text: "You won't be able to Revert this!",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Delete it!",
+                cancelButtonText: "No, Cancel!",
+                confirmButtonClass: "btn btn-success mt-2",
+                cancelButtonClass: "btn btn-danger ms-2 mt-2",
+                buttonsStyling: false,
+                allowOutsideClick: false
+            }).then(function (t) {
+                if (t.isConfirmed) {
+
+                    const url = '@Url.Action("DeleteBundleInfo", "BundleDetail")';
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { bundleId: bundleId },
+                        dataType: "json",
+                        before: jQuery("#busy-indicator").fadeIn(150),
+                        success: function (result) {
+                            window.Swal.fire({
+                                icon: "success",
+                                title: "Deleted!",
+                                text: "Bundle Information has been deleted."
+                            });
+                            GetBundleInfoList(layerId);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            const errorMsg = xhr.responseText;
+                            window.Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: errorMsg
+                            });
+                        },
+                        complete: jQuery("#busy-indicator").fadeOut(150)
+                    });
+
+                }
+                else if (t.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Cancelled",
+                        text: "Your Data is Safe :)"
+                    });
+                }
+            });
+
+
+        }
+
+        function clearFormData() {
+            $('#txtFieldName').val('');
+            $('#txtFieldDescription').val('');
+            $('#txtFieldUnit').val('');
+        }
+
     </script>
 }

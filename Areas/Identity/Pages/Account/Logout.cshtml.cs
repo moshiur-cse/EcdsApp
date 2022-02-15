@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Models.UserManage;
 using Microsoft.AspNetCore.Authorization;
-using EcdsApp.Models.UserManage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Areas.Identity.Pages.Account
 {
@@ -31,14 +28,16 @@ namespace EcdsApp.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            if (returnUrl != null)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToPage();
-            }
+            //if (returnUrl != null)
+            //{
+            //    return LocalRedirect(returnUrl);
+            //}
+            //else
+            //{
+            //    return RedirectToPage();
+            //}
+
+            return RedirectToAction("Dashboard", "Home");
         }
     }
 }

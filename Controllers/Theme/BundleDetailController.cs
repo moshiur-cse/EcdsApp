@@ -1,10 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers
 {
@@ -57,29 +59,67 @@ namespace EcdsApp.Controllers
         public IActionResult Create()
         {
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
+            ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails, "LayerId", "LayerDisplayName");
 
             return View();
         }
 
         // POST: BundleDetail/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LayerId,FieldName,FieldDescription,FieldUnit")] BundleDetail bundleDetail)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(BundleDetail formData)
         {
-            if (ModelState.IsValid)
+            var result = "Error";
+            if (!ModelState.IsValid)
+                return Json(result);
+            var bundleDetId = (_context.BundleDetails.Max(s => (int?)s.Id) ?? 0) + 1;
+            formData.Id = bundleDetId;
+
+            _context.Add(formData);
+            var response = await _context.SaveChangesAsync() > 0;
+            result = response ? "Success" : "Error";
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        public IActionResult GetBundleInfo(int layerId)
+        {
+            List<BundleDetail> bundleDetDataList;
+
+            try
             {
-                var bundleDetId = (_context.BundleDetails.Max(s => (int?)s.Id) ?? 0) + 1;
-                bundleDetail.Id = bundleDetId;
-
-                _context.Add(bundleDetail);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Index));
+                bundleDetDataList = _context.BundleDetails
+                    .Include(c => c.ThemeLayerDetails)
+                    .Where(c => c.LayerId == layerId).ToList();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex;
+                bundleDetDataList = new List<BundleDetail>();
             }
 
-            ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
+            return Json(bundleDetDataList);
+        }
 
-            return View(bundleDetail);
+        [HttpGet]
+        public IActionResult GetBundlePropertyInfo(int bundleId)
+        {
+            var bundleObj = _context.BundleDetails.FirstOrDefault(l => l.Id == bundleId);
+
+            return Json(bundleObj);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteBundleInfo(int bundleId)
+        {
+            var bundleObj = _context.BundleDetails.Find(bundleId);
+            _context.BundleDetails.Remove(bundleObj);
+
+            var response = _context.SaveChanges() > 0;
+            var result = response ? "Success" : "Error";
+
+            return Json(result);
         }
 
         // GET: BundleDetail/Edit/5
@@ -112,41 +152,29 @@ namespace EcdsApp.Controllers
 
         // POST: BundleDetail/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LayerId,FieldName,FieldDescription,FieldUnit")] BundleDetail bundleDetail)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(BundleDetail formData)
         {
-            if (id != bundleDetail.Id)
+            var result = "Error";
+            if (!ModelState.IsValid)
+                return Json(result);
+
+            try
             {
-                return NotFound();
+                _context.Update(formData);
+                var response = await _context.SaveChangesAsync() > 0;
+                result = response ? "Success" : "Error";
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BundleDetailExists(formData.Id))
+                {
+                    return NotFound();
+                }
+                throw;
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(bundleDetail);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BundleDetailExists(bundleDetail.Id))
-                    {
-                        return NotFound();
-                    }
-
-                    throw;
-                }
-                return RedirectToAction(nameof(Index));
-            }
-
-            var themeId = bundleDetail.ThemeLayerDetails.SubThemes.Themes.ThemeId;
-            var subThemeId = bundleDetail.ThemeLayerDetails.SubThemes.SubThemeId;
-
-            ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName", themeId);
-            ViewData["SubThemeId"] = new SelectList(_context.SubThemes.Where(s => s.ThemeId == themeId), "SubThemeId", "SubThemeName", subThemeId);
-            ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(tl => tl.SubThemeId == subThemeId), "LayerId", "LayerDisplayName", bundleDetail.LayerId);
-
-            return View(bundleDetail);
+            return Json(result);
         }
 
         // GET: BundleDetail/Delete/5
