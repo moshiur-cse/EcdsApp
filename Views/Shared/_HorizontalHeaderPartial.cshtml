@@ -115,7 +115,7 @@
                                                 <a class="dropdown-item" asp-controller="Themes" asp-action="Index">Theme</a>
                                                 <a class="dropdown-item" asp-controller="SubThemes" asp-action="Index">Sub-Theme</a>
                                                 <a class="dropdown-item" asp-controller="MetaDataDetail" asp-action="Index">Meta Data</a>
-                                                <a class="dropdown-item" asp-controller="BundleDetail" asp-action="Index">Bundle</a>
+                                                <a class="dropdown-item" asp-controller="BundleDetail" asp-action="Create">Bundle</a>
                                             </div>
                                         </div>
 
@@ -137,16 +137,20 @@
                                     </div>
                                 </li>
 
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
-                                        <i class="uil-apps me-2"></i>Admin <div class="arrow-down"></div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="topnav-pages">
-                                        <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Users">Users</a>
-                                        <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Roles">User Roles</a>
-                                        @*<a class="dropdown-item">Role Access Control</a>*@
-                                    </div>
-                                </li>
+                                @if (userRoleId == AppStaticBase.SystemAdministrator)
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
+                                            <i class="uil-apps me-2"></i>Admin <div class="arrow-down"></div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                                            <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Users">Users</a>
+                                            <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Roles">User Roles</a>
+                                            @*<a class="dropdown-item">Role Access Control</a>*@
+                                        </div>
+                                    </li>
+                                }
+
                             }
                         }
 
