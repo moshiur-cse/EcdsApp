@@ -5,16 +5,16 @@
     ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var layerData = JsonConvert.SerializeObject(Model.DistrictWisePoverties);
+    var mapData = JsonConvert.SerializeObject(Model.DistrictWisePoverties);
     var legendData = JsonConvert.SerializeObject(Model.LayerLegendColors);
 
-    var xLabels = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.District.DistrictName));
-    var yMale = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Male));
-    var yFemale = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Female));
-    var yUrban = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Urban));
-    var yRural = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Rural));
-    var yOther = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Other));
-    var yTotal = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Total));
+    //var xLabels = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.District.DistrictName));
+    //var yMale = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Male));
+    //var yFemale = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Female));
+    //var yUrban = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Urban));
+    //var yRural = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Rural));
+    //var yOther = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Other));
+    //var yTotal = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Total));
 
 }
 @section Styles{
@@ -118,7 +118,7 @@
                         </div>*@
                         <div>
                             <h1 class="mb-1 mt-1"><span data-plugin="counterup">@ViewBag.LayerCount</span></h1>
-                            <p class="text-muted mb-0">No of Layers Added</p>
+                            <p class="text-muted mb-0">No of Layer Added</p>
                         </div>
                         @*<p class="text-muted mt-3 mb-0">
                             <span class="text-danger me-1"><i class="mdi mdi-arrow-down-bold me-1"></i>6.24%</span> since last week
@@ -398,7 +398,7 @@
             }
         }
         function getMapData() {
-            layer_Data =@Html.Raw(layerData);
+            layer_Data =@Html.Raw(mapData);
             for (var i = 0; i < layer_Data.length; i++) {
                 layerMapData[layer_Data[i].DistrictGeoCode] = layer_Data[i].PovertyRate;
             }
