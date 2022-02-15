@@ -21,9 +21,9 @@
 
     <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
-    <link href="~/assets/libs/bootstrap/css/bootstrap-select.css" rel="stylesheet" />
+    @*<link href="~/assets/libs/bootstrap/css/bootstrap-select.css" rel="stylesheet" />*@
 
-    @*<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />*@
+    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
     <style>
         .legend_info {
             padding: 1px;
@@ -76,16 +76,18 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card">
                     <div class="card-body">
-                        <div class="float-end mt-2">
+                        @*<p>The severe cyclonic storm 'YAAS' with a wind speed of 150 km/h crossed the west coast of Bangladesh and affected approximately 1.3 million people, damaged around 26,000 houses, 16,183 latrines, 1,986 water points, 39% of croplands and affected 3,599 hectares of prawn and pisciculture areas in nine coastal districts.</p>*@
+                        @*<div class="float-end mt-2">
                             <div id="total-revenue-chart"></div>
-                        </div>
+                        </div>*@
                         <div>
-                            <h4 class="mb-1 mt-1">$<span data-plugin="counterup">34,152</span></h4>
-                            <p class="text-muted mb-0">Total Revenue</p>
+                            <h1 class="mb-1 mt-1"><span data-plugin="counterup">6</span></h1>
+                            <p class="text-muted mb-0">No of Theme</p>
                         </div>
-                        <p class="text-muted mt-3 mb-0">
+                        @*<p class="text-muted mt-3 mb-0">
                             <span class="text-success me-1"><i class="mdi mdi-arrow-up-bold me-1"></i>2.65%</span> since last week
-                        </p>
+                        </p>*@
+                        
                     </div>
                 </div>
             </div> <!-- end col-->
@@ -94,16 +96,16 @@
                 <div class="card">
 
                     <div class="card-body">
-                        <div class="float-end mt-2">
+                        @*<div class="float-end mt-2">
                             <div id="orders-chart"> </div>
-                        </div>
+                        </div>*@
                         <div>
-                            <h4 class="mb-1 mt-1"><span data-plugin="counterup">5,643</span></h4>
-                            <p class="text-muted mb-0">Orders</p>
+                            <h1 class="mb-1 mt-1"><span data-plugin="counterup">21</span></h1>
+                            <p class="text-muted mb-0">No of Sub-theme</p>
                         </div>
-                        <p class="text-muted mt-3 mb-0">
+                        @*<p class="text-muted mt-3 mb-0">
                             <span class="text-danger me-1"><i class="mdi mdi-arrow-down-bold me-1"></i>0.82%</span> since last week
-                        </p>
+                        </p>*@
                     </div>
                 </div>
             </div> <!-- end col-->
@@ -111,16 +113,16 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card">
                     <div class="card-body">
-                        <div class="float-end mt-2">
+                        @*<div class="float-end mt-2">
                             <div id="customers-chart"> </div>
-                        </div>
+                        </div>*@
                         <div>
-                            <h4 class="mb-1 mt-1"><span data-plugin="counterup">45,254</span></h4>
-                            <p class="text-muted mb-0">Customers</p>
+                            <h1 class="mb-1 mt-1"><span data-plugin="counterup">@ViewBag.LayerCount</span></h1>
+                            <p class="text-muted mb-0">No of Layers Added</p>
                         </div>
-                        <p class="text-muted mt-3 mb-0">
+                        @*<p class="text-muted mt-3 mb-0">
                             <span class="text-danger me-1"><i class="mdi mdi-arrow-down-bold me-1"></i>6.24%</span> since last week
-                        </p>
+                        </p>*@
                     </div>
                 </div>
             </div> <!-- end col-->
@@ -129,16 +131,16 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="float-end mt-2">
+                        @*<div class="float-end mt-2">
                             <div id="growth-chart"></div>
-                        </div>
+                        </div>*@
                         <div>
-                            <h4 class="mb-1 mt-1">+ <span data-plugin="counterup">12.58</span>%</h4>
-                            <p class="text-muted mb-0">Growth</p>
+                            <h1 class="mb-1 mt-1"><span data-plugin="counterup">595</span></h1>
+                            <p class="text-muted mb-0">No of Upazila</p>
                         </div>
-                        <p class="text-muted mt-3 mb-0">
+                        @*<p class="text-muted mt-3 mb-0">
                             <span class="text-success me-1"><i class="mdi mdi-arrow-up-bold me-1"></i>10.51%</span> since last week
-                        </p>
+                        </p>*@
                     </div>
                 </div>
             </div> <!-- end col-->
@@ -148,26 +150,24 @@
             <div class="col-xl-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-4">
-                            District Wise Population
-                            <select id="DistCode" class="selectpicker form-control" asp-items="ViewBag.DistrictList" multiple="multiple" data-live-search="true" data-max-options="10">
-                            @*<option value="" selected="selected">----- district -----</option>*@
-                            </select>
+                        @*<h4 class="card-title mb-4">
+                                District Wise Population
+                                <select id="DistCode" class="select2 form-control select2-multiple" asp-items="ViewBag.DistrictList" multiple="multiple" data-placeholder="Choose ..."></select>
+
+                            </h4>*@
+
+                        <div class="mb-0">
+                            <label class="form-label"> District Wise Population</label>
+
+                            <select id="DistCode" class="select2 form-control select2-multiple" asp-items="ViewBag.DistrictList" multiple="multiple" data-placeholder="Choose ..."></select>
+                        </div>
 
 
 
-                            @*<select class="select2 form-control select2-multiple" asp-items="ViewBag.DistrictList" multiple="multiple" data-placeholder="Choose ..."></select>*@
-                            
-                        </h4>
-
-                        @*<div id="exposure_chart" class="apex-charts" dir="ltr">
-
-                            </div>*@
-
-                        <div id="exposure_chart" class=" apex-charts text-center" style="min-height:600px; padding:0.75rem;">
-                            @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
-                                    <span class="sr-only">Loading... . .</span>
-                                </div>*@
+                        <div id="dash_chart1" class=" apex-charts text-center" style="min-height:600px; padding:0.75rem;">
+                            <div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                                <span class="sr-only">Loading... . .</span>
+                            </div>
                         </div>
 
                     </div> <!-- end card-body-->
@@ -203,7 +203,7 @@
                                         <th>Sub-theme Name</th>
                                         <th>Layer Name</th>
                                         <th>Layer Type</th>
-                                        <th>Boundary</th>
+                                        @*<th>Boundary</th>*@
                                         <th>Tabular Data</th>
                                     </tr>
                                 </thead>
@@ -220,11 +220,11 @@
                                             </td>
 
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.LayerName)
+                                                @Html.DisplayFor(modelItem => item.LayerDisplayName)
                                             </td>
 
                                             <td>@item.ThemeLayerTypes?.LayerTypeName</td>
-                                            <td>@item.BoundaryInfo?.BoundaryName</td>
+                                            @*<td>@item.BoundaryInfo?.BoundaryName</td>*@
                                             <td>
                                                 <a class="badge bg-pill bg-soft-info font-size-14" target="_blank" asp-controller="@item.TableInfo?.TableModelName" asp-action="Index" style="color: #191c1e">
                                                     @Html.DisplayFor(modelItem => item.TableInfo.DisplayName)
@@ -252,8 +252,9 @@
     <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
     @*<script src="~/assets/js/pages/dashboard.init.js"></script>*@
     <script src="~/assets/js/pages/dashboard.init.js"></script>
-    <script src="~/assets/libs/bootstrap/js/bootstrap-select.js"></script>
-    @*<script src="~/assets/libs/select2/js/select2.min.js"></script>*@
+    @*<script src="~/assets/libs/bootstrap/js/bootstrap-select.js"></script>*@
+    <script src="~/assets/libs/select2/js/select2.min.js"></script>
+
     <script type="text/javascript">
         var dashboard_map;
         var legend = L.control({ position: 'topright' });
@@ -264,10 +265,26 @@
         var legend_data = [];
         var layer_Data = [];
         layerMapData = {};
+
+        var dist = [];
+        var male = [];
+        var female = [];
+        var total = [];
+        var optionsChart = {};
         getMapData();
         mapInit();
         addLayer();
-        loadChart();
+        $('.select2').select2();
+
+
+        jQuery.ajax({
+            url: loadChart(),
+            success: function () {
+                drawChar();
+            }
+        });
+
+
 
 
         function mapInit() {
@@ -420,27 +437,29 @@
         //    $('#tblLayerData .deleted').remove();
         //});
 
-        $('#DistCode').selectpicker();
+
         $("#DistCode").change(function () {
-            loadChart();
+            jQuery.ajax({
+                url: loadChart(),
+                success: function () {
+                    drawChar();
+                }
+            });
         });
 
         function loadChart() {
-            var dist = [];
-            var male = [];
-            var female = [];
-            var total = [];
-            var distCodeList = $('#DistCode').val();
+            dist = [];
+            male = [];
+            female = [];
+            total = [];
+            var distCodeList = [];
 
-
-            if (distCodeList.length > 0) {
-                distCodeList = [$("#DistCode").val()];
+            if ($("#DistCode").val().length > 0) {
+                distCodeList = $("#DistCode").val();
 
             } else {
-                distCodeList = ["1004", "1006", "1009", "1042", "1079"];
+                distCodeList = ['3026','6091','5527','5081','1006','2015','4047'];
             }
-
-            alert(distCodeList);
             jQuery.ajax({
                 type: "POST",
                 url: "@Url.Action("GetChartData")",
@@ -461,38 +480,40 @@
 
                 },
                 complete: function () {
-                    var optionsChart = {
-                        chart: { height: 300, type: "line", stacked: !1, toolbar: { show: !1 } },
-                        stroke: { width: [0, 2, 4], curve: "smooth" },
-                        plotOptions: { bar: { columnWidth: "30%" } },
-                        colors: ["#F2520C", "#F1B44C", "#5B73E8"], //"#F2860C","#F2E10C", "#F2B30C",
-                        series: [
-                            { name: "Male", type: "column", data: male },
-                            { name: "Female", type: "line", data: female },
-
-                            { name: "Total Population", type: "area", data: total }
-                        ],
-                        //{ name: "Drought", type: "line", data: [5, 11, 21, 2, 14, 6, 18, 25, 15, 10, 9, 10] }],
-                        fill: {
-                            opacity: [.85, .85, 0.5],
-                            gradient: { inverseColors: !1, shade: "light", type: "vertical", opacityFrom: .85, opacityTo: .55, stops: [0, 100, 100, 100] }
-                        },
-                        labels: dist,
-                        markers: { size: 0 },
-                        xaxis: { title: { text: "District" } },
-                        yaxis: { title: { text: "Population" } },
-                        tooltip: {
-                            shared: !0, intersect: !1,
-                            y: { formatter: function (e) { return void 0 !== e ? e.toFixed(0) + "" : e } }
-                        },
-                        grid: { borderColor: "#f1f1f1" }
-                    };
-
-                    (chart = new ApexCharts(document.querySelector("#exposure_chart"), optionsChart)).render();
-
                     jQuery("#busy-indicator").fadeOut(150);
                 }
             });
+        }
+        function drawChar() {
+            $("#dash_chart1").empty();
+           var  optionsDashChart1 = {
+                chart: { height: 512, type: "line", stacked: !1, toolbar: { show: !1 } },
+                stroke: { width: [0, 2, 4], curve: "smooth" },
+                plotOptions: { bar: { columnWidth: "15%" } },
+                colors: ["#F2520C", "#F1B44C", "#5B73E8"], //"#F2860C","#F2E10C", "#F2B30C",
+                series: [
+                    { name: "Male", type: "column", data: male },
+                    { name: "Female", type: "line", data: female },
+
+                    { name: "Total Population", type: "area", data: total }
+                ],
+                fill: {
+                    opacity: [.85, .85, 0.5],
+                    gradient: { inverseColors: !1, shade: "light", type: "vertical", opacityFrom: .85, opacityTo: .55, stops: [0, 100, 100, 100] }
+                },
+                labels: dist,
+                markers: { size: 0 },
+                xaxis: { title: { text: "District" } },
+                yaxis: { title: { text: "Population" } },
+                tooltip: {
+                    shared: !0, intersect: !1,
+                    y: { formatter: function (e) { return void 0 !== e ? e.toFixed(0) + "" : e } }
+                },
+                grid: { borderColor: "#f1f1f1" }
+            };
+
+            (chart = new ApexCharts(document.querySelector("#dash_chart1"), optionsDashChart1)).render();
+
         }
 
     </script>

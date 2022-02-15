@@ -23,7 +23,7 @@ namespace EcdsApp.Controllers
                 .Include(u => u.District.Division)
                 .OrderBy(u => u.Id).Take(10)
                 .ToList();
-
+            ViewBag.LayerCount = _context.ThemeLayerDetails.Count();
             var layerInfoList = _context.ThemeLayerDetails
                 .Include(t => t.SubThemes.Themes)
                 .Include(t => t.ThemeLayerTypes)
@@ -50,7 +50,7 @@ namespace EcdsApp.Controllers
         {
             return View();
         }
-        public JsonResult GetChartData(List<string> distCodeList)
+        public JsonResult GetChartData(string[] distCodeList)
         {
 
             var data = _context.DistrictWisePopulations.Include(d => d.District).Where(i => distCodeList.Contains(i.DistrictGeoCode)).
@@ -60,7 +60,7 @@ namespace EcdsApp.Controllers
                     male = j.Male,
                     female = j.Female,
                     total = j.Total
-                }).ToList();
+                }).OrderBy(i=>i.total).ToList();
                
             return Json(data);
         }
