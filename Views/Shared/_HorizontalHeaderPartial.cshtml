@@ -12,14 +12,14 @@
     <img class="logo" src="~/assets/images/logo-light.png" style="float:left">
     <div class="navbar-header">
         <div class="d-flex">
-            
+
             <!-- LOGO -->
             <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                 <i class="fa fa-fw fa-bars"></i>
             </button>
 
             <span class="title-txt d-none d-md-inline-block">
-                <span class="title">Environment, Climate Change and Disaster Statistics <span>(ECDS)</span></span>
+                <span class="title">Environment, Climate Change and Disaster Statistics Platform<span>(ECDS)</span></span>
 
             </span>
             <span class="title-txt d-inline-block d-md-none text-center">
@@ -35,7 +35,7 @@
                 </button>
             </div>
 
-            <div class="dropdown d-inline-block">
+            <div class="dropdown d-inline-block" style="margin-right:60px">
                 @if (_signInManager.IsSignedIn(User))
                 {
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
@@ -63,15 +63,16 @@
                         <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <!-- item-->
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Login</span></a>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Register</span></a>
                     </div>
                 }
             </div>
         </div>
+
     </div>
     <div class="container-fluid">
+
         <div class="topnav">
 
             <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
@@ -169,4 +170,5 @@
             </nav>
         </div>
     </div>
+    <img class="bd_logo" src="~/assets/images/bd_govt_logo.png" style="float:right">
 </header>

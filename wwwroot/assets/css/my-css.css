@@ -37,7 +37,15 @@
     padding: 0;
     vertical-align: top;
 }
-
+.bd_logo {
+    width: auto;
+    height: 7vw;
+    max-height: 120px;
+    min-height: 55px;
+    margin-top:-128px;
+    padding: 0;
+    vertical-align: top;
+}
 @media(max-width:575px) {
     .logo {
         height: 55px;
