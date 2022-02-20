@@ -17,15 +17,17 @@
         color: #5b73e8!important;
     }
 */
-/*.page-content {
-    background-image: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)),url('../images/layouts/background.jpg');*/
-    /*background: rgba(0, 107, 60, 0.2);*/
-    /*linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)),*/
-/*}*/
+.page-content {
+    /*background: url('../images/layouts/background.jpg') no-repeat #999 center;*/ /*linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)),*/
+    /*background-size: 100% 100%;*/
+    /* opacity: 0.5;*/
+    background: rgba(0, 107, 59, 0.2);
+}
 
-/*.footer {
-    background: rgba(0, 0, 0, 0.25);
-}*/
+.footer {
+    background: rgba(0, 107, 59, 0.8);
+    color: #fcfdff;
+}
 
 
 .logo {
