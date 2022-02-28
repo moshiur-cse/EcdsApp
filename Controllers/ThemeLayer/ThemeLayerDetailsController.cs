@@ -11,29 +11,40 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using EcdsApp.Models.UserManage;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace EcdsApp.Controllers.ThemeLayer
 {
+    [Authorize]
     public class ThemeLayerDetailsController : Controller
     {
         private readonly DataContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ThemeLayerDetailsController(DataContext context, IWebHostEnvironment hostEnvironment)
+        public ThemeLayerDetailsController(DataContext context, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
+            _userManager = userManager;
         }
 
         // GET: ThemeLayerDetails
         public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            var userPerComponents = _context.RoleWiseComponents
+                .Where(r => r.UserRoleId == user.UserRoleId).Select(r => r.SubThemeId).ToList();
+
             var dataContext = _context.ThemeLayerDetails
                 .Include(t => t.SubThemes.Themes)
                 .Include(t => t.ThemeLayerTypes)
                 .Include(t => t.LegendColorOption)
                 .Include(t => t.BoundaryInfo)
-                .Include(t => t.TableInfo);
+                .Include(t => t.TableInfo)
+                .Where(themeLayerDetail => userPerComponents.Contains(themeLayerDetail.SubThemeId));
 
             return View(await dataContext.ToListAsync());
         }

@@ -127,7 +127,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                                     
-                                    <input type="button" id="btnEditColumn" onclick="EditColumnInfo(' + item.id + ')" class="btn btn-info" value="Edit"/>
+                                    @*<input type="button" id="btnEditColumn" onclick="EditColumnInfo(' + item.id + ')" class="btn btn-info" value="Edit"/>*@
                                 </div>
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
@@ -167,7 +167,7 @@
                                     '<td class="col-md-2"><input type="text" class="form-control" value= "' + item.modelPropertyName + '" readonly/></td>' +
                                     '<td class="col-md-2"><input type="text" class="form-control" value= "' + item.displayName + '" readonly/></td>' +
                                     '<td class="col-md-2"><input type="text" class="form-control" value= "' + item.columnType.typeName + '" readonly/></td>' +
-                                    '<td class="col-md-1 align-self-center"> <input type="button" id="btnEditColumn" onclick="EditColumnInfo(' + item.id + ')" class="btn btn-info" value="Edit"/> </td>' +
+                                    '<td class="col-md-1 align-self-center"> <input type="button" id="btnEditColumn_' + item.id +'" onclick="EditColumnInfo(' + item.id + ')" class="btn btn-info" value="Edit"/> </td>' +
                                     '</tr>';
                             });
                         $("#tblColumnInfoList").html(rows);
@@ -186,8 +186,10 @@
         }
 
         function EditColumnInfo(columnId) {
+            var buttonId = "btnEditColumn_"+ columnId +"_";
+
             //alert(columnId);
-            $("#btnEditColumn").prop("value", "Update");
+            //$('#buttonId').prop("value", "Update");
         }
     </script>
 }

@@ -62,15 +62,11 @@ namespace EcdsApp.Data
         public DbSet<UpazilaWiseRiskIndex> UpazilaWiseRiskIndex { get; set; }
         public DbSet<UpazilaWisePoverty> UpazilaWisePoverties { get; set; }
 
-        //District Wise
+
         public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }
         public DbSet<DistrictWisePopulation> DistrictWisePopulations { get; set; }
 
-        //Union Wise
-        public DbSet<FututeProjectionRainfall4Point5> FututeProjectionRainfall4Point5s { get; set; }
         
-
-
 
 
 
@@ -78,8 +74,9 @@ namespace EcdsApp.Data
 
         public DbSet<DataVerificationState> DataVerificationStates { get; set; }
 
-        public DbSet<UserAccessModule> UserAccessModules { get; set; }
-        public DbSet<UserPermittedContent> UserPermittedContents { get; set; }
+        //public DbSet<UserAccessModule> UserAccessModules { get; set; }
+        //public DbSet<UserPermittedContent> UserPermittedContents { get; set; }
+        public DbSet<RoleWiseComponent> RoleWiseComponents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

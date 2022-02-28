@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220228065007_UserAccessModDlted")]
+    partial class UserAccessModDlted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,55 +251,6 @@ namespace EcdsApp.Migrations
                     b.HasIndex("DistrictGeoCode");
 
                     b.ToTable("tbl_district_wise_poverty");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryUnion", b =>
-                {
-                    b.Property<string>("UnionGeoCode")
-                        .HasColumnType("varchar(13)")
-                        .HasColumnName("union_geo_code");
-
-                    b.Property<string>("MunicipalityGeoCode")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)")
-                        .HasColumnName("municipality_geo_code");
-
-                    b.Property<string>("MunicipalityName")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)")
-                        .HasColumnName("municipality_name");
-
-                    b.Property<string>("OldGeoCode")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)")
-                        .HasColumnName("old_geo_code");
-
-                    b.Property<int?>("SortingOrder")
-                        .HasColumnType("int")
-                        .HasColumnName("sorting_order");
-
-                    b.Property<string>("UnionName")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)")
-                        .HasColumnName("union_name");
-
-                    b.Property<string>("UnionNameBangla")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)")
-                        .HasColumnName("union_name_bangla");
-
-                    b.Property<string>("UpazilaGeoCode")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("varchar(8)")
-                        .HasColumnName("upz_geo_code");
-
-                    b.HasKey("UnionGeoCode");
-
-                    b.HasIndex("UpazilaGeoCode");
-
-                    b.ToTable("lkp_admin_boundary_unions");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.BoundaryInfo", b =>
@@ -789,41 +742,6 @@ namespace EcdsApp.Migrations
                     b.ToTable("lkp_theme_layer_types");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FututeProjectionRainfall4Point5", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("UnionGeoCode")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("varchar(13)")
-                        .HasColumnName("union_geo_code");
-
-                    b.Property<decimal?>("Year2020To2039")
-                        .HasColumnType("decimal(5,2)")
-                        .HasColumnName("year_2020_2039");
-
-                    b.Property<decimal?>("Year2040To2059")
-                        .HasColumnType("decimal(5,2)")
-                        .HasColumnName("year_2040_2059");
-
-                    b.Property<decimal?>("Year2060To2079")
-                        .HasColumnType("decimal(5,2)")
-                        .HasColumnName("year_2060_2079");
-
-                    b.Property<decimal?>("Year2080To2099")
-                        .HasColumnType("decimal(5,2)")
-                        .HasColumnName("year_2080_2099");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UnionGeoCode");
-
-                    b.ToTable("tbl_futute_projection_rainfall_4_point_5");
-                });
-
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.ExposureCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -1135,45 +1053,6 @@ namespace EcdsApp.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWiseComponent", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("PermittedToAddOrEdit")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_add_edit");
-
-                    b.Property<bool>("PermittedToDelete")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_delete");
-
-                    b.Property<bool>("PermittedToDownloadData")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_download_data");
-
-                    b.Property<bool>("PermittedToView")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_view");
-
-                    b.Property<int>("SubThemeId")
-                        .HasColumnType("int")
-                        .HasColumnName("component_id");
-
-                    b.Property<string>("UserRoleId")
-                        .HasColumnType("varchar(767)")
-                        .HasColumnName("role_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubThemeId");
-
-                    b.HasIndex("UserRoleId");
-
-                    b.ToTable("user_role_wise_components");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1371,17 +1250,6 @@ namespace EcdsApp.Migrations
                     b.Navigation("District");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryUnion", b =>
-                {
-                    b.HasOne("EcdsApp.Models.AdminBoundaryUpazila", "Upazila")
-                        .WithMany()
-                        .HasForeignKey("UpazilaGeoCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Upazila");
-                });
-
             modelBuilder.Entity("EcdsApp.Models.TabularModels.TableColumnInfo", b =>
                 {
                     b.HasOne("EcdsApp.Models.TabularModels.ColumnType", "ColumnType")
@@ -1492,17 +1360,6 @@ namespace EcdsApp.Migrations
                     b.Navigation("ThemeLayerTypes");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FututeProjectionRainfall4Point5", b =>
-                {
-                    b.HasOne("EcdsApp.Models.RegionModels.AdminBoundaryUnion", "Unions")
-                        .WithMany()
-                        .HasForeignKey("UnionGeoCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Unions");
-                });
-
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseExposureData", b =>
                 {
                     b.HasOne("EcdsApp.Models.UpazilaWiseInfoModels.ExposureCategory", "DroughtExposure")
@@ -1577,23 +1434,6 @@ namespace EcdsApp.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId");
-
-                    b.Navigation("UserRole");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWiseComponent", b =>
-                {
-                    b.HasOne("EcdsApp.Models.ThemeModels.SubTheme", "SubTheme")
-                        .WithMany()
-                        .HasForeignKey("SubThemeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserRole")
-                        .WithMany()
-                        .HasForeignKey("UserRoleId");
-
-                    b.Navigation("SubTheme");
 
                     b.Navigation("UserRole");
                 });
