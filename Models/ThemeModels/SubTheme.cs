@@ -21,13 +21,13 @@ namespace EcdsApp.Models.ThemeModels
         [Required]
         [Column("sub_theme_name")]
         [StringLength(256)]
-        [Display(Name = "Sub Theme Name")]
+        [Display(Name = "Component Name")]
         public string SubThemeName { get; set; }
 
         [Required]
         [Column("sub_theme_path")]
         [StringLength(256)]
-        [Display(Name = "Sub Theme Path")]
+        [Display(Name = "Component Path")]
         public string SubThemePath { get; set; }
     }
 }

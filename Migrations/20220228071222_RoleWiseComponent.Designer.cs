@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220228071222_RoleWiseComponent")]
+    partial class RoleWiseComponent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1056,22 +1058,6 @@ namespace EcdsApp.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int")
                         .HasColumnName("id");
-
-                    b.Property<bool>("PermittedToAddOrEdit")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_add_edit");
-
-                    b.Property<bool>("PermittedToDelete")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_delete");
-
-                    b.Property<bool>("PermittedToDownloadData")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_download_data");
-
-                    b.Property<bool>("PermittedToView")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_view");
 
                     b.Property<int>("SubThemeId")
                         .HasColumnType("int")

@@ -15,9 +15,9 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="display-6 mb-0">List of Sub-Themes</h3>
-                        <p class="card-title-desc">Sub-Theme Details Information</p>
-                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Sub-Theme</a>
+                        <h3 class="display-6 mb-0">List of Components</h3>
+                        <p class="card-title-desc">Component Details Information</p>
+                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Component</a>
                     </div>
                 </div>
 
@@ -77,8 +77,10 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
-            $(function () { $(".table-responsive").responsiveTable({ addDisplayAllBtn: "btn btn-secondary" }), $(".btn-toolbar [data-toggle=dropdown]").attr("data-bs-toggle", "dropdown") });
+            $(function () {
+                $(".table-responsive").responsiveTable({ addDisplayAllBtn: "btn btn-secondary" }),
+                    $(".btn-toolbar [data-toggle=dropdown]").attr("data-bs-toggle", "dropdown");
+            });
         });
 
     </script>

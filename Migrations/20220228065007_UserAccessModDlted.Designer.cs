@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220228065007_UserAccessModDlted")]
+    partial class UserAccessModDlted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1051,45 +1053,6 @@ namespace EcdsApp.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWiseComponent", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("PermittedToAddOrEdit")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_add_edit");
-
-                    b.Property<bool>("PermittedToDelete")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_delete");
-
-                    b.Property<bool>("PermittedToDownloadData")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_download_data");
-
-                    b.Property<bool>("PermittedToView")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_view");
-
-                    b.Property<int>("SubThemeId")
-                        .HasColumnType("int")
-                        .HasColumnName("component_id");
-
-                    b.Property<string>("UserRoleId")
-                        .HasColumnType("varchar(767)")
-                        .HasColumnName("role_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubThemeId");
-
-                    b.HasIndex("UserRoleId");
-
-                    b.ToTable("user_role_wise_components");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1471,23 +1434,6 @@ namespace EcdsApp.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId");
-
-                    b.Navigation("UserRole");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWiseComponent", b =>
-                {
-                    b.HasOne("EcdsApp.Models.ThemeModels.SubTheme", "SubTheme")
-                        .WithMany()
-                        .HasForeignKey("SubThemeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserRole")
-                        .WithMany()
-                        .HasForeignKey("UserRoleId");
-
-                    b.Navigation("SubTheme");
 
                     b.Navigation("UserRole");
                 });
