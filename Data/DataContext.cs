@@ -75,7 +75,8 @@ namespace EcdsApp.Data
         public DbSet<DataVerificationState> DataVerificationStates { get; set; }
 
         //public DbSet<UserAccessModule> UserAccessModules { get; set; }
-        //public DbSet<UserPermittedContent> UserPermittedContents { get; set; }
+        public DbSet<UserPermittedContent> UserPermittedContents { get; set; }
+        public DbSet<RoleWisePermittedContent> RoleWisePermittedContents { get; set; }
         public DbSet<RoleWiseComponent> RoleWiseComponents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
