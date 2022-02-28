@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220228092617_RoleWisePermittedContent")]
+    partial class RoleWisePermittedContent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1100,95 +1102,43 @@ namespace EcdsApp.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UserManage.UserAccessModule", b =>
+            modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWiseComponent", b =>
                 {
-                    b.Property<int>("ModuleId")
+                    b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("module_id");
+                        .HasColumnName("id");
 
-                    b.Property<string>("ModuleName")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("varchar(250)")
-                        .HasColumnName("module_name");
+                    b.Property<bool>("PermittedToAddOrEdit")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("permitted_to_add_edit");
 
-                    b.HasKey("ModuleId");
+                    b.Property<bool>("PermittedToDelete")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("permitted_to_delete");
 
-                    b.ToTable("user_access_modules");
-                });
+                    b.Property<bool>("PermittedToDownloadData")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("permitted_to_download_data");
 
-            modelBuilder.Entity("EcdsApp.Models.UserManage.UserPermittedContent", b =>
-                {
-                    b.Property<int>("ContentId")
+                    b.Property<bool>("PermittedToView")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("permitted_to_view");
+
+                    b.Property<int>("SubThemeId")
                         .HasColumnType("int")
-                        .HasColumnName("content_id");
+                        .HasColumnName("component_id");
 
-                    b.Property<string>("ActionName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("action_name");
+                    b.Property<string>("UserRoleId")
+                        .HasColumnType("varchar(767)")
+                        .HasColumnName("role_id");
 
-                    b.Property<string>("ControllerName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("controller_name");
+                    b.HasKey("Id");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_active");
+                    b.HasIndex("SubThemeId");
 
-                    b.Property<bool>("IsDisabled")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_disabled");
+                    b.HasIndex("UserRoleId");
 
-                    b.Property<bool>("IsMenuItem")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_menu_item");
-
-                    b.Property<string>("LayerId")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("layer_id");
-
-                    b.Property<string>("MenuName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("menu_name");
-
-                    b.Property<int?>("ModuleId")
-                        .IsRequired()
-                        .HasColumnType("int")
-                        .HasColumnName("module_id");
-
-                    b.Property<string>("SubMenuContent")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("submenu_content");
-
-                    b.Property<string>("SubMenuName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("submenu_name");
-
-                    b.Property<string>("SubThemeId")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("sub_theme_id");
-
-                    b.Property<string>("ThemeId")
-                        .HasColumnType("text")
-                        .HasColumnName("theme_id");
-
-                    b.HasKey("ContentId");
-
-                    b.HasIndex("ModuleId");
-
-                    b.ToTable("user_permitted_contents");
+                    b.ToTable("user_role_wise_components");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWisePermittedContent", b =>
@@ -1649,15 +1599,21 @@ namespace EcdsApp.Migrations
                     b.Navigation("UserRole");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UserManage.UserPermittedContent", b =>
+            modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWiseComponent", b =>
                 {
-                    b.HasOne("EcdsApp.Models.UserManage.UserAccessModule", "UserAccessModule")
+                    b.HasOne("EcdsApp.Models.ThemeModels.SubTheme", "SubTheme")
                         .WithMany()
-                        .HasForeignKey("ModuleId")
+                        .HasForeignKey("SubThemeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserAccessModule");
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("UserRoleId");
+
+                    b.Navigation("SubTheme");
+
+                    b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWisePermittedContent", b =>

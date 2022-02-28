@@ -37,6 +37,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             var user = await _userManager.GetUserAsync(User);
             var userPerComponents = _context.RoleWiseComponents
                 .Where(r => r.UserRoleId == user.UserRoleId).Select(r => r.SubThemeId).ToList();
+            
 
             var dataContext = _context.ThemeLayerDetails
                 .Include(t => t.SubThemes.Themes)
@@ -44,7 +45,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 .Include(t => t.LegendColorOption)
                 .Include(t => t.BoundaryInfo)
                 .Include(t => t.TableInfo)
-                .Where(themeLayerDetail => userPerComponents.Contains(themeLayerDetail.SubThemeId));
+                .Where(tld => userPerComponents.Contains(tld.SubThemeId));
 
             return View(await dataContext.ToListAsync());
         }
