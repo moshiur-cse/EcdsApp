@@ -11,5 +11,6 @@ namespace EcdsApp.Models.ViewModels.Dashboard
         public IEnumerable<ThemeLayerDetail> ThemeLayerDetails { get; set; }
         public IEnumerable<LayerLegendColor> LayerLegendColors { get; set; }
         public IEnumerable<DistrictWisePoverty> DistrictWisePoverties { get; set; }
+        public ChartDataVm ChartDataVms { get; set; }
     }
 }
