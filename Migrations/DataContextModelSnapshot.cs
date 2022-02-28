@@ -1135,43 +1135,95 @@ namespace EcdsApp.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWiseComponent", b =>
+            modelBuilder.Entity("EcdsApp.Models.UserManage.UserAccessModule", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ModuleId")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("module_id");
 
-                    b.Property<bool>("PermittedToAddOrEdit")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_add_edit");
+                    b.Property<string>("ModuleName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)")
+                        .HasColumnName("module_name");
 
-                    b.Property<bool>("PermittedToDelete")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_delete");
+                    b.HasKey("ModuleId");
 
-                    b.Property<bool>("PermittedToDownloadData")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_download_data");
+                    b.ToTable("user_access_modules");
+                });
 
-                    b.Property<bool>("PermittedToView")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("permitted_to_view");
-
-                    b.Property<int>("SubThemeId")
+            modelBuilder.Entity("EcdsApp.Models.UserManage.UserPermittedContent", b =>
+                {
+                    b.Property<int>("ContentId")
                         .HasColumnType("int")
-                        .HasColumnName("component_id");
+                        .HasColumnName("content_id");
 
-                    b.Property<string>("UserRoleId")
-                        .HasColumnType("varchar(767)")
-                        .HasColumnName("role_id");
+                    b.Property<string>("ActionName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("action_name");
 
-                    b.HasKey("Id");
+                    b.Property<string>("ControllerName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("controller_name");
 
-                    b.HasIndex("SubThemeId");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
 
-                    b.HasIndex("UserRoleId");
+                    b.Property<bool>("IsDisabled")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_disabled");
 
-                    b.ToTable("user_role_wise_components");
+                    b.Property<bool>("IsMenuItem")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_menu_item");
+
+                    b.Property<string>("LayerId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("layer_id");
+
+                    b.Property<string>("MenuName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("menu_name");
+
+                    b.Property<int?>("ModuleId")
+                        .IsRequired()
+                        .HasColumnType("int")
+                        .HasColumnName("module_id");
+
+                    b.Property<string>("SubMenuContent")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("submenu_content");
+
+                    b.Property<string>("SubMenuName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("submenu_name");
+
+                    b.Property<string>("SubThemeId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("sub_theme_id");
+
+                    b.Property<string>("ThemeId")
+                        .HasColumnType("text")
+                        .HasColumnName("theme_id");
+
+                    b.HasKey("ContentId");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("user_permitted_contents");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1581,21 +1633,15 @@ namespace EcdsApp.Migrations
                     b.Navigation("UserRole");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWiseComponent", b =>
+            modelBuilder.Entity("EcdsApp.Models.UserManage.UserPermittedContent", b =>
                 {
-                    b.HasOne("EcdsApp.Models.ThemeModels.SubTheme", "SubTheme")
+                    b.HasOne("EcdsApp.Models.UserManage.UserAccessModule", "UserAccessModule")
                         .WithMany()
-                        .HasForeignKey("SubThemeId")
+                        .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserRole")
-                        .WithMany()
-                        .HasForeignKey("UserRoleId");
-
-                    b.Navigation("SubTheme");
-
-                    b.Navigation("UserRole");
+                    b.Navigation("UserAccessModule");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

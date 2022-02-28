@@ -654,12 +654,12 @@
 
                     //Moshiur
                     //console.log(attCode);
-                    console.log(feature.properties[attCode]);
-                    console.log(layerId);
+                    //console.log(feature.properties[attCode]);
+                    //console.log(layerId);
 
-                    console.log(mapBindData[layerId]);
+                    //console.log(mapBindData[layerId]);
 
-                    console.log(mapBindData[layerId][feature.properties[attCode]]);
+                    //console.log(mapBindData[layerId][feature.properties[attCode]]);
                     //console.log(mapBindData[layerId][feature.properties[attCode]].get('value'));
 
 
@@ -1147,7 +1147,7 @@
                                     }
                                 });
 
-
+                                //console.log(userDefinedColorList);
                                 //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
                                 //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_firstAttDisName, g_firstAtt, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
 
@@ -1252,7 +1252,6 @@
                 success: function (items) {
 
                     $.each(items, function (i, item) {
-
                         dataList[item.code] = new Map([["code", item.code], ["value", item.value]]);
                     });
                         //

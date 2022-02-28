@@ -66,10 +66,6 @@ namespace EcdsApp.Data
         public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }
         public DbSet<DistrictWisePopulation> DistrictWisePopulations { get; set; }
 
-        
-
-
-
         public DbSet<BoundaryInfo> BoundaryInfos { get; set; }
 
         public DbSet<DataVerificationState> DataVerificationStates { get; set; }

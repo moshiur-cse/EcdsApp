@@ -633,7 +633,7 @@
                     focusOn(d);
                 });
 
-            newSlice.append('title').text(d => d.data.name + '\n' + d.data.description);  //Display value also
+            newSlice.append('title').text(d => d.data.name);  //Display value also + '\n' + d.data.description
 
             newSlice.append('path')
                 .attr('class', 'main-arc')
