@@ -38,6 +38,12 @@ namespace EcdsApp.Controllers.ThemeLayer
             var userPerComponents = _context.RoleWiseComponents
                 .Where(r => r.UserRoleId == user.UserRoleId).Select(r => r.SubThemeId).ToList();
             
+            var permToAddData = _context.RoleWisePermittedContents
+                .Include(r => r.UserPermittedContent)
+                .FirstOrDefault(r => r.UserRoleId == user.UserRoleId && r.UserPermittedContent.ActionName == "Create");
+            var permToEditData = _context.RoleWisePermittedContents
+                .Include(r => r.UserPermittedContent)
+                .FirstOrDefault(r => r.UserRoleId == user.UserRoleId && r.UserPermittedContent.ActionName == "Edit");
 
             var dataContext = _context.ThemeLayerDetails
                 .Include(t => t.SubThemes.Themes)
@@ -47,6 +53,8 @@ namespace EcdsApp.Controllers.ThemeLayer
                 .Include(t => t.TableInfo)
                 .Where(tld => userPerComponents.Contains(tld.SubThemeId));
 
+            ViewBag.IsPermittedToAddData = permToAddData != null;
+            ViewBag.IsPermittedToEditData = permToEditData != null;
             return View(await dataContext.ToListAsync());
         }
 

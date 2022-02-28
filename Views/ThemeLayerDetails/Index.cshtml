@@ -13,7 +13,10 @@
                     <div class="card-body">
                         <h3 class="display-6 mb-0">List of Theme Layer</h3>
                         <p class="card-title-desc">Theme Layer Details Information</p>
-                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Layer</a>
+                        @if (ViewBag.IsPermittedToAddData == true)
+                        {
+                            <a id="btnAddNewLayer" asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Layer</a>
+                        }
                     </div>
                 </div>
 
@@ -109,7 +112,10 @@
                             {
                             <tr>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.LayerId" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                    @if (ViewBag.IsPermittedToEditData == true)
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.LayerId" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                    }
                                     @*<a asp-action="Delete" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>*@
                                 </td>
                                 <td>
@@ -213,7 +219,9 @@
 {
     <script type="text/javascript">
         $(document).ready(function () {
+
             $(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
+            
         });
     </script>
 }
