@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace EcdsApp.Models.UnionWiseInfoModels
 {
-    [Table("tbl_futute_projection_rainfall_4_point_5")]
-    public class FututeProjectionRainfall4Point5
+    [Table("tbl_future_projection_rainfall_4_point_5")]
+    public class FutureProjectionRainfall4Point5
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

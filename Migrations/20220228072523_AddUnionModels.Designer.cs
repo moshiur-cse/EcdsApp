@@ -791,7 +791,7 @@ namespace EcdsApp.Migrations
                     b.ToTable("lkp_theme_layer_types");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FututeProjectionRainfall4Point5", b =>
+            modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionRainfall4Point5", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
@@ -1546,7 +1546,7 @@ namespace EcdsApp.Migrations
                     b.Navigation("ThemeLayerTypes");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FututeProjectionRainfall4Point5", b =>
+            modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionRainfall4Point5", b =>
                 {
                     b.HasOne("EcdsApp.Models.RegionModels.AdminBoundaryUnion", "Unions")
                         .WithMany()
