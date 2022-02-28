@@ -1108,6 +1108,13 @@
                             g_mainAtt = "UpazGeoCod";
                         }
 
+                        if (items.boundaryId == 4) {
+                            path = items.boundaryPath;
+                            g_filepath = path;
+                            mainAttCodeName = "UniGeoCode";
+                            g_mainAtt = "UniGeoCode";
+                        }
+
 
                         if (items.layerTypeId == 4) {
 
@@ -1129,9 +1136,8 @@
                                 //    console.log(mapBindData);
                                 //    console.log(userDefinedColorList);
                                 //    LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, mainAttCodeName, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
-
-
                                 //});
+
 
                                 jQuery.ajax({
                                     url: getMapBindData(tableId, columnName, items.boundaryId, layerId),

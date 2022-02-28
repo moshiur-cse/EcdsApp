@@ -316,6 +316,7 @@
             mapInit();
             addLayer();
             $('.select2').select2();
+            //$('.dashboard_map').
 
             drawChart();
             //jQuery.ajax({
@@ -477,16 +478,16 @@
             //    $('#tblLayerData .deleted').remove();
             //});
 
-            $("#DistCode").change(function () {
-                jQuery.ajax({
-                    url: loadChart(),
-                    success: function () {
-                        drawChart();
-                    }
-                });
-            });
+            //$("#DistCode").change(function () {
+            //    jQuery.ajax({
+            //        url: loadChart(),
+            //        success: function () {
+            //            drawChart();
+            //        }
+            //    });
+            //});
 
-            function loadChart() {
+            @*function loadChart() {
                 dist = [];
                 male = [];
                 female = [];
@@ -520,13 +521,13 @@
                         jQuery("#busy-indicator").fadeOut(150);
                     }
                 });
-            }
+            }*@
 
 
             function drawChart() {
                 /*$("#dash_chart1").empty();*/
                 var optionsDashChart1 = {
-                    chart: { height: 512, type: "line", stacked: !1, toolbar: { show: !1 } },
+                    chart: { height: 400, type: "line", stacked: !1, toolbar: { show: !1 } },
                     stroke: { width: [0, 1, 2], curve: "smooth" },
                     plotOptions: { bar: { columnWidth: "15%" } },
                     colors: ["#F2520C", "#F1B44C", "#5B73E8"], //"#F2860C","#F2E10C", "#F2B30C",

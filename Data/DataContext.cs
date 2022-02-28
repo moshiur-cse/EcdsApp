@@ -1,7 +1,9 @@
 ﻿using EcdsApp.Models;
 using EcdsApp.Models.DistrictWiseInfoModels;
+using EcdsApp.Models.RegionModels;
 using EcdsApp.Models.TabularModels;
 using EcdsApp.Models.ThemeModels;
+using EcdsApp.Models.UnionWiseInfoModels;
 using EcdsApp.Models.UpazilaWiseInfoModels;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels.TabularVm;
@@ -36,6 +38,7 @@ namespace EcdsApp.Data
         public DbSet<AdminBoundaryDistrict> AdminBoundaryDistricts { get; set; }
         public DbSet<AdminBoundaryDivision> AdminBoundaryDivisions { get; set; }
         public DbSet<AdminBoundaryUpazila> AdminBoundaryUpazilas { get; set; }
+        public DbSet<AdminBoundaryUnion> AdminBoundaryUnions { get; set; }
 
         public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
 
@@ -53,16 +56,21 @@ namespace EcdsApp.Data
         public DbSet<TableColumnInfo> TableColumnInfos { get; set; }
         public DbSet<ColumnType> ColumnTypes { get; set; }
 
+        //Upazila Wise
         public DbSet<ExposureCategory> ExposureCategories { get; set; }
         public DbSet<UpazilaWiseExposureData> UpazilaWiseExposureData { get; set; }
         public DbSet<UpazilaWiseRiskIndex> UpazilaWiseRiskIndex { get; set; }
         public DbSet<UpazilaWisePoverty> UpazilaWisePoverties { get; set; }
 
-
+        //District Wise
         public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }
         public DbSet<DistrictWisePopulation> DistrictWisePopulations { get; set; }
 
+        //Union Wise
+        public DbSet<FututeProjectionRainfall4Point5> FututeProjectionRainfall4Point5s { get; set; }
         
+
+
 
 
 

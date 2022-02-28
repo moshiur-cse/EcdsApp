@@ -44,7 +44,6 @@ namespace EcdsApp.Models
         [Display(Name = "City Name")]
         public string CityName { get; set; }
 
-
         [Column("dist_geo_code", Order = 2, TypeName = "varchar(4)")]
         [StringLength(4)]
         [Display(Name = "District Geo-Code")]
