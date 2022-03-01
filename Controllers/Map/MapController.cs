@@ -107,18 +107,6 @@ namespace EcdsApp.Controllers.Map
                         mainAtt = sd.MainAttributeName,
                         mainAttCode=sd.MainAttributeCode,
 
-                        firstAttDisName = sd.FirstAttributeDisplayName,
-                        firstAtt = sd.FirstAttributeName,
-                        firstAttCode = sd.FirstAttributeCode,
-
-                        secondAttDisName = sd.SecondAttributeDisplayName,
-                        secondAtt = sd.SecondAttributeName,
-                        secondAttCode = sd.SecondAttributeCode,
-
-                        thirdAttDisName = sd.ThirdAttributeDisplayName,
-                        thirdAtt = sd.ThirdAttributeName,
-                        thirdAttCode = sd.ThirdAttributeCode,
-
                         cLat = sd.FileLatName,
                         cLong = sd.FileLongName,
 
@@ -129,13 +117,15 @@ namespace EcdsApp.Controllers.Map
 
                         fillColorCode = sd.FillColorCode,
                         lineColorCode = sd.LineColorCode,
-                        opacity = sd.Opacity,
+                        lineOpacity = sd.Opacity,
                         fillOpacity = sd.FillOpacity,
                         lineWeight = sd.LineWeight,
 
                         tableId =sd.TableInfoId,
                         boundaryId = sd.BoundaryInfoId,
-                        boundaryPath=sd.BoundaryInfo.BoundaryPath
+                        boundaryPath=sd.BoundaryInfo.BoundaryPath,
+                        boundaryGeoCodeColumnName=sd.BoundaryInfo.AttributeName,
+                        boundaryGeoNameColumnName = sd.BoundaryInfo.AttributeValueName,
 
                     }).FirstOrDefault();
                 return Json(data);

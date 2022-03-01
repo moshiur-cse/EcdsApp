@@ -22,6 +22,11 @@ namespace EcdsApp.Models.TabularModels
         [Display(Name = "Attribute Name")]
         public string AttributeName { get; set; }
 
+        [Column("attribute_value_name")]
+        [StringLength(50)]
+        [Display(Name = "Attribute Value Name")]
+        public string AttributeValueName { get; set; }
+
         [Column("boundary_path")]
         [StringLength(100)]
         [Display(Name = "Boundary Path")]
