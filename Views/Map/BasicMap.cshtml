@@ -1062,8 +1062,6 @@
                  }
             else {
                 if (mymap.hasLayer(data_layer[layerId])) {
-
-
                     mymap.removeLayer(data_layer[layerId]);
                     mymap.removeLayer(legend);
                     jQuery("p." + layerId).remove();
@@ -1076,7 +1074,6 @@
                     delete data_layer[layerId];
                     delete data_layer_details[layerId];
                     updateMapLayerList(layerId);
-
                 }
 
                 //layerId

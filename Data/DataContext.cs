@@ -69,6 +69,16 @@ namespace EcdsApp.Data
 
         //Union Wise
         public DbSet<FutureProjectionRainfall4Point5> FutureProjectionRainfall4Point5s { get; set; }
+        public DbSet<FutureProjectionRainfall8Point5> FutureProjectionRainfall8Point5s { get; set; }
+
+        public DbSet<FutureProjectionTemperatureMax4Point5> FutureProjectionTemperatureMax4Point5s { get; set; }
+        public DbSet<FutureProjectionTemperatureMax8Point5> FutureProjectionTemperatureMax8Point5s { get; set; }
+        
+        public DbSet<FutureProjectionTemperatureMin4Point5> FutureProjectionTemperatureMin4Point5s { get; set; }
+        public DbSet<FutureProjectionTemperatureMin8Point5> FutureProjectionTemperatureMin8Point5s { get; set; }
+
+        public DbSet<FutureProjectionTemperatureMean4Point5> FutureProjectionTemperatureMean4Point5s { get; set; }
+        public DbSet<FutureProjectionTemperatureMean8Point5> FutureProjectionTemperatureMean8Point5s { get; set; }
 
         public DbSet<BoundaryInfo> BoundaryInfos { get; set; }
 
