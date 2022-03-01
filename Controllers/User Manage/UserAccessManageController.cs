@@ -1,9 +1,14 @@
-﻿using EcdsApp.Data;
+﻿using System.Collections.Generic;
+using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using EcdsApp.Models.ViewModels.UserManage;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EcdsApp.Controllers.User_Manage
 {
@@ -32,6 +37,36 @@ namespace EcdsApp.Controllers.User_Manage
         {
             var roleList = _roleManager.Roles.ToList();
             return View(roleList);
+        }
+
+        public IActionResult RoleWiseAccess()
+        {
+            var menuData = _context.UserPermittedContents
+                .ToList()
+                .GroupBy(x => x.MenuName)
+                .ToDictionary(x => x.Key,
+                    x => x.Select(y => 
+                        new MenuContent { ContentId = y.ContentId, Action = y.MenuContent }).OrderBy(v => v.ContentId).ToList());
+
+            var userAccessVm = new UserAccessVm
+            {
+                Data = menuData
+            };
+
+            ViewBag.ComponentList = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
+            return View(userAccessVm);
+        }
+
+        public async Task<IActionResult> SaveRoleWiseAccess(UserAccessVm formData)
+        {
+            var result = "Success! Process Complete!";
+            var error = "Error!";
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Json(error);
+
+            return Json(result);
         }
     }
 }

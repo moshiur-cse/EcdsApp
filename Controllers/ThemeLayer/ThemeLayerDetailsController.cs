@@ -23,12 +23,14 @@ namespace EcdsApp.Controllers.ThemeLayer
         private readonly DataContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly Utility _utility;
 
         public ThemeLayerDetailsController(DataContext context, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
             _userManager = userManager;
+            _utility = new Utility(_context);
         }
 
         // GET: ThemeLayerDetails
@@ -37,13 +39,9 @@ namespace EcdsApp.Controllers.ThemeLayer
             var user = await _userManager.GetUserAsync(User);
             var userPerComponents = _context.RoleWiseComponents
                 .Where(r => r.UserRoleId == user.UserRoleId).Select(r => r.SubThemeId).ToList();
-            
-            var permToAddData = _context.RoleWisePermittedContents
-                .Include(r => r.UserPermittedContent)
-                .FirstOrDefault(r => r.UserRoleId == user.UserRoleId && r.UserPermittedContent.ActionName == "Create");
-            var permToEditData = _context.RoleWisePermittedContents
-                .Include(r => r.UserPermittedContent)
-                .FirstOrDefault(r => r.UserRoleId == user.UserRoleId && r.UserPermittedContent.ActionName == "Edit");
+
+            var permToAddData = _utility.DoesHavePermissionToAddData(user.UserRoleId, "Create");
+            var permToEditData = _utility.DoesHavePermissionToEditData(user.UserRoleId, "Edit");
 
             var dataContext = _context.ThemeLayerDetails
                 .Include(t => t.SubThemes.Themes)
@@ -53,8 +51,8 @@ namespace EcdsApp.Controllers.ThemeLayer
                 .Include(t => t.TableInfo)
                 .Where(tld => userPerComponents.Contains(tld.SubThemeId));
 
-            ViewBag.IsPermittedToAddData = permToAddData != null;
-            ViewBag.IsPermittedToEditData = permToEditData != null;
+            ViewBag.IsPermittedToAddData = permToAddData;
+            ViewBag.IsPermittedToEditData = permToEditData;
             return View(await dataContext.ToListAsync());
         }
 

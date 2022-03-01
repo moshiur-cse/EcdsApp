@@ -28,17 +28,5 @@ namespace EcdsApp.Models.UserManage
         public int SubThemeId { get; set; }
         [ForeignKey("SubThemeId")]
         public virtual SubTheme SubTheme { get; set; }
-
-        [Column("permitted_to_view")]
-        public bool PermittedToView { get; set; }
-
-        [Column("permitted_to_add_edit")]
-        public bool PermittedToAddOrEdit { get; set; }
-
-        [Column("permitted_to_delete")] 
-        public bool PermittedToDelete { get; set; }
-
-        [Column("permitted_to_download_data")]
-        public bool PermittedToDownloadData { get; set; }
     }
 }

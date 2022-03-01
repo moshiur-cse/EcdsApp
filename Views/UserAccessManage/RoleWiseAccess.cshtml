@@ -1,0 +1,173 @@
+﻿@model EcdsApp.Models.ViewModels.UserManage.UserAccessVm
+@{
+    ViewData["Title"] = "Role Access Control";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">Role With Access Control</h3>
+                        <p class="card-title-desc">Assign Access Control based on Role</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3 row">
+                            <label class="col-md-2 col-form-label required">Role Name</label>
+                            <div class="col-md-10">
+                                <input id="txtRoleName" class="form-control" required="" />
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-md-2 col-form-label required">Components</label>
+                            <div class="col-md-10">
+                                <select id="ddlComponent" class="select2 form-control select2-multiple" asp-items="ViewBag.ComponentList" multiple="multiple"
+                                        data-placeholder="Select one or multiple Component/Select 'All' for assigning access of all components in Role ..." required="">
+                                    <option value="0">All</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive mt-3">
+                            <table id="tech-companies-1" class="table table-striped">
+                                <thead class="bg-gradient-info" style="color: white">
+                                    <tr>
+                                        <th>Menu</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var (key, value) in Model.Data)
+                                    {
+                                        <tr>
+                                            <td>@key</td>
+                                            <td>
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            @foreach (var item in value)
+                                                            {
+                                                                <th>
+                                                                    <input type="checkbox" value="@item.ContentId" name="contentId" />
+                                                                    <label style="padding-right: 30px;">@item.Action</label>
+                                                                </th>
+                                                            }
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mt-4 text-right">
+                            <input id="btnSave" value="Submit" class="btn btn-rounded btn-success w-lg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/assets/libs/select2/js/select2.min.js"></script>
+    
+    <script type="text/javascript">
+        $(function() {
+            $('.select2').select2();
+        });
+
+        $('#btnSave').click(function () {
+            if ($.trim($("#txtRoleName").val()) === "") {
+                window.Swal.fire({
+                    icon: "error",
+                    title: "Role Name Can't be null !",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                return;
+            }
+
+            var compArray = $("#ddlComponent").val();
+            if (compArray.length === 0) {
+                window.Swal.fire({
+                    icon: "error",
+                    title: "Select at least One Component!",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                return;
+            }
+
+            var idArray = [];
+            $.each($("input[name='contentId']:checked"),
+                function() {
+                    idArray.push($(this).val());
+                });
+            if (idArray.length === 0) {
+                window.Swal.fire({
+                    icon: "error",
+                    title: "Please Check at least One Access Menu!",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                return;
+            }
+
+            const formData = {
+                'RoleName': $("#txtRoleName").val(),
+                'ComponentArray': compArray,
+                'ContentId': idArray
+            };
+            const url = '@Url.Action("SaveRoleWiseAccess", "UserAccessManage")';
+            $.ajax({
+                type: "POST",
+                url: url,
+                accept: "application/json; charset=utf-8",
+                data: formData,
+                before: $("#busy-indicator").fadeIn(150),
+                success: function (result) {
+                    if (result === "Success") {
+                        window.Swal.fire({
+                            icon: "success",
+                            title: "Data Added Successfully!",
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    } else {
+                        window.Swal.fire({
+                            icon: "error",
+                            title: "Error Saving Data! Please try again",
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    const errorMsg = xhr.responseText;
+                    window.Swal.fire({
+                        icon: "error",
+                        title: errorMsg,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                },
+                complete: $("#busy-indicator").fadeOut(150)
+            });
+        });
+    </script>
+}
