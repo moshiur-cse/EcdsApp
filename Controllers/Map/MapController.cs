@@ -52,6 +52,42 @@ namespace EcdsApp.Controllers.Map
 
             return View();
         }
+
+        public async Task<IActionResult> MapComparison()
+        {
+            //var dataContext = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes);
+            ViewBag.DivList = await _context.AdminBoundaryDivisions.ToListAsync();
+            ViewBag.DistList = await _context.AdminBoundaryDistricts.ToListAsync();
+            ViewBag.UpazList = await _context.AdminBoundaryUpazilas.ToListAsync();
+
+            ViewBag.LayerInfo = _context.ThemeLayerDetails.Where(i => i.LayerTypeId == 4)
+                .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
+                .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
+                .Select(k => new ThemeList
+                {
+                    themeName = k.Key,
+                    subThemeList = k.GroupBy(i => i.SubThemes.SubThemeName)
+                        .Select(j => new SubThemeList
+                        {
+                            subThemeName = j.Key,
+                            layerNameList = j.Select(j => j.LayerName).ToList(), //Update
+                            layerIdList = j.Select(j => j.LayerId).ToList(),
+                            layerDisplayNameList = j.Select(j => j.LayerDisplayName).ToList(), //Update
+                            layerTypeIdList = j.Select(j => j.LayerTypeId).ToList(),
+                            tableIdList = j.Select(j => j.TableInfoId).ToList()
+
+                        }).OrderBy(i => i.subThemeName).ToList()
+                }).OrderBy(i => i.themeName).ToList();
+
+            //return Json(themeList);
+
+            //ViewBag.LayerInfoes = await dataContext.ToListAsync();
+
+
+            return View();
+        }
+
+
         public IActionResult ThematicMap()
         {
             return View();

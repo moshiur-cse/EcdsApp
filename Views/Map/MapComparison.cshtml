@@ -1,0 +1,1123 @@
+﻿
+@{
+    ViewData["Title"] = "Map Comparison";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <!-- leaflet Css -->
+    <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
+
+    <style>
+        .map_btns_content {
+            z-index: 1000;
+            position: absolute;
+            left: 45%;
+            /*right: 50%;*/
+            /*width: 50px;
+        height: auto;*/
+            margin: 0;
+            padding: 0;
+            text-align: right;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .map1_legend_info {
+            padding: 1px;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            /*font-size: 1vw;*/
+            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+            overflow: scroll;
+            min-height: 100px;
+            max-height: 400px;
+            max-width: 300px;
+            resize: both;
+        }
+
+            .map1_legend_info i {
+                /* width: 1.5vw;
+                height: 1.5vw;*/
+                width: 20px;
+                height: 15px;
+                float: left;
+                /*margin-right: 1vw;*/
+                margin-right: 10px;
+                opacity: 0.7;
+                /*font-size: 1vw;*/
+                font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+            }
+
+            .map1_legend_info p {
+                padding: 0.2vw;
+            }
+    </style>
+}
+
+<div>
+
+    <partial name="_CompareMapModals" />
+
+
+    <div id="map_btns_content" class="map_btns_content">
+        <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>
+        @*<div id="map_layer" class="map_btns right-bar-toggle waves-effect" title="Map Filtering"> </div>*@
+        @*<div id="map_bg_layers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>*@
+        <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>
+        <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
+        @*<div class="map_btns" title="Show or Hide Map Label"><input type="checkbox" id="map_label"></div>*@
+        @*<div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>*@
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div id="first-map" class="leaflet-map page-content"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="second-map" class="leaflet-map page-content"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/assets/js/map1manu.js"></script>
+    <script src="~/assets/js/map2manu.js"></script>
+    <!-- leaflet plugin -->
+    <script src="~/assets/libs/leaflet/leaflet.js"></script>
+
+
+
+    <script>
+
+        var top_height = $('#page-topbar').height();
+        var footer_height = $('.footer').height();
+        $('.map_btns_content').css("top", (top_height + 20));
+
+        $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+
+
+        $(window).resize(function () {
+            top_height = $('#page-topbar').height();
+            footer_height = $('.footer').height();
+            $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+            $('.map_btns_content').css("top", (top_height + 20));
+
+        });
+
+        var firstMap;
+        var secondMap;
+
+
+
+        var map1_data_layer = {};
+        var map1_data_layer_details = {};
+        var map1_userDefinedColorList = {};
+        var map1_mapBindData = {};
+        var map1_legend = L.control({ position: 'bottomright' });
+        var map1_legend_div = L.DomUtil.create('div', 'map1_legend_info');
+
+
+
+        var data_layer = {};
+        var data_layer_details = {};
+        var userDefinedColorList = {};
+        var mapBindData = {};
+        var legend = L.control({ position: 'bottomright' });
+        var legend_div = L.DomUtil.create('div', 'map1_legend_info');
+
+
+
+        //common for Both Map
+        var admin_code_list = [];
+        mapInit();
+        function mapInit() {
+            var blankUrl = "../images/blank.png",
+                osmUrl = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                googleUrlHy = "http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
+                googleUrlSa = "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+                googleUrlSt = "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+                googleUrlTr = "http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+                esriUrl = "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                mapAttrib = "Map data © <a href='https://www.cegisbd.com/' target='_blank'>CEGIS</a>";
+
+            var openstreet = L.tileLayer(osmUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
+                googleHy = L.tileLayer(googleUrlHy, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                googleSa = L.tileLayer(googleUrlSa, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                googleSt = L.tileLayer(googleUrlSt, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                googleTr = L.tileLayer(googleUrlTr, { id: 'MapID', minZoom: 0, maxZoom: 25, subdomains: ["mt0", "mt1", "mt2", "mt3"], attribution: mapAttrib }),
+                esri = L.tileLayer(esriUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib }),
+                blank = L.tileLayer(blankUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib });
+
+            var baseMaps = {
+                "Open Street": openstreet,
+                "Google Hybrid": googleHy,
+                "Google Satellite": googleSa,
+                "Google Streets": googleSt,
+                "Google Terrain": googleTr,
+                "ESRI": esri,
+                "None": blank
+            };
+
+
+            //First Map Control
+            firstMap = new L.Map("first-map",
+                {
+                    center: new L.LatLng(23.737777, 90.537777),
+                    fullscreenControl: true,
+                    zoomControl: false,
+                    maxZoom: 20,
+                    minZoom: 2,
+                    zoom: 6.0,
+                    layers: [L.tileLayer(osmUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib })],
+
+                });
+
+            firstMap.setView([23.837777, 90.347777], 7.0);
+            L.tileLayer("", { attribution: mapAttrib }).addTo(firstMap);
+            L.control.scale().addTo(firstMap);
+            L.control.zoom({ position: 'bottomleft' }).addTo(firstMap);
+
+
+
+
+
+            //Second Map Control
+            secondMap = new L.Map("second-map",
+                {
+                    center: new L.LatLng(23.737777, 90.537777),
+                    fullscreenControl: true,
+                    zoomControl: false,
+                    maxZoom: 20,
+                    minZoom: 2,
+                    zoom: 6.0,
+                    layers: [L.tileLayer(osmUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib })],
+
+                });
+            secondMap.setView([23.837777, 90.347777], 7.0);
+            L.tileLayer("", { attribution: mapAttrib }).addTo(secondMap);
+            L.control.scale().addTo(secondMap);
+            L.control.zoom({ position: 'bottomleft' }).addTo(secondMap);
+
+
+            $("#map_center").on("click",
+                function (e) {
+                    firstMap.setView([23.737777, 90.537777], 7.0);
+                    secondMap.setView([23.737777, 90.537777], 7.0);
+                });
+
+
+            //firstBgLayers=L.control.layers(baseMaps, { collapsed: false }).addTo(firstMap);
+            //secondBgLayers=L.control.layers(baseMaps, { collapsed: true }).addTo(secondMap);
+
+
+
+
+
+            //var bgLayersContent = $(firstBgLayers.getContainer());
+            //bgLayersContent.find("a.leaflet-control-layers-toggle").remove();
+            //bgLayersContent.find("form.leaflet-control-layers-list").css("display", "block");
+            //$("#map_bg_layers").append(bgLayersContent);
+
+
+
+        }
+        function map_reset() {
+            location.reload(true);
+        }
+
+        jQuery('.map1_layer_class').click(function ($) {
+            var layerId = this.id;
+            if (jQuery("#" + layerId).prop("checked") == true) {
+                var path;
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetLayerInformation")",
+                    dataType: "json",
+                    data: { layer_id: jQuery("#" + this.id).val() },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                    success: function (items) {
+
+                        if (items.isLegendColor == 1) {
+                            map1_getUserDefinedColor(items.layerId, layerId, items.layerName);
+                        }
+
+
+                        path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
+
+                        layerUid = items.layerId;
+                        layerName = items.layerName;
+
+                        jQuery("#map_1_columnList_" + items.layerId).empty();
+                        if (items.layerTypeId == 4) {
+
+                            path = items.boundaryPath;
+                            g_filepath = path;
+                            g_mainAtt = items.boundaryGeoCodeColumnName;
+
+                            var columnBindId = "map1_columnList_" + items.layerId;
+
+                            var tableId = items.tableId;
+                            map1_getTableColumnList(tableId, columnBindId);
+
+
+                            jQuery("#" + columnBindId).change(function () {
+                                var columnName = jQuery("#" + columnBindId).val();
+
+                                map1_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#'+columnBindId+' option:selected').text()+")");
+
+
+                                jQuery.ajax({
+                                    url: map1_getMapBindData(tableId, columnName, items.boundaryId, layerId),
+                                    success: function () {
+                                        map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.map1_legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+
+                                    },
+                                    error: function (ex, status, error) {
+                                        window.Swal.fire({
+                                            icon: "error",
+                                            title: "Failed to load Shape file. " + ex.responseText,
+                                            showConfirmButton: false, //true
+                                            timer: 3000   // remove timer
+                                        });
+                                    }
+                                });
+
+
+                            });
+
+                        }
+                        else {
+                            jQuery.ajax({
+                                url: map1_getUserDefinedColor(items.layerId, layerId, items.layerName),
+                                success: function () {
+                                        map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.map1_legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                }
+                                ,
+                                error: function (ex, status, error) {
+                                    window.Swal.fire({
+                                        icon: "error",
+                                        title: "Failed to load Shape file. " + ex.responseText,
+                                        showConfirmButton: false, //true
+                                        timer: 3000   // remove timer
+                                    });
+                                }
+                            });
+
+                            //map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.map1_legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+                        }
+                    },
+                    error: function (ex, status, error) {
+                        window.Swal.fire({
+                            icon: "error",
+                            title: "Failed to load Shape file. " + ex.responseText,
+                            showConfirmButton: false, //true
+                            timer: 3000   // remove timer
+                        });
+                    },
+                    complete: function () {
+                        jQuery("#busy-indicator").fadeOut(150)
+                    }
+                });
+                 }
+            else {
+                if (firstMap.hasLayer(map1_data_layer[layerId])) {
+                    firstMap.removeLayer(map1_data_layer[layerId]);
+                    firstMap.removeLayer(map1_legend);
+                    jQuery("p." + layerId).remove();
+                    jQuery("#map_layer_" + layerId).remove();
+                    //firstMap.removeLayer(mapLabels);
+                    //mapLabels = L.layerGroup();
+
+                    delete map1_mapBindData[layerId];
+                    delete map1_userDefinedColorList[layerId];
+                    delete map1_data_layer[layerId];
+                    delete map1_data_layer_details[layerId];
+                }
+
+                //layerId
+            }
+
+
+        });
+        jQuery('.map2_layer_class').click(function ($) {
+            var layerId = this.id;
+            if (jQuery("#" + layerId).prop("checked") == true) {
+                var path;
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetLayerInformation")",
+                    dataType: "json",
+                    data: { layer_id: jQuery("#" + this.id).val() },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                    success: function (items) {
+
+                        if (items.isLegendColor == 1) {
+                            getUserDefinedColor(items.layerId, layerId, items.layerName);
+                        }
+
+
+                        path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
+
+                        layerUid = items.layerId;
+                        layerName = items.layerName;
+
+                        jQuery("#map_2_columnList_" + items.layerId).empty();
+
+                        if (items.layerTypeId == 4) {
+
+                            path = items.boundaryPath;
+                            g_filepath = path;
+                            g_mainAtt = items.boundaryGeoCodeColumnName;
+
+                            var columnBindId = "map2_columnList_" + items.layerId;
+
+                            var tableId = items.tableId;
+                            getTableColumnList(tableId, columnBindId);
+
+
+                            jQuery("#" + columnBindId).change(function () {
+                                var columnName = jQuery("#" + columnBindId).val();
+
+                                getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#'+columnBindId+' option:selected').text()+")");
+
+
+                                jQuery.ajax({
+                                    url: getMapBindData(tableId, columnName, items.boundaryId, layerId),
+                                    success: function () {
+                                        LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+
+                                    },
+                                    error: function (ex, status, error) {
+                                        window.Swal.fire({
+                                            icon: "error",
+                                            title: "Failed to load Shape file. " + ex.responseText,
+                                            showConfirmButton: false, //true
+                                            timer: 3000   // remove timer
+                                        });
+                                    }
+                                });
+
+
+                            });
+
+                        }
+                        else {
+                            jQuery.ajax({
+                                url: getUserDefinedColor(items.layerId, layerId, items.layerName),
+                                success: function () {
+                                        LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                }
+                                ,
+                                error: function (ex, status, error) {
+                                    window.Swal.fire({
+                                        icon: "error",
+                                        title: "Failed to load Shape file. " + ex.responseText,
+                                        showConfirmButton: false, //true
+                                        timer: 3000   // remove timer
+                                    });
+                                }
+                            });
+
+                            //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+                        }
+                    },
+                    error: function (ex, status, error) {
+                        window.Swal.fire({
+                            icon: "error",
+                            title: "Failed to load Shape file. " + ex.responseText,
+                            showConfirmButton: false, //true
+                            timer: 3000   // remove timer
+                        });
+                    },
+                    complete: function () {
+                        jQuery("#busy-indicator").fadeOut(150)
+                    }
+                });
+                 }
+            else {
+                if (secondMap.hasLayer(data_layer[layerId])) {
+                    secondMap.removeLayer(data_layer[layerId]);
+                    secondMap.removeLayer(legend);
+                    jQuery("p." + layerId).remove();
+                    jQuery("#map_layer_" + layerId).remove();
+                    //secondMap.removeLayer(mapLabels);
+                    //mapLabels = L.layerGroup();
+
+                    delete mapBindData[layerId];
+                    delete userDefinedColorList[layerId];
+                    delete data_layer[layerId];
+                    delete data_layer_details[layerId];
+                }
+
+                //layerId
+            }
+
+
+        });
+
+
+        function map1_LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, layerName, layerTypeId, isLegendColor, map1_legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, boundaryId, tableId) {
+
+
+            var layerPath = "../assets/js/map/map_data/" + filepath;
+
+            if (firstMap.hasLayer(map1_data_layer[layerId])) {
+                firstMap.removeLayer(map1_data_layer[layerId]);
+                firstMap.removeLayer(map1_legend);
+                $("p." + layerId).remove();
+                $("#map_layer_" + layerId).remove();
+                //firstMap.removeLayer(mapLabels);
+                //mapLabels = L.layerGroup();
+            }
+
+
+            map1_data_layer[layerId] = L.geoJson(null, {
+                style: style,
+                onEachFeature: onEachFeature,
+            });
+
+
+            $.getJSON(layerPath, function (LayerInfo) {
+                if (!LayerInfo) return;
+
+                map1_data_layer[layerId].addData(LayerInfo);
+                layerData = LayerInfo;
+                /*console.log(layerData);*/
+
+            }).done(function (e) {
+                firstMap.addLayer(map1_data_layer[layerId]);
+
+                if (isLegendColor == 1) {
+                    map1_legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, map1_legendcolorField);
+                }
+
+
+
+            });
+
+
+            function style(feature) {
+
+
+                if (admin_code_list.includes(feature.properties[attCode].toString()) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 2)) ||
+                    admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 8)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 13))) {
+
+                    //colorList[feature.properties[attCode]] = getRandomColor();
+                    //map1_mapBindData[layerId][feature.properties[attCode]].get('code')
+                    return {
+
+                        fillColor: isLegendColor == 0 ? '#0000ffff' : map1_getColor(layerId, map1_mapBindData[layerId][feature.properties[attCode]].get('value')),
+                        weight: weight,
+                        opacity: opacity,
+                        color: color,
+                        //dashArray: '1',
+                        fillOpacity: fillOpacity
+                    };
+
+
+                } else if (admin_code_list.length == 0 && layerTypeId == 4) {
+                    var tDataColor = map1_getColor(layerId, map1_mapBindData[layerId][feature.properties[attCode]].get('value'));
+                    return {
+                        fillColor: isLegendColor == 0 ? '#ffffff00' : tDataColor,
+                        weight: weight,
+                        opacity: opacity,
+                        color: tDataColor,
+                        /*dashArray: '1',*/
+                        fillOpacity: fillOpacity
+                    };
+                }
+
+                else if (isLegendColor == 1 && layerTypeId == 3) {
+                    var uColor = map1_getColor(layerId, feature.properties[map1_legendcolorField]);
+                    return {
+                        fillColor: uColor,
+                        weight: weight,
+                        opacity: opacity,
+                        color: uColor,
+                        /* dashArray: '1',*/
+                        fillOpacity: fillOpacity
+                    };
+                }
+                else {
+                    return {
+                        fillColor: '#ffffff00',
+                        weight: weight,
+                        opacity: opacity,
+                        color: color,
+                        fillOpacity: fillOpacity
+                    };
+                }
+            }
+            function onEachFeature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                });
+            }
+
+
+            function highlightFeature(e) {
+                var layer = e.target;
+
+
+                var popupContent = "";
+                if (layerTypeId == 4) {
+
+
+
+                    popupContent = '<div style="width:300px;text-align:center;"><p>' + layer.feature.properties[mainAtt] + " : " + map1_mapBindData[layerId][layer.feature.properties[attCode]].get('value') + '</p></div>';
+                } else {
+                    var mainContent = '';
+                    for (var i = 0; i < Object.getOwnPropertyNames(layer.feature.properties).length; i++) {
+                        if (Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLat" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLong") {
+                            continue;
+                        }
+
+                        mainContent += '<p>' + Object.getOwnPropertyNames(layer.feature.properties)[i] + " : " + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]] + '</p>';
+                    }
+
+                    //popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
+                    popupContent = '<div style="min-width:200px;text-align:center;">' + mainContent + '</div>';
+
+                }
+
+                layer.bindPopup(popupContent).openPopup(e.latlng);
+
+                //layer.setStyle({
+                //    //weight: 2,
+                //    //color: '#E11F21',
+                //    dashArray: '',
+                //    //fillOpacity: 0.4
+                //}).bindPopup(popupContent).openPopup(e.latlng);
+
+                //if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                //    layer.bringToFront();
+                //}
+            }
+            function resetHighlight(e) {
+                firstMap.closePopup();
+                //map1_data_layer[layerId].resetStyle(e.target);
+            }
+
+            /*console.log(map1_data_layer[layerId]);*/
+        }
+        function map1_getUserDefinedColor(layerUid, layerId,LegendName) {
+
+
+            map1_userDefinedColorList[layerId] = {};
+            var colorList = [];
+
+            jQuery.ajax({
+                type: "POST",
+                url: "@Url.Action("GetUserDefinedLegendInfo")",
+                dataType: "json",
+                data: { layer_id: layerUid },
+                before: jQuery("#busy-indicator").fadeIn(150),
+                success: function (items) {
+
+                    $.each(items,
+                        function (i, item) {
+                            colorList[i] = new Map([["map1_legendName", LegendName],["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);
+                        });
+                    map1_userDefinedColorList[layerId] = colorList;
+
+
+
+                },
+                error: function (ex, status, error) {
+                    //msg.init("error",
+                    //    "Error... . . !",
+                    //    "Failed to load Shape file. " + ex.responseText);
+
+                    window.Swal.fire({
+                        icon: "error",
+                        title: "Failed to load Shape file. " + ex.responseText,
+                        showConfirmButton: false, //true
+                        timer: 3000   // remove timer
+                    });
+                },
+                complete: jQuery("#busy-indicator").fadeOut(150)
+            });
+
+
+
+        }
+        function map1_getTableColumnList(tableId, columnBindId) {
+        var $data = $("#" + columnBindId);
+
+             jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetTbleColumnList")",
+                    dataType: "json",
+                    data: { tableId: tableId },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                    success: function (datas) {
+
+                        $data.append(
+                    '<option value="" selected="selected">----- Select -----</option>');
+                $.each(datas,
+                    function (i, item) {
+                        $("<option />").val(item.value).html(item.text).appendTo($data);
+                    });
+
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                    },
+                 complete: jQuery("#busy-indicator").fadeOut(150)
+             });
+
+        }
+        function map1_getMapBindData(tableId, columnName, boundaryId, layerId) {
+        map1_mapBindData[layerId] = {};
+        var dataList = {};
+            jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetMapBindData")",
+                    dataType: "json",
+                data: { tableId: tableId, columnName: columnName, boundaryId: boundaryId },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                success: function (items) {
+
+                    $.each(items, function (i, item) {
+                        dataList[item.code] = new Map([["code", item.code], ["value", item.value]]);
+                    });
+
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                },
+                complete: function () {
+                    map1_mapBindData[layerId] = dataList;
+                    //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_layerName, g_layerTypeId, g_isLegendColor, g_map1_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
+                    jQuery("#busy-indicator").fadeOut(150);
+                }
+
+             });
+        }
+        function map1_getColor(layerId, d) {
+
+            //console.log(map1_userDefinedColorList["main_river"][0].get('color'));
+
+
+            for (var i = 0; i < map1_userDefinedColorList[layerId].length; i++) {
+
+                if (map1_userDefinedColorList[layerId].length == 1) {
+                    return map1_userDefinedColorList[layerId][0].get('color');
+
+                }
+
+                if (d >= map1_userDefinedColorList[layerId][i].get('value') && d < map1_userDefinedColorList[layerId][i + 1].get('value')) {
+                    return map1_userDefinedColorList[layerId][i].get('color');
+                }
+
+                else if (d >= map1_userDefinedColorList[layerId][map1_userDefinedColorList[layerId].length - 1].get('value')) {
+                    return map1_userDefinedColorList[layerId][map1_userDefinedColorList[layerId].length - 1].get('color');
+
+                }
+            }
+        }
+        function map1_legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, map1_legendcolorField) {
+
+            firstMap.removeLayer(map1_legend);
+
+            //console.log(Object.keys(map1_data_layer).length);
+
+            jQuery(".map1_legend_info").empty();
+
+
+
+            if (isLegendColor == 0) {
+                map1_legend.onAdd = function (map) {
+                    for (var i = 0; i < e.features.length; i++) {
+                        if (i == 0) {
+                            map1_legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' </p>';
+                        }
+                        map1_legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + getRandomColor() + '"></i> </p>'; //{' + map1_legendEndRange[i] + '}
+                    }
+                    return map1_legend_div;
+                };
+            } else {
+
+                map1_legend.onAdd = function (map) {
+
+
+
+                    jQuery.each(map1_userDefinedColorList, function (index, val) {
+
+                        for (var i = 0; i < map1_userDefinedColorList[index].length; i++) {
+
+                            if (i == 0) {
+                                map1_legend_div.innerHTML += '<p class="' + index + '">' + map1_userDefinedColorList[index][i].get('map1_legendName') + ' </p>';
+                            }
+                            map1_legend_div.innerHTML += '<p class="' + index + '">' + map1_userDefinedColorList[index][i].get('name') + '<i style="background:' + map1_userDefinedColorList[index][i].get('color') + '"></i> </p>';
+                        }
+
+
+                    });
+                    //for (var i = 0; i < map1_userDefinedColorList[layerId].length; i++) {
+
+                    //    if (i == 0) {
+                    //        map1_legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' </p>';
+                    //    }
+                    //    map1_legend_div.innerHTML += '<p class="' + layerId + '">' + map1_userDefinedColorList[layerId][i].get('name') + '<i style="background:' + map1_userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
+                    //}
+
+                    var draggable = new L.Draggable(map1_legend_div);
+                    draggable.enable()
+
+
+                    return map1_legend_div;
+                };
+            }
+
+            map1_legend.addTo(firstMap);
+
+        }
+
+
+
+        function LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, layerName, layerTypeId, isLegendColor, legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, boundaryId, tableId) {
+
+            var layerPath = "../assets/js/map/map_data/" + filepath;
+
+
+            if (secondMap.hasLayer(data_layer[layerId])) {
+                secondMap.removeLayer(data_layer[layerId]);
+                secondMap.removeLayer(legend);
+                $("p." + layerId).remove();
+                $("#map_layer_" + layerId).remove();
+                //secondMap.removeLayer(mapLabels);
+               // mapLabels = L.layerGroup();
+            }
+
+
+            data_layer[layerId] = L.geoJson(null, {
+                style: style,
+                onEachFeature: onEachFeature,
+            });
+
+
+            $.getJSON(layerPath, function (LayerInfo) {
+                if (!LayerInfo) return;
+
+                data_layer[layerId].addData(LayerInfo);
+                layerData = LayerInfo;
+
+            }).done(function (e) {
+                secondMap.addLayer(data_layer[layerId]);
+
+
+
+                if (isLegendColor == 1) {
+                    legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
+                }
+
+
+
+            });
+
+
+            function style(feature) {
+
+                if (admin_code_list.includes(feature.properties[attCode].toString()) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 2)) ||
+                    admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 8)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 13))) {
+
+                    return {
+                        fillColor: isLegendColor == 0 ? '#0000ffff' : getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value')),
+                        weight: weight,
+                        opacity: opacity,
+                        color: color,
+                        //dashArray: '1',
+                        fillOpacity: fillOpacity
+                    };
+
+
+                } else if (admin_code_list.length == 0 && layerTypeId == 4) {
+
+                    var tDataColor = getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value'));
+
+                    //console.log(mapBindData["exposure"]['10040009'].get('value'));
+                    return {
+
+                        fillColor: isLegendColor == 0 ? '#ffffff00' : tDataColor,
+                        weight: weight,
+                        opacity: opacity,
+                        color: tDataColor,
+                        /*dashArray: '1',*/
+                        fillOpacity: fillOpacity
+                    };
+                }
+
+                else if (isLegendColor == 1 && layerTypeId == 3) {
+
+                    var uColor = getColor(layerId, feature.properties[legendcolorField]);
+                    return {
+                        fillColor: uColor,
+                        weight: weight,
+                        opacity: opacity,
+                        color: uColor,
+                        /* dashArray: '1',*/
+                        fillOpacity: fillOpacity
+                    };
+                }
+                else {
+                    //alert(color);
+                    return {
+                        fillColor: '#ffffff00',
+                        weight: weight,
+                        opacity: opacity,
+                        /* transparent: true,*/
+                        color: color,
+                        /*dashArray: '1',*/
+                        fillOpacity: fillOpacity
+                    };
+                }
+            }
+            function onEachFeature(feature, layer) {
+
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                  
+                });
+
+
+                //}
+
+
+
+
+                if (cLat != null || cLong != null) {
+                    mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong);
+                }
+
+            }
+
+
+            function highlightFeature(e) {
+                var layer = e.target;
+
+
+                var popupContent = "";
+                if (layerTypeId == 4) {
+
+
+
+                    popupContent = '<div style="width:300px;text-align:center;"><p>' + layer.feature.properties[mainAtt] + " : " + mapBindData[layerId][layer.feature.properties[attCode]].get('value') + '</p></div>';
+                } else {
+                    var mainContent = '';
+                    for (var i = 0; i < Object.getOwnPropertyNames(layer.feature.properties).length; i++) {
+                        if (Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLat" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLong") {
+                            continue;
+                        }
+
+                        mainContent += '<p>' + Object.getOwnPropertyNames(layer.feature.properties)[i] + " : " + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]] + '</p>';
+                    }
+
+                    //popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
+                    popupContent = '<div style="min-width:200px;text-align:center;">' + mainContent + '</div>';
+
+                }
+
+                layer.bindPopup(popupContent).openPopup(e.latlng);
+
+            }
+            function resetHighlight(e) {
+                secondMap.closePopup();
+            }
+
+        }
+        function getUserDefinedColor(layerUid, layerId,LegendName) {
+
+
+            userDefinedColorList[layerId] = {};
+            var colorList = [];
+
+            jQuery.ajax({
+                type: "POST",
+                url: "@Url.Action("GetUserDefinedLegendInfo")",
+                dataType: "json",
+                data: { layer_id: layerUid },
+                before: jQuery("#busy-indicator").fadeIn(150),
+                success: function (items) {
+
+                    $.each(items,
+                        function (i, item) {
+                            colorList[i] = new Map([["legendName", LegendName],["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);
+                        });
+                    userDefinedColorList[layerId] = colorList;
+
+
+
+                },
+                error: function (ex, status, error) {
+                    //msg.init("error",
+                    //    "Error... . . !",
+                    //    "Failed to load Shape file. " + ex.responseText);
+
+                    window.Swal.fire({
+                        icon: "error",
+                        title: "Failed to load Shape file. " + ex.responseText,
+                        showConfirmButton: false, //true
+                        timer: 3000   // remove timer
+                    });
+                },
+                complete: jQuery("#busy-indicator").fadeOut(150)
+            });
+
+
+
+        }
+        function getTableColumnList(tableId, columnBindId) {
+        var $data = $("#" + columnBindId);
+
+             jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetTbleColumnList")",
+                    dataType: "json",
+                    data: { tableId: tableId },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                    success: function (datas) {
+
+                        $data.append(
+                    '<option value="" selected="selected">----- Select -----</option>');
+                $.each(datas,
+                    function (i, item) {
+                        $("<option />").val(item.value).html(item.text).appendTo($data);
+                    });
+
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                    },
+                 complete: jQuery("#busy-indicator").fadeOut(150)
+             });
+
+        }
+        function getMapBindData(tableId, columnName, boundaryId, layerId) {
+        mapBindData[layerId] = {};
+        var dataList = {};
+            jQuery.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetMapBindData")",
+                    dataType: "json",
+                data: { tableId: tableId, columnName: columnName, boundaryId: boundaryId },
+                    before: jQuery("#busy-indicator").fadeIn(150),
+                success: function (items) {
+
+                    $.each(items, function (i, item) {
+                        dataList[item.code] = new Map([["code", item.code], ["value", item.value]]);
+                    });
+
+                    },
+                    error: function(ex, status, error) {
+                        //msg.init("error",
+                        //    "Error... . . !",
+                        //    "Failed to load Shape file. " + ex.responseText);
+                },
+                complete: function () {
+                    mapBindData[layerId] = dataList;
+                    //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
+                    jQuery("#busy-indicator").fadeOut(150);
+                }
+
+             });
+        }
+        function getColor(layerId, d) {
+
+            //console.log(userDefinedColorList["main_river"][0].get('color'));
+
+
+            for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
+
+                if (userDefinedColorList[layerId].length == 1) {
+                    return userDefinedColorList[layerId][0].get('color');
+
+                }
+
+                if (d >= userDefinedColorList[layerId][i].get('value') && d < userDefinedColorList[layerId][i + 1].get('value')) {
+                    return userDefinedColorList[layerId][i].get('color');
+                }
+
+                else if (d >= userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('value')) {
+                    return userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('color');
+
+                }
+            }
+        }
+        function legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField) {
+
+            secondMap.removeLayer(legend);
+
+            //console.log(Object.keys(data_layer).length);
+
+            jQuery(".legend_info").empty();
+
+
+
+            if (isLegendColor == 0) {
+                legend.onAdd = function (map) {
+                    for (var i = 0; i < e.features.length; i++) {
+                        if (i == 0) {
+                            legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' </p>';
+                        }
+                        legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + getRandomColor() + '"></i> </p>'; //{' + legendEndRange[i] + '}
+                    }
+                    return legend_div;
+                };
+            } else {
+
+                legend.onAdd = function (map) {
+
+
+
+                    jQuery.each(userDefinedColorList, function (index, val) {
+
+                        for (var i = 0; i < userDefinedColorList[index].length; i++) {
+
+                            if (i == 0) {
+                                legend_div.innerHTML += '<p class="' + index + '">' + userDefinedColorList[index][i].get('legendName') + ' </p>';
+                            }
+                            legend_div.innerHTML += '<p class="' + index + '">' + userDefinedColorList[index][i].get('name') + '<i style="background:' + userDefinedColorList[index][i].get('color') + '"></i> </p>';
+                        }
+
+
+                    });
+                    //for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
+
+                    //    if (i == 0) {
+                    //        legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' </p>';
+                    //    }
+                    //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedColorList[layerId][i].get('name') + '<i style="background:' + userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
+                    //}
+
+                    var draggable = new L.Draggable(legend_div);
+                    draggable.enable()
+
+
+                    return legend_div;
+                };
+            }
+
+            legend.addTo(secondMap);
+
+        }
+
+    </script>
+
+}
+

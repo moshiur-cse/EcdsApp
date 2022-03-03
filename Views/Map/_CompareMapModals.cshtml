@@ -1,0 +1,189 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using EcdsApp.Models.ViewModels.Map
+@using EcdsApp.Models.ThemeModels
+@model IEnumerable<EcdsApp.Models.ThemeModels.ThemeLayerDetail>
+
+<div class="modal fade bs-example-modal-xl show" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="bx mdi-keyboard-settings"></i>
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Map Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-body">
+                               
+                                <h5> <i class="bx bxs-select-multiple"></i>First Map Layers</h5>
+                                
+                                <!--- Sidemenu -->
+                                <div id="sidebar-menu1">
+                                    <!-- Left Menu Start -->
+                                    <ul class="metismenu list-unstyled" id="side-menu1">
+
+
+                                        @foreach (ThemeList theme in ViewBag.LayerInfo)
+                                        {
+                                            <li>
+                                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                                    <i class="bx bxs-plus-circle"></i>
+                                                    <span>@theme.themeName</span>
+                                                </a>
+                                                @foreach (SubThemeList subTheme in theme.subThemeList)
+                                                {
+                                                    <ul class="sub-menu" aria-expanded="true">
+                                                        <li>
+                                                            <a href="javascript: void(0);" class="has-arrow">
+                                                                <i class="bx bx-plus-circle"></i>
+                                                                <span> @subTheme.subThemeName</span>
+                                                            </a>
+
+                                                            @for (int i = 0; i < subTheme.layerIdList.Count(); i++)
+                                                            {
+                                                                <ul class="sub-menu" aria-expanded="true">
+                                                                    <li>
+
+
+                                                                        @if (subTheme.layerTypeIdList[i] == 4)
+                                                                        {
+                                                                            <a>
+                                                                                <input class="map1_layer_class" type="checkbox" id="map1_@subTheme.layerNameList[i]" value="@(subTheme.layerIdList[i])"><label for="map1_@subTheme.layerNameList[i]">@subTheme.layerDisplayNameList[i]</label>
+                                                                                <select class="form-control" id="map1_columnList_@(subTheme.layerIdList[i])">
+                                                                                    <option>--Select--</option>
+                                                                                </select>
+                                                                            </a>
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <a><input class="map1_layer_class" type="checkbox" id="map1_@subTheme.layerNameList[i]" value="@(subTheme.layerIdList[i])"><label for="map1_@subTheme.layerNameList[i]">@subTheme.layerDisplayNameList[i]</label></a>
+                                                                        }
+
+
+                                                                    </li>
+
+                                                                </ul>
+                                                            }
+                                                        </li>
+
+                                                    </ul>
+                                                }
+
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                                <!-- Sidebar -->
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bx bxs-select-multiple"></i>Second Map Layers</h5>
+                                <div id="sidebar-menu2">
+                                    <!-- Left Menu Start -->
+                                    <ul class="metismenu list-unstyled" id="side-menu2">
+
+
+                                        @foreach (ThemeList theme in ViewBag.LayerInfo)
+                                        {
+                                            <li>
+                                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                                    <i class="bx bxs-plus-circle"></i>
+                                                    <span>@theme.themeName</span>
+                                                </a>
+                                                @foreach (SubThemeList subTheme in theme.subThemeList)
+                                                {
+                                                    <ul class="sub-menu" aria-expanded="true">
+                                                        <li>
+                                                            <a href="javascript: void(0);" class="has-arrow">
+                                                                <i class="bx bx-plus-circle"></i>
+                                                                <span> @subTheme.subThemeName</span>
+                                                            </a>
+
+                                                            @for (int i = 0; i < subTheme.layerIdList.Count(); i++)
+                                                            {
+                                                                <ul class="sub-menu" aria-expanded="true">
+                                                                    <li>
+
+
+                                                                        @if (subTheme.layerTypeIdList[i] == 4)
+                                                                        {
+                                                                            <a>
+                                                                                <input class="map2_layer_class" type="checkbox" id="map2_@subTheme.layerNameList[i]" value="@(subTheme.layerIdList[i])"><label for="map2_@subTheme.layerNameList[i]">@subTheme.layerDisplayNameList[i]</label>
+                                                                                <select class="form-control" id="map2_columnList_@(subTheme.layerIdList[i])">
+                                                                                    <option>--Select--</option>
+                                                                                </select>
+                                                                            </a>
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <a><input class="map2_layer_class" type="checkbox" id="map2_@subTheme.layerNameList[i]" value="@(subTheme.layerIdList[i])"><label for="map2_@subTheme.layerNameList[i]">@subTheme.layerDisplayNameList[i]</label></a>
+                                                                        }
+
+
+                                                                    </li>
+
+                                                                </ul>
+                                                            }
+                                                        </li>
+
+                                                    </ul>
+                                                }
+
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+<!-- Display Details Result Popup-->
+
+<div class="modal fade bs-example-modal-xl" id="modalWithDetailsInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<h5 class="modal-title" id="exampleModalScrollableTitle">Scrollable Modal</h5>*@
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+
+
