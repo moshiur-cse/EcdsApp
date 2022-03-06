@@ -10,21 +10,29 @@
     <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
 
     <style>
-        .map_btns_content {
-            z-index: 1000;
-            position: absolute;
-            left: 45%;
-            /*right: 50%;*/
-            /*width: 50px;
-        height: auto;*/
+        /*.map_btns_content1 {*/
+        /* position: fixed!important;
+            z-index: 9999!important;
+            width: 50px;
+            height: auto;
             margin: 0;
             padding: 0;
             text-align: right;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-            user-select: none;
+            user-select: none;*/
+
+        /*position: fixed!important;
+            z-index: 9999!important;
+            margin-top: 132px;
+            margin-left: 46%!important;
+        }*/
+
+        #first-map, #second-map {
+            height: 600px;
         }
+
         .map1_legend_info {
             padding: 1px;
             background: rgba(255,255,255,0.8);
@@ -58,29 +66,50 @@
     </style>
 }
 
-<div>
 
+
+<div class="page-content">
+    @*<div class="container-fluid">*@
     <partial name="_CompareMapModals" />
 
+    <div class="row" id="btn_option">
+        <div style="position:fixed;z-index:401;text-align:center;margin-top:-40px">
+            <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>
+            <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>
+            <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
 
-    <div id="map_btns_content" class="map_btns_content">
-        <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>
-        @*<div id="map_layer" class="map_btns right-bar-toggle waves-effect" title="Map Filtering"> </div>*@
-        @*<div id="map_bg_layers" class="map_btns btn_map_bglayers" title="Select the Map Background Layer"></div>*@
-        <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>
-        <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
-        @*<div class="map_btns" title="Show or Hide Map Label"><input type="checkbox" id="map_label"></div>*@
-        @*<div id="map_download" class="map_btns btn_map_download" title="Download" onclick="downloadMap('');"> </div>*@
+            <div class="map_btns" title="Map Legend On/Off" style="border:none!important;background:rgba(0,0,0,0)">
+                <div class="form-check form-switch form-switch-lg mb-3" dir="ltr">
+                    <input type="checkbox" class="form-check-input" id="legendOnOff" checked>
+                </div>
+            </div>
+
+        </div>
     </div>
-
     <div class="row">
+        @*<div class=".map_btns_content1" style="position:fixed;z-index:9999;text-align:center">
+            <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>
+            <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>
+            <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
+        </div>*@
         <div class="col-md-6">
-            <div id="first-map" class="leaflet-map page-content"></div>
+            <div class="card">
+
+                <div class="card-body">
+                    <div id="first-map"></div>
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
-            <div id="second-map" class="leaflet-map page-content"></div>
+            <div class="card">
+
+                <div class="card-body">
+                    <div id="second-map"></div>
+                </div>
+            </div>
         </div>
     </div>
+    @*</div>*@
 </div>
 
 @section Scripts{
@@ -95,17 +124,15 @@
     <script>
 
         var top_height = $('#page-topbar').height();
-        var footer_height = $('.footer').height();
-        $('.map_btns_content').css("top", (top_height + 20));
 
-        $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+        $('.map_btns_content1').css("top", (top_height + 20));
+
+
 
 
         $(window).resize(function () {
             top_height = $('#page-topbar').height();
-            footer_height = $('.footer').height();
-            $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
-            $('.map_btns_content').css("top", (top_height + 20));
+            $('.map_btns_content').css("top", (top_height + 200));
 
         });
 
@@ -210,6 +237,11 @@
                     secondMap.setView([23.737777, 90.537777], 7.0);
                 });
 
+
+            firstMap.on('click', function () {
+                firstMap.zoomIn();
+                secondMap.zoomIn();
+            });
 
             //firstBgLayers=L.control.layers(baseMaps, { collapsed: false }).addTo(firstMap);
             //secondBgLayers=L.control.layers(baseMaps, { collapsed: true }).addTo(secondMap);
@@ -890,7 +922,7 @@
                 layer.on({
                     mouseover: highlightFeature,
                     mouseout: resetHighlight,
-                  
+
                 });
 
 
@@ -1116,6 +1148,25 @@
             legend.addTo(secondMap);
 
         }
+
+        
+
+        jQuery('#legendOnOff').click(function ($) {
+            if (jQuery('.legend_info').is(':visible')) {
+                jQuery('.legend_info').slideUp();
+
+            } else {
+                jQuery('.legend_info').slideDown();
+            }
+
+            if (jQuery('.map1_legend_info').is(':visible')) {
+                jQuery('.map1_legend_info').slideUp();
+
+            } else {
+                jQuery('.map1_legend_info').slideDown();
+            }           
+
+        });
 
     </script>
 

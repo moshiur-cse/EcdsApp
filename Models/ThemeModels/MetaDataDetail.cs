@@ -31,7 +31,7 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Abstract")]
         public string Abstract { get; set; }
 
-        [Required]
+        //[Required]
         [Column("general")]
         [StringLength(1000)]
         [Display(Name = "General")]
@@ -40,10 +40,10 @@ namespace EcdsApp.Models.ThemeModels
         [Required]
         [Column("quality")]
         [StringLength(1000)]
-        [Display(Name = "Quality")]
+        [Display(Name = "Quality and Extend")]
         public string Quality { get; set; }
 
-        [Required]
+        //[Required]
         [Column("completeness")]
         [StringLength(1000)]
         [Display(Name = "Completeness")]
@@ -55,7 +55,7 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "History of the Dataset")]
         public string HistoryOfTheDataSet { get; set; }
 
-        [Required]
+        //[Required]
         [Column("purpose_of_production")]
         [StringLength(1000)]
         [Display(Name = "Purpose of Production")]
@@ -82,7 +82,7 @@ namespace EcdsApp.Models.ThemeModels
         [Required]
         [Column("additional_info_source_for_dataset")]
         [StringLength(1000)]
-        [Display(Name = "Additional Info Source")]
+        [Display(Name = "Additional Information")]
         public string AdditionalInfoSourceForDataSet { get; set; }
     }
 }

@@ -19,7 +19,7 @@ input, label, p {
         padding: 0;
     }
 
-#map_label {
+#map_label,#map_legend {
     width: 25px;
     height: 25px;
     margin:0;
