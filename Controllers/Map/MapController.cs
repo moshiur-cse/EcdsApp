@@ -221,10 +221,6 @@ namespace EcdsApp.Controllers.Map
         }
 
 
-      
-
-
-
         [HttpPost]
         public JsonResult GetUpazilaList(string[] upazilaList)
         {

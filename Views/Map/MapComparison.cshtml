@@ -10,44 +10,26 @@
     <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
 
     <style>
-        /*.map_btns_content1 {*/
-        /* position: fixed!important;
-            z-index: 9999!important;
-            width: 50px;
-            height: auto;
-            margin: 0;
-            padding: 0;
-            text-align: right;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;*/
-
-        /*position: fixed!important;
-            z-index: 9999!important;
-            margin-top: 132px;
-            margin-left: 46%!important;
-        }*/
 
         #first-map, #second-map {
             height: 600px;
         }
 
-        .map1_legend_info {
+        .map1_legend_info, .map2_legend_info {
             padding: 1px;
             background: rgba(255,255,255,0.8);
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             border-radius: 5px;
             /*font-size: 1vw;*/
             font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
-            overflow: scroll;
-            min-height: 100px;
+            overflow: auto;
+           /* min-height: 100px;*/
             max-height: 400px;
             max-width: 300px;
             resize: both;
         }
 
-            .map1_legend_info i {
+            .map1_legend_info i, .map2_legend_info i {
                 /* width: 1.5vw;
                 height: 1.5vw;*/
                 width: 20px;
@@ -60,9 +42,15 @@
                 font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
             }
 
-            .map1_legend_info p {
+            .map1_legend_info p, .map2_legend_info p {
                 padding: 0.2vw;
             }
+
+        .legendTitle {
+            background: rgb(16 80 12);
+            color: white;
+            text-align: center
+        }
     </style>
 }
 
@@ -72,19 +60,26 @@
     @*<div class="container-fluid">*@
     <partial name="_CompareMapModals" />
 
-    <div class="row" id="btn_option">
-        <div style="position:fixed;z-index:401;text-align:center;margin-top:-40px">
+    <div class="row">
+        
+        <div style="position: fixed; z-index: 401; text-align: center; margin-top: -40px;">
+
             <div id="filter_option" class="map_btns btn_map_layers" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" title="Add Map Layer"></div>
             <div id="map_reset" class="map_btns map_reset" onclick="map_reset()" title="Reset Map"> </div>
             <div id="map_center" class="map_btns btn_full_extent" title="Full extent the map"> </div>
 
             <div class="map_btns" title="Map Legend On/Off" style="border:none!important;background:rgba(0,0,0,0)">
-                <div class="form-check form-switch form-switch-lg mb-3" dir="ltr">
-                    <input type="checkbox" class="form-check-input" id="legendOnOff" checked>
-                </div>
+            <div class="form-check form-switch form-switch-lg mb-3" dir="ltr">
+                <input type="checkbox" class="form-check-input legendOnOff" id="legendOnOff" checked>
             </div>
+        </div>
+            @*<div class="square-switch" title="Map Legend On/Off">
+                <input type="checkbox" class="legendOnOff" id="square-switch3" switch="bool" checked>
+                <label for="square-switch3" data-on-label="On" data-off-label="Off"></label>
+            </div>*@
 
         </div>
+      
     </div>
     <div class="row">
         @*<div class=".map_btns_content1" style="position:fixed;z-index:9999;text-align:center">
@@ -123,24 +118,8 @@
 
     <script>
 
-        var top_height = $('#page-topbar').height();
 
-        $('.map_btns_content1').css("top", (top_height + 20));
-
-
-
-
-        $(window).resize(function () {
-            top_height = $('#page-topbar').height();
-            $('.map_btns_content').css("top", (top_height + 200));
-
-        });
-
-        var firstMap;
-        var secondMap;
-
-
-
+        var firstMap;       
         var map1_data_layer = {};
         var map1_data_layer_details = {};
         var map1_userDefinedColorList = {};
@@ -149,13 +128,13 @@
         var map1_legend_div = L.DomUtil.create('div', 'map1_legend_info');
 
 
-
-        var data_layer = {};
-        var data_layer_details = {};
-        var userDefinedColorList = {};
-        var mapBindData = {};
-        var legend = L.control({ position: 'bottomright' });
-        var legend_div = L.DomUtil.create('div', 'map1_legend_info');
+        var secondMap;
+        var map2_data_layer = {};
+        var map2_data_layer_details = {};
+        var map2_userDefinedColorList = {};
+        var map2_mapBindData = {};
+        var map2_legend = L.control({ position: 'bottomright' });
+        var map2_legend_div = L.DomUtil.create('div', 'map2_legend_info');
 
 
 
@@ -225,6 +204,7 @@
                     layers: [L.tileLayer(osmUrl, { id: 'MapID', minZoom: 0, maxZoom: 25, attribution: mapAttrib })],
 
                 });
+
             secondMap.setView([23.837777, 90.347777], 7.0);
             L.tileLayer("", { attribution: mapAttrib }).addTo(secondMap);
             L.control.scale().addTo(secondMap);
@@ -238,15 +218,22 @@
                 });
 
 
-            firstMap.on('click', function () {
+            $(".leaflet-control-zoom-in").on('click', function () {
                 firstMap.zoomIn();
                 secondMap.zoomIn();
             });
+            $(".leaflet-control-zoom-out").on('click', function () {
+                firstMap.zoomOut();
+                secondMap.zoomOut();
+            });
+
+           // this.firstMap.on('click', () => { this.firstMap.scrollWheelZoom.enable(); });
+           
+
+            
 
             //firstBgLayers=L.control.layers(baseMaps, { collapsed: false }).addTo(firstMap);
             //secondBgLayers=L.control.layers(baseMaps, { collapsed: true }).addTo(secondMap);
-
-
 
 
 
@@ -285,7 +272,7 @@
                         layerUid = items.layerId;
                         layerName = items.layerName;
 
-                        jQuery("#map_1_columnList_" + items.layerId).empty();
+                        jQuery("#map1_columnList_" + items.layerId).empty();
                         if (items.layerTypeId == 4) {
 
                             path = items.boundaryPath;
@@ -391,7 +378,7 @@
                     success: function (items) {
 
                         if (items.isLegendColor == 1) {
-                            getUserDefinedColor(items.layerId, layerId, items.layerName);
+                            map2_getUserDefinedColor(items.layerId, layerId, items.layerName);
                         }
 
 
@@ -400,7 +387,7 @@
                         layerUid = items.layerId;
                         layerName = items.layerName;
 
-                        jQuery("#map_2_columnList_" + items.layerId).empty();
+                        jQuery("#map2_columnList_" + items.layerId).empty();
 
                         if (items.layerTypeId == 4) {
 
@@ -411,19 +398,19 @@
                             var columnBindId = "map2_columnList_" + items.layerId;
 
                             var tableId = items.tableId;
-                            getTableColumnList(tableId, columnBindId);
+                            map2_getTableColumnList(tableId, columnBindId);
 
 
                             jQuery("#" + columnBindId).change(function () {
                                 var columnName = jQuery("#" + columnBindId).val();
 
-                                getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#'+columnBindId+' option:selected').text()+")");
+                                map2_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#'+columnBindId+' option:selected').text()+")");
 
 
                                 jQuery.ajax({
-                                    url: getMapBindData(tableId, columnName, items.boundaryId, layerId),
+                                    url: map2_getMapBindData(tableId, columnName, items.boundaryId, layerId),
                                     success: function () {
-                                        LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                        map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
 
                                     },
                                     error: function (ex, status, error) {
@@ -442,9 +429,9 @@
                         }
                         else {
                             jQuery.ajax({
-                                url: getUserDefinedColor(items.layerId, layerId, items.layerName),
+                                url: map2_getUserDefinedColor(items.layerId, layerId, items.layerName),
                                 success: function () {
-                                        LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                        map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                 }
                                 ,
                                 error: function (ex, status, error) {
@@ -457,7 +444,7 @@
                                 }
                             });
 
-                            //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
+                            //map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.firstAttDisName, items.firstAtt, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, items.boundaryId, items.tableId);
                         }
                     },
                     error: function (ex, status, error) {
@@ -474,18 +461,18 @@
                 });
                  }
             else {
-                if (secondMap.hasLayer(data_layer[layerId])) {
-                    secondMap.removeLayer(data_layer[layerId]);
-                    secondMap.removeLayer(legend);
+                if (secondMap.hasLayer(map2_data_layer[layerId])) {
+                    secondMap.removeLayer(map2_data_layer[layerId]);
+                    secondMap.removeLayer(map2_legend);
                     jQuery("p." + layerId).remove();
                     jQuery("#map_layer_" + layerId).remove();
                     //secondMap.removeLayer(mapLabels);
                     //mapLabels = L.layerGroup();
 
-                    delete mapBindData[layerId];
-                    delete userDefinedColorList[layerId];
-                    delete data_layer[layerId];
-                    delete data_layer_details[layerId];
+                    delete map2_mapBindData[layerId];
+                    delete map2_userDefinedColorList[layerId];
+                    delete map2_data_layer[layerId];
+                    delete map2_data_layer_details[layerId];
                 }
 
                 //layerId
@@ -591,9 +578,71 @@
                 layer.on({
                     mouseover: highlightFeature,
                     mouseout: resetHighlight,
+                    click: mapOnClickAction
                 });
             }
 
+
+            function mapOnClickAction (e) {
+                var layer = e.target;
+
+              
+                var maplayerName = layerId.split(/_(.+)/)[1];
+
+                try {
+                    var map2_value=map2_mapBindData["map2_" + maplayerName][layer.feature.properties[attCode]].get('value')}
+                catch(e) {
+                    window.Swal.fire({
+                        icon: "error",
+                        title: "Please Add Same Types of Layer to Compare " + e.responseText,
+                        showConfirmButton: true, //true
+                        //timer: 3000   // remove timer
+                    });
+                    //return;
+                }
+               
+
+                var map1_popupContent = "";
+
+                var map2_popupContent = "";
+                if (layerTypeId == 4) {
+                    map2_popupContent = '<div style="text-align:center;"><p>' + layer.feature.properties[mainAtt] + " : " + map2_value + '</p></div>';
+                }
+
+
+                if (layerTypeId == 4) {
+
+                    map1_popupContent = '<div style="text-align:center;"><p>' + layer.feature.properties[mainAtt] + " : " + map1_mapBindData[layerId][layer.feature.properties[attCode]].get('value') + '</p></div>';
+                } else {
+                    var mainContent = '';
+                    for (var i = 0; i < Object.getOwnPropertyNames(layer.feature.properties).length; i++) {
+                        if (Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLat" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLong") {
+                            continue;
+                        }
+                        mainContent += '<p>' + Object.getOwnPropertyNames(layer.feature.properties)[i] + " : " + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]] + '</p>';
+                    }
+
+                    //popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
+                    map1_popupContent = '<div style="text-align:center;">' + mainContent + '</div>';
+
+                }
+
+               
+
+                layer.bindPopup(map2_popupContent, L.popup({
+                    //setLatLng: marker.getLatLng(),
+                    closeOnClick: false,
+                    autoClose: false,
+                    closeButton: true,
+                }).setLatLng(e.latlng).setContent(map2_popupContent).openOn(secondMap)).openPopup(e.latlng);
+
+                layer.bindPopup(L.popup({
+                    //setLatLng: marker.getLatLng(),
+                    closeOnClick: false,
+                    autoClose: false,
+                    closeButton: true,
+                }).setLatLng(e.latlng).setContent(map1_popupContent).openOn(firstMap)).openPopup(e.latlng);   
+            }
 
             function highlightFeature(e) {
                 var layer = e.target;
@@ -601,32 +650,32 @@
 
                 var popupContent = "";
                 if (layerTypeId == 4) {
-
-
-
-                    popupContent = '<div style="width:300px;text-align:center;"><p>' + layer.feature.properties[mainAtt] + " : " + map1_mapBindData[layerId][layer.feature.properties[attCode]].get('value') + '</p></div>';
+                    popupContent = '<div style="text-align:center;"><p>' + layer.feature.properties[mainAtt] + " : " + map1_mapBindData[layerId][layer.feature.properties[attCode]].get('value') + '</p></div>';
                 } else {
                     var mainContent = '';
                     for (var i = 0; i < Object.getOwnPropertyNames(layer.feature.properties).length; i++) {
                         if (Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLat" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLong") {
                             continue;
                         }
-
                         mainContent += '<p>' + Object.getOwnPropertyNames(layer.feature.properties)[i] + " : " + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]] + '</p>';
                     }
 
                     //popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
-                    popupContent = '<div style="min-width:200px;text-align:center;">' + mainContent + '</div>';
+                    popupContent = '<div style="text-align:center;">' + mainContent + '</div>';
 
                 }
 
-                layer.bindPopup(popupContent).openPopup(e.latlng);
+                layer.bindPopup(popupContent, {
+                    autoClose: false,
+                    closeOnClick: false
+                }).openPopup(e.latlng);
 
                 //layer.setStyle({
-                //    //weight: 2,
-                //    //color: '#E11F21',
-                //    dashArray: '',
-                //    //fillOpacity: 0.4
+                //    weight: 1,
+                //    color: '#E11F21',
+                //    opacity: 1,
+                //    //dashArray: '',
+                //    //fillOpacity: 1
                 //}).bindPopup(popupContent).openPopup(e.latlng);
 
                 //if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -638,7 +687,6 @@
                 //map1_data_layer[layerId].resetStyle(e.target);
             }
 
-            /*console.log(map1_data_layer[layerId]);*/
         }
         function map1_getUserDefinedColor(layerUid, layerId,LegendName) {
 
@@ -714,7 +762,7 @@
         var dataList = {};
             jQuery.ajax({
                     type: "POST",
-                    url: "@Url.Action("GetMapBindData")",
+                    url: "@Url.Action("getMapBindData")",
                     dataType: "json",
                 data: { tableId: tableId, columnName: columnName, boundaryId: boundaryId },
                     before: jQuery("#busy-indicator").fadeIn(150),
@@ -732,7 +780,7 @@
                 },
                 complete: function () {
                     map1_mapBindData[layerId] = dataList;
-                    //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_layerName, g_layerTypeId, g_isLegendColor, g_map1_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
+                    //map2_LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_layerName, g_layerTypeId, g_isLegendColor, g_map1_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
                     jQuery("#busy-indicator").fadeOut(150);
                 }
 
@@ -774,7 +822,7 @@
                 map1_legend.onAdd = function (map) {
                     for (var i = 0; i < e.features.length; i++) {
                         if (i == 0) {
-                            map1_legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' </p>';
+                            map1_legend_div.innerHTML += '<p class="legendTitle"' + layerId + '">' + layerName + ' </p>';
                         }
                         map1_legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + getRandomColor() + '"></i> </p>'; //{' + map1_legendEndRange[i] + '}
                     }
@@ -791,7 +839,7 @@
                         for (var i = 0; i < map1_userDefinedColorList[index].length; i++) {
 
                             if (i == 0) {
-                                map1_legend_div.innerHTML += '<p class="' + index + '">' + map1_userDefinedColorList[index][i].get('map1_legendName') + ' </p>';
+                                map1_legend_div.innerHTML += '<p class="legendTitle"' + index + '">' + map1_userDefinedColorList[index][i].get('map1_legendName') + ' </p>';
                             }
                             map1_legend_div.innerHTML += '<p class="' + index + '">' + map1_userDefinedColorList[index][i].get('name') + '<i style="background:' + map1_userDefinedColorList[index][i].get('color') + '"></i> </p>';
                         }
@@ -820,14 +868,14 @@
 
 
 
-        function LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, layerName, layerTypeId, isLegendColor, legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, boundaryId, tableId) {
+        function map2_LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, layerName, layerTypeId, isLegendColor, legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, boundaryId, tableId) {
 
             var layerPath = "../assets/js/map/map_data/" + filepath;
 
 
-            if (secondMap.hasLayer(data_layer[layerId])) {
-                secondMap.removeLayer(data_layer[layerId]);
-                secondMap.removeLayer(legend);
+            if (secondMap.hasLayer(map2_data_layer[layerId])) {
+                secondMap.removeLayer(map2_data_layer[layerId]);
+                secondMap.removeLayer(map2_legend);
                 $("p." + layerId).remove();
                 $("#map_layer_" + layerId).remove();
                 //secondMap.removeLayer(mapLabels);
@@ -835,7 +883,7 @@
             }
 
 
-            data_layer[layerId] = L.geoJson(null, {
+            map2_data_layer[layerId] = L.geoJson(null, {
                 style: style,
                 onEachFeature: onEachFeature,
             });
@@ -844,16 +892,16 @@
             $.getJSON(layerPath, function (LayerInfo) {
                 if (!LayerInfo) return;
 
-                data_layer[layerId].addData(LayerInfo);
+                map2_data_layer[layerId].addData(LayerInfo);
                 layerData = LayerInfo;
 
             }).done(function (e) {
-                secondMap.addLayer(data_layer[layerId]);
+                secondMap.addLayer(map2_data_layer[layerId]);
 
 
 
                 if (isLegendColor == 1) {
-                    legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
+                    map2_legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
                 }
 
 
@@ -867,7 +915,7 @@
                     admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 8)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 13))) {
 
                     return {
-                        fillColor: isLegendColor == 0 ? '#0000ffff' : getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value')),
+                        fillColor: isLegendColor == 0 ? '#0000ffff' : map2_getColor(layerId, map2_mapBindData[layerId][feature.properties[attCode]].get('value')),
                         weight: weight,
                         opacity: opacity,
                         color: color,
@@ -878,9 +926,9 @@
 
                 } else if (admin_code_list.length == 0 && layerTypeId == 4) {
 
-                    var tDataColor = getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value'));
+                    var tDataColor = map2_getColor(layerId, map2_mapBindData[layerId][feature.properties[attCode]].get('value'));
 
-                    //console.log(mapBindData["exposure"]['10040009'].get('value'));
+                    //console.log(map2_mapBindData["exposure"]['10040009'].get('value'));
                     return {
 
                         fillColor: isLegendColor == 0 ? '#ffffff00' : tDataColor,
@@ -894,7 +942,7 @@
 
                 else if (isLegendColor == 1 && layerTypeId == 3) {
 
-                    var uColor = getColor(layerId, feature.properties[legendcolorField]);
+                    var uColor = map2_getColor(layerId, feature.properties[legendcolorField]);
                     return {
                         fillColor: uColor,
                         weight: weight,
@@ -947,7 +995,7 @@
 
 
 
-                    popupContent = '<div style="width:300px;text-align:center;"><p>' + layer.feature.properties[mainAtt] + " : " + mapBindData[layerId][layer.feature.properties[attCode]].get('value') + '</p></div>';
+                    popupContent = '<div style="width:300px;text-align:center;"><p>' + layer.feature.properties[mainAtt] + " : " + map2_mapBindData[layerId][layer.feature.properties[attCode]].get('value') + '</p></div>';
                 } else {
                     var mainContent = '';
                     for (var i = 0; i < Object.getOwnPropertyNames(layer.feature.properties).length; i++) {
@@ -971,10 +1019,10 @@
             }
 
         }
-        function getUserDefinedColor(layerUid, layerId,LegendName) {
+        function map2_getUserDefinedColor(layerUid, layerId,LegendName) {
 
 
-            userDefinedColorList[layerId] = {};
+            map2_userDefinedColorList[layerId] = {};
             var colorList = [];
 
             jQuery.ajax({
@@ -989,7 +1037,7 @@
                         function (i, item) {
                             colorList[i] = new Map([["legendName", LegendName],["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);
                         });
-                    userDefinedColorList[layerId] = colorList;
+                    map2_userDefinedColorList[layerId] = colorList;
 
 
 
@@ -1012,7 +1060,7 @@
 
 
         }
-        function getTableColumnList(tableId, columnBindId) {
+        function map2_getTableColumnList(tableId, columnBindId) {
         var $data = $("#" + columnBindId);
 
              jQuery.ajax({
@@ -1040,12 +1088,12 @@
              });
 
         }
-        function getMapBindData(tableId, columnName, boundaryId, layerId) {
-        mapBindData[layerId] = {};
+        function map2_getMapBindData(tableId, columnName, boundaryId, layerId) {
+        map2_mapBindData[layerId] = {};
         var dataList = {};
             jQuery.ajax({
                     type: "POST",
-                    url: "@Url.Action("GetMapBindData")",
+                    url: "@Url.Action("getMapBindData")",
                     dataType: "json",
                 data: { tableId: tableId, columnName: columnName, boundaryId: boundaryId },
                     before: jQuery("#busy-indicator").fadeIn(150),
@@ -1062,108 +1110,101 @@
                         //    "Failed to load Shape file. " + ex.responseText);
                 },
                 complete: function () {
-                    mapBindData[layerId] = dataList;
-                    //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
+                    map2_mapBindData[layerId] = dataList;
+                    //map2_LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
                     jQuery("#busy-indicator").fadeOut(150);
                 }
 
              });
         }
-        function getColor(layerId, d) {
+        function map2_getColor(layerId, d) {
 
-            //console.log(userDefinedColorList["main_river"][0].get('color'));
+            //console.log(map2_userDefinedColorList["main_river"][0].get('color'));
 
 
-            for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
+            for (var i = 0; i < map2_userDefinedColorList[layerId].length; i++) {
 
-                if (userDefinedColorList[layerId].length == 1) {
-                    return userDefinedColorList[layerId][0].get('color');
+                if (map2_userDefinedColorList[layerId].length == 1) {
+                    return map2_userDefinedColorList[layerId][0].get('color');
 
                 }
 
-                if (d >= userDefinedColorList[layerId][i].get('value') && d < userDefinedColorList[layerId][i + 1].get('value')) {
-                    return userDefinedColorList[layerId][i].get('color');
+                if (d >= map2_userDefinedColorList[layerId][i].get('value') && d < map2_userDefinedColorList[layerId][i + 1].get('value')) {
+                    return map2_userDefinedColorList[layerId][i].get('color');
                 }
 
-                else if (d >= userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('value')) {
-                    return userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('color');
+                else if (d >= map2_userDefinedColorList[layerId][map2_userDefinedColorList[layerId].length - 1].get('value')) {
+                    return map2_userDefinedColorList[layerId][map2_userDefinedColorList[layerId].length - 1].get('color');
 
                 }
             }
         }
-        function legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField) {
+        function map2_legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField) {
 
-            secondMap.removeLayer(legend);
+            secondMap.removeLayer(map2_legend);
 
-            //console.log(Object.keys(data_layer).length);
+            //console.log(Object.keys(map2_data_layer).length);
 
-            jQuery(".legend_info").empty();
+            jQuery(".map2_legend_info").empty();
 
 
 
             if (isLegendColor == 0) {
-                legend.onAdd = function (map) {
+                map2_legend.onAdd = function (map) {
                     for (var i = 0; i < e.features.length; i++) {
                         if (i == 0) {
-                            legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' </p>';
+                            map2_legend_div.innerHTML += '<p class="legendTitle"' + layerId + '">' + layerName + ' </p>';
                         }
-                        legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + getRandomColor() + '"></i> </p>'; //{' + legendEndRange[i] + '}
+                        map2_legend_div.innerHTML += '<p class="' + layerId + '">' + e.features[i].properties[mainAtt] + '<i style="background:' + getRandomColor() + '"></i> </p>'; //{' + legendEndRange[i] + '}
                     }
-                    return legend_div;
+                    return map2_legend_div;
                 };
             } else {
 
-                legend.onAdd = function (map) {
+                map2_legend.onAdd = function (map) {
 
 
 
-                    jQuery.each(userDefinedColorList, function (index, val) {
+                    jQuery.each(map2_userDefinedColorList, function (index, val) {
 
-                        for (var i = 0; i < userDefinedColorList[index].length; i++) {
+                        for (var i = 0; i < map2_userDefinedColorList[index].length; i++) {
 
                             if (i == 0) {
-                                legend_div.innerHTML += '<p class="' + index + '">' + userDefinedColorList[index][i].get('legendName') + ' </p>';
+                                map2_legend_div.innerHTML += '<p class="legendTitle"' + index + '">' + map2_userDefinedColorList[index][i].get('legendName') + ' </p>';
                             }
-                            legend_div.innerHTML += '<p class="' + index + '">' + userDefinedColorList[index][i].get('name') + '<i style="background:' + userDefinedColorList[index][i].get('color') + '"></i> </p>';
+                            map2_legend_div.innerHTML += '<p class="' + index + '">' + map2_userDefinedColorList[index][i].get('name') + '<i style="background:' + map2_userDefinedColorList[index][i].get('color') + '"></i> </p>';
                         }
 
 
                     });
-                    //for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
-
-                    //    if (i == 0) {
-                    //        legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' </p>';
-                    //    }
-                    //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedColorList[layerId][i].get('name') + '<i style="background:' + userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
-                    //}
-
-                    var draggable = new L.Draggable(legend_div);
+                    
+                    var draggable = new L.Draggable(map2_legend_div);
                     draggable.enable()
 
 
-                    return legend_div;
+                    return map2_legend_div;
                 };
             }
 
-            legend.addTo(secondMap);
+            map2_legend.addTo(secondMap);
 
         }
 
         
 
-        jQuery('#legendOnOff').click(function ($) {
-            if (jQuery('.legend_info').is(':visible')) {
-                jQuery('.legend_info').slideUp();
-
-            } else {
-                jQuery('.legend_info').slideDown();
-            }
-
+        jQuery('.legendOnOff').click(function ($) {
             if (jQuery('.map1_legend_info').is(':visible')) {
                 jQuery('.map1_legend_info').slideUp();
 
             } else {
                 jQuery('.map1_legend_info').slideDown();
+            }
+
+            if (jQuery('.map2_legend_info').is(':visible')) {
+                jQuery('.map2_legend_info').slideUp();
+
+            } else {
+                jQuery('.map2_legend_info').slideDown();
             }           
 
         });
