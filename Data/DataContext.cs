@@ -27,13 +27,14 @@ namespace EcdsApp.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-                //optionsBuilder.UseMySQL("server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
-                optionsBuilder.UseMySQL("server=202.53.173.185;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;");
+                optionsBuilder.UseMySQL("server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
+                //optionsBuilder.UseMySQL("server=202.53.173.185;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;");
         }
 
         public string GetConnectionString()
         {
-            return Database.GetDbConnection().ConnectionString = "server=202.53.173.185;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;";
+            return Database.GetDbConnection().ConnectionString = "server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;";
+            //return Database.GetDbConnection().ConnectionString = "server=202.53.173.185;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;";
         }
 
         public DbSet<AdminBoundaryDistrict> AdminBoundaryDistricts { get; set; }

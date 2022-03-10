@@ -285,20 +285,21 @@
                                 var columnName = jQuery("#" + columnBindId).val();
 
 
-                                jQuery.ajax({
-                                    url: map1_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")"),
-                                    success: function () {
+                                //jQuery.ajax({
+                                //    url: map1_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")"),
+                                //    success: function () {
                                         jQuery.ajax({
                                             url: map1_getMapBindData(tableId, columnName, items.boundaryId, layerId),
                                             success: function () {
-                                                map1_getMapBindData(tableId, columnName, items.boundaryId, layerId);
-                                                map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                                map1_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")");
+                                                //map1_getMapBindData(tableId, columnName, items.boundaryId, layerId);
+                                                //map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                             },
                                             complete: map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId)
 
                                         });
-                                    }
-                                });
+                                //    }
+                                //});
                             });
 
 
@@ -399,20 +400,21 @@
                               
 
 
-                                jQuery.ajax({
-                                    url: map2_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")"),
-                                    success: function () {
+                                //jQuery.ajax({
+                                //    url: map2_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")"),
+                                //    success: function () {
                                         jQuery.ajax({
                                             url: map2_getMapBindData(tableId, columnName, items.boundaryId, layerId),
                                             success: function () {
-                                                map2_getMapBindData(tableId, columnName, items.boundaryId, layerId);
-                                                map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                                map2_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")");
+                                                //map2_getMapBindData(tableId, columnName, items.boundaryId, layerId);
+                                                //map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                             },
                                             complete: map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId)
 
                                         });
-                                    }
-                                });
+                                //    }
+                                //});
 
 
                             });
