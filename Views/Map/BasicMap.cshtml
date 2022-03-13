@@ -923,8 +923,6 @@
                         });
                     userDefinedColorList[layerId] = colorList;
 
-
-
                 },
                 error: function (ex, status, error) {
                     //msg.init("error",
@@ -999,16 +997,11 @@
                     before: jQuery("#busy-indicator").fadeIn(150),
                     success: function (items) {
 
-                        if (items.isLegendColor == 1) {
-                            getUserDefinedColor(items.layerId, layerId, items.layerName);
-                        }                        
                        
 
                         path = items.themePath + "/" + items.subThemePath + "/" + items.layerPath + "/" + items.layerFileName;
-
                         layerUid = items.layerId;
                         layerName = items.layerName;
-
                         jQuery("#columnList_" + items.layerId).empty();
 
                         if (items.layerTypeId == 4) {
@@ -1024,25 +1017,37 @@
 
 
                             jQuery("#" + columnBindId).change(function () {
-                                var columnName = jQuery("#" + columnBindId).val();
+                            var columnName = jQuery("#" + columnBindId).val();
 
-                                jQuery.ajax({
-                                    url: getMapBindData(tableId, columnName, items.boundaryId, layerId),
-                                    success: function () {
-                                        getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")");
+                            //    jQuery.ajax({
+                            //        url: getMapBindData(tableId, columnName, items.boundaryId, layerId),
+                            //        success: function () {
+                            //            getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")");
 
-                                        },
-                                    complete: LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId)
+                            //            },
+                            //        complete: LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId)
 
+                            //    });
+
+                                jQuery.when(getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function () {
+                                    jQuery.when(getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")")).then(function () {
+                                        //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                        setTimeout(function () { LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId) }, 500);
+
+                                    });
                                 });
                                 
 
-
+                                //setTimeout(function () { LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId) }, 3000);
                                 
                             });
 
                         }
                         else {
+                            //if (items.isLegendColor == 1) {
+                            //    getUserDefinedColor(items.layerId, layerId, items.layerName);
+                            //}
+
                             jQuery.ajax({
                                 url: getUserDefinedColor(items.layerId, layerId, items.layerName),
                                 success: function () {
