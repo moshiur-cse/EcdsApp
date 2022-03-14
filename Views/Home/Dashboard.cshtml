@@ -227,9 +227,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="dashboard_map" class="text-center" style="min-height:600px; padding:0.75rem;">
-                            <div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                            @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
                                 <span class="sr-only">Loading... . .</span>
-                            </div>
+                            </div>*@
                         </div>
 
                     </div> <!-- end card-body-->
@@ -253,7 +253,7 @@
             var legend = L.control({ position: 'topright' });
             var legend_div = L.DomUtil.create('div', 'legend_info');
             var mapLabels = L.layerGroup();
-            var legendcolorField = "DistGeoCod";
+            var legendcolorField = "GeoCode";
 
             var legend_data = [];
             var layer_Data = [];
@@ -264,9 +264,19 @@
             var female = [];
             var total = [];
             var optionsChart = {};
-            getMapData();
-            mapInit();
-            addLayer();
+
+            jQuery.when(getMapData()).then(function () {
+                jQuery.when(mapInit()).then(function () {
+                    //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                    setTimeout(function () { addLayer() }, 500);
+
+                });
+            });
+
+
+            //getMapData();
+            //mapInit();
+            //addLayer();
             $('.select2').select2();
             //$('.dashboard_map').
 
@@ -282,7 +292,7 @@
 
 
             function mapInit() {
-                var openstreet = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { id: 'MapID', minZoom: 0, maxZoom: 25 }),
+                var openstreet = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { id: 'MapID', minZoom: 0, maxZoom: 25 }),
                     blank = L.tileLayer("../images/blank.png", { id: 'MapID', minZoom: 0, maxZoom: 25 }
                     );
 
@@ -335,6 +345,7 @@
                     layer.on({
                         mouseover: highlightFeature,
                         mouseout: resetHighlight,
+                        click: mapOnClickAction
                     });
 
                     var label = L.marker([layer.feature.properties['CntLat'], layer.feature.properties['CntLong']], {
@@ -349,7 +360,7 @@
                 }
                 function highlightFeature(e) {
                     var layer = e.target;
-                    var popupContent = '<div style="width:120px;text-align:center;"><p>' + layer.feature.properties["DistName"] + " : " + layerMapData[layer.feature.properties["DistGeoCod"]] + '(%)</p></div>';
+                    var popupContent = '<div style="width:120px;text-align:center;"><p>' + layer.feature.properties["District"] + " : " + layerMapData[layer.feature.properties["GeoCode"]] + ' (%)</p></div>';
                     //layer.bindPopup(popupContent).openPopup(e.latlng);
 
                     layer.setStyle({
@@ -363,6 +374,20 @@
                     //    layer.bringToFront();
                     //}
                 }
+
+                function mapOnClickAction(e) {
+                    var layer = e.target;
+                    var popupContent = '<div style="width:120px;text-align:center;"><p>' + layer.feature.properties["District"] + " : " + layerMapData[layer.feature.properties["GeoCode"]] + ' (%)</p></div>';
+
+
+                    layer.bindPopup(popupContent,L.popup({
+                        //setLatLng: marker.getLatLng(),
+                        closeOnClick: false,
+                        autoClose: false,
+                        closeButton: true,
+                    }).setLatLng(e.latlng).setContent(popupContent).openOn(dashboard_map)).openPopup(e.latlng);
+                }
+
                 function resetHighlight(e) {
                     dashboard_map.closePopup();
                     layerData.resetStyle(e.target);
@@ -520,7 +545,7 @@
         //    height = window.innerHeight,
         //    maxRadius = (Math.min(width, height) / 2) - 5;
 
-        const width = 600, height =600, maxRadius = (Math.min(width, height) / 2) - 5;
+        const width = 800, height =800, maxRadius = (Math.min(width, height) / 2) - 5;
 
         const formatNumber = d3.format(',d');
 

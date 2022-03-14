@@ -99,7 +99,7 @@ namespace EcdsApp.Controllers
                             {
                                 name = p.Select(i => i.LayerDisplayName).FirstOrDefault(),
                                 description = p.Select(i => i.LayerName).FirstOrDefault(),
-                                size = p.Select(i=>i.LayerId)
+                                size = 1
                                 
 
                             }).ToList()
