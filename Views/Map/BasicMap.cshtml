@@ -975,8 +975,8 @@
                         showConfirmButton: false, //true
                         timer: 3000   // remove timer
                     });
-                },
-                complete: jQuery("#busy-indicator").fadeOut(150)
+                }
+                //complete: jQuery("#busy-indicator").fadeOut(150)
             });
 
 
@@ -987,9 +987,7 @@
 
         function mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong) {
 
-            //g_feature = feature, g_layer = layer, g_layerId=layerId,g_mainAtt = mainAtt; g_cLat = cLat; g_cLong = cLong;
-
-
+    
             var label= L.marker([layer.feature.properties[cLat], layer.feature.properties[cLong]], {
                     icon: L.divIcon({
                         className: 'label mapLabel',
@@ -1057,28 +1055,19 @@
 
 
                             jQuery("#" + columnBindId).change(function () {
-                            var columnName = jQuery("#" + columnBindId).val();
+                                var columnName = jQuery("#" + columnBindId).val();
 
-                            //    jQuery.ajax({
-                            //        url: getMapBindData(tableId, columnName, items.boundaryId, layerId),
-                            //        success: function () {
-                            //            getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")");
 
-                            //            },
-                            //        complete: LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId)
-
-                            //    });
 
                                 jQuery.when(getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function () {
                                     jQuery.when(getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")")).then(function () {
                                         //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
-                                        setTimeout(function () { LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId) }, 500);
+                                        setTimeout(function () {
+                                            LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                            jQuery("#busy-indicator").fadeOut(150);
+                                        }, 500);
                                     });
                                 });
-                                //console.log(mapBindData);
-
-                                //setTimeout(function () { LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId) }, 3000);
-                                
                             });
 
                         }
@@ -1092,7 +1081,10 @@
                                 success: function () {
                                         //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                 },
-                                complete: setTimeout(function () { LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId) }, 500)
+                                complete: setTimeout(function () {
+                                    LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                    jQuery("#busy-indicator").fadeOut(150);
+                                }, 500)
                             });
                         }
                     },
@@ -1169,7 +1161,6 @@
                     url: "@Url.Action("GetMapBindData")",
                     dataType: "json",
                 data: { tableId: tableId, columnName: columnName, boundaryId: boundaryId },
-                    before: jQuery("#busy-indicator").fadeIn(150),
                 success: function (items) {
 
                     $.each(items, function (i, item) {
@@ -1184,8 +1175,6 @@
                 },
                 complete: function () {
                     mapBindData[layerId] = dataList;
-                    //LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
-                    jQuery("#busy-indicator").fadeOut(150);
                 }
 
              });
@@ -1422,10 +1411,6 @@
        // console.log("dist_"+id);
         admin_code_list = [];
         if (jQuery(this).closest('.UpazilaList').prev().find('input[type=checkbox]').prop('checked', true)) {
-
-
-
-
 
             if (jQuery("#upaz_" + id).prop("checked") == true) {
                 admin_code_list.push(jQuery("#upaz_" + id).val());

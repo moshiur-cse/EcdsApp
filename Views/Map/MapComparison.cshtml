@@ -244,6 +244,10 @@
         function map_reset() {
             location.reload(true);
         }
+    
+
+
+
 
         jQuery('.map1_layer_class').click(function ($) {
             var layerId = this.id;
@@ -304,8 +308,11 @@
                                 jQuery.when(map1_getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function () {
                                     jQuery.when(map1_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")")).then(function () {
                                         //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
-                                        setTimeout(function () { map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId) }, 500);
-
+                                        setTimeout(function () {
+                                            map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                            jQuery("#busy-indicator").fadeOut(150);
+                                        }, 500);
+                                        
                                     });
                                 });
                             });
@@ -427,8 +434,11 @@
                                 jQuery.when(map2_getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function () {
                                     jQuery.when(map2_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")")).then(function () {
                                         //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
-                                        setTimeout(function () { map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId) }, 500);
-
+                                        setTimeout(function () {
+                                            map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
+                                            jQuery("#busy-indicator").fadeOut(150);
+                                        }, 500);
+                                       
                                     });
                                 });
 
@@ -521,14 +531,10 @@
                     map1_legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, map1_legendcolorField);
                 }
 
-
-
             });
 
 
             function style(feature) {
-
-
                 if (admin_code_list.length > 0 && (admin_code_list.includes(feature.properties[attCode].toString()) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 2)) ||
                     admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 8)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 13)))) {
 
@@ -703,7 +709,7 @@
                 url: "@Url.Action("GetUserDefinedLegendInfo")",
                 dataType: "json",
                 data: { layer_id: layerUid },
-                before: jQuery("#busy-indicator").fadeIn(150),
+                //before: jQuery("#busy-indicator").fadeIn(150),
                 success: function (items) {
 
                     $.each(items,
@@ -726,8 +732,8 @@
                         showConfirmButton: false, //true
                         timer: 3000   // remove timer
                     });
-                },
-                complete: jQuery("#busy-indicator").fadeOut(150)
+                }
+                //complete: jQuery("#busy-indicator").fadeOut(150)
             });
 
 
@@ -786,7 +792,7 @@
                 });
             }).always(function () {
                 map1_mapBindData[layerId] = dataList;
-                jQuery("#busy-indicator").fadeOut(150);
+                //jQuery("#busy-indicator").fadeOut(150);
             });
 
         }
@@ -983,9 +989,9 @@
 
 
 
-                if (cLat != null || cLong != null) {
-                    mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong);
-                }
+                //if (cLat != null || cLong != null) {
+                //    mapLabelShowHide(feature, layer, layerId, mainAtt, cLat, cLong);
+                //}
 
             }
 
@@ -1057,8 +1063,8 @@
                         showConfirmButton: false, //true
                         timer: 3000   // remove timer
                     });
-                },
-                complete: jQuery("#busy-indicator").fadeOut(150)
+                }
+                //complete: jQuery("#busy-indicator").fadeOut(150)
             });
 
 
@@ -1094,17 +1100,16 @@
         }
         function map2_getMapBindData(tableId, columnName, boundaryId, layerId) {
         map2_mapBindData[layerId] = {};
-            var dataList = {};
-
+        var dataList = {};
 
             jQuery.ajax({
                 type: "Post",
                 url: "@Url.Action("getMapBindData")",
                 dataType: "json",
                 data: { tableId: tableId, columnName: columnName, boundaryId: boundaryId },
-                beforeSend: function () {
-                    $("#busy-indicator").fadeIn(150);
-                }
+                //beforeSend: function () {
+                //    $("#busy-indicator").fadeIn(150);
+                //}
             }).done(function (items) {
                 $.each(items, function (i, item) {
                     dataList[item.code] = new Map([["code", item.code], ["value", item.value]]);
@@ -1119,7 +1124,7 @@
                     });
                 }).always(function () {
                     map2_mapBindData[layerId] = dataList;
-                    jQuery("#busy-indicator").fadeOut(150);
+                    //jQuery("#busy-indicator").fadeOut(150);
                 });
 
 

@@ -60,7 +60,7 @@ namespace EcdsApp.Controllers.Map
             ViewBag.DistList = await _context.AdminBoundaryDistricts.ToListAsync();
             ViewBag.UpazList = await _context.AdminBoundaryUpazilas.ToListAsync();
 
-            ViewBag.LayerInfo = _context.ThemeLayerDetails.Where(i => i.LayerTypeId == 4)
+            ViewBag.LayerInfo = _context.ThemeLayerDetails.Where(i => i.LayerTypeId == 4 || i.SubThemes.ThemeId==1)
                 .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
                 .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
                 .Select(k => new ThemeList

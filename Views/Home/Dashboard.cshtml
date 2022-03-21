@@ -87,8 +87,9 @@
                 dominant-baseline: middle;
                 text-anchor: middle;
             }
+
         textPath {
-            stroke:none!important
+            stroke: none !important
         }
         /* svg {
             width: 1vw !important;
@@ -103,8 +104,12 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-body gggg">
-                        @*<gggg>*@
+                    <div class="card-body">
+                        <div class="gggg">
+                            @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                                <span class="sr-only">Loading... . .</span>
+                            </div>*@
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,30 +118,30 @@
                     <div class="card-body">
 
                         @*<h4 class="card-title">With captions</h4>
-                        <p class="card-title-desc">
-                            Add captions to your slides
-                            easily with the <code>.carousel-caption</code> element within
-                            any <code>.carousel-item</code>.
-                        </p>*@
+                            <p class="card-title-desc">
+                                Add captions to your slides
+                                easily with the <code>.carousel-caption</code> element within
+                                any <code>.carousel-item</code>.
+                            </p>*@
 
                         <div id="carouselExampleCaption" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item active">
-                                    <img src="ecds/assets/images/small/img-1.jpg" alt="..."  class="d-block img-fluid">
+                                    <img src="~/assets/images/small/img-1.jpg" alt="..." class="d-block img-fluid">
                                     <div class="carousel-caption d-none d-md-block text-white-50">
                                         <h5 class="text-white">First slide label</h5>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                     </div>
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="ecds/assets/images/small/img-5.jpg" alt="..." class="d-block img-fluid">
+                                    <img src="~/assets/images/small/img-5.jpg" alt="..." class="d-block img-fluid">
                                     <div class="carousel-caption d-none d-md-block text-white-50">
                                         <h5 class="text-white">Second slide label</h5>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                     </div>
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="ecds/assets/images/small/img-4.jpg" alt="..." class="d-block img-fluid">
+                                    <img src="~/assets/images/small/img-4.jpg" alt="..." class="d-block img-fluid">
                                     <div class="carousel-caption d-none d-md-block text-white-50">
                                         <h5 class="text-white">Third slide label</h5>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -216,8 +221,8 @@
                     <div class="card-body">
                         <div id="dash_chart1" class=" apex-charts text-center" padding:0.75rem;">
                             @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
-                                <span class="sr-only">Loading... . .</span>
-                            </div>*@
+                                    <span class="sr-only">Loading... . .</span>
+                                </div>*@
                         </div>
 
                     </div> <!-- end card-body-->
@@ -227,9 +232,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="dashboard_map" class="text-center" style="min-height:600px; padding:0.75rem;">
-                            @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                            <div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
                                 <span class="sr-only">Loading... . .</span>
-                            </div>*@
+                            </div>
                         </div>
 
                     </div> <!-- end card-body-->
@@ -315,7 +320,8 @@
             }
 
             function addLayer() {
-                var layerPath = "../ecds/assets/js/map/map_data/administrative/administrative_boundary/district/district.json";
+                var layerPath = window.location.pathname+"/assets/js/map/map_data/administrative/administrative_boundary/district/district.json";
+                //var layerPath = "../assets/js/map/map_data/" + filepath;
                 var layerData = L.geoJson(null, {
                     style: style,
                     onEachFeature: onEachFeature,
@@ -545,7 +551,7 @@
         //    height = window.innerHeight,
         //    maxRadius = (Math.min(width, height) / 2) - 5;
 
-        const width = 800, height =800, maxRadius = (Math.min(width, height) / 2) - 5;
+        const width = 800, height = 800, maxRadius = (Math.min(width, height) / 2) - 5;
 
         const formatNumber = d3.format(',d');
 
@@ -590,12 +596,12 @@
 
         const svg = d3.select('.gggg').append('svg')
             //.style('width', '100vw')
-             //.style('height', '600px')
+            //.style('height', '600px')
             .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
             .on('click', () => focusOn()); // Reset zoom on canvas click
 
-        d3.json(window.location.origin+'/ecds/Home/Data', (error, root) => {
-            if (error) throw error;           
+        d3.json(window.location.pathname + '/Home/Data', (error, root) => {
+            if (error) throw error;
             root = d3.hierarchy(root);
             root.sum(d => d.size);
             const slice = svg.selectAll('g.slice')
@@ -626,19 +632,20 @@
                 .attr('display', d => textFits(d) ? null : 'none');
 
             // Add white contour
-            text.append('textPath')
-                .attr('startOffset', '50%')
-                .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
-                .text(d => d.data.name)
-                .style('fill', 'none')
-                .style('stroke', '#fff')
-                .style('stroke-width', 5)
-                .style('stroke-linejoin', 'round');
+            //text.append('textPath')
+            //    .attr('startOffset', '50%')
+            //    .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
+            //    .text(d => d.data.name)
+            //    .style('fill', 'none')
+            //    .style('stroke', '#fff')
+            //    .style('stroke-width', 5)
+            //    .style('stroke-linejoin', 'round');
 
             text.append('textPath')
                 .attr('startOffset', '50%')
                 .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
                 .text(d => d.data.name);
+
         });
 
         function focusOn(d = { x0: 0, x1: 1, y0: 0, y1: 1 }) {

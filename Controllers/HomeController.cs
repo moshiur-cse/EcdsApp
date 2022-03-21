@@ -142,5 +142,14 @@ namespace EcdsApp.Controllers
         //{
         //    return View();
         //}
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        public IActionResult UserFeedback()
+        {
+            return View();
+        }
     }
 }
