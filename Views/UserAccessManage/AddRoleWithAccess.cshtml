@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="display-6 mb-0">Role With Access Control</h3>
-                        <p class="card-title-desc">Assign Access Control based on Role</p>
+                        <p class="card-title-desc">Modify Access Control based on Role</p>
                     </div>
                 </div>
 
@@ -32,8 +32,8 @@
                             <label class="col-md-2 col-form-label required">Components</label>
                             <div class="col-md-10">
                                 <select id="ddlComponent" class="select2 form-control select2-multiple" asp-items="ViewBag.ComponentList" multiple="multiple"
-                                        data-placeholder="Select one or multiple Component/Select 'All' for assigning access of all components in Role ..." required="">
-                                    <option value="0">All</option>
+                                        data-placeholder="Select one or multiple Component/Select 'All Components' for assigning access of all components in Role ..." required="">
+                                    <option value="0">All Components</option>
                                 </select>
                             </div>
                         </div>
@@ -82,10 +82,11 @@
     </div>
 </div>
 
+
 @section Scripts
 {
     <script src="~/assets/libs/select2/js/select2.min.js"></script>
-    
+
     <script type="text/javascript">
         $(function() {
             $('.select2').select2();

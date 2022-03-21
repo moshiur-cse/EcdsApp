@@ -18,5 +18,6 @@ namespace EcdsApp.Models.ViewModels.UserManage
     {
         public int ContentId { get; set; }
         public string Action { get; set; }
+        public bool IsChecked { get; set; }
     }
 }
