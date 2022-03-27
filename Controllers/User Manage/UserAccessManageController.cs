@@ -41,7 +41,7 @@ namespace EcdsApp.Controllers.User_Manage
 
         public async Task<IActionResult> EditRoleInfo(string roleId, string roleName)
         {
-            const string result = "Success";
+            const string success = "Success";
             const string error = "Error";
 
             var user = await _userManager.GetUserAsync(User);
@@ -52,14 +52,15 @@ namespace EcdsApp.Controllers.User_Manage
             {
                 var role = await _roleManager.FindByIdAsync(roleId);
                 role.Name = roleName;
+                var roleEditResult = await _roleManager.UpdateAsync(role);
+
+                return Json(roleEditResult.Succeeded ? success : error);
             }
             catch (Exception ex)
             {
                 ViewBag.ErrorMsg = ex;
                 return Json(error);
             }
-
-            return Json(error);
         }
 
         [HttpGet]
@@ -139,7 +140,7 @@ namespace EcdsApp.Controllers.User_Manage
 
         public async Task<IActionResult> SaveRoleWiseAccess(UserAccessVm formData)
         {
-            const string result = "Success";
+            const string success = "Success";
             const string error = "Error";
 
             var user = await _userManager.GetUserAsync(User);
@@ -185,7 +186,7 @@ namespace EcdsApp.Controllers.User_Manage
                 }
 
                 await transaction.CommitAsync();
-                return Json(result);
+                return Json(success);
 
             }
             catch (Exception ex)
