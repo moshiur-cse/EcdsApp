@@ -5,16 +5,16 @@
 
 @section Styles{
 	<style>
-	.card-title{
-		font-family: 'Montserrat', sans-serif;
+	.card-title,h6{
+		font-family: 'Bodoni Moda', serif;
 	}
 
 	iframe{
-		height:45vh;
+		height:55vh;
 	}
 
 	.card-bg{
-		background-color:#413466;
+		background-color:#32947f;
 	}
 	</style>
 }
@@ -37,8 +37,8 @@
                             </iframe>
 						</div>
 						<div class="col-12 col-xl-6 card-bg text-white d-flex justify-content-center align-items-center">
-							<div class="mx-1 mt-3 mb-5">								
-									<h3 class="text-center pb-2 card-title text-white fs-1 fw-normal mb-5 text-white">Contact</h3>
+							<div class="mx-4 mt-3 mb-5">								
+									<h2 class="text-center pb-2 card-title text-white fs-1 fw-bold mb-5 text-white">Contact Info</h2>
 									<h6 class="text-white px-2 fs-4 my-4"><i class="bx bx-mail-send mb-10 text-white me-2 fs-4"></i>dg@bbs.gov.bd</h6>
 									<h6 class="text-white px-2 fs-4 my-4"><i class="bx bx-phone-call mb-10 text-white me-2 fs-4"></i> +88-02-9112589</h6>
 									<h6 class="text-white px-2 fs-4 my-4"><i class="bx bx-map mb-10 text-white me-2 fs-4"></i>Parishankhyan Bhaban, E-27/A, Agargaon. Sher-e-Bangla Nagar, Dhaka-1207, Bangladesh</h6>
@@ -50,11 +50,3 @@
 		</div>
 	</div>
 </div>
-
-@section Scripts{
-	<script>
-		//===changed iframe width-height dynamically
-			console.log($("iframe")[0].height)
-			//$("iframe").css("height",$(".card").width()*0.33+'px');
-	</script>
-}
