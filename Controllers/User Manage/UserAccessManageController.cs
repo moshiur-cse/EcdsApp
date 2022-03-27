@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using EcdsApp.Models.ThemeModels;
 using EcdsApp.Models.ViewModels.UserManage;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -40,6 +39,19 @@ namespace EcdsApp.Controllers.User_Manage
             return View(roleList);
         }
 
+        public async Task<IActionResult> EditRoleInfo(string roleId, string roleName)
+        {
+            const string result = "Success";
+            const string error = "Error";
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Json(error);
+
+            return Json(error);
+        }
+
+        [HttpGet]
         public IActionResult AddRoleWithAccess()
         {
             var menuData = _context.UserPermittedContents
@@ -59,6 +71,7 @@ namespace EcdsApp.Controllers.User_Manage
             return View(userAccessVm);
         }
 
+        [HttpGet]
         public IActionResult EditRoleWithAccess(string roleId)
         {
             var menuData = _context.UserPermittedContents
@@ -79,23 +92,99 @@ namespace EcdsApp.Controllers.User_Manage
                 Data = menuData
             };
 
-            var compList = _context.SubThemes.ToList();
-            compList.Insert(0, new SubTheme{ SubThemeId = 0, SubThemeName = "All Components"});
-            ViewBag.ComponentList = new SelectList(compList, "SubThemeId", "SubThemeName", 0);
+            var extPermComponent = new int[]{ };
+            var componentList = _context.SubThemes.ToList();
+            int[] arrayToBeFilled = { };
+            foreach (var item in componentList)
+            {
+                if (DoesHaveAccessToComponent(item.SubThemeId, roleObj.Id))
+                {
+                    //extPermComponent.Add(item.SubThemeId.ToString());
+                    //ArrayPush(ref extPermComponent, item.SubThemeId);
+                    arrayToBeFilled = arrayToBeFilled.Append(item.SubThemeId).ToArray();
+                }
+            }
 
+            //ViewBag.JsonObj = JsonConvert.SerializeObject(compWithSelectedValList);
+            // Convert to array
+            //var myArray = extPermComponent.ToArray();
+
+            ViewBag.SelectedValue = "[1, 4, 5]";
+            ViewBag.ComponentList = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
             return View(userAccessVm);
+        }
+
+        public static void ArrayPush<T>(ref T[] table, object value)
+        {
+            Array.Resize(ref table, table.Length + 1); // Resizing the array for the cloned length (+-) (+1)
+            table.SetValue(value, table.Length - 1); // Setting the value for the new element
+        }
+
+        public bool DoesHaveAccessToComponent(int componentId, string roleId)
+        {
+            var returnObj = _context.RoleWiseComponents.FirstOrDefault(r => r.UserRoleId == roleId && r.SubThemeId == componentId);
+            return returnObj != null;
         }
 
         public async Task<IActionResult> SaveRoleWiseAccess(UserAccessVm formData)
         {
-            var result = "Success! Process Complete!";
-            var error = "Error!";
+            const string result = "Success";
+            const string error = "Error";
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
                 return Json(error);
 
-            return Json(result);
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var identityRole = new IdentityRole(formData.RoleName);
+                var roleAddResult = await _roleManager.CreateAsync(identityRole);
+                if (!roleAddResult.Succeeded)
+                    return Json(error);
+
+                var roleId = identityRole.Id;
+                foreach (var compItem in formData.ComponentArray)
+                {
+                    var roleWiseCompModel = new RoleWiseComponent
+                    {
+                        Id = (_context.RoleWiseComponents.Max(r => (int?) r.Id) ?? 0) + 1,
+                        UserRoleId = roleId,
+                        SubThemeId = Convert.ToInt32(compItem)
+                    };
+                    await _context.RoleWiseComponents.AddAsync(roleWiseCompModel);
+                    var addRoleWiseCompResult = await _context.SaveChangesAsync();
+                    if (addRoleWiseCompResult != 1)
+                        return Json(error);
+                }
+
+                foreach (var contentItem in formData.ContentId)
+                {
+                    var roleWiseContentModel = new RoleWisePermittedContent
+                    {
+                        Id = (_context.RoleWisePermittedContents.Max(r => (int?) r.Id) ?? 0) + 1,
+                        UserRoleId = roleId,
+                        ContentId = Convert.ToInt32(contentItem)
+                    };
+
+                    await _context.RoleWisePermittedContents.AddAsync(roleWiseContentModel);
+                    var addRoleWiseContResult = await _context.SaveChangesAsync();
+                    if (addRoleWiseContResult != 1)
+                        return Json(error);
+                }
+
+                await transaction.CommitAsync();
+                return Json(result);
+
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                ViewBag.ErrorMsg = ex;
+                return Json(error);
+            }
+
+            //return Json(result);
         }
 
         public bool CheckExistingRole(int contentId, string roleId)
