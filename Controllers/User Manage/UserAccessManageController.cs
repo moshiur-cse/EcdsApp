@@ -48,6 +48,17 @@ namespace EcdsApp.Controllers.User_Manage
             if (user == null)
                 return Json(error);
 
+            try
+            {
+                var role = await _roleManager.FindByIdAsync(roleId);
+                role.Name = roleName;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMsg = ex;
+                return Json(error);
+            }
+
             return Json(error);
         }
 
