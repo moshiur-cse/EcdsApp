@@ -107,8 +107,8 @@
                     <div class="card-body">
                         <div class="gggg">
                             @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
-                                <span class="sr-only">Loading... . .</span>
-                            </div>*@
+                                    <span class="sr-only">Loading... . .</span>
+                                </div>*@
                         </div>
                     </div>
                 </div>
@@ -545,7 +545,7 @@
 
 
     </script>
-
+  
     <script>
         //const width = window.innerWidth,
         //    height = window.innerHeight,
@@ -600,7 +600,7 @@
             .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
             .on('click', () => focusOn()); // Reset zoom on canvas click
 
-        d3.json(window.location.pathname +'/Home/Data', (error, root) => {
+        d3.json(window.location.pathname + '/Home/Data', (error, root) => {
             if (error) throw error;
             root = d3.hierarchy(root);
             root.sum(d => d.size);
@@ -616,7 +616,7 @@
                     focusOn(d);
                 });
 
-            newSlice.append('title').text(d => d.data.name);  //Display value also + '\n' + d.data.description
+            newSlice.append('title').text(d => d.data.name);  //Display value also on toolstips + '\n' + d.data.description
 
             newSlice.append('path')
                 .attr('class', 'main-arc')
@@ -628,8 +628,8 @@
                 .attr('id', (_, i) => `hiddenArc${i}`)
                 .attr('d', middleArcLine);
 
-            const text = newSlice.append('text')
-                .attr('display', d => textFits(d) ? null : 'none');
+            const text = newSlice.append('text') 
+                .attr('display', d => textFits(d)); //.attr('display', d => textFits(d) ? null : 'none');  Edit by RMO
 
             // Add white contour
             //text.append('textPath')
@@ -664,7 +664,7 @@
                 .attrTween('d', d => () => middleArcLine(d));
 
             transition.selectAll('text')
-                .attrTween('display', d => () => textFits(d) ? null : 'none');
+                .attrTween('display', d => () => textFits(d));  // .attrTween('display', d => () => textFits(d) ? null : 'none');
 
             moveStackToFront(d);
             //
@@ -677,4 +677,5 @@
             }
         }
     </script>
+
 }

@@ -600,7 +600,11 @@
                 var maplayerName = layerId.split(/_(.+)/)[1];
 
                 try {
-                    var map2_value=map2_mapBindData["map2_" + maplayerName][layer.feature.properties[attCode]].get('value')}
+                    var map2_value = map2_mapBindData["map2_" + maplayerName][layer.feature.properties[attCode]].get('value')
+                    var map2_value = map2_mapBindData[layerId][layer.feature.properties[attCode]].get('value')
+                
+                }
+
                 catch(e) {
                     window.Swal.fire({
                         icon: "error",
