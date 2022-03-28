@@ -143,11 +143,11 @@ namespace EcdsApp.Controllers
         //    return View();
         //}
 
-        public IActionResult Contact()
+        public IActionResult UserFeedback()
         {
             return View();
         }
-        public IActionResult UserFeedback()
+        public IActionResult AboutUs()
         {
             return View();
         }
