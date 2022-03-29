@@ -3,65 +3,190 @@
 }
 
 @section Styles{
+
 <style>
 	.txt-justify {
 		text-align: justify;
 	}
-	h1{
+
+	h1 {
 		font-family: 'Ramaraja', serif;
 	}
+
+	h4, ul > li {
+		font-family: 'Source Sans Pro', sans-serif;
+	}
+
+	.card {
+		box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+	}
+
+	.p-30 {
+		padding: 30px;
+	}
+
+	.passport {
+		max-width: 300px;
+		max-height: 400px;
+	}
+
+	
 </style>
 }
 
-<div class="page-content my-5 bg-light">
+<div class="page-content my-5 bg-white">
 	<div class="container-fluid min-vh-75">
 		<div class="row">
+
+			<!--Marquees-->
+			<div class="d-flex">
+				<div class="py-2 px-4 bg-danger text-white fs-4 fw-bolder">News</div>
+				<marquee class="w-100 mx-2 fs-4 fw-bold marquee text-danger">
+					One or more lines or text message or image
+				</marquee>				
+			</div>
+			<!--End Marquees-->
+
 			<h1 class="fs-1 text-center mt-2 mb-5 fw-bolder">About ECDS Platform</h1>
 			<div class="row justify-content-around">
-			<!--Column One-->
-			<div class="col-12 col-sm-10 col-md-6 col-lg-5">
-				<h4 class="txt-justify fs-4 fw-normal">
-					Bangladesh is one of the most disaster-prone countries due to climate change. It is intensified by the country's geographical position, land features, numerous crisscrossed rivers, and monsoon climate. As a result, we are incredibly vulnerable to natural disasters. Since the country is prone to harsh weather, loss and destruction are frequently large, putting the national economy at risk. Bangladesh ranked 6th on the list of countries most hit by climate disasters from 1999 to 2018 in the 2020 edition of German Watch's Climate Risk Index. This index focuses on Bangladesh's scary scenario in terms of climate impacts and natural disasters.<br /><br /> Sea level rise, storms, cyclones, droughts, erosion, landslides, flooding, salinization, and other natural disasters are already displacing a considerable number of people from the coastline and hilly areas and destroying infrastructure, human lives, and wealth. Despite all of its flaws, Bangladesh is one of the most resilient countries, and it is making gradual progress toward achieving the Sustainable Development Goals (SDGs). Numerous initiatives, research papers, surveys, and other activities are being carried out in development that requires reliable data and information for successful decision-making.
-					In recent years, the government has initiated multiple projects through numerous agencies and government departments to collect, generate, and update relevant statistics, so that policymakers could benefit from the information.<br /><br /> The Bangladesh Bureau of Statistics (BBS) is an independent national body under the Government of Bangladesh (GoB) that collects and disseminates statistical data and information. The "Inter-Ministerial Technical Working Committee" produced "Environment, Climate Change, and Disaster Statistics." To that end, the "Environment, Climate Change, and Disaster Statistics (ECDS) Cell" was established. In recent years, the government has taken some initiatives through various agencies and government departments to collect, generate, and update related statistics so that policymakers can benefit from the information. Bangladesh Bureau of Statistics (BBS) is an independent national body under the Government of Bangladesh (GoB) that oversees collecting and disseminating statistical data and information.
-				</h4>
+				<!--Column One-->
+				<div class="col-12 col-sm-10 col-md-6">
+					<!--Card One-->
+					<div class="card p-4">
+						<div class="card-body">
+							<h4 class="txt-justify fs-4 fw-normal my-4">
+								Bangladesh is one of the most disaster-prone countries due to climate change. It is intensified by the country's geographical position, land features, numerous crisscrossed rivers, and monsoon climate. As a result, we are incredibly vulnerable to natural disasters. Since the country is prone to harsh weather, loss and destruction are frequently large, putting the national economy at risk. Bangladesh ranked 6th on the list of countries most hit by climate disasters from 1999 to 2018 in the 2020 edition of German Watch's Climate Risk Index. This index focuses on Bangladesh's scary scenario in terms of climate impacts and natural disasters.
+							</h4>
+							<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-interval="1000">
+								<div class="carousel-inner" role="listbox">
+									<div class="carousel-item">
+										<img class="d-block img-fluid" src="https://themesbrand.com/minible/layouts/assets/images/small/img-1.jpg" alt="First slide">
+									</div>
+									<div class="carousel-item">
+										<img class="d-block img-fluid" src="https://themesbrand.com/minible/layouts/assets/images/small/img-2.jpg" alt="Second slide">
+									</div>
+									<div class="carousel-item active">
+										<img class="d-block img-fluid" src="https://themesbrand.com/minible/layouts/assets/images/small/img-3.jpg" alt="Third slide">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--End Card One-->
+					<!--Card Two-->
+					<div class="card">
+						<div class="card-body">
+							<h4 class="txt-justify fs-4 fw-normal p-4">
+								Sea level rise, storms, cyclones, droughts, erosion, landslides, flooding, salinization, and other natural disasters are already displacing a considerable number of people from the coastline and hilly areas and destroying infrastructure, human lives, and wealth. Despite all of its flaws, Bangladesh is one of the most resilient countries, and it is making gradual progress toward achieving the Sustainable Development Goals (SDGs). Numerous initiatives, research papers, surveys, and other activities are being carried out in development that requires reliable data and information for successful decision-making.
+								In recent years, the government has initiated multiple projects through numerous agencies and government departments to collect, generate, and update relevant statistics, so that policymakers could benefit from the information.
+							</h4>
+							<div id="carouselExampleSlidesOnly" class="carousel slide py-2 px-4" data-bs-ride="carousel" data-interval="1000">
+								<div class="carousel-inner" role="listbox">
+									<div class="carousel-item">
+										<img class="d-block img-fluid" src="https://themesbrand.com/minible/layouts/assets/images/small/img-1.jpg" alt="First slide">
+									</div>
+									<div class="carousel-item">
+										<img class="d-block img-fluid" src="https://themesbrand.com/minible/layouts/assets/images/small/img-2.jpg" alt="Second slide">
+									</div>
+									<div class="carousel-item active">
+										<img class="d-block img-fluid" src="https://themesbrand.com/minible/layouts/assets/images/small/img-3.jpg" alt="Third slide">
+									</div>
+								</div>
+							</div>
+							<h4 class="txt-justify fs-4 fw-normal p-4">
+								The Bangladesh Bureau of Statistics (BBS) is an independent national body under the Government of Bangladesh (GoB) that collects and disseminates statistical data and information. The "Inter-Ministerial Technical Working Committee" produced "Environment, Climate Change, and Disaster Statistics." To that end, the "Environment, Climate Change, and Disaster Statistics (ECDS) Cell" was established. In recent years, the government has taken some initiatives through various agencies and government departments to collect, generate, and update related statistics so that policymakers can benefit from the information. Bangladesh Bureau of Statistics (BBS) is an independent national body under the Government of Bangladesh (GoB) that oversees collecting and disseminating statistical data and information.
+							</h4>
+						</div>
+					</div>
+				</div>
+				<!--End Column One-->
+				<!--Column Two-->
+				<div class="row col-12 col-sm-10 col-md-6 col-lg-5 justify-content-center align-items-start">
+					<div class="p-30">
+						<!--Message Card-->
+						<div class="card">
+							<h1 class="fs-1 text-center fw-bold mt-4">Message</h1>
+							<h1 class="fs-4 text-center fw-bold mb-4">From Project Director</h1>
+							<div class="row justify-content-center align-items-center mt-5">
+								<img class="img-fluid passport" src="https://s3.ivisa.com/website-assets/blog/czech-republic-photo-size-requirements.jpg" />
+							</div>
+							<div class="row justify-content-center align-items-center pt-4">
+								<div class="txt-justify col-12 col-sm-10 fs-4 fw-normal my-4">
+									<h4 class="txt-justify fs-4 fw-normal">
+										Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+										The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+									</h4>
+									<h4 class="mt-5 fs-5 fw-bolder">Mr. XYZ YEUEIEIOE</h4>
+									<h4 class="fs-5 fw-bolder">Project Director</h4>
+								</div>
 
+							</div>
+						</div>
+						<!--End Message Card-->
+						<!--Objective & Features-->
+						<div class="card">
+							<div class="p-30">
+								<h4 class="fs-3 fw-bold py-2">System Objectives</h4>
+								<ul class="fs-4 txt-justify">
+									@*The establishment of ECDS is to generate statistics on the environment, natural resources, biodiversity, climate change, and disasters to institutionalize environmental statistics in Bangladesh. However, this project has established some specific objectives. The primary outcomes of this project are 'Compilation of Bangladesh Environmental Statistics 2020,' 'Bangladesh Environmental Protection, Expenditure, Resource, and Waste Management Survey 2021,' 'Natural Resource: Experimental Ecosystem Accounts/Statistics in Bangladesh 2022,' and 'Multi-sectoral GIS integration of the affected population with area, deaths, and missing population due to climate change and natural disasters.
+										The specific objectives of this project are:*@
+									<li class="fs-4">Empower the government, academia, and researchers to securely host, manage, share, visualize, and analyze geospatial data by establishing a well-designed sustainable geo-portal system</li>
+									<li class="fs-4">Have operational experience handling and publishing various maps and data</li>
+									<li class="fs-4">Cooperate government officials in project appraisal and planning process</li>
+								</ul>
+								<h4 class="fs-3 fw-bold py-2">System Features</h4>
+								<ul class="fs-4 txt-justify">
+									<li>Spatial data analysis in different geographic regions.</li>
+									<li>Login based authorization system with dynamic user permission and access</li>
+									<li>Download Map image as png/jpeg format</li>
+									<li>Upload Shapefile and Data Layer information</li>
+									<li>Download shapefile based on selected layers</li>
+									<li>Download Admin Boundary Information in different format</li>
+									<li>View Meta Data and Layer based information based on user access</li>
+									<li>Administrative user Management control with grant and revoke user access privilege</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!--End Column Two-->
+				</div>
 			</div>
-			<!--End Column One-->
-			<!--Column Two-->
-			<div class="col-12 col-sm-10 col-md-6 col-lg-5">
-				<h4 class="fs-3 fw-bold py-2">System Objectives</h4>
-				<ul class="fs-4 txt-justify">@*The establishment of ECDS is to generate statistics on the environment, natural resources, biodiversity, climate change, and disasters to institutionalize environmental statistics in Bangladesh. However, this project has established some specific objectives. The primary outcomes of this project are 'Compilation of Bangladesh Environmental Statistics 2020,' 'Bangladesh Environmental Protection, Expenditure, Resource, and Waste Management Survey 2021,' 'Natural Resource: Experimental Ecosystem Accounts/Statistics in Bangladesh 2022,' and 'Multi-sectoral GIS integration of the affected population with area, deaths, and missing population due to climate change and natural disasters.
-					The specific objectives of this project are:*@
-						<li class="fs-4">Empower the government, academia, and researchers to securely host, manage, share, visualize, and analyze geospatial data by establishing a well-designed sustainable geo-portal system</li>
-						<li class="fs-4">Have operational experience handling and publishing various maps and data</li>
-						<li class="fs-4">Cooperate government officials in project appraisal and planning process</li>
-				</ul>				
-				<h4 class="fs-3 fw-bold py-2">System Features</h4>				
-					<ul class="fs-4 txt-justify">
-						<li>Spatial data analysis in different geographic regions.</li>
-						<li>Login based authorization system with dynamic user permission and access</li>
-						<li>Download Map image as png/jpeg format</li>
-						<li>Upload Shapefile and Data Layer information</li>
-						<li>Download shapefile based on selected layers</li>
-						<li>Download Admin Boundary Information in different format</li>
-						<li>View Meta Data and Layer based information based on user access</li>
-						<li>Administrative user Management control with grant and revoke user access privilege</li>
-					</ul>
-					@*•	Spatial data analysis in different geographic regions.
-					•	Login based authorization system with dynamic user permission and access
-					•	View Map and Data Layers based on Theme and Components
-					•	Download Map image as png/jpeg format
-					•	Upload Shapefile and Data Layer information
-					•	Download shapefile based on selected layers
-					•	Download Admin Boundary Information in a different format
-					•	View Meta Data and Layer based information based on user access
-					•	Administrative user Management control with grant and revoke user access privilege*@
-				
-			</div>
-			<!--End Column Two-->
 		</div>
-		</div>
-		
 	</div>
 </div>
 
+<!--Modal-->
+<div class="modal fade bs-example-modal-lg show" role="dialog" id="mymodal">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+				<img class="w-100" src="http://www.bbs.gov.bd/sites/default/files/files/admin.portal.gov.bd/npfblock//2022-03-28-07-07-ce09a0194f764ca2f3740449ee1278b5.jpeg" />
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!--End Modal-->
+@section Scripts{
+<script>
+	//===open modal after 2s
+
+	setTimeout(()=>{
+		const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
+		keyboard: false
+		})
+		myModal.show()
+	},1000)
+
+	const AppendTextInMarquee =()=>{
+		msg=`Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.`
+		$(".marquee").text(msg)
+	}
+	AppendTextInMarquee()
+</script>
+}
