@@ -24,7 +24,6 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Main Attribute Value")]
         public string LayerMainAttribureValue { get; set; }
 
-        [Required]
         [Column("layer_legend_color_code")]
         [StringLength(10)]
         [Display(Name = "Legend Color Code")]
@@ -34,5 +33,14 @@ namespace EcdsApp.Models.ThemeModels
         [StringLength(200)]
         [Display(Name = "Legend Display Name")]
         public string LayerLegendDisplayName { get; set; }
+
+        [Column("icon_size", TypeName = "int")]
+        [Display(Name = "Icon Size")]
+        public int IconSize { get; set; }
+
+        [Column("icon_path")]
+        [StringLength(200)]
+        [Display(Name = "Icon Path")]
+        public string IconPath { get; set; }
     }
 }

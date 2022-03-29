@@ -11,7 +11,8 @@ namespace EcdsApp.Models.ViewModels.UserManage
 
         public string RoleName { get; set; }
         public string[] ComponentArray { get; set; }
-        public string[] ContentId { get; set; }
+        public string[] ContentArray { get; set; }
+        public string ActionMode { get; set; }
     }
 
     public class MenuContent

@@ -104,32 +104,20 @@ namespace EcdsApp.Controllers.User_Manage
                 Data = menuData
             };
 
-            var extPermComponent = new int[]{ };
             var componentList = _context.SubThemes.ToList();
-            int[] arrayToBeFilled = { };
+            int[] extPermComponent = { };
             foreach (var item in componentList)
             {
                 if (DoesHaveAccessToComponent(item.SubThemeId, roleObj.Id))
                 {
-                    //extPermComponent.Add(item.SubThemeId.ToString());
-                    //ArrayPush(ref extPermComponent, item.SubThemeId);
-                    arrayToBeFilled = arrayToBeFilled.Append(item.SubThemeId).ToArray();
+                    extPermComponent = extPermComponent.Append(item.SubThemeId).ToArray();
                 }
             }
 
-            //ViewBag.JsonObj = JsonConvert.SerializeObject(compWithSelectedValList);
-            // Convert to array
-            //var myArray = extPermComponent.ToArray();
-
-            ViewBag.SelectedValue = "[1, 4, 5]";
+            var selectedValString = string.Join(", ", extPermComponent);
+            ViewBag.SelectedValue = "[" + selectedValString + "]";
             ViewBag.ComponentList = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
             return View(userAccessVm);
-        }
-
-        public static void ArrayPush<T>(ref T[] table, object value)
-        {
-            Array.Resize(ref table, table.Length + 1); // Resizing the array for the cloned length (+-) (+1)
-            table.SetValue(value, table.Length - 1); // Setting the value for the new element
         }
 
         public bool DoesHaveAccessToComponent(int componentId, string roleId)
@@ -147,53 +135,117 @@ namespace EcdsApp.Controllers.User_Manage
             if (user == null)
                 return Json(error);
 
-            await using var transaction = await _context.Database.BeginTransactionAsync();
-            try
+            if (string.IsNullOrEmpty(formData.ActionMode))
+                return Json(error);
+
+            if (formData.ActionMode == "add")
             {
-                var identityRole = new IdentityRole(formData.RoleName);
-                var roleAddResult = await _roleManager.CreateAsync(identityRole);
-                if (!roleAddResult.Succeeded)
+                await using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    var identityRole = new IdentityRole(formData.RoleName);
+                    var roleAddResult = await _roleManager.CreateAsync(identityRole);
+                    if (!roleAddResult.Succeeded)
+                        return Json(error);
+
+                    var roleId = identityRole.Id;
+                    foreach (var compItem in formData.ComponentArray)
+                    {
+                        var roleWiseCompModel = new RoleWiseComponent
+                        {
+                            Id = (_context.RoleWiseComponents.Max(r => (int?)r.Id) ?? 0) + 1,
+                            UserRoleId = roleId,
+                            SubThemeId = Convert.ToInt32(compItem)
+                        };
+                        await _context.RoleWiseComponents.AddAsync(roleWiseCompModel);
+                        var addRoleWiseCompResult = await _context.SaveChangesAsync();
+                        if (addRoleWiseCompResult <= 0)
+                            return Json(error);
+                    }
+
+                    foreach (var contentItem in formData.ContentArray)
+                    {
+                        var roleWiseContentModel = new RoleWisePermittedContent
+                        {
+                            Id = (_context.RoleWisePermittedContents.Max(r => (int?)r.Id) ?? 0) + 1,
+                            UserRoleId = roleId,
+                            ContentId = Convert.ToInt32(contentItem)
+                        };
+
+                        await _context.RoleWisePermittedContents.AddAsync(roleWiseContentModel);
+                        var addRoleWiseContResult = await _context.SaveChangesAsync();
+                        if (addRoleWiseContResult <= 0)
+                            return Json(error);
+                    }
+
+                    await transaction.CommitAsync();
+                    return Json(success);
+
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    ViewBag.ErrorMsg = ex;
                     return Json(error);
-
-                var roleId = identityRole.Id;
-                foreach (var compItem in formData.ComponentArray)
-                {
-                    var roleWiseCompModel = new RoleWiseComponent
-                    {
-                        Id = (_context.RoleWiseComponents.Max(r => (int?) r.Id) ?? 0) + 1,
-                        UserRoleId = roleId,
-                        SubThemeId = Convert.ToInt32(compItem)
-                    };
-                    await _context.RoleWiseComponents.AddAsync(roleWiseCompModel);
-                    var addRoleWiseCompResult = await _context.SaveChangesAsync();
-                    if (addRoleWiseCompResult != 1)
-                        return Json(error);
                 }
-
-                foreach (var contentItem in formData.ContentId)
-                {
-                    var roleWiseContentModel = new RoleWisePermittedContent
-                    {
-                        Id = (_context.RoleWisePermittedContents.Max(r => (int?) r.Id) ?? 0) + 1,
-                        UserRoleId = roleId,
-                        ContentId = Convert.ToInt32(contentItem)
-                    };
-
-                    await _context.RoleWisePermittedContents.AddAsync(roleWiseContentModel);
-                    var addRoleWiseContResult = await _context.SaveChangesAsync();
-                    if (addRoleWiseContResult != 1)
-                        return Json(error);
-                }
-
-                await transaction.CommitAsync();
-                return Json(success);
 
             }
-            catch (Exception ex)
+            else
             {
-                await transaction.RollbackAsync();
-                ViewBag.ErrorMsg = ex;
-                return Json(error);
+                await using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    var roleObj = await _roleManager.FindByNameAsync(formData.RoleName);
+
+                    var roleWiseExistingCompList = _context.RoleWiseComponents.Where(r => r.UserRoleId == roleObj.Id).ToList();
+                    foreach (var compItem in roleWiseExistingCompList)
+                    {
+                        _context.RoleWiseComponents.Remove(compItem);
+                    }
+                    foreach (var compItem in formData.ComponentArray)
+                    {
+                        var roleWiseCompModel = new RoleWiseComponent
+                        {
+                            Id = (_context.RoleWiseComponents.Max(r => (int?)r.Id) ?? 0) + 1,
+                            UserRoleId = roleObj.Id,
+                            SubThemeId = Convert.ToInt32(compItem)
+                        };
+                        await _context.RoleWiseComponents.AddAsync(roleWiseCompModel);
+                        var addRoleWiseCompResult = await _context.SaveChangesAsync();
+                        if (addRoleWiseCompResult <= 0)
+                            return Json(error);
+                    }
+
+                    var roleWiseExistingContList = _context.RoleWisePermittedContents.Where(r => r.UserRoleId == roleObj.Id);
+                    foreach (var contItem in roleWiseExistingContList)
+                    {
+                        _context.RoleWisePermittedContents.Remove(contItem);
+                    }
+
+                    foreach (var contItem in formData.ContentArray)
+                    {
+                        var roleWiseContentModel = new RoleWisePermittedContent
+                        {
+                            Id = (_context.RoleWisePermittedContents.Max(r => (int?)r.Id) ?? 0) + 1,
+                            UserRoleId = roleObj.Id,
+                            ContentId = Convert.ToInt32(contItem)
+                        };
+
+                        await _context.RoleWisePermittedContents.AddAsync(roleWiseContentModel);
+                        var addRoleWiseContResult = await _context.SaveChangesAsync();
+                        if (addRoleWiseContResult <= 0)
+                            return Json(error);
+                    }
+
+                    await transaction.CommitAsync();
+                    return Json(success);
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    ViewBag.ErrorMsg = ex;
+                    return Json(error);
+                }
             }
 
             //return Json(result);

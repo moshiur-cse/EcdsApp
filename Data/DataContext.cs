@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-
+using MySql.EntityFrameworkCore.Extensions;
 namespace EcdsApp.Data
 {
     //DbContext  //DataContext (JRCWebApp.Data)

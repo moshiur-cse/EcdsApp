@@ -32,7 +32,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="display-6 mb-0">Role With Access Control</h3>
-                        <p class="card-title-desc">Modify Access Control based on Role</p>
+                        <p class="card-title-desc">Add Access Control based on Role</p>
                     </div>
                 </div>
 
@@ -53,7 +53,7 @@
 
                         <div class="table-responsive mt-3">
                             <table id="tech-companies-1" class="table table-striped">
-                                <thead class="bg-gradient-info" style="color: white">
+                                <thead style="background: #006B3B !important; color: white">
                                     <tr>
                                         <th>Menu</th>
                                         <th>Action</th>
@@ -178,7 +178,8 @@
             const formData = {
                 'RoleName': $("#txtRoleName").val(),
                 'ComponentArray': compArray,
-                'ContentId': idArray
+                'ContentArray': idArray,
+                'ActionMode': 'add'
             };
             const postUrl = '@Url.Action("SaveRoleWiseAccess", "UserAccessManage")';
             const redirectUrl = '@Url.Action("Roles", "UserAccessManage")';
@@ -196,7 +197,9 @@
                             showConfirmButton: false,
                             timer: 2500
                         });
-                        location.href = redirectUrl;
+                        setTimeout(function () {
+                            location.href = redirectUrl;
+                        }, 2010);
                     } else {
                         window.Swal.fire({
                             icon: "error",

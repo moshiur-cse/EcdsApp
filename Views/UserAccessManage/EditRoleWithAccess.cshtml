@@ -41,7 +41,7 @@
                         <div class="mb-3 row">
                             <label class="col-md-2 col-form-label required">Role Name</label>
                             <div class="col-md-10">
-                                <input id="txtRoleName" class="form-control" required="" value="@Model.RoleName"/>
+                                <input id="txtRoleName" class="form-control" required="" value="@Model.RoleName" readonly="readonly"/>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="mt-4 text-right">
-                            <input id="btnUpdate" value="Submit" class="btn btn-rounded btn-success w-lg" />
+                            <input type="button" id="btnUpdate" value="Submit" class="btn btn-rounded btn-success w-lg" />
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
         var selectedValue = @ViewBag.SelectedValue;
         $('.select2').val(selectedValue);
         $('.select2').select2({
-            placeholder: 'Press CTRL+A for Select or Unselect All Options',
+            placeholder: 'Select single/multiple components for assigning against this role',
             multiple: true
         });
 
@@ -216,12 +216,14 @@
             const formData = {
                 'RoleName': $("#txtRoleName").val(),
                 'ComponentArray': compArray,
-                'ContentId': idArray
+                'ContentArray': idArray,
+                'ActionMode': 'edit'
             };
-            const url = '@Url.Action("SaveRoleWiseAccess", "UserAccessManage")';
+            const postUrl = '@Url.Action("SaveRoleWiseAccess", "UserAccessManage")';
+            const redirectUrl = '@Url.Action("Roles", "UserAccessManage")';
             $.ajax({
                 type: "POST",
-                url: url,
+                url: postUrl,
                 accept: "application/json; charset=utf-8",
                 data: formData,
                 before: $("#busy-indicator").fadeIn(150),
@@ -231,8 +233,11 @@
                             icon: "success",
                             title: "Data Added Successfully!",
                             showConfirmButton: false,
-                            timer: 2500
+                            timer: 2000
                         });
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2010);
                     } else {
                         window.Swal.fire({
                             icon: "error",
