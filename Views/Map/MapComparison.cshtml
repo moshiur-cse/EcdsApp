@@ -126,6 +126,7 @@
         var map1_mapBindData = {};
         var map1_legend = L.control({ position: 'bottomright' });
         var map1_legend_div = L.DomUtil.create('div', 'map1_legend_info');
+        var map1_active_layer;
 
 
         var secondMap;
@@ -135,6 +136,7 @@
         var map2_mapBindData = {};
         var map2_legend = L.control({ position: 'bottomright' });
         var map2_legend_div = L.DomUtil.create('div', 'map2_legend_info');
+        var map2_active_layer;
 
 
 
@@ -498,7 +500,7 @@
 
         function map1_LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, layerName, layerTypeId, isLegendColor, map1_legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, boundaryId, tableId) {
 
-
+            map1_active_layer=layerId;
             var layerPath = "../assets/js/map/map_data/" + filepath;
 
             if (firstMap.hasLayer(map1_data_layer[layerId])) {
@@ -597,11 +599,11 @@
                 var layer = e.target;
 
 
-                var maplayerName = layerId.split(/_(.+)/)[1];
+                //var maplayerName = layerId.split(/_(.+)/)[1];
 
                 try {
-                    var map2_value = map2_mapBindData["map2_" + maplayerName][layer.feature.properties[attCode]].get('value')
-                    var map2_value = map2_mapBindData[layerId][layer.feature.properties[attCode]].get('value')
+                    //var map2_value = map2_mapBindData["map2_" + maplayerName][layer.feature.properties[attCode]].get('value')
+                    var map2_value = map2_mapBindData[map2_active_layer][layer.feature.properties[attCode]].get('value')
                 
                 }
 
@@ -612,7 +614,7 @@
                         showConfirmButton: true, //true
                         //timer: 3000   // remove timer
                     });
-                    //return;
+                    return;
                 }
 
 
@@ -635,9 +637,7 @@
                         }
                         mainContent += '<p>' + Object.getOwnPropertyNames(layer.feature.properties)[i] + " : " + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]] + '</p>';
                     }
-
-                    //popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
-                    map1_popupContent = '<div style="text-align:center;">' + mainContent + '</div>';
+                     map1_popupContent = '<div style="text-align:center;">' + mainContent + '</div>';
 
                 }
 
@@ -651,7 +651,6 @@
                 }).setLatLng(e.latlng).setContent(map2_popupContent).openOn(secondMap)).openPopup(e.latlng);
 
                 layer.bindPopup(L.popup({
-                    //setLatLng: marker.getLatLng(),
                     closeOnClick: false,
                     autoClose: false,
                     closeButton: true,
@@ -674,8 +673,7 @@
                         mainContent += '<p>' + Object.getOwnPropertyNames(layer.feature.properties)[i] + " : " + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]] + '</p>';
                     }
 
-                    //popupContent = '<div style="width:300px;text-align:center;"><p>' + mainAttDisName + " : " + layer.feature.properties[mainAtt] + '</p>' + ((firstAtt != null) ? '<p>' + (firstAttDisName + " : " + layer.feature.properties[firstAtt]) + '</p>' : " ") + '</div>';
-                    popupContent = '<div style="text-align:center;">' + mainContent + '</div>';
+                   popupContent = '<div style="text-align:center;">' + mainContent + '</div>';
 
                 }
 
@@ -684,20 +682,11 @@
                     closeOnClick: false
                 }).openPopup(e.latlng);
 
-                //layer.setStyle({
-                //    weight: 1,
-                //    color: '#E11F21',
-                //    opacity: 1,
-                //    //dashArray: '',
-                //    //fillOpacity: 1
-                //}).bindPopup(popupContent).openPopup(e.latlng);
-
-                //if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                //    layer.bringToFront();
-                //}
+                
             }
             function resetHighlight(e) {
                 firstMap.closePopup();
+                //secondMap.closePopup();
                 //map1_data_layer[layerId].resetStyle(e.target);
             }
 
@@ -883,7 +872,7 @@
 
 
         function map2_LayerShowHide(layerUid, layerId, filepath, mainAttDisName, mainAtt, attCode, cLat, cLong, layerName, layerTypeId, isLegendColor, legendcolorField, admin_code_list, opacity, fillOpacity, weight, color, boundaryId, tableId) {
-
+            map2_active_layer=layerId;
             var layerPath = "../assets/js/map/map_data/" + filepath;
 
 
@@ -1221,7 +1210,6 @@
             map2_legend.addTo(secondMap);
 
         }
-
 
 
         jQuery('.legendOnOff').click(function ($) {
