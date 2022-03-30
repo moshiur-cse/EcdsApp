@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using EcdsApp.Models.ViewModels.UserManage;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EcdsApp.Controllers.User_Manage
 {
+    [Authorize]
     public class UserAccessManageController : Controller
     {
         private readonly DataContext _context;
@@ -25,14 +27,39 @@ namespace EcdsApp.Controllers.User_Manage
             _roleManager = roleManager;
         }
 
+        [HttpGet]
         public IActionResult Users()
         {
             var userList = _userManager.Users
                 .Include(u => u.UserRole)
                 .ToList();
+
+            ViewBag.RoleList = new SelectList(_roleManager.Roles, "Id", "Name");
             return View(userList);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AssignRoleToUser(string userId, string roleId)
+        {
+            const string success = "Success";
+            const string error = "Error";
+
+            var loggedInUser = await _userManager.GetUserAsync(User);
+            if (loggedInUser == null)
+                return Json(error);
+
+            var roleToBeAssignUser = await _userManager.FindByIdAsync(userId);
+            if (roleToBeAssignUser == null)
+                return Json(error);
+
+            roleToBeAssignUser.UserRoleId = roleId;
+            var result = await _userManager.UpdateAsync(roleToBeAssignUser);
+            //var result = await _userManager.AddToRoleAsync(roleToBeAssignUser, roleId);
+
+            return Json(result.Succeeded ? success : error);
+        }
+
+        [HttpGet]
         public IActionResult Roles()
         {
             var roleList = _roleManager.Roles.ToList();

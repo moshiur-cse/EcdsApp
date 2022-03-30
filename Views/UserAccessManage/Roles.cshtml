@@ -19,6 +19,7 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                         <tr class="bg-transparent">
+                            <th class="text-center">Role Id</th>
                             <th class="text-center">Role Name</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -27,6 +28,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td class="text-center">@item.Id</td>
                                 <td class="text-center">@item.Name</td>
                                 <td class="text-center">
                                     <a onclick="EditRoleName('@item.Id', '@item.Name')" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" style="margin-right: 20px;">Edit Name</a>
@@ -63,6 +65,7 @@
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
+
                 </div>
             </div>
         </div>
