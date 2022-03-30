@@ -576,7 +576,7 @@
 
 
                     if (isLegendColor == 1) {
-                        legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField);
+                        legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField,layerTypeId);
                     }
 
                     updateMapLayerList(layerId);
@@ -584,8 +584,9 @@
                 });
 
            function pointToLayer(feature, latlng) {
-
-                    return L.marker(latlng, {icon:L.icon({iconUrl: '../assets/images/radio_icon.webp',iconSize: [20, 20]})});
+                    var size=getIconSize(layerId, feature.properties[legendcolorField]);
+                    var iconPath=getIconPath(layerId, feature.properties[legendcolorField]);
+                    return L.marker(latlng, {icon:L.icon({iconUrl: '../assets/images/'+iconPath,iconSize: [size, size]})});
            }
             function style(feature) {
 
@@ -786,7 +787,7 @@
 
 
         // Add Legend in Map
-        function legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField) {
+        function legendAndInfo(e, mainAtt, attCode, layerId, layerName, isLegendColor, legendcolorField,layerTypeId) {
 
             mymap.removeLayer(legend);
 
@@ -806,7 +807,32 @@
                     }
                     return legend_div;
                 };
-            } else {
+            }
+            //else if (layerTypeId == 1) {
+
+            //     legend.onAdd = function (map) {
+
+            //        jQuery.each(userDefinedColorList, function (index, val) {
+
+            //            for (var i = 0; i < userDefinedColorList[index].length; i++) {
+
+            //                if (i == 0) {
+            //                    legend_div.innerHTML += '<p class="legendTitle ' + index + '">' + userDefinedColorList[index][i].get('legendName') + ' </p>';
+            //                }
+
+            //                legend_div.innerHTML += '<p class="' + index + '">' + userDefinedColorList[index][i].get('name') + '<img  src="../assets/images/' + userDefinedColorList[index][i].get('iconPath') + '"/> </p>';
+            //            }
+
+
+            //        });
+                    
+            //        var draggable = new L.Draggable(legend_div);
+            //        draggable.enable()
+            //        return legend_div;
+            //    };
+
+            //}
+            else {
 
                 legend.onAdd = function (map) {
 
@@ -817,23 +843,18 @@
                             if (i == 0) {
                                 legend_div.innerHTML += '<p class="legendTitle ' + index + '">' + userDefinedColorList[index][i].get('legendName') + ' </p>';
                             }
-                            legend_div.innerHTML += '<p class="' + index + '">' + userDefinedColorList[index][i].get('name') + '<i style="background:' + userDefinedColorList[index][i].get('color') + '"></i> </p>';
+                            if(userDefinedColorList[index][i].get('iconPath')=="" || userDefinedColorList[index][i].get('iconSize')==0){
+                                legend_div.innerHTML += '<p class="' + index + '">' + userDefinedColorList[index][i].get('name') + '<i style="background:' + userDefinedColorList[index][i].get('color') + '"></i> </p>';
+                            }else{
+                                legend_div.innerHTML += '<div style="vertical-align: middle;"><p class="' + index + '"><img  src="../assets/images/' + userDefinedColorList[index][i].get('iconPath') + '" height="'+userDefinedColorList[index][i].get('iconSize')+'"/> '+userDefinedColorList[index][i].get('name') +'</p></div>';
+                            }
                         }
 
 
                     });
-                    //for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
-
-                    //    if (i == 0) {
-                    //        legend_div.innerHTML += '<p class="' + layerId + '">' + layerName + ' </p>';
-                    //    }
-                    //    legend_div.innerHTML += '<p class="' + layerId + '">' + userDefinedColorList[layerId][i].get('name') + '<i style="background:' + userDefinedColorList[layerId][i].get('color') + '"></i> </p>';
-                    //}
-
+                    
                     var draggable = new L.Draggable(legend_div);
                     draggable.enable()
-
-
                     return legend_div;
                 };
             }
@@ -855,10 +876,6 @@
 
         //Get User Defined Color
         function getColor(layerId, d) {
-
-        //console.log(userDefinedColorList["main_river"][0].get('color'));
-
-
         for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
 
             if (userDefinedColorList[layerId].length == 1) {
@@ -872,6 +889,44 @@
 
                 else if (d >= userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('value')) {
                     return userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('color');
+
+                }
+            }
+        }
+
+        function getIconSize(layerId, d) {
+        for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
+
+            if (userDefinedColorList[layerId].length == 1) {
+                return userDefinedColorList[layerId][0].get('iconSize');
+
+            }
+
+                if (d >= userDefinedColorList[layerId][i].get('value') && d < userDefinedColorList[layerId][i + 1].get('value')) {
+                    return userDefinedColorList[layerId][i].get('iconSize');
+                }
+
+                else if (d >= userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('value')) {
+                    return userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('iconSize');
+
+                }
+            }
+        }
+
+        function getIconPath(layerId, d) {
+        for (var i = 0; i < userDefinedColorList[layerId].length; i++) {
+
+            if (userDefinedColorList[layerId].length == 1) {
+                return userDefinedColorList[layerId][0].get('iconPath');
+
+            }
+
+                if (d >= userDefinedColorList[layerId][i].get('value') && d < userDefinedColorList[layerId][i + 1].get('value')) {
+                    return userDefinedColorList[layerId][i].get('iconPath');
+                }
+
+                else if (d >= userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('value')) {
+                    return userDefinedColorList[layerId][userDefinedColorList[layerId].length - 1].get('iconPath');
 
                 }
             }
@@ -892,10 +947,10 @@
                 data: { layer_id: layerUid },
                 before: jQuery("#busy-indicator").fadeIn(150),
                 success: function (items) {
-
+                    
                     $.each(items,
                         function (i, item) {
-                            colorList[i] = new Map([["legendName", LegendName],["color", item.colorCode], ["value", item.attCode], ["name", item.attName]]);
+                            colorList[i] = new Map([["legendName", LegendName],["color", item.colorCode], ["value", item.attCode], ["name", item.attName], ["iconSize", item.iconSize], ["iconPath", item.iconPath]]);
                         });
                     userDefinedColorList[layerId] = colorList;
 

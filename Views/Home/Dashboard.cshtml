@@ -21,93 +21,107 @@
 }
 @section Styles{
 
-    <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
-    <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
+<link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/css/mapstyle.css" rel="stylesheet" />
     @*<link href="~/assets/libs/bootstrap/css/bootstrap-select.css" rel="stylesheet" />*@
 
-    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
-    <style>
-        .legend_info {
-            padding: 1px;
-            background: rgba(255,255,255,0.8);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            border-radius: 5px;
-            /*font-size: 1vw;*/
-            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
-            /*overflow: scroll;*/
-            min-height: 100px;
-            max-height: 400px;
-            /* resize: both;*/
-            text-align: left;
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
+<style>
+    .legend_info {
+        padding: 1px;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        /*font-size: 1vw;*/
+        font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+        /*overflow: scroll;*/
+        min-height: 100px;
+        max-height: 400px;
+        /* resize: both;*/
+        text-align: left;
+    }
+
+    .card {
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+    }
+
+    .legend_info i {
+        width: 20px;
+        height: 15px;
+        float: left;
+        margin-right: 10px;
+        opacity: 0.7;
+        font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .legend_info p {
+        padding: 0.2vw;
+    }
+
+    .mapLabel {
+        height: auto !important;
+        width: auto !important;
+        /*font-weight: bold;
+                    color: #025 line-height: 1;*/
+        padding: 0.2rem 0.3rem;
+        text-align: center;
+        font-weight: bold;
+        font-size: 0.5rem;
+        color: #000000;
+        text-shadow: 0 0 1px #aaa;
+        background: rgba(250,250,250,0.45);
+        border-radius: 0.25rem;
+    }
+
+    .slice {
+        cursor: pointer;
+    }
+
+        .slice .main-arc {
+            stroke: #fff;
+            stroke-width: 1px;
         }
 
-            .legend_info i {
-                width: 20px;
-                height: 15px;
-                float: left;
-                margin-right: 10px;
-                opacity: 0.7;
-                font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
-            }
-
-            .legend_info p {
-                padding: 0.2vw;
-            }
-
-        .mapLabel {
-            height: auto !important;
-            width: auto !important;
-            /*font-weight: bold;
-            color: #025 line-height: 1;*/
-            padding: 0.2rem 0.3rem;
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.5rem;
-            color: #000000;
-            text-shadow: 0 0 1px #aaa;
-            background: rgba(250,250,250,0.45);
-            border-radius: 0.25rem;
+        .slice .hidden-arc {
+            fill: none;
         }
 
-        .slice {
-            cursor: pointer;
+        .slice text {
+            pointer-events: none;
+            dominant-baseline: middle;
+            text-anchor: middle;
         }
 
-            .slice .main-arc {
-                stroke: #fff;
-                stroke-width: 1px;
-            }
-
-            .slice .hidden-arc {
-                fill: none;
-            }
-
-            .slice text {
-                pointer-events: none;
-                dominant-baseline: middle;
-                text-anchor: middle;
-            }
-
-        textPath {
-            stroke: none !important
-        }
-        /* svg {
-            width: 1vw !important;
-            height: 50vh !important;
-        }*/
-    </style>
+    textPath {
+        stroke: none !important
+    }
+    /* svg {
+                    width: 1vw !important;
+                    height: 50vh !important;
+                }*/
+</style>
 }
 
 
-<div class="page-content">
+<div class="page-content my-5 bg-white">
     <div class="container-fluid">
+        <div class="row">
+            <!--Marquees-->
+            <div class="d-flex">
+                <div class="py-2 px-4 bg-danger text-white fs-4 fw-bolder">News</div>
+                <marquee class="w-100 mx-2 fs-4 fw-bold marquee text-danger" scrollamount="15">
+                    One or more lines or text message or image
+                </marquee>
+            </div>
+        </div>
+        <!--End Marquees-->
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="gggg">
                             @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
-                                    <span class="sr-only">Loading... . .</span>
+                                <span class="sr-only">Loading... . .</span>
                                 </div>*@
                         </div>
                     </div>
@@ -119,9 +133,9 @@
 
                         @*<h4 class="card-title">With captions</h4>
                             <p class="card-title-desc">
-                                Add captions to your slides
-                                easily with the <code>.carousel-caption</code> element within
-                                any <code>.carousel-item</code>.
+                            Add captions to your slides
+                            easily with the <code>.carousel-caption</code> element within
+                            any <code>.carousel-item</code>.
                             </p>*@
 
                         <div id="carouselExampleCaption" class="carousel slide" data-bs-ride="carousel">
@@ -221,7 +235,7 @@
                     <div class="card-body">
                         <div id="dash_chart1" class=" apex-charts text-center" padding:0.75rem;">
                             @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
-                                    <span class="sr-only">Loading... . .</span>
+                                <span class="sr-only">Loading... . .</span>
                                 </div>*@
                         </div>
 
@@ -245,15 +259,49 @@
     </div>
 </div>
 
-@section Scripts{
-    <!-- apexcharts -->
-    <script src="~/assets/libs/leaflet/leaflet.js"></script>
-    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
-    <script src="~/assets/libs/select2/js/select2.min.js"></script>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+<!--Modal-->
 
-    <script type="text/javascript">
+<div class="modal fade bs-example-modal-lg show" role="dialog" id="mymodal">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+				<img class="w-100" src="~/assets/images/wsis_prize2022.jpeg" />
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+<!-- apexcharts -->
+<script src="~/assets/libs/leaflet/leaflet.js"></script>
+<script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<script type="text/javascript">
         $(function () {
+
+
+            const AppendTextInMarquee =()=>{
+                msg=`এক নদী রক্ত পেরিয়ে বাংলার স্বাধীনতা আনলে যারা আমরা তোমাদের ভুলবোনা….!” বাংলার স্বাধীনতার জন্য যাদের রক্তের নদী বয়ে গিয়েছিল বাংলার বুকে সেই সকল শহীদদের আত্মার মাগফেরাত কামনায় স্বাধীনতা দিবস সফল হোক।`
+                $(".marquee").text(msg)
+                }
+            AppendTextInMarquee();
+
+            setTimeout(()=>{
+		const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
+		keyboard: false
+		})
+		myModal.show()
+	},1000);
+
+
             var dashboard_map;
             var legend = L.control({ position: 'topright' });
             var legend_div = L.DomUtil.create('div', 'legend_info');
@@ -471,40 +519,40 @@
             //});
 
             @*function loadChart() {
-                dist = [];
-                male = [];
-                female = [];
-                total = [];
-                var distCodeList = [];
+                        dist = [];
+                        male = [];
+                        female = [];
+                        total = [];
+                        var distCodeList = [];
 
-                if ($("#DistCode").val().length > 0) {
-                    distCodeList = $("#DistCode").val();
+                        if ($("#DistCode").val().length > 0) {
+                            distCodeList = $("#DistCode").val();
 
-                } else {
-                    distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
-                }
-                jQuery.ajax({
-                    type: "POST",
-                    url: "@Url.Action("GetChartData")",
-                    dataType: "json",
-                    data: { distCodeList: distCodeList },
-                    before: jQuery("#busy-indicator").fadeIn(150),
-                    success: function (datas) {
-                        $.each(datas, function (i, item) {
-                            dist.push(item.distName);
-                            male.push(item.male);
-                            female.push(item.female);
-                            total.push(item.total);
+                        } else {
+                            distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
+                        }
+                        jQuery.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetChartData")",
+                            dataType: "json",
+                            data: { distCodeList: distCodeList },
+                            before: jQuery("#busy-indicator").fadeIn(150),
+                            success: function (datas) {
+                                $.each(datas, function (i, item) {
+                                    dist.push(item.distName);
+                                    male.push(item.male);
+                                    female.push(item.female);
+                                    total.push(item.total);
+                                });
+                            },
+                            error: function (ex, status, error) {
+
+                            },
+                            complete: function () {
+                                jQuery("#busy-indicator").fadeOut(150);
+                            }
                         });
-                    },
-                    error: function (ex, status, error) {
-
-                    },
-                    complete: function () {
-                        jQuery("#busy-indicator").fadeOut(150);
-                    }
-                });
-            }*@
+                    }*@
 
 
             function drawChart() {
@@ -544,138 +592,140 @@
 
 
 
-    </script>
-  
-    <script>
-        //const width = window.innerWidth,
-        //    height = window.innerHeight,
-        //    maxRadius = (Math.min(width, height) / 2) - 5;
+</script>
 
-        const width = 800, height = 800, maxRadius = (Math.min(width, height) / 2) - 5;
+<script>
+    //const width = window.innerWidth,
+    //    height = window.innerHeight,
+    //    maxRadius = (Math.min(width, height) / 2) - 5;
 
-        const formatNumber = d3.format(',d');
+    const width = 800, height = 800, maxRadius = (Math.min(width, height) / 2) - 5;
 
-        const x = d3.scaleLinear()
-            .range([0, 2 * Math.PI])
-            .clamp(true);
+    const formatNumber = d3.format(',d');
 
-        const y = d3.scaleSqrt()
-            .range([maxRadius * .1, maxRadius]);
+    const x = d3.scaleLinear()
+        .range([0, 2 * Math.PI])
+        .clamp(true);
 
-        const color = d3.scaleOrdinal(d3.schemeCategory20);
+    const y = d3.scaleSqrt()
+        .range([maxRadius * .1, maxRadius]);
 
-        const partition = d3.partition();
+    const color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        const arc = d3.arc()
-            .startAngle(d => x(d.x0))
-            .endAngle(d => x(d.x1))
-            .innerRadius(d => Math.max(0, y(d.y0)))
-            .outerRadius(d => Math.max(0, y(d.y1)));
+    const partition = d3.partition();
 
-        const middleArcLine = d => {
-            const halfPi = Math.PI / 2;
-            const angles = [x(d.x0) - halfPi, x(d.x1) - halfPi];
-            const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
+    const arc = d3.arc()
+        .startAngle(d => x(d.x0))
+        .endAngle(d => x(d.x1))
+        .innerRadius(d => Math.max(0, y(d.y0)))
+        .outerRadius(d => Math.max(0, y(d.y1)));
 
-            const middleAngle = (angles[1] + angles[0]) / 2;
-            const invertDirection = middleAngle > 0 && middleAngle < Math.PI; // On lower quadrants write text ccw
-            if (invertDirection) { angles.reverse(); }
+    const middleArcLine = d => {
+        const halfPi = Math.PI / 2;
+        const angles = [x(d.x0) - halfPi, x(d.x1) - halfPi];
+        const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
 
-            const path = d3.path();
-            path.arc(0, 0, r, angles[0], angles[1], invertDirection);
-            return path.toString();
-        };
+        const middleAngle = (angles[1] + angles[0]) / 2;
+        const invertDirection = middleAngle > 0 && middleAngle < Math.PI; // On lower quadrants write text ccw
+        if (invertDirection) { angles.reverse(); }
 
-        const textFits = d => {
-            const CHAR_SPACE = 6;
-            const deltaAngle = x(d.x1) - x(d.x0);
-            const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
-            const perimeter = r * deltaAngle;
-            return d.data.name.length * CHAR_SPACE < perimeter;
-        };
+        const path = d3.path();
+        path.arc(0, 0, r, angles[0], angles[1], invertDirection);
+        return path.toString();
+    };
 
-        const svg = d3.select('.gggg').append('svg')
-            //.style('width', '100vw')
-            //.style('height', '600px')
-            .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
-            .on('click', () => focusOn()); // Reset zoom on canvas click
+    const textFits = d => {
+        const CHAR_SPACE = 6;
+        const deltaAngle = x(d.x1) - x(d.x0);
+        const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
+        const perimeter = r * deltaAngle;
+        return d.data.name.length * CHAR_SPACE < perimeter;
+    };
 
-        d3.json(window.location.pathname + '/Home/Data', (error, root) => {
-            if (error) throw error;
-            root = d3.hierarchy(root);
-            root.sum(d => d.size);
-            const slice = svg.selectAll('g.slice')
-                .data(partition(root).descendants());
+    const svg = d3.select('.gggg').append('svg')
+        //.style('width', '100vw')
+        //.style('height', '600px')
+        .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
+        .on('click', () => focusOn()); // Reset zoom on canvas click
 
-            slice.exit().remove();
+    d3.json(window.location.pathname + '/Home/Data', (error, root) => {
+        if (error) throw error;
+        root = d3.hierarchy(root);
+        root.sum(d => d.size);
+        const slice = svg.selectAll('g.slice')
+            .data(partition(root).descendants());
 
-            const newSlice = slice.enter()
-                .append('g').attr('class', 'slice')
-                .on('click', d => {
-                    d3.event.stopPropagation();
-                    focusOn(d);
-                });
+        slice.exit().remove();
 
-            newSlice.append('title').text(d => d.data.name);  //Display value also on toolstips + '\n' + d.data.description
+        const newSlice = slice.enter()
+            .append('g').attr('class', 'slice')
+            .on('click', d => {
+                d3.event.stopPropagation();
+                focusOn(d);
+            });
 
-            newSlice.append('path')
-                .attr('class', 'main-arc')
-                .style('fill', d => color((d.children ? d : d.parent).data.name))
-                .attr('d', arc);
+        newSlice.append('title').text(d => d.data.name);  //Display value also on toolstips + '\n' + d.data.description
 
-            newSlice.append('path')
-                .attr('class', 'hidden-arc')
-                .attr('id', (_, i) => `hiddenArc${i}`)
-                .attr('d', middleArcLine);
+        newSlice.append('path')
+            .attr('class', 'main-arc')
+            .style('fill', d => color((d.children ? d : d.parent).data.name))
+            .attr('d', arc);
 
-            const text = newSlice.append('text') 
-                .attr('display', d => textFits(d)); //.attr('display', d => textFits(d) ? null : 'none');  Edit by RMO
+        newSlice.append('path')
+            .attr('class', 'hidden-arc')
+            .attr('id', (_, i) => `hiddenArc${i}`)
+            .attr('d', middleArcLine);
 
-            // Add white contour
-            //text.append('textPath')
-            //    .attr('startOffset', '50%')
-            //    .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
-            //    .text(d => d.data.name)
-            //    .style('fill', 'none')
-            //    .style('stroke', '#fff')
-            //    .style('stroke-width', 5)
-            //    .style('stroke-linejoin', 'round');
+        const text = newSlice.append('text')
+            .attr('display', d => textFits(d)); //.attr('display', d => textFits(d) ? null : 'none');  Edit by RMO
 
-            text.append('textPath')
-                .attr('startOffset', '50%')
-                .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
-                .text(d => d.data.name);
+        // Add white contour
+        //text.append('textPath')
+        //    .attr('startOffset', '50%')
+        //    .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
+        //    .text(d => d.data.name)
+        //    .style('fill', 'none')
+        //    .style('stroke', '#fff')
+        //    .style('stroke-width', 5)
+        //    .style('stroke-linejoin', 'round');
 
-        });
+        text.append('textPath')
+            .attr('startOffset', '50%')
+            .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
+            .text(d => d.data.name);
 
-        function focusOn(d = { x0: 0, x1: 1, y0: 0, y1: 1 }) {
-            // Reset to top-level if no data point specified
-            const transition = svg.transition()
-                .duration(750)
-                .tween('scale', () => {
-                    const xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
-                        yd = d3.interpolate(y.domain(), [d.y0, 1]);
-                    return t => { x.domain(xd(t)); y.domain(yd(t)); };
-                });
-            transition.selectAll('path.main-arc')
-                .attrTween('d', d => () => arc(d));
+    });
 
-            transition.selectAll('path.hidden-arc')
-                .attrTween('d', d => () => middleArcLine(d));
+    function focusOn(d = { x0: 0, x1: 1, y0: 0, y1: 1 }) {
+        // Reset to top-level if no data point specified
+        const transition = svg.transition()
+            .duration(750)
+            .tween('scale', () => {
+                const xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+                    yd = d3.interpolate(y.domain(), [d.y0, 1]);
+                return t => { x.domain(xd(t)); y.domain(yd(t)); };
+            });
+        transition.selectAll('path.main-arc')
+            .attrTween('d', d => () => arc(d));
 
-            transition.selectAll('text')
-                .attrTween('display', d => () => textFits(d));  // .attrTween('display', d => () => textFits(d) ? null : 'none');
+        transition.selectAll('path.hidden-arc')
+            .attrTween('d', d => () => middleArcLine(d));
 
-            moveStackToFront(d);
-            //
-            function moveStackToFront(elD) {
-                svg.selectAll('.slice').filter(d => d === elD)
-                    .each(function (d) {
-                        this.parentNode.appendChild(this);
-                        if (d.parent) { moveStackToFront(d.parent); }
-                    })
-            }
+        transition.selectAll('text')
+            .attrTween('display', d => () => textFits(d));  // .attrTween('display', d => () => textFits(d) ? null : 'none');
+
+        moveStackToFront(d);
+        //
+        function moveStackToFront(elD) {
+            svg.selectAll('.slice').filter(d => d === elD)
+                .each(function (d) {
+                    this.parentNode.appendChild(this);
+                    if (d.parent) { moveStackToFront(d.parent); }
+                })
         }
-    </script>
+    }
+
+
+</script>
 
 }

@@ -52,7 +52,7 @@
 				<!--Column One-->
 				<div class="col-12 col-sm-10 col-md-6">
 					<!--Card One-->
-					<div class="card p-4">
+					<div class="card">
 						<div class="card-body">
 							<h4 class="txt-justify fs-4 fw-normal my-4">
 								Bangladesh is one of the most disaster-prone countries due to climate change. It is intensified by the country's geographical position, land features, numerous crisscrossed rivers, and monsoon climate. As a result, we are incredibly vulnerable to natural disasters. Since the country is prone to harsh weather, loss and destruction are frequently large, putting the national economy at risk. Bangladesh ranked 6th on the list of countries most hit by climate disasters from 1999 to 2018 in the 2020 edition of German Watch's Climate Risk Index. This index focuses on Bangladesh's scary scenario in terms of climate impacts and natural disasters.
@@ -156,6 +156,7 @@
 </div>
 
 <!--Modal-->
+
 <div class="modal fade bs-example-modal-lg show" role="dialog" id="mymodal">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
@@ -171,6 +172,8 @@
 	</div>
 	<!-- /.modal-dialog -->
 </div>
+
+
 <!--End Modal-->
 @section Scripts{
 <script>
@@ -187,6 +190,6 @@
 		msg=`এক নদী রক্ত পেরিয়ে বাংলার স্বাধীনতা আনলে যারা আমরা তোমাদের ভুলবোনা….!” বাংলার স্বাধীনতার জন্য যাদের রক্তের নদী বয়ে গিয়েছিল বাংলার বুকে সেই সকল শহীদদের আত্মার মাগফেরাত কামনায় স্বাধীনতা দিবস সফল হোক।`
 		$(".marquee").text(msg)
 	}
-	AppendTextInMarquee()
+	AppendTextInMarquee();
 </script>
 }
