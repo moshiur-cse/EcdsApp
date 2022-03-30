@@ -202,6 +202,8 @@ namespace EcdsApp.Controllers.Map
                 attCode=sd.LayerMainAttribureValue,
                 attName = sd.LayerLegendDisplayName,
                 colorCode =sd.LayerLegendColorCode,
+                iconSize=sd.IconSize,
+                iconPath=sd.IconPath
                
 
             }).ToList();
