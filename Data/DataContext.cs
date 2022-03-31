@@ -67,8 +67,8 @@ namespace EcdsApp.Data
 
         public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }
         public DbSet<DistrictWisePopulation> DistrictWisePopulations { get; set; }
-
-
+        public DbSet<DistrictWiseLightening> DistrictWiseLightenings { get; set; }
+        
         //Union Wise
         public DbSet<FutureProjectionRainfall4Point5> FutureProjectionRainfall4Point5s { get; set; }
         public DbSet<FutureProjectionRainfall8Point5> FutureProjectionRainfall8Point5s { get; set; }
