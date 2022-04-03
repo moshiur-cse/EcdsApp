@@ -38,14 +38,14 @@
 	<div class="container-fluid min-vh-75">
 		<div class="row">
 
-			<!--Marquees-->
+			@*<!--Marquees-->
 			<div class="d-flex">
 				<div class="py-2 px-4 bg-danger text-white fs-4 fw-bolder">News</div>
 				<marquee class="w-100 mx-2 fs-4 fw-bold marquee text-danger">
 					One or more lines or text message or image
 				</marquee>				
 			</div>
-			<!--End Marquees-->
+			<!--End Marquees-->*@
 
 			<h1 class="fs-1 text-center mt-2 mb-5 fw-bolder">About ECDS Platform</h1>
 			<div class="row justify-content-center justify-sm-content-between">
@@ -146,9 +146,9 @@
 									<li>Administrative user Management control with grant and revoke user access privilege</li>
 								</ul>
 							</div>
-							<div class="row p-2">
+							@*<div class="row p-2">
 								<img class="img-fluid" src="~/assets/images/image_collection/ecds_anim2.gif" />
-							</div>
+							</div>*@
 						</div>
 					</div>
 					<!--End Column Two-->
@@ -158,7 +158,7 @@
 	</div>
 </div>
 
-<!--Modal-->
+@*<!--Modal-->
 
 <div class="modal fade bs-example-modal-lg show" role="dialog" id="mymodal">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
@@ -178,21 +178,4 @@
 
 
 <!--End Modal-->
-@section Scripts{
-<script>
-	//===open modal after 2s
-
-	setTimeout(()=>{
-		const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
-		keyboard: false
-		})
-		myModal.show()
-	},1000)
-
-	const AppendTextInMarquee =()=>{
-		msg=`এক নদী রক্ত পেরিয়ে বাংলার স্বাধীনতা আনলে যারা আমরা তোমাদের ভুলবোনা….!” বাংলার স্বাধীনতার জন্য যাদের রক্তের নদী বয়ে গিয়েছিল বাংলার বুকে সেই সকল শহীদদের আত্মার মাগফেরাত কামনায় স্বাধীনতা দিবস সফল হোক।`
-		$(".marquee").text(msg)
-	}
-	AppendTextInMarquee();
-</script>
-}
+*@
