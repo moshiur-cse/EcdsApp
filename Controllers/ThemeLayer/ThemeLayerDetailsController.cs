@@ -1,8 +1,12 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.ThemeModels;
+using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels;
+using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +15,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using EcdsApp.Models.UserManage;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 
 namespace EcdsApp.Controllers.ThemeLayer
 {
@@ -34,6 +35,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: ThemeLayerDetails
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -57,6 +59,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: ThemeLayerDetails/Details/5
+        [UserAuthorization]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -77,6 +80,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: ThemeLayerDetails/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
@@ -92,9 +96,10 @@ namespace EcdsApp.Controllers.ThemeLayer
         [HttpPost]
         [ValidateAntiForgeryToken]
         [DisableRequestSizeLimit]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("LayerId,SubThemeId,LayerDisplayName,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName," +
             "FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName," +
-            "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")] 
+            "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")]
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
             if (ModelState.IsValid)
@@ -182,6 +187,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: ThemeLayerDetails/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -220,7 +226,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                     }
                 }
             }
-            
+
             ViewBag.ShapeFileList = shapeFileList;
             ViewBag.JsonFileName = jsonFileName;
             ViewBag.LayerType = themeLayerDetail.LayerTypeId;
@@ -242,6 +248,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         // POST: ThemeLayerDetails/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int id, [Bind("LayerId,SubThemeId,LayerDisplayName,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName," +
             "FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName," +
             "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")]
@@ -375,6 +382,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: ThemeLayerDetails/Delete/5
+        [UserAuthorization]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -397,6 +405,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         // POST: ThemeLayerDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var themeLayerDetail = await _context.ThemeLayerDetails.FindAsync(id);

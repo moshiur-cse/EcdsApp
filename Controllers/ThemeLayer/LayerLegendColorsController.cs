@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models.ThemeModels;
+using EcdsApp.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models.ThemeModels;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.ThemeLayer
 {
@@ -47,6 +47,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: LayerLegendColors/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(t => t.LegendColorOptionId == 1), "LayerId", "LayerDisplayName");
@@ -56,6 +57,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         // POST: LayerLegendColors/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        [UserAuthorization]
         public IActionResult Create(LayerLegendColor formData)
         {
             var result = "Error";

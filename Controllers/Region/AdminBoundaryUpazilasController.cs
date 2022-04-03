@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models;
+using EcdsApp.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Region
 {
@@ -20,6 +20,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryUpazilas
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.AdminBoundaryUpazilas.Include(a => a.District);
@@ -63,6 +64,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryUpazilas/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["DistrictName"] = new SelectList(_context.AdminBoundaryDistricts, "DistrictGeoCode", "DistrictName");
@@ -72,6 +74,7 @@ namespace EcdsApp.Controllers.Region
         // POST: AdminBoundaryUpazilas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("UpazilaGeoCode,UpazilaName,UpazilaNameBangla,DistrictGeoCode,SortingOrder")] AdminBoundaryUpazila adminBoundaryUpazila)
         {
             if (ModelState.IsValid)
@@ -85,6 +88,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryUpazilas/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -104,6 +108,7 @@ namespace EcdsApp.Controllers.Region
         // POST: AdminBoundaryUpazilas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(string id, [Bind("UpazilaGeoCode,UpazilaName,UpazilaNameBangla,DistrictGeoCode,SortingOrder")] AdminBoundaryUpazila adminBoundaryUpazila)
         {
             if (id != adminBoundaryUpazila.UpazilaGeoCode)

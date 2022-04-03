@@ -1,9 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models;
+using EcdsApp.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Region
 {
@@ -17,6 +18,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryDivisions
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             return View(await _context.AdminBoundaryDivisions.ToListAsync());
@@ -28,7 +30,7 @@ namespace EcdsApp.Controllers.Region
             ViewBag.IsShowLayout = isShowLayout;
             ViewBag.IsShowAction = isShowAction;
 
-            return View(await _context.AdminBoundaryDivisions.Where(i=>i.DivisionGeoCode==adminCode).ToListAsync());
+            return View(await _context.AdminBoundaryDivisions.Where(i => i.DivisionGeoCode == adminCode).ToListAsync());
         }
 
         public async Task<IActionResult> DetailsData(int isShowLayout = 0, int isShowAction = 0)
@@ -58,6 +60,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryDivisions/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             return View();
@@ -66,6 +69,7 @@ namespace EcdsApp.Controllers.Region
         // POST: AdminBoundaryDivisions/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("DivisionGeoCode,DivisionName,DivisionNameBangla,SortingOrder")] AdminBoundaryDivision adminBoundaryDivision)
         {
             if (ModelState.IsValid)
@@ -78,6 +82,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryDivisions/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -96,6 +101,7 @@ namespace EcdsApp.Controllers.Region
         // POST: AdminBoundaryDivisions/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(string id, [Bind("DivisionGeoCode,DivisionName,DivisionNameBangla,SortingOrder")] AdminBoundaryDivision adminBoundaryDivision)
         {
             if (id != adminBoundaryDivision.DivisionGeoCode)
