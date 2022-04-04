@@ -16,7 +16,9 @@
     //var yUrban = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Urban));
     //var yRural = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Rural));
     //var yOther = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Other));
+
     var yTotal = JsonConvert.SerializeObject(Model.DistrictWisePopulations.Select(x => x.Total));
+
 
 }
 @section Styles{
@@ -108,7 +110,7 @@
         <div class="row">
             <!--Marquees-->
             <div class="d-flex">
-                <div class="py-2 px-4 bg-danger text-white fs-4 fw-bolder">News</div>
+                @*<div class="py-2 px-4 bg-danger text-white fs-4 fw-bolder">News</div>*@
                 <marquee class="w-100 mx-2 fs-4 fw-bold marquee text-danger" scrollamount="15">
                     One or more lines or text message or image
                 </marquee>
@@ -131,14 +133,11 @@
                 <div class="card">
                     <div class="card-body">
 
-                        @*<h4 class="card-title">With captions</h4>
-                            <p class="card-title-desc">
-                            Add captions to your slides
-                            easily with the <code>.carousel-caption</code> element within
-                            any <code>.carousel-item</code>.
-                            </p>*@
+                       <div class="row p-2">
+								<img class="img-fluid" src="~/assets/images/image_collection/ecds_anim2.gif" />
+							</div>
 
-                        <div id="carouselExampleCaption" class="carousel slide" data-bs-ride="carousel">
+                        @*<div id="carouselExampleCaption" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item active">
                                     <img src="~/assets/images/small/img_1.png" alt="..." class="d-block img-fluid">
@@ -170,7 +169,9 @@
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Next</span>
                             </a>
-                        </div>
+                        </div>*@
+
+
                     </div>
                 </div>
             </div>
