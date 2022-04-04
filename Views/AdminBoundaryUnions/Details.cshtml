@@ -1,0 +1,61 @@
+﻿@model EcdsApp.Models.RegionModels.AdminBoundaryUnion
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>AdminBoundaryUnion</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OldGeoCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OldGeoCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UnionName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UnionName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UnionNameBangla)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UnionNameBangla)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Upazila)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Upazila.UpazilaGeoCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MunicipalityGeoCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MunicipalityGeoCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MunicipalityName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MunicipalityName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SortingOrder)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SortingOrder)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.UnionGeoCode">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
