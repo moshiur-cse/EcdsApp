@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models.UpazilaWiseInfoModels;
+using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models.UpazilaWiseInfoModels;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
 {
+    [Authorize]
     public class UpazilaWiseExposureDataController : Controller
     {
         private readonly DataContext _context;
@@ -20,6 +22,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         }
 
         // GET: UpazilaWiseExposureData
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.UpazilaWiseExposureData
@@ -60,6 +63,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         }
 
         // GET: UpazilaWiseExposureData/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["DroughtValue"] = new SelectList(_context.ExposureCategories, "Id", "CategoryName");
@@ -76,6 +80,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         // POST: UpazilaWiseExposureData/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("Id,UpazilaGeoCode,FloodValue,StormSurgeValue,LandSlideValue,DroughtValue,EarthquakeValue,TsunamiValue")] UpazilaWiseExposureData upazilaWiseExposureData)
         {
             if (ModelState.IsValid)
@@ -101,6 +106,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         }
 
         // GET: UpazilaWiseExposureData/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -128,6 +134,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         // POST: UpazilaWiseExposureData/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UpazilaGeoCode,FloodValue,StormSurgeValue,LandSlideValue,DroughtValue,EarthquakeValue,TsunamiValue")] UpazilaWiseExposureData upazilaWiseExposureData)
         {
             if (id != upazilaWiseExposureData.Id)

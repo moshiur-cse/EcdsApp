@@ -1,13 +1,16 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models.ThemeModels;
+using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models.ThemeModels;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Theme
 {
+    [Authorize]
     public class MetaDataDetailController : Controller
     {
         private readonly DataContext _context;
@@ -18,6 +21,7 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // GET: MetaDataDetail
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.MetaDataDetails
@@ -55,6 +59,7 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // GET: MetaDataDetail/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
@@ -65,6 +70,7 @@ namespace EcdsApp.Controllers.Theme
         // POST: MetaDataDetail/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("Id,LayerId,Title,Abstract,General,Quality,Completeness,HistoryOfTheDataSet,PurposeOfProduction,ProcessDescription," +
                "TypeOfDataSet,DataSetLanguage,AdditionalInfoSourceForDataSet")] MetaDataDetail metaDataDetail)
         {
@@ -85,6 +91,7 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // GET: MetaDataDetail/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -115,6 +122,7 @@ namespace EcdsApp.Controllers.Theme
         // POST: MetaDataDetail/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int id, [Bind("Id,LayerId,Title,Abstract,General,Quality,Completeness,HistoryOfTheDataSet,PurposeOfProduction,ProcessDescription," +
                      "TypeOfDataSet,DataSetLanguage,AdditionalInfoSourceForDataSet")] MetaDataDetail metaDataDetail)
         {

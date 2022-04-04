@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models.ThemeModels;
+using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models.ThemeModels;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Theme
 {
+    [Authorize]
     public class SubThemesController : Controller
     {
         private readonly DataContext _context;
@@ -20,6 +22,7 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // GET: SubThemes
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.SubThemes.Include(s => s.Themes);
@@ -47,6 +50,7 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // GET: SubThemes/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
@@ -56,6 +60,7 @@ namespace EcdsApp.Controllers.Theme
         // POST: SubThemes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("SubThemeId,ThemeId,SubThemeName,SubThemePath")] SubTheme subTheme)
         {
             if (ModelState.IsValid)
@@ -74,6 +79,7 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // GET: SubThemes/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -93,6 +99,7 @@ namespace EcdsApp.Controllers.Theme
         // POST: SubThemes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int id, [Bind("SubThemeId,ThemeId,SubThemeName,SubThemePath")] SubTheme subTheme)
         {
             if (id != subTheme.SubThemeId)

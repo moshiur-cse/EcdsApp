@@ -1,6 +1,7 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.ThemeModels;
 using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.ThemeLayer
 {
+    [Authorize]
     public class LayerLegendColorsController : Controller
     {
         private readonly DataContext _context;
@@ -21,6 +23,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: LayerLegendColors
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.LayerLegendColors.Include(l => l.ThemeLayerDetails);
@@ -118,6 +121,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: LayerLegendColors/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -136,6 +140,7 @@ namespace EcdsApp.Controllers.ThemeLayer
 
         // POST: LayerLegendColors/Edit/5
         [HttpPost]
+        [UserAuthorization]
         //[ValidateAntiForgeryToken]
         public IActionResult Edit(LayerLegendColor formData)
         {

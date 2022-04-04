@@ -1,14 +1,15 @@
-﻿using System;
-using EcdsApp.Data;
+﻿using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
+using EcdsApp.Models.ViewModels.UserManage;
+using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EcdsApp.Models.ViewModels.UserManage;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EcdsApp.Controllers.User_Manage
 {
@@ -27,6 +28,7 @@ namespace EcdsApp.Controllers.User_Manage
         }
 
         [HttpGet]
+        [UserAuthorization]
         public IActionResult Users()
         {
             var userList = _userManager.Users
@@ -38,6 +40,7 @@ namespace EcdsApp.Controllers.User_Manage
         }
 
         [HttpPost]
+        [UserAuthorization]
         public async Task<IActionResult> AssignRoleToUser(string userId, string roleId)
         {
             const string success = "Success";
@@ -59,12 +62,14 @@ namespace EcdsApp.Controllers.User_Manage
         }
 
         [HttpGet]
+        [UserAuthorization]
         public IActionResult Roles()
         {
             var roleList = _roleManager.Roles.ToList();
             return View(roleList);
         }
 
+        [UserAuthorization]
         public async Task<IActionResult> EditRoleInfo(string roleId, string roleName)
         {
             const string success = "Success";
@@ -90,6 +95,7 @@ namespace EcdsApp.Controllers.User_Manage
         }
 
         [HttpGet]
+        [UserAuthorization]
         public IActionResult AddRoleWithAccess()
         {
             var menuData = _context.UserPermittedContents
@@ -99,7 +105,7 @@ namespace EcdsApp.Controllers.User_Manage
                 .ToDictionary(x => x.Key,
                     x => x.Select(y =>
                         new MenuContent { ContentId = y.ContentId, Action = y.MenuContent }).OrderBy(v => v.ContentId).ToList());
-            
+
             var userAccessVm = new UserAccessVm
             {
                 Data = menuData
@@ -110,6 +116,7 @@ namespace EcdsApp.Controllers.User_Manage
         }
 
         [HttpGet]
+        [UserAuthorization]
         public IActionResult EditRoleWithAccess(string roleId)
         {
             var menuData = _context.UserPermittedContents
@@ -117,9 +124,9 @@ namespace EcdsApp.Controllers.User_Manage
                 .Where(m => m.IsActive)
                 .GroupBy(x => x.MenuName)
                 .ToDictionary(x => x.Key,
-                    x => x.Select(y => 
-                        new MenuContent { ContentId = y.ContentId, Action = y.MenuContent, IsChecked = CheckExistingRole(y.ContentId, roleId)}).OrderBy(v => v.ContentId).ToList());
-            
+                    x => x.Select(y =>
+                        new MenuContent { ContentId = y.ContentId, Action = y.MenuContent, IsChecked = CheckExistingRole(y.ContentId, roleId) }).OrderBy(v => v.ContentId).ToList());
+
             var roleObj = _roleManager.Roles.FirstOrDefault(r => r.Id == roleId);
             if (roleObj == null)
                 return NotFound();
@@ -152,6 +159,7 @@ namespace EcdsApp.Controllers.User_Manage
             return returnObj != null;
         }
 
+        [UserAuthorization]
         public async Task<IActionResult> SaveRoleWiseAccess(UserAccessVm formData)
         {
             const string success = "Success";
@@ -281,6 +289,11 @@ namespace EcdsApp.Controllers.User_Manage
         {
             var data = _context.RoleWisePermittedContents.FirstOrDefault(r => r.UserRoleId == roleId && r.ContentId == contentId);
             return data != null;
+        }
+
+        public IActionResult UnAuthorizeActionResult()
+        {
+            return View();
         }
     }
 }

@@ -19,7 +19,8 @@ namespace EcdsApp.Security
             var actionName = ((ControllerBase)filterContext.Controller).ControllerContext.ActionDescriptor.ActionName;
 
             if (!CheckUserAccess(currentUser, controllerName, actionName))
-                filterContext.Result = new NotFoundResult();
+                //filterContext.Result = new NotFoundResult();
+                filterContext.Result = new RedirectToRouteResult(new { action = "UnAuthorizeActionResult", controller = "UserAccessManage", area = "" });
         }
 
         private static bool CheckUserAccess(string userName, string controllerName, string actionName)
@@ -40,7 +41,7 @@ namespace EcdsApp.Security
                     u.UserPermittedContent.ControllerName == controllerName && u.UserRoleId == userObj.UserRoleId);
 
             return userPermMenuContent != null || userObj.UserRoleId == AppStaticBase.SystemAdministrator;
-            //return userContent != null;
+            //return userPermMenuContent != null;
         }
     }
 }

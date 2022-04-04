@@ -1,11 +1,14 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Theme
 {
+    [Authorize]
     public class ThemesController : Controller
     {
         private readonly DataContext _context;
@@ -16,6 +19,7 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // GET: Themes
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Themes.ToListAsync());
@@ -40,6 +44,7 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // GET: Themes/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             return View();
@@ -48,6 +53,7 @@ namespace EcdsApp.Controllers.Theme
         // POST: Themes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("ThemeId,ThemeName,ThemePath")] Models.ThemeModels.Theme theme)
         {
             if (!ModelState.IsValid)
@@ -63,6 +69,7 @@ namespace EcdsApp.Controllers.Theme
         }
 
         // GET: Themes/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,6 +88,7 @@ namespace EcdsApp.Controllers.Theme
         // POST: Themes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int id, [Bind("ThemeId,ThemeName,ThemePath")] Models.ThemeModels.Theme theme)
         {
             if (id != theme.ThemeId)

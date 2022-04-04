@@ -1,5 +1,7 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models;
+using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EcdsApp.Controllers
+namespace EcdsApp.Controllers.Theme
 {
+    [Authorize]
     public class BundleDetailController : Controller
     {
         private readonly DataContext _context;
@@ -20,6 +23,7 @@ namespace EcdsApp.Controllers
         }
 
         // GET: BundleDetail
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.BundleDetails
@@ -37,6 +41,7 @@ namespace EcdsApp.Controllers
         }
 
         // GET: BundleDetail/Details/5
+        [UserAuthorization]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -56,6 +61,7 @@ namespace EcdsApp.Controllers
         }
 
         // GET: BundleDetail/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
@@ -67,6 +73,7 @@ namespace EcdsApp.Controllers
         // POST: BundleDetail/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create(BundleDetail formData)
         {
             var result = "Error";
@@ -123,6 +130,7 @@ namespace EcdsApp.Controllers
         }
 
         // GET: BundleDetail/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -153,6 +161,7 @@ namespace EcdsApp.Controllers
         // POST: BundleDetail/Edit/5
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(BundleDetail formData)
         {
             var result = "Error";

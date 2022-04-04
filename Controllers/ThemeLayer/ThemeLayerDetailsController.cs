@@ -53,8 +53,8 @@ namespace EcdsApp.Controllers.ThemeLayer
                 .Include(t => t.TableInfo)
                 .Where(tld => userPerComponents.Contains(tld.SubThemeId));
 
-            ViewBag.IsPermittedToAddData = true;
-            ViewBag.IsPermittedToEditData = true;
+            ViewBag.IsPermittedToAddData = permToAddData;
+            ViewBag.IsPermittedToEditData = permToEditData;
             return View(await dataContext.ToListAsync());
         }
 

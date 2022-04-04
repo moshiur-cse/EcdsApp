@@ -96,72 +96,63 @@
 
                         @if (_signInManager.IsSignedIn(User))
                         {
-                            if (userRoleId == AppStaticBase.SystemAdministrator || userRoleId == AppStaticBase.SuperUser)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
+                                    <i class="uil-apps me-2"></i>Layer<div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
+                                           role="button">
+                                            Admin Boundaries <div class="arrow-down"></div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
+                                            <a class="dropdown-item" asp-controller="AdminBoundaryDivisions" asp-action="Index">Division</a>
+                                            <a class="dropdown-item" asp-controller="AdminBoundaryDistricts" asp-action="Index">District</a>
+                                            <a class="dropdown-item" asp-controller="AdminBoundaryUpazilas" asp-action="Index">Upazila</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
+                                           role="button">
+                                            Theme <div class="arrow-down"></div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
+                                            <a class="dropdown-item" asp-controller="Themes" asp-action="Index">Theme</a>
+                                            <a class="dropdown-item" asp-controller="SubThemes" asp-action="Index">Component</a>
+                                            <a class="dropdown-item" asp-controller="MetaDataDetail" asp-action="Index">Meta Data</a>
+                                            <a class="dropdown-item" asp-controller="BundleDetail" asp-action="Create">Bundle</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" asp-action="Index" asp-controller="ThemeLayerDetails" id="topnav-ecommerce" role="button">
+                                            Layers
+                                        </a>
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" asp-action="Create" asp-controller="LayerLegendColors" id="topnav-ecommerce" role="button">
+                                            Layer Legend Color
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </li>
+
+                            @if (userRoleId == AppStaticBase.SystemAdministrator)
                             {
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
-                                        <i class="uil-apps me-2"></i>Layer<div class="arrow-down"></div>
+                                        <i class="uil-apps me-2"></i>Admin Panel<div class="arrow-down"></div>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="topnav-pages">
-                                        <div class="dropdown">
-                                            <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
-                                               role="button">
-                                                Admin Boundaries <div class="arrow-down"></div>
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
-                                                <a class="dropdown-item" asp-controller="AdminBoundaryDivisions" asp-action="Index">Division</a>
-                                                <a class="dropdown-item" asp-controller="AdminBoundaryDistricts" asp-action="Index">District</a>
-                                                <a class="dropdown-item" asp-controller="AdminBoundaryUpazilas" asp-action="Index">Upazila</a>
-                                            </div>
-                                        </div>
-
-                                        <div class="dropdown">
-                                            <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
-                                               role="button">
-                                                Theme <div class="arrow-down"></div>
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
-                                                <a class="dropdown-item" asp-controller="Themes" asp-action="Index">Theme</a>
-                                                <a class="dropdown-item" asp-controller="SubThemes" asp-action="Index">Component</a>
-                                                <a class="dropdown-item" asp-controller="MetaDataDetail" asp-action="Index">Meta Data</a>
-                                                <a class="dropdown-item" asp-controller="BundleDetail" asp-action="Create">Bundle</a>
-                                            </div>
-                                        </div>
-
-                                        @if (userRoleId == AppStaticBase.SystemAdministrator)
-                                        {
-                                            <div class="dropdown">
-                                                <a class="dropdown-item dropdown-toggle arrow-none" asp-action="Index" asp-controller="ThemeLayerDetails" id="topnav-ecommerce" role="button">
-                                                    Layers
-                                                </a>
-                                            </div>
-                                        }
-
-                                        <div class="dropdown">
-                                            <a class="dropdown-item dropdown-toggle arrow-none" asp-action="Create" asp-controller="LayerLegendColors" id="topnav-ecommerce" role="button">
-                                                Layer Legend Color
-                                            </a>
-                                        </div>
-
+                                        <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Users">Users</a>
+                                        <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Roles">User Roles</a>
+                                        <a class="dropdown-item" asp-controller="TableInfo" asp-action="Index">Table & Column</a>
                                     </div>
-                                </li>
-
-                                @if (userRoleId == AppStaticBase.SystemAdministrator)
-                                {
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
-                                            <i class="uil-apps me-2"></i>Admin Panel<div class="arrow-down"></div>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="topnav-pages">
-                                            <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Users">Users</a>
-                                            <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Roles">User Roles</a>
-                                            @*<a class="dropdown-item" asp-controller="UserAccessManage" asp-action="RoleWiseAccess">Role Access Control</a>*@
-
-                                            <a class="dropdown-item" asp-controller="TableInfo" asp-action="Index">Table & Column</a>
-                                        </div>
-                                    </li>
-                                }
-
+                                </li> 
                             }
                         }
 

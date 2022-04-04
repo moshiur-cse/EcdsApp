@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models.UpazilaWiseInfoModels;
+using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models.UpazilaWiseInfoModels;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
 {
+    [Authorize]
     public class UpazilaWiseRiskIndexController : Controller
     {
         private readonly DataContext _context;
@@ -20,6 +22,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         }
 
         // GET: UpazilaWiseRiskIndex
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.UpazilaWiseRiskIndex
@@ -48,6 +51,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         }
 
         // GET: UpazilaWiseRiskIndex/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["UpazilaName"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaName");
@@ -57,6 +61,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         // POST: UpazilaWiseRiskIndex/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("Id,UpazilaGeoCode,PeopleAffectedNaturalDisaster,HeatStressVulnerability,GroundWaterVulnerability,MangroveForestVulnerability,LivestockLandVulnerability," +
            "WaterAvailabilityVulnerability,CropYieldVulnerability,LivestockHealthVulnerability,AgriLandAvailabilityVulnerability,FishCultureVulnerability,FishCaptureVulnerability,RailNetworkVulnerability," +
            "RoadNetworkVulnerability")] UpazilaWiseRiskIndex upazilaWiseRiskIndex)
@@ -77,6 +82,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         }
 
         // GET: UpazilaWiseRiskIndex/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,6 +103,7 @@ namespace EcdsApp.Controllers.UpazilaWiseInfoControllers
         // POST: UpazilaWiseRiskIndex/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UpazilaGeoCode,PeopleAffectedNaturalDisaster,HeatStressVulnerability,GroundWaterVulnerability,MangroveForestVulnerability,LivestockLandVulnerability,WaterAvailabilityVulnerability,CropYieldVulnerability,LivestockHealthVulnerability,AgriLandAvailabilityVulnerability,FishCultureVulnerability,FishCaptureVulnerability,RailNetworkVulnerability,RoadNetworkVulnerability")] UpazilaWiseRiskIndex upazilaWiseRiskIndex)
         {
             if (id != upazilaWiseRiskIndex.Id)

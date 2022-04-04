@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models.TabularModels;
+using EcdsApp.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models;
-using EcdsApp.Models.TabularModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Tabular
 {
+    [Authorize]
     public class TableInfoController : Controller
     {
         private readonly DataContext _context;
@@ -21,6 +23,7 @@ namespace EcdsApp.Controllers.Tabular
         }
 
         // GET: TableInfo
+        [UserAuthorization]
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.TableInfos
@@ -75,6 +78,7 @@ namespace EcdsApp.Controllers.Tabular
         }
 
         // GET: TableInfo/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["BoundaryId"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
@@ -85,6 +89,7 @@ namespace EcdsApp.Controllers.Tabular
         // POST: TableInfo/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("Id,SubThemeId,BoundaryId,TableName,TableModelName,DisplayName")] TableInfo tableInfo)
         {
             if (ModelState.IsValid)
@@ -99,6 +104,7 @@ namespace EcdsApp.Controllers.Tabular
         }
 
         // GET: TableInfo/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -119,6 +125,7 @@ namespace EcdsApp.Controllers.Tabular
         // POST: TableInfo/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(int id, [Bind("Id,SubThemeId,BoundaryId,TableName,TableModelName,DisplayName")] TableInfo tableInfo)
         {
             if (id != tableInfo.Id)
