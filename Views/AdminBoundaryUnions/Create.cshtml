@@ -5,61 +5,95 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="display-6 mb-0">Add Union Information</h3>
 
-<h4>AdminBoundaryUnion</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UnionGeoCode" class="control-label"></label>
-                <input asp-for="UnionGeoCode" class="form-control" />
-                <span asp-validation-for="UnionGeoCode" class="text-danger"></span>
+                        <form asp-action="Create" class="mt-4 custom-validation" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label required">Upazila</label>
+                                <div class="col-md-10">
+                                    <select id="ddlUpazila" class="form-select" asp-for="UpazilaGeoCode" asp-items="ViewBag.UpazilaGeoCode" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="mb-3 row">
+                                <label asp-for="UnionGeoCode" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="UnionGeoCode" class="form-control" required="" />
+                                    <span asp-validation-for="UnionGeoCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                             @*<div class="mb-3 row">
+                                <label asp-for="OldGeoCode" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="OldGeoCode" class="form-control" required="" />
+                                    <span asp-validation-for="OldGeoCode" class="text-danger"></span>
+                                </div>
+                            </div>*@
+                            <div class="mb-3 row">
+                                <label asp-for="UnionName" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="UnionName" class="form-control" required="" />
+                                    <span asp-validation-for="UnionName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label asp-for="UnionNameBangla" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="UnionNameBangla" class="form-control" />
+                                    <span asp-validation-for="UnionNameBangla" class="text-danger"></span>
+                                </div>
+                            </div>
+                            @*<div class="mb-3 row">
+                                <label asp-for="UpazilaGeoCode" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="UpazilaGeoCode" class="form-control" required="" />
+                                    <span asp-validation-for="UpazilaGeoCode" class="text-danger"></span>
+                                </div>
+                            </div>*@
+                            <div class="mb-3 row">
+                                <label asp-for="MunicipalityGeoCode" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="MunicipalityGeoCode" class="form-control" />
+                                    <span asp-validation-for="MunicipalityGeoCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label asp-for="MunicipalityName" class="col-md-2 col-form-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="MunicipalityName" class="form-control" />
+                                    <span asp-validation-for="MunicipalityName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label asp-for="SortingOrder" class="col-md-2 col-form-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="SortingOrder" class="form-control" />
+                                    <span asp-validation-for="SortingOrder" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 text-right">
+                                <input type="submit" value="Submit" class="btn btn-rounded btn-success w-lg" />
+                                <a class="btn btn-rounded btn-info w-lg" asp-action="Index">Back to List</a>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="OldGeoCode" class="control-label"></label>
-                <input asp-for="OldGeoCode" class="form-control" />
-                <span asp-validation-for="OldGeoCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UnionName" class="control-label"></label>
-                <input asp-for="UnionName" class="form-control" />
-                <span asp-validation-for="UnionName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UnionNameBangla" class="control-label"></label>
-                <input asp-for="UnionNameBangla" class="form-control" />
-                <span asp-validation-for="UnionNameBangla" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpazilaGeoCode" class="control-label"></label>
-                <select asp-for="UpazilaGeoCode" class ="form-control" asp-items="ViewBag.UpazilaGeoCode"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="MunicipalityGeoCode" class="control-label"></label>
-                <input asp-for="MunicipalityGeoCode" class="form-control" />
-                <span asp-validation-for="MunicipalityGeoCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MunicipalityName" class="control-label"></label>
-                <input asp-for="MunicipalityName" class="form-control" />
-                <span asp-validation-for="MunicipalityName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SortingOrder" class="control-label"></label>
-                <input asp-for="SortingOrder" class="form-control" />
-                <span asp-validation-for="SortingOrder" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
