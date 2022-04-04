@@ -112,7 +112,6 @@ namespace EcdsApp
             services.AddDistributedMemoryCache();
             services.AddControllersWithViews().AddSessionStateTempDataProvider();
             services.AddRazorPages().AddSessionStateTempDataProvider();
-            services.AddRazorPages().AddRazorRuntimeCompilation();  //RMO Addes
 
             services.AddSession(options =>
             {
