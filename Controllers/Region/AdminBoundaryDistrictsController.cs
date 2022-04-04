@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using EcdsApp.Data;
+using EcdsApp.Models;
+using EcdsApp.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EcdsApp.Data;
-using EcdsApp.Models;
 using ReflectionIT.Mvc.Paging;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Region
 {
@@ -19,6 +20,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryDistricts
+        [UserAuthorization]
         public async Task<IActionResult> Index(int pageIndex = 1)
         {
             var districtList = _context.AdminBoundaryDistricts
@@ -63,6 +65,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryDistricts/Create
+        [UserAuthorization]
         public IActionResult Create()
         {
             ViewData["DivisionName"] = new SelectList(_context.AdminBoundaryDivisions, "DivisionGeoCode", "DivisionName");
@@ -72,6 +75,7 @@ namespace EcdsApp.Controllers.Region
         // POST: AdminBoundaryDistricts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Create([Bind("DistrictGeoCode,DistrictName,DistrictNameBangla,DivisionGeoCode,SortingOrder")] AdminBoundaryDistrict adminBoundaryDistrict)
         {
             if (ModelState.IsValid)
@@ -85,6 +89,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         // GET: AdminBoundaryDistricts/Edit/5
+        [UserAuthorization]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -104,6 +109,7 @@ namespace EcdsApp.Controllers.Region
         // POST: AdminBoundaryDistricts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [UserAuthorization]
         public async Task<IActionResult> Edit(string id, [Bind("DistrictGeoCode,DistrictName,DistrictNameBangla,DivisionGeoCode,SortingOrder")] AdminBoundaryDistrict adminBoundaryDistrict)
         {
             if (id != adminBoundaryDistrict.DistrictGeoCode)

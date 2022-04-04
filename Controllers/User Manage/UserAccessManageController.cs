@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
 using Microsoft.AspNetCore.Identity;

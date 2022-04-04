@@ -1,11 +1,19 @@
 ﻿ddTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using EcdsApp.Models.UserManage
 @using EcdsApp.Models.ViewModels
+@using EcdsApp.Data
+@using Microsoft.EntityFrameworkCore
 @inject SignInManager<ApplicationUser> _signInManager
 @inject UserManager<ApplicationUser> _userManager
 @{
     var user = await _userManager.GetUserAsync(User);
     var userRoleId = user?.UserRoleId;
+
+    var dbContext = new DataContext();
+    var userPermMenu = dbContext.RoleWisePermittedContents
+        .Include(r => r.UserPermittedContent)
+        .Where(r => r.UserRoleId == userRoleId).ToList();
+    
 }
 
 <header id="page-topbar">
