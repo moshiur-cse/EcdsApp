@@ -11,17 +11,18 @@ namespace EcdsApp.Models.RegionModels
     public class AdminBoundaryUnion
     {
         [Key]
-        [Required]
+        [Required(ErrorMessage = "Union Geo Code field is mandatory")]
         [Column("union_geo_code", Order = 0, TypeName = "varchar(13)")]
+        [StringLength(13, MinimumLength = 13, ErrorMessage = "The value must be 13 characters.")]
         [Display(Name = "Union Geo-Code")]
         public string UnionGeoCode { get; set; }
 
         [Column("old_geo_code", Order = 0, TypeName = "varchar(10)")]
-        [StringLength(10, ErrorMessage = "The {0} must be {1} characters.")]
+        [StringLength(10,MinimumLength =10, ErrorMessage = "The value must be 10 characters.")]
         [Display(Name = "Old Geo-Code")]
         public string OldGeoCode { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Union Name field is mandatory")]
         [Column("union_name", Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
         [Display(Name = "Union Name")]
@@ -33,9 +34,9 @@ namespace EcdsApp.Models.RegionModels
         [Display(Name = "Union Name (Bangla)")]
         public string UnionNameBangla { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Upazila Geo Code field is mandatory")]
         [Column("upz_geo_code")]
-        [StringLength(8, ErrorMessage = "The {0} must be {1} characters.")]
+        //[StringLength(8, ErrorMessage = "The value must be {1} characters.")]
         [Display(Name = "Upazila Geo-Code")]
         public string UpazilaGeoCode { get; set; }
         [ForeignKey("UpazilaGeoCode")]
@@ -43,12 +44,12 @@ namespace EcdsApp.Models.RegionModels
 
 
         [Column("municipality_geo_code", Order = 0, TypeName = "varchar(10)")]
-        [StringLength(10, ErrorMessage = "The {0} must be {1} characters.")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "The value must be 10 characters.")]
         [Display(Name = "Municipality Geo-Code")]
         public string MunicipalityGeoCode { get; set; }
 
         [Column("municipality_name", Order = 1, TypeName = "nvarchar(250)")]
-        [StringLength(250)]
+        [StringLength(250,ErrorMessage = "The value must be less than 250 characters.")]
         [Display(Name = "Municipality Name")]
         public string MunicipalityName { get; set; }
 

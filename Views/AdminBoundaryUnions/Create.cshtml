@@ -13,21 +13,22 @@
                     <div class="card-body">
                         <h3 class="display-6 mb-0">Add Union Information</h3>
 
-                        <form asp-action="Create" class="mt-4 custom-validation" method="post">
+                        <form id="form1" asp-action="Create" class="mt-4 custom-validation" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required">Upazila</label>
                                 <div class="col-md-10">
-                                    <select id="ddlUpazila" class="form-select" asp-for="UpazilaGeoCode" asp-items="ViewBag.UpazilaGeoCode" required="" data-parsley-required-message="You must select at least one option.">
+                                    <select id="ddlUpazila" class="form-select" asp-for="UpazilaGeoCode" asp-items="ViewBag.UpazilaGeoCode">
                                         <option value="">Select</option>
                                     </select>
+                                    <span asp-validation-for="UpazilaGeoCode" class="text-danger"></span>
                                 </div>
                             </div>
                              <div class="mb-3 row">
                                 <label asp-for="UnionGeoCode" class="col-md-2 col-form-label required"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="UnionGeoCode" class="form-control" required="" />
+                                    <input asp-for="UnionGeoCode" class="form-control"/>
                                     <span asp-validation-for="UnionGeoCode" class="text-danger"></span>
                                 </div>
                             </div>
@@ -41,12 +42,12 @@
                             <div class="mb-3 row">
                                 <label asp-for="UnionName" class="col-md-2 col-form-label required"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="UnionName" class="form-control" required="" />
+                                    <input asp-for="UnionName" class="form-control"/>
                                     <span asp-validation-for="UnionName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label asp-for="UnionNameBangla" class="col-md-2 col-form-label required"></label>
+                                <label asp-for="UnionNameBangla" class="col-md-2 col-form-label"></label>
                                 <div class="col-md-10">
                                     <input asp-for="UnionNameBangla" class="form-control" />
                                     <span asp-validation-for="UnionNameBangla" class="text-danger"></span>
@@ -60,7 +61,7 @@
                                 </div>
                             </div>*@
                             <div class="mb-3 row">
-                                <label asp-for="MunicipalityGeoCode" class="col-md-2 col-form-label required"></label>
+                                <label asp-for="MunicipalityGeoCode" class="col-md-2 col-form-label"></label>
                                 <div class="col-md-10">
                                     <input asp-for="MunicipalityGeoCode" class="form-control" />
                                     <span asp-validation-for="MunicipalityGeoCode" class="text-danger"></span>
@@ -95,5 +96,19 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+   
+    <script>
+    ====jquery form validation
+    $("#form1").validate({
+        console.log("form validated")
+          rules: {
+            UpazilaGeoCode: "required",            
+          },
+
+          messages: {
+            UpazilaGeoCode: "Please specify your name",            
+          }
+    });
+    
+    </script>
 }
