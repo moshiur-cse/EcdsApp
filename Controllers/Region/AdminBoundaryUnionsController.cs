@@ -48,7 +48,7 @@ namespace EcdsApp.Controllers.Region
         // GET: AdminBoundaryUnions/Create
         public IActionResult Create()
         {
-            ViewData["UpazilaGeoCode"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaGeoCode");
+            ViewData["UpazilaGeoCode"] = new SelectList(_context.AdminBoundaryUpazilas.ToList(), "UpazilaGeoCode", "UpazilaName");
             return View();
         }
 
