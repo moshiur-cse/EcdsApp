@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcdsApp.Models.DistrictWiseInfoModels
 {
-    [Table("tbl_district_wise_lightening")]
-    public class DistrictWiseLightening
+    [Table("tbl_district_wise_thunderstorm")]
+    public class DistrictWiseThunderstrom
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -31,9 +31,9 @@ namespace EcdsApp.Models.DistrictWiseInfoModels
         [Display(Name = "Longitude")]
         public decimal? Longitude { get; set; }
 
-        [Column("lightening")]
-        [Display(Name = "Lightening")]
-        public int? Lightening { get; set; }
 
+        [Column("thunderstorm")]
+        [Display(Name = "Thunderstorm")]
+        public int? Thunderstm { get; set; }
     }
 }

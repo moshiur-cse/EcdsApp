@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EcdsApp.Models;
 
 namespace EcdsApp.Controllers.Map
 {
@@ -32,19 +31,19 @@ namespace EcdsApp.Controllers.Map
                 .Select(k => new ThemeList
                 {
                     themeName = k.Key,
-                    subThemeList=k.GroupBy(i => i.SubThemes.SubThemeName)
+                    subThemeList = k.GroupBy(i => i.SubThemes.SubThemeName)
                         .Select(j => new SubThemeList
                         {
-                            subThemeName = j.Key,                           
-                            layerNameList = j.Select(j=>j.LayerName).ToList(), //Update
-                            layerIdList= j.Select(j => j.LayerId).ToList(),
-                            layerDisplayNameList= j.Select(j => j.LayerDisplayName).ToList(), //Update
+                            subThemeName = j.Key,
+                            layerNameList = j.Select(j => j.LayerName).ToList(), //Update
+                            layerIdList = j.Select(j => j.LayerId).ToList(),
+                            layerDisplayNameList = j.Select(j => j.LayerDisplayName).ToList(), //Update
                             layerTypeIdList = j.Select(j => j.LayerTypeId).ToList(),
-                            tableIdList= j.Select(j => j.TableInfoId).ToList()
+                            tableIdList = j.Select(j => j.TableInfoId).ToList()
 
-                        }).OrderBy(i=>i.subThemeName).ToList()
-                }).OrderBy(i=>i.themeName).ToList();
-           
+                        }).OrderBy(i => i.subThemeName).ToList()
+                }).OrderBy(i => i.themeName).ToList();
+
             //return Json(themeList);
 
             //ViewBag.LayerInfoes = await dataContext.ToListAsync();
@@ -60,7 +59,7 @@ namespace EcdsApp.Controllers.Map
             ViewBag.DistList = await _context.AdminBoundaryDistricts.ToListAsync();
             ViewBag.UpazList = await _context.AdminBoundaryUpazilas.ToListAsync();
 
-            ViewBag.LayerInfo = _context.ThemeLayerDetails.Where(i => i.LayerTypeId == 4 || i.SubThemes.ThemeId==1)
+            ViewBag.LayerInfo = _context.ThemeLayerDetails.Where(i => i.LayerTypeId == 4 || i.SubThemes.ThemeId == 1)
                 .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
                 .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
                 .Select(k => new ThemeList
@@ -110,9 +109,9 @@ namespace EcdsApp.Controllers.Map
                          {
                              subThemeName = j.Key,
                              layerNameList = j.Select(j => j.LayerName).ToList(), //Update
-                            layerIdList = j.Select(j => j.LayerId).ToList(),
+                             layerIdList = j.Select(j => j.LayerId).ToList(),
                              layerDisplayNameList = j.Select(j => j.LayerDisplayName).ToList(), //Update
-                            layerTypeIdList = j.Select(j => j.LayerTypeId).ToList(),
+                             layerTypeIdList = j.Select(j => j.LayerTypeId).ToList(),
                              tableIdList = j.Select(j => j.TableInfoId).ToList()
 
                          }).ToList()
@@ -126,62 +125,62 @@ namespace EcdsApp.Controllers.Map
         [HttpPost]
         public JsonResult GetLayerInformation(int layer_id)
         {
-           
-                var data = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes).Include(s => s.BoundaryInfo)
-                    .Where(s => s.LayerId == layer_id)
-                    .Select(sd => new
-                    {
-                        
-                        layerId=sd.LayerId,
-                        layerName=sd.LayerDisplayName, //Update
-                        themePath = sd.SubThemes.Themes.ThemePath,
-                        subThemePath = sd.SubThemes.SubThemePath,
-                        layerPath = sd.LayerName, ///Update
-                        layerFileName = sd.LayerFileName,
-                       
-                        mainAttDisName = sd.MainAttributeDisplayName,
-                        mainAtt = sd.MainAttributeName,
-                        mainAttCode=sd.MainAttributeCode,
 
-                        cLat = sd.FileLatName,
-                        cLong = sd.FileLongName,
+            var data = _context.ThemeLayerDetails.Include(s => s.SubThemes.Themes).Include(s => s.BoundaryInfo)
+                .Where(s => s.LayerId == layer_id)
+                .Select(sd => new
+                {
 
-                        layerTypeId = sd.LayerTypeId,
-                        isLegendColor=sd.LegendColorOptionId,
-                        legendcolorField=sd.LegendColorFieldName,
+                    layerId = sd.LayerId,
+                    layerName = sd.LayerDisplayName, //Update
+                    themePath = sd.SubThemes.Themes.ThemePath,
+                    subThemePath = sd.SubThemes.SubThemePath,
+                    layerPath = sd.LayerName, ///Update
+                    layerFileName = sd.LayerFileName,
+
+                    mainAttDisName = sd.MainAttributeDisplayName,
+                    mainAtt = sd.MainAttributeName,
+                    mainAttCode = sd.MainAttributeCode,
+
+                    cLat = sd.FileLatName,
+                    cLong = sd.FileLongName,
+
+                    layerTypeId = sd.LayerTypeId,
+                    isLegendColor = sd.LegendColorOptionId,
+                    legendcolorField = sd.LegendColorFieldName,
 
 
-                        fillColorCode = sd.FillColorCode,
-                        lineColorCode = sd.LineColorCode,
-                        lineOpacity = sd.Opacity,
-                        fillOpacity = sd.FillOpacity,
-                        lineWeight = sd.LineWeight,
+                    fillColorCode = sd.FillColorCode,
+                    lineColorCode = sd.LineColorCode,
+                    lineOpacity = sd.Opacity,
+                    fillOpacity = sd.FillOpacity,
+                    lineWeight = sd.LineWeight,
 
-                        tableId =sd.TableInfoId,
-                        boundaryId = sd.BoundaryInfoId,
-                        boundaryPath=sd.BoundaryInfo.BoundaryPath,
-                        boundaryGeoCodeColumnName=sd.BoundaryInfo.AttributeName,
-                        boundaryGeoNameColumnName = sd.BoundaryInfo.AttributeValueName,
+                    tableId = sd.TableInfoId,
+                    boundaryId = sd.BoundaryInfoId,
+                    boundaryPath = sd.BoundaryInfo.BoundaryPath,
+                    boundaryGeoCodeColumnName = sd.BoundaryInfo.AttributeName,
+                    boundaryGeoNameColumnName = sd.BoundaryInfo.AttributeValueName,
 
-                    }).FirstOrDefault();
-                return Json(data);
+                }).FirstOrDefault();
+            return Json(data);
 
         }
 
-        
-       [HttpPost]
-       public   JsonResult GetTbleColumnList(int tableId)
+
+        [HttpPost]
+        public JsonResult GetTbleColumnList(int tableId)
         {
             var dataList = _context.TableColumnInfos
-                .Where(sd => sd.TableId==tableId && sd.ColumnTypeId==2)
+                .Where(sd => sd.TableId == tableId && sd.ColumnTypeId == 2)
                 .Select(sd => new { sd.DbColumnName, sd.DisplayName })
                 .OrderBy(sd => sd.DisplayName).ToList();
 
-            return  Json(new SelectList(dataList, "DbColumnName", "DisplayName"));
+            return Json(new SelectList(dataList, "DbColumnName", "DisplayName"));
         }
-        
-       [HttpPost]
-       public JsonResult GetMapBindData(int tableId, string columnName,int boundaryId)
+
+        [HttpPost]
+        public JsonResult GetMapBindData(int tableId, string columnName, int boundaryId)
         {
             string tableName = _context.TableInfos.Where(i => i.Id == tableId).Select(i => i.TableName).FirstOrDefault();
             string geoCodeColumnName = _context.TableColumnInfos.Where(i => i.TableId == tableId && i.ColumnTypeId == 1).Select(i => i.DbColumnName).FirstOrDefault();
@@ -195,16 +194,17 @@ namespace EcdsApp.Controllers.Map
         }
 
         [HttpPost]
-       public JsonResult GetUserDefinedLegendInfo(int layer_id)
+        public JsonResult GetUserDefinedLegendInfo(int layer_id, string columnName)
         {
+            //s.LegendColumnName == columnName &&
             var data = _context.LayerLegendColors.Where(s => s.LayerId == layer_id).Select(sd => new
             {
-                attCode=sd.LayerMainAttribureValue,
+                attCode = sd.LayerMainAttribureValue,
                 attName = sd.LayerLegendDisplayName,
-                colorCode =sd.LayerLegendColorCode,
-                iconSize=sd.IconSize,
-                iconPath=sd.IconPath
-               
+                colorCode = sd.LayerLegendColorCode,
+                iconSize = sd.IconSize,
+                iconPath = sd.IconPath
+
 
             }).ToList();
             return Json(data);
@@ -236,9 +236,9 @@ namespace EcdsApp.Controllers.Map
 
 
         [HttpPost]
-        public  JsonResult GetUpazilaInfoes()
+        public JsonResult GetUpazilaInfoes()
         {
-            var upzList =  _context.AdminBoundaryUpazilas.OrderBy(sd => sd.UpazilaGeoCode).ToList();
+            var upzList = _context.AdminBoundaryUpazilas.OrderBy(sd => sd.UpazilaGeoCode).ToList();
             return Json(upzList);
         }
 
@@ -259,6 +259,6 @@ namespace EcdsApp.Controllers.Map
         }
 
 
-        
+
     }
 }

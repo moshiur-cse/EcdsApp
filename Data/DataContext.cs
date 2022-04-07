@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using MySql.EntityFrameworkCore.Extensions;
 namespace EcdsApp.Data
 {
     //DbContext  //DataContext (JRCWebApp.Data)
@@ -63,19 +62,29 @@ namespace EcdsApp.Data
         public DbSet<UpazilaWiseExposureData> UpazilaWiseExposureData { get; set; }
         public DbSet<UpazilaWiseRiskIndex> UpazilaWiseRiskIndex { get; set; }
         public DbSet<UpazilaWisePoverty> UpazilaWisePoverties { get; set; }
+        public DbSet<UpazilaWisePopulationDensity> UpazilaWisePopulationDensities { get; set; }
+
+
 
 
         public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }
         public DbSet<DistrictWisePopulation> DistrictWisePopulations { get; set; }
         public DbSet<DistrictWiseLightening> DistrictWiseLightenings { get; set; }
-        
+        public DbSet<DistrictWiseThunderstrom> DistrictWiseThunderstroms { get; set; }
+        public DbSet<DistrictWisePopulationDensity> DistrictWisePopulationDensities { get; set; }
+
+
+
+
+
+
         //Union Wise
         public DbSet<FutureProjectionRainfall4Point5> FutureProjectionRainfall4Point5s { get; set; }
         public DbSet<FutureProjectionRainfall8Point5> FutureProjectionRainfall8Point5s { get; set; }
 
         public DbSet<FutureProjectionTemperatureMax4Point5> FutureProjectionTemperatureMax4Point5s { get; set; }
         public DbSet<FutureProjectionTemperatureMax8Point5> FutureProjectionTemperatureMax8Point5s { get; set; }
-        
+
         public DbSet<FutureProjectionTemperatureMin4Point5> FutureProjectionTemperatureMin4Point5s { get; set; }
         public DbSet<FutureProjectionTemperatureMin8Point5> FutureProjectionTemperatureMin8Point5s { get; set; }
 
@@ -111,12 +120,12 @@ namespace EcdsApp.Data
             modelBuilder.Entity<ApplicationUser>().Property(p => p.LockoutEnabled).HasColumnName("lockout_enabled");
             modelBuilder.Entity<ApplicationUser>().Property(p => p.AccessFailedCount).HasColumnName("access_failed_count");
 
-            modelBuilder.Entity<IdentityRole>().ToTable("user_role_lists").Property(p => p.Id).HasColumnName("role_id");          
-            modelBuilder.Entity<IdentityRole>().Property(p => p.Name).HasColumnName("name");           
-            modelBuilder.Entity<IdentityRole>().Property(p => p.NormalizedName).HasColumnName("normalized_name");           
+            modelBuilder.Entity<IdentityRole>().ToTable("user_role_lists").Property(p => p.Id).HasColumnName("role_id");
+            modelBuilder.Entity<IdentityRole>().Property(p => p.Name).HasColumnName("name");
+            modelBuilder.Entity<IdentityRole>().Property(p => p.NormalizedName).HasColumnName("normalized_name");
             modelBuilder.Entity<IdentityRole>().Property(p => p.ConcurrencyStamp).HasColumnName("concurrency_stamp");
 
-            modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("user_roles").Property(p=>p.RoleId).HasColumnName("role_id"); });
+            modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("user_roles").Property(p => p.RoleId).HasColumnName("role_id"); });
             modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.Property(p => p.UserId).HasColumnName("user_id"); });
 
 
@@ -147,7 +156,7 @@ namespace EcdsApp.Data
             try
             {
                 var columnNameSepArray = columnName.Split(',');
-                var sqlQry = "SELECT "+ columnNameSepArray[0] + " AS Code, "+ columnNameSepArray[1] +" AS Value FROM "+ tableName +" ";
+                var sqlQry = "SELECT " + columnNameSepArray[0] + " AS Code, " + columnNameSepArray[1] + " AS Value FROM " + tableName + " ";
                 var queryResult = ExecSql<JsonDataBindingViewModel>(sqlQry);
                 //var jsonData = JsonSerializer.Serialize(queryResult);
 
@@ -179,11 +188,11 @@ namespace EcdsApp.Data
                 {
                     var obj = Activator.CreateInstance<T>();
                     foreach (var prop in obj.GetType().GetProperties())
-                    {                            
+                    {
                         if (!Equals(result[prop.Name], DBNull.Value))
-                        {                                
+                        {
                             prop.SetValue(obj, result[prop.Name], null);
-                        }                                                                                   
+                        }
                     }
                     list.Add(obj);
                 }
@@ -200,7 +209,7 @@ namespace EcdsApp.Data
             var property = typeof(TEntity)
                 .GetProperties()
                 .Single(s => s.Name == modelName);
-            
+
 
             return property.PropertyType
                 .GetGenericArguments() //Get the generic type of the DbSet

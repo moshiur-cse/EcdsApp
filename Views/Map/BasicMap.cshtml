@@ -314,7 +314,6 @@
             jQuery(".select2").select2();
         });
 
-
         var data_layer = {};
         var data_layer_details = {};
         var userDefinedColorList = {};
@@ -609,6 +608,8 @@
 
                     var tDataColor = getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value'));
 
+                    console.log(feature.properties[attCode],getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value')));
+
                     //console.log(mapBindData["exposure"]['10040009'].get('value'));
                     return {
                             //fillColor: isLegendColor == 0 ? '#ffffff00' : userDefinedColorList[feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
@@ -677,7 +678,7 @@
             function mapOnClickAction(e) {
                 var layer = e.target;
 
-
+                
                 var popupContent = "";
                 if (layerTypeId == 4) {
 
@@ -920,7 +921,7 @@
 
 
         //Set User Defined Color and Legend Name
-        function getUserDefinedColor(layerUid, layerId,LegendName,layerTypeId) {
+        function getUserDefinedColor(layerUid, layerId,LegendName,layerTypeId,columnName) {
             userDefinedColorList[layerId] = {};
             var colorList = [];
 
@@ -928,7 +929,7 @@
                 type: "POST",
                 url: "@Url.Action("GetUserDefinedLegendInfo")",
                 dataType: "json",
-                data: { layer_id: layerUid },
+                data: { layer_id: layerUid, columnName:columnName},
                 before: jQuery("#busy-indicator").fadeIn(150),
                 success: function (items) {
 
@@ -1035,7 +1036,7 @@
 
 
                                 jQuery.when(getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function () {
-                                    jQuery.when(getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")",items.layerTypeId)).then(function () {
+                                    jQuery.when(getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")",items.layerTypeId,columnName)).then(function () {
                                         //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                         setTimeout(function () {
                                             LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
@@ -1052,7 +1053,7 @@
                             //}
 
                             jQuery.ajax({
-                                url: getUserDefinedColor(items.layerId, layerId, items.layerName,items.layerTypeId),
+                                url: getUserDefinedColor(items.layerId, layerId, items.layerName,items.layerTypeId,""),
                                 success: function () {
                                         //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                 },

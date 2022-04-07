@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EcdsApp.Models
 {
@@ -13,10 +9,13 @@ namespace EcdsApp.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Required]
-        [Column("upz_geo_code",Order = 0, TypeName = "varchar(8)")]
+        [Column("upz_geo_code", Order = 0, TypeName = "varchar(8)")]
         [StringLength(8, ErrorMessage = "The {0} must be {1} characters.")]
         [Display(Name = "Upazila Geo-Code")]
         public string UpazilaGeoCode { get; set; }
+
+
+
 
         [Column("old_geo_code", Order = 0, TypeName = "varchar(6)")]
         [StringLength(6, ErrorMessage = "The {0} must be {1} characters.")]
@@ -24,7 +23,7 @@ namespace EcdsApp.Models
         public string OldGeoCode { get; set; }
 
         [Required]
-        [Column("upz_name",Order = 1, TypeName = "nvarchar(250)")]
+        [Column("upz_name", Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
         [Display(Name = "Upazila Name")]
         public string UpazilaName { get; set; }

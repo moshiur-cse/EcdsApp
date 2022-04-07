@@ -34,13 +34,24 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Legend Display Name")]
         public string LayerLegendDisplayName { get; set; }
 
-        [Column("icon_size", TypeName = "int")]
+        [Column("icon_size", TypeName = "decimal(4, 2)")]
+        [Range(0.0, 100)]
         [Display(Name = "Icon Size")]
-        public int IconSize { get; set; }
+        public decimal IconSize { get; set; }
 
         [Column("icon_path")]
         [StringLength(200)]
         [Display(Name = "Icon Path")]
         public string IconPath { get; set; }
+
+
+        [Column("legend_column_name")]
+        [StringLength(200)]
+        [Display(Name = "Legend Column Name")]
+        public string LegendColumnName { get; set; }
+
+
+
+
     }
 }

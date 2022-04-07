@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220406081813_UpdateThunderstorm")]
+    partial class UpdateThunderstorm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,26 +258,6 @@ namespace EcdsApp.Migrations
                     b.ToTable("tbl_district_wise_population");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulationDensity", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("DistrictGeoCode")
-                        .HasMaxLength(4)
-                        .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
-
-                    b.Property<int?>("PopulationDensity")
-                        .HasColumnType("int")
-                        .HasColumnName("population_density");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tbl_district_wise_population_density");
-                });
-
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePoverty", b =>
                 {
                     b.Property<int>("Id")
@@ -515,8 +497,8 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(200)")
                         .HasColumnName("icon_path");
 
-                    b.Property<decimal>("IconSize")
-                        .HasColumnType("decimal(4, 2)")
+                    b.Property<int>("IconSize")
+                        .HasColumnType("int")
                         .HasColumnName("icon_size");
 
                     b.Property<int>("LayerId")
@@ -537,11 +519,6 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
                         .HasColumnName("layer_main_attribure_value");
-
-                    b.Property<string>("LegendColumnName")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)")
-                        .HasColumnName("legend_column_name");
 
                     b.HasKey("LayerLegendColorId");
 
@@ -1227,27 +1204,6 @@ namespace EcdsApp.Migrations
                     b.HasIndex("UpazilaGeoCode");
 
                     b.ToTable("tbl_upazila_wise_exposure_data");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDensity", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<int?>("PopulationDensity")
-                        .HasColumnType("int")
-                        .HasColumnName("population_density");
-
-                    b.Property<string>("UpazilaGeoCode")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("varchar(8)")
-                        .HasColumnName("upz_geo_code");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tbl_upazila_wise_population_density");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePoverty", b =>

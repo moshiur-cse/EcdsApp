@@ -64,7 +64,7 @@
         height: auto !important;
         width: auto !important;
         /*font-weight: bold;
-                                    color: #025 line-height: 1;*/
+                                        color: #025 line-height: 1;*/
         padding: 0.2rem 0.3rem;
         text-align: center;
         font-weight: bold;
@@ -98,19 +98,19 @@
         stroke: none !important
     }
     /* svg {
-                                    width: 1vw !important;
-                                    height: 50vh !important;
-                                }*/
+                                        width: 1vw !important;
+                                        height: 50vh !important;
+                                    }*/
 </style>
 }
 
 
-<div class="page-content my-5 bg-white">
+<div class="page-content bg-white">
     <div class="container-fluid">
         <div class="row">
             <!--Marquees-->
             <div class="d-flex">
-               
+
                 <h3>
                     <marquee direction="left" scrollamount="4" onmouseover="this.stop()" onmouseout="this.start()">
                         নো মাস্ক নো সার্ভিস। করোনাভাইরাসের বিস্তার রোধে এখনই ডাউনলোড করুন Corona Tracer BD অ্যাপ। ডাউনলোড করতে ক্লিক করুন <a href="https://bit.ly/coronatracerbd" target="_blank" style="color: blue;" title="https://bit.ly/coronatracerbd">https://bit.ly/coronatracerbd</a>। নিজে সুরক্ষিত থাকুন অন্যকেও নিরাপদ রাখুন। দেশের প্রথম ক্রাউডফান্ডিং প্ল্যাটফর্ম 'একদেশ'- এর মাধ্যমে আর্থিক অনুদান পৌঁছে দিন নির্বাচিত সরকারি-বেসরকারি প্রতিষ্ঠানসমূহে। ভিজিট করুন <a href="//ekdesh.ekpay.gov.bd" target="_blank" style="color: blue;" title="ekdesh.ekpay.gov.bd">ekdesh.ekpay.gov.bd</a> অথবা <a href="//play.google.com/store/apps/details?id=com.synesis.donationapp" target="_blank" style="color: blue;" title="“Ek Desh”">“Ek Desh”</a> অ্যাপ ডাউনলোড করুন। করোনার লক্ষণ দেখা দিলে গোপন না করে ডাক্তারের পরামর্শের জন্য ফ্রি কল করুন ৩৩৩ ও ১৬২৬৩ নম্বরে। করোনাভাইরাস প্রতিরোধে নিয়ম মেনে মাস্ক ব্যবহার করুন। আতঙ্কিত না হয়ে বরং সচেতন থাকুন। ভিজিট করুন <a href="//corona.gov.bd" target="_blank" style="color: blue;" title="corona.gov.bd">corona.gov.bd</a>
@@ -523,40 +523,40 @@
             //});
 
             @*function loadChart() {
-                                        dist = [];
-                                        male = [];
-                                        female = [];
-                                        total = [];
-                                        var distCodeList = [];
+                                            dist = [];
+                                            male = [];
+                                            female = [];
+                                            total = [];
+                                            var distCodeList = [];
 
-                                        if ($("#DistCode").val().length > 0) {
-                                            distCodeList = $("#DistCode").val();
+                                            if ($("#DistCode").val().length > 0) {
+                                                distCodeList = $("#DistCode").val();
 
-                                        } else {
-                                            distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
-                                        }
-                                        jQuery.ajax({
-                                            type: "POST",
-                                            url: "@Url.Action("GetChartData")",
-                                            dataType: "json",
-                                            data: { distCodeList: distCodeList },
-                                            before: jQuery("#busy-indicator").fadeIn(150),
-                                            success: function (datas) {
-                                                $.each(datas, function (i, item) {
-                                                    dist.push(item.distName);
-                                                    male.push(item.male);
-                                                    female.push(item.female);
-                                                    total.push(item.total);
-                                                });
-                                            },
-                                            error: function (ex, status, error) {
-
-                                            },
-                                            complete: function () {
-                                                jQuery("#busy-indicator").fadeOut(150);
+                                            } else {
+                                                distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
                                             }
-                                        });
-                                    }*@
+                                            jQuery.ajax({
+                                                type: "POST",
+                                                url: "@Url.Action("GetChartData")",
+                                                dataType: "json",
+                                                data: { distCodeList: distCodeList },
+                                                before: jQuery("#busy-indicator").fadeIn(150),
+                                                success: function (datas) {
+                                                    $.each(datas, function (i, item) {
+                                                        dist.push(item.distName);
+                                                        male.push(item.male);
+                                                        female.push(item.female);
+                                                        total.push(item.total);
+                                                    });
+                                                },
+                                                error: function (ex, status, error) {
+
+                                                },
+                                                complete: function () {
+                                                    jQuery("#busy-indicator").fadeOut(150);
+                                                }
+                                            });
+                                        }*@
 
 
             function drawChart() {

@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220407052706_Update-Legend-Model")]
+    partial class UpdateLegendModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,26 +256,6 @@ namespace EcdsApp.Migrations
                     b.HasIndex("DistrictGeoCode");
 
                     b.ToTable("tbl_district_wise_population");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulationDensity", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("DistrictGeoCode")
-                        .HasMaxLength(4)
-                        .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
-
-                    b.Property<int?>("PopulationDensity")
-                        .HasColumnType("int")
-                        .HasColumnName("population_density");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tbl_district_wise_population_density");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePoverty", b =>
@@ -1227,27 +1209,6 @@ namespace EcdsApp.Migrations
                     b.HasIndex("UpazilaGeoCode");
 
                     b.ToTable("tbl_upazila_wise_exposure_data");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDensity", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<int?>("PopulationDensity")
-                        .HasColumnType("int")
-                        .HasColumnName("population_density");
-
-                    b.Property<string>("UpazilaGeoCode")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("varchar(8)")
-                        .HasColumnName("upz_geo_code");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tbl_upazila_wise_population_density");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePoverty", b =>
