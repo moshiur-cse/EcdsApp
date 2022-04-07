@@ -12,7 +12,7 @@ namespace EcdsApp.Security
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (filterContext.HttpContext.User.Identity == null || !filterContext.HttpContext.User.Identity.IsAuthenticated)
-                return;
+                return;//  RedirectToRouteResult(new { action = "UnAuthorizeActionResult", controller = "UserAccessManage", area = "" }); ;
 
             var currentUser = filterContext.HttpContext.User.Identity.Name;
             var controllerName = ((ControllerBase)filterContext.Controller).ControllerContext.ActionDescriptor.ControllerName;
