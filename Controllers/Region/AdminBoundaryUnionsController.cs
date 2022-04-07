@@ -7,24 +7,70 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EcdsApp.Data;
 using EcdsApp.Models.RegionModels;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EcdsApp.Controllers.Region
 {
     public class AdminBoundaryUnionsController : Controller
     {
         private readonly DataContext _context;
-
+        
         public AdminBoundaryUnionsController(DataContext context)
         {
-            _context = context;
+            _context = context;            
         }
-
+        
         // GET: AdminBoundaryUnions
+
         public async Task<IActionResult> Index()
         {
-            var dataContext = _context.AdminBoundaryUnions.Include(a => a.Upazila);
-            return View(await dataContext.ToListAsync());
+            var data = await _context.AdminBoundaryUnions
+                                .Include(a => a.Upazila)
+                                .Take(50)
+                                .ToListAsync();            
+            int numToShow = 50;
+            var totalDataCount = _context.AdminBoundaryUnions.Count();
+            ViewData["dataCount"] = totalDataCount;
+            if (totalDataCount % numToShow != 0)
+            {
+                totalDataCount = totalDataCount + (numToShow - (totalDataCount % numToShow));
+            }
+            ViewData["endPage"] = (totalDataCount / numToShow);
+            return View(data);
         }
+
+        public async Task<IActionResult> GetUnionList(int startpage=1, int numToShow=50)
+        {
+            var totalDataCount = _context.AdminBoundaryUnions.Count();
+            if (totalDataCount % numToShow != 0) {
+                totalDataCount = totalDataCount + (numToShow - (totalDataCount % numToShow));
+            }
+            int endPage = (totalDataCount / numToShow);
+            if(startpage <= endPage)
+            {
+                var data = await _context.AdminBoundaryUnions
+                                .Include(a => a.Upazila)
+                                .Skip((startpage-1) * numToShow)
+                                .Take(numToShow)
+                                .ToListAsync();
+                return Json(data);
+            }
+            else
+            {
+                return RedirectToAction("GetUnionList", new { startpage = 1 });
+            }            
+            
+        }
+
+        //public async Task<IActionResult> GetUnionList2()
+        //{
+            
+        //        var data = await _context.AdminBoundaryUnions
+        //                        .Include(a => a.Upazila)
+        //                        .ToListAsync();
+        //        return Json(data);           
+
+        //}
 
         // GET: AdminBoundaryUnions/Details/5
         public async Task<IActionResult> Details(string id)
