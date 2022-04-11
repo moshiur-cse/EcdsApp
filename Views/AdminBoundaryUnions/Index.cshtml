@@ -116,33 +116,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="maxvh-50 overflow-auto">
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a asp-action="Edit" asp-route-id="@item.UnionGeoCode" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
-                                                @*<a asp-action="Delete" asp-route-id="@item.UpazilaGeoCode" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>*@
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Upazila.UpazilaName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.UnionName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.UnionNameBangla)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.MunicipalityName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.MunicipalityGeoCode)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.SortingOrder)
-                                            </td>
-                                        </tr>
-                                    }
+                                   
                                 </tbody>
                             </table>
                         </div>
@@ -152,88 +126,55 @@
         </div>
     </div>
 </div>
+
+<a href=""></a>
 @section Scripts{
     <script type="text/javascript">
-        let endPage=@ViewBag.endPage;
-        let totalData=@ViewBag.dataCount;
-        let isReady=true
-        let lastPage=0
-        let strPage=2
-        let scroll=0
-        const AjaxCall=(strtPage)=>{
-            lastPage=strtPage
-            $.ajax(
-                        {url: '@Url.Action("GetUnionList")',
-                        data:{
-                            "startpage":strtPage
-                        },
-                        success: function(result) {
-                            
-                            result.forEach(x=>{
-                                $("tbody").append(`<tr role="row" class="even">
-                                            <td class="sorting_1 dtr-control">
-                                                <a class="px-3 text-primary" href="/AdminBoundaryUnions/Edit/${x.unionGeoCode}"><i class="uil-pen font-size-20"></i></a>
-                                            </td>
-                                            <td>
-                                                ${x.upazila.upazilaName}
-                                            </td>
-                                            <td>
-                                                ${x.unionName}
-                                            </td>
-                                            <td>
-                                                ${x.unionNameBangla}
-                                            </td>
-                                            <td>
-                                                ${x.municipalityName}
-                                            </td>
-                                            <td>
-                                                ${x.municipalityGeoCode}
-                                            </td>
-                                            <td>
-                                                ${x.sortingOrder}
-                                            </td>
-                                        </tr>`)
-                            })
-                            
-                        },
-                        complete:function(){                            
-                            strPage=strtPage+1
-                        }
-                    });
-        }
-        $(document).ready(function () {
-            //let state=true
-            //("#datatable-buttons").DataTable()
-            //======= run this function on scroll
-            $(".tab-card").scroll(function(){
-                console.log($("#datatable-buttons tr").length)
-                //console.log(window.pageYOffset)
 
-                //===check if 300px is scrolled and its not the last page and previous data is not loaded
-                if($(".tab-card").scrollTop() > 300 && (strPage <= endPage) && strPage!=lastPage ){                   
-                    console.log("startpage"+strPage)
-                    AjaxCall(strPage)                    
-                    scroll=window.pageYOffset
-                }
-                //===check if all data is loaded and initialize dataTable only once
-                if(strPage > endPage && isReady){
-                    $("#datatable-buttons").DataTable({
-                        lengthChange: !1,
-                        pageLength: 50,
-                        buttons: ["copy",                
-                            {
-                                extend: 'excelHtml5',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }
-                        ,"pdf", "colvis"]
-                        }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
-                        isReady=false
-                }
-                
-                else return
-            });
-        });
-    </script>
+
+ let columns=[
+            {
+               data: null,
+               render: function (data,row) { return `<a class="px-3 text-primary" href="/AdminBoundaryUnions/Edit/${row.unionGeoCode}"><i class="uil-pen font-size-20"></i></a>`;  }
+            },
+            { data: "upazila.upazilaName", autoWidth: true },
+            { data: "unionName",  autoWidth: true },
+            { data: "unionNameBangla", autoWidth: true },
+            { data: "municipalityName", autoWidth: true },
+            { data: "municipalityGeoCode", autoWidth: true },
+            { data: "sortingOrder", autoWidth: true }
+            
+        ]
+
+$(document).ready(function () {
+
+    $("#datatable-buttons").DataTable({
+        
+        processing: true,
+        serverSide: true,
+        filter:true,
+        paging:true,
+        ajax: {
+             url: '@Url.Action("JqueryDataTableUnionList")',
+             type: "POST",
+             datatype: "json"
+        },
+        columns:columns,
+        //columnDefs:columnDefs,
+        //lengthChange: !1,
+        //pageLength: 50,
+        buttons: ["copy",                
+        {
+        extend: 'excelHtml5',
+        exportOptions: {
+        columns: ':visible'
+        }
+        }
+        ,"pdf", "colvis"]
+        })/*.buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");*/
+})
+ </script>
 }
+
+
+   

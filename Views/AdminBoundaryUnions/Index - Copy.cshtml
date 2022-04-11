@@ -4,7 +4,12 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    .tab-card{
+        max-height:50vh;
+        overflow:auto;
+    }
+</style>
 @*<h1>Index</h1>
 
 <p>
@@ -85,7 +90,7 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <div class="table-responsive mt-2">
+                        <div class="table-responsive mt-2 tab-card">
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
@@ -110,7 +115,7 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="maxvh-50 overflow-auto">
                                     @foreach (var item in Model)
                                     {
                                         <tr>
@@ -149,18 +154,92 @@
 </div>
 @section Scripts{
     <script type="text/javascript">
-        $(document).ready(function () {
-            $("#datatable-buttons").DataTable({
-                lengthChange: !1,
-                buttons: ["copy",                
-                    {
-                        extend: 'excelHtml5',
-                        exportOptions: {
-                            columns: ':visible'
+        let endPage=@ViewBag.endPage;
+        let totalData=@ViewBag.dataCount;
+        let isReady=true
+        let lastPage=0
+        let strPage=2
+        let scroll=0
+        const AjaxCall=(strtPage)=>{
+            lastPage=strtPage
+            $.ajax(
+                        {url: '@Url.Action("GetUnionList")',
+                        data:{
+                            "startpage":strtPage
+                        },
+                        success: function(result) {
+                            
+                            result.forEach(x=>{
+                                $("tbody").append(`<tr role="row" class="even">
+                                            <td class="sorting_1 dtr-control">
+                                                <a class="px-3 text-primary" href="/AdminBoundaryUnions/Edit/${x.unionGeoCode}"><i class="uil-pen font-size-20"></i></a>
+                                            </td>
+                                            <td>
+                                                ${x.upazila.upazilaName}
+                                            </td>
+                                            <td>
+                                                ${x.unionName}
+                                            </td>
+                                            <td>
+                                                ${x.unionNameBangla}
+                                            </td>
+                                            <td>
+                                                ${x.municipalityName}
+                                            </td>
+                                            <td>
+                                                ${x.municipalityGeoCode}
+                                            </td>
+                                            <td>
+                                                ${x.sortingOrder}
+                                            </td>
+                                        </tr>`)
+                            })
+                            
+                        },
+                        complete:function(){                            
+                            strPage=strtPage+1
                         }
-                    }
-                ,"pdf", "colvis"]
-            }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
+                    });
+        }
+        $(document).ready(function () {
+            //let state=true
+            //("#datatable-buttons").DataTable()
+            //======= run this function on scroll
+            $(".tab-card").scroll(function(){
+                console.log($("#datatable-buttons tr").length)
+                //console.log(window.pageYOffset)
+
+                //===check if 300px is scrolled and its not the last page and previous data is not loaded
+                if($(".tab-card").scrollTop() > 300 && (strPage <= endPage) && strPage!=lastPage ){                   
+                    console.log("startpage"+strPage)
+                    AjaxCall(strPage)                    
+                    scroll=window.pageYOffset
+                }
+                //===check if all data is loaded and initialize dataTable only once
+                if(strPage > endPage && isReady){
+                    $("#datatable-buttons").DataTable({
+                        drawCallback: function(){
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())          
+                                .on('click', function(){
+                                alert('next');
+                                });       
+                        }
+                        lengthChange: !1,
+                        pageLength: 50,
+                        buttons: ["copy",                
+                            {
+                                extend: 'excelHtml5',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }
+                        ,"pdf", "colvis"]
+                        }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
+                        isReady=false
+                }
+                
+                else return
+            });
         });
     </script>
 }

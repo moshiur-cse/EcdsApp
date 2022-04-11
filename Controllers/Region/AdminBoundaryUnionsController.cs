@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EcdsApp.Data;
 using EcdsApp.Models.RegionModels;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using EcdsApp.Models.ViewModels;
 
 namespace EcdsApp.Controllers.Region
 {
@@ -22,55 +23,142 @@ namespace EcdsApp.Controllers.Region
         
         // GET: AdminBoundaryUnions
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var data = await _context.AdminBoundaryUnions
-                                .Include(a => a.Upazila)
-                                .Take(50)
-                                .ToListAsync();            
-            int numToShow = 50;
-            var totalDataCount = _context.AdminBoundaryUnions.Count();
-            ViewData["dataCount"] = totalDataCount;
-            if (totalDataCount % numToShow != 0)
-            {
-                totalDataCount = totalDataCount + (numToShow - (totalDataCount % numToShow));
-            }
-            ViewData["endPage"] = (totalDataCount / numToShow);
-            return View(data);
+            
+            return View();
         }
 
-        public async Task<IActionResult> GetUnionList(int startpage=1, int numToShow=50)
+        [HttpPost]
+        public IActionResult JqueryDataTableUnionList()
         {
-            var totalDataCount = _context.AdminBoundaryUnions.Count();
-            if (totalDataCount % numToShow != 0) {
-                totalDataCount = totalDataCount + (numToShow - (totalDataCount % numToShow));
-            }
-            int endPage = (totalDataCount / numToShow);
-            if(startpage <= endPage)
+            try
             {
-                var data = await _context.AdminBoundaryUnions
-                                .Include(a => a.Upazila)
-                                .Skip((startpage-1) * numToShow)
-                                .Take(numToShow)
-                                .ToListAsync();
-                return Json(data);
+                var draw = Request.Form["draw"].FirstOrDefault();
+                var start = Request.Form["start"].FirstOrDefault();
+                var length = Request.Form["length"].FirstOrDefault();
+                //var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                var sortColumn = Request.Form["order[0][column]"].FirstOrDefault();
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                var searchValue = Request.Form["search[value]"].FirstOrDefault().Trim();
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                var unionData = _context.AdminBoundaryUnions
+                                .Include(a => a.Upazila).AsQueryable();
+
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+                {
+                    
+                    if (sortColumnDirection == "asc")
+                    {
+                        switch (sortColumn)
+                        {
+                            case "1":
+                                unionData = unionData.OrderBy(x => x.Upazila.UpazilaName);
+                                break;
+                            case "2":
+                                unionData = unionData.OrderBy(x => x.UnionName);
+                                break;
+                            case "3":
+                                unionData = unionData.OrderBy(x => x.UnionNameBangla);
+                                break;
+                            case "4":
+                                unionData = unionData.OrderBy(x => x.MunicipalityName);
+                                break;
+                            case "5":
+                                unionData = unionData.OrderBy(x => x.MunicipalityGeoCode);
+                                break;
+                            case "6":
+                                unionData = unionData.OrderBy(x => x.SortingOrder);
+                                break;
+                        }
+                    }
+
+
+                    else
+                    {
+                        switch (sortColumn)
+                        {
+                            case "1":
+                                unionData = unionData.OrderByDescending(x => x.Upazila.UpazilaName);
+                                break;
+                            case "2":
+                                unionData = unionData.OrderByDescending(x => x.UnionName);
+                                break;
+                            case "3":
+                                unionData = unionData.OrderByDescending(x => x.UnionNameBangla);
+                                break;
+                            case "4":
+                                unionData = unionData.OrderByDescending(x => x.MunicipalityName);
+                                break;
+                            case "5":
+                                unionData = unionData.OrderByDescending(x => x.MunicipalityGeoCode);
+                                break;
+                            case "6":
+                                unionData = unionData.OrderByDescending(x => x.SortingOrder);
+                                break;
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    
+                    unionData = unionData.Where(m => m.Upazila.UpazilaName.Contains(searchValue)
+                                                || m.UpazilaGeoCode.Contains(searchValue)
+                                                || m.SortingOrder.ToString().Contains(searchValue)
+                                                || m.MunicipalityGeoCode.Contains(searchValue)
+                                                || m.MunicipalityName.Contains(searchValue)
+                                                || m.UnionName.Contains(searchValue)
+                                                || m.UnionNameBangla.Contains(searchValue));
+                }
+                recordsTotal = unionData.Count();
+                var data = unionData.Skip(skip).Take(pageSize).ToList();
+                var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+                return Ok(jsonData);
             }
-            else
+            catch (Exception exp)
             {
-                return RedirectToAction("GetUnionList", new { startpage = 1 });
-            }            
-            
+                throw new Exception(exp.Message);
+            }
         }
+    
 
-        //public async Task<IActionResult> GetUnionList2()
-        //{
+
+    //public async Task<IActionResult> GetUnionList2(int draw = 1, int numToShow = 50)
+    //{
             
-        //        var data = await _context.AdminBoundaryUnions
-        //                        .Include(a => a.Upazila)
-        //                        .ToListAsync();
-        //        return Json(data);           
+    //    var totalDataCount = _context.AdminBoundaryUnions.Count();
+    //    if (totalDataCount % numToShow != 0)
+    //    {
+    //        totalDataCount = totalDataCount + (numToShow - (totalDataCount % numToShow));
+    //    }
+    //    int endPage = (totalDataCount / numToShow);
+    //    if (draw <= endPage)
+    //    {
+                
+    //        var data = await _context.AdminBoundaryUnions
+    //                        .Include(a => a.Upazila)
+    //                        .Skip((draw - 1) * numToShow)
+    //                        .Take(numToShow)
+    //                        .ToListAsync();
 
-        //}
+    //        AjaxUnionViewModel ajaxUnionData = new()
+    //        {
+    //            Draw= draw,
+    //            RecordsTotal= totalDataCount,
+    //            RecordsFiltered= totalDataCount,
+    //            Data = data                    
+    //        };
+    //        return Json(ajaxUnionData);
+    //    }
+    //    else
+    //    {
+    //        return RedirectToAction("GetUnionList", new { startpage = 1 });
+    //    }
+
+    //}
+
 
         // GET: AdminBoundaryUnions/Details/5
         public async Task<IActionResult> Details(string id)
