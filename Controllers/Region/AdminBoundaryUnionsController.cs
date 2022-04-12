@@ -29,8 +29,7 @@ namespace EcdsApp.Controllers.Region
             return View();
         }
 
-        //[HttpPost]
-        [HttpGet]
+        [HttpPost]
         public IActionResult JqueryDataTableUnionList()
         {
             try
@@ -229,15 +228,15 @@ namespace EcdsApp.Controllers.Region
         [HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> Edit([FormBody] string upazilaName,string unionName,string unionNameBangla,string municipalityName,string municipalityGeoCode,int sortingOrder)
-        public IActionResult Edit(AdminBoundaryUnion adminBoundaryUnion)
+        public async Task<IActionResult> Edit(AdminBoundaryUnion adminBoundaryUnion)
         {
            
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //_context.Update(adminBoundaryUnion);
-                    //await _context.SaveChangesAsync();
+                    _context.Update(adminBoundaryUnion);
+                    await _context.SaveChangesAsync();
                     return Json("success");
 
                 }

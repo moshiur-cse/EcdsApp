@@ -10,71 +10,6 @@
         overflow:auto;
     }
 </style>
-@*<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OldGeoCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UnionName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UnionNameBangla)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Upazila)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MunicipalityGeoCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MunicipalityName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SortingOrder)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OldGeoCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnionName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnionNameBangla)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Upazila.UpazilaGeoCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MunicipalityGeoCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MunicipalityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SortingOrder)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.UnionGeoCode">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UnionGeoCode">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UnionGeoCode">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
 
 
 <div class="page-content">
@@ -114,6 +49,7 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.SortingOrder)
                                         </th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody class="maxvh-50 overflow-auto">
@@ -126,17 +62,70 @@
             </div>
         </div>
     </div>
+    @*<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>*@
 </div>
 
-<a href=""></a>
+
+<!--Bootstrap Modal-->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Union Info</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+             <div id="alert"></div>
+            <form>
+               <div class="mb-3">
+                  <label class="form-label" for="inputEmail">Upazila</label>
+                  <input type="email" name="upazilaName" class="form-control" id="upazilaName">
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="inputEmail">Union Name</label>
+                  <input type="email" name="unionName" class="form-control" id="unionName">
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="inputEmail">Union Name Bangla</label>
+                  <input type="email" name="unionNameBangla" class="form-control" id="unionNameBangla">
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="inputEmail">Municipality Name</label>
+                  <input type="email" name="municipalityName" class="form-control" id="municipalityName">
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="inputEmail">Municipality GEO Code</label>
+                  <input type="email" name="municipalityGeoCode" class="form-control" id="municipalityGeoCode">
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="inputEmail">Sorting Order</label>
+                  <input type="email" name="sortingOrder" class="form-control" id="sortingOrder">
+               </div>
+               <input type="hidden" name="unionGeoCode" class="form-control" id="unionGeoCode">
+               <input type="hidden" name="unionGeoCode" class="form-control" id="upazilaGeoCode">
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" id="submit" class="btn btn-primary">Save changes</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!--End Bootstrap Modal-->
+
+
 @section Scripts{
-    <script type="text/javascript">
-
-
+ <script type="text/javascript">
+ let arry=[]
  let columns=[
             {
-               data: "unionGeoCode",
-               render: function (data, row) { return `<a class="px-3 text-primary" href="/AdminBoundaryUnions/Edit/${data}"><i class="uil-pen font-size-20"></i></a>`;  }
+               data: null,
+               render: function (data) {
+                   return `<button d-ungcode="${data.unionGeoCode}" d-upgcode="${data.upazila.upazilaGeoCode}" class="edit-btn">Edit</button>`;
+               }      
             },
             { data: "upazila.upazilaName", autoWidth: true },
             { data: "unionName",  autoWidth: true },
@@ -183,9 +172,126 @@ $(document).ready(function () {
                         columns: [':visible' ]
                     }
             },
-             'colvis'
+            'colvis'
         ]
         }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
+})
+
+
+//===prevent propagation for a link 
+$(document).on("click", '.edit-anc', function(event){
+        event.preventDefault();
+
+        //====jquery table editable
+        
+
+        //let href=$(this).attr("href")
+        ////href=href.split("/AdminBoundaryUnions/Edit/")[1]
+        //console.log(href)
+        //let myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+        //  keyboard: true
+        //})
+        //myModal.show()
+        //$("input").val("")
+        //$.get(href,
+        //  function(data, status){
+        //      //console.log(data)
+        //    let elements=['unionName','unionNameBangla','municipalityName','municipalityGeoCode','sortingOrder','unionGeoCode']
+        //    $("#upazilaName").val(data.upazila.upazilaName)
+        //    $("#upazilaGeoCode").val(data.upazila.upazilaGeoCode)
+        //    elements.forEach(x=>{
+        //        $("#"+x).val(data[x])
+        //    })
+        //  }
+        //);
+});
+
+//$("#submit").on("click",()=>{
+//    $.post(
+//        '@Url.Action("Edit")',
+//        {
+            
+//            'adminBoundaryUnion.unionGeoCode':$("#unionGeoCode").val(),
+//            'adminBoundaryUnion.upazilaGeoCode':$("#upazilaGeoCode").val(),
+//            'adminBoundaryUnion.upazilaName':$("#upazilaName").val(),
+//            'adminBoundaryUnion.unionName':$("#unionName").val(),
+//            'adminBoundaryUnion.unionNameBangla':$("#unionNameBangla").val(),
+//            'adminBoundaryUnion.municipalityName':$("#municipalityName").val(),
+//            'adminBoundaryUnion.municipalityGeoCode':$("#municipalityGeoCode").val(),
+//            'adminBoundaryUnion.sortingOrder':$("#sortingOrder").val()
+//        },
+//        function(data){
+//            if(data =="success"){
+//                $("#alert").html(`<div class="alert alert-success alert-dismissible" role="alert">
+//                 Information updated successfully  !!
+//                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+//             </div>`)
+//            }
+//            $("form").remove()
+            
+//        }
+//     );
+//})
+
+//====Update Information in the database
+const UpdateInDb =()=>{
+    
+    //===get values from input fields and add them to arrays
+    //let elements=['unionName','unionNameBangla','municipalityName','municipalityGeoCode','sortingOrder','unionGeoCode']
+    let geoCodes=[arry[arry.length-2],arry[arry.length-1]]
+    arry=[]
+    for(let i=0;i<=5;i++){
+        arry.push($("#d"+i).val())
+    }
+
+    $.post(
+        '@Url.Action("Edit")',
+        {
+            
+            'adminBoundaryUnion.unionGeoCode':geoCodes[0],
+            'adminBoundaryUnion.upazilaGeoCode':geoCodes[1],
+            'adminBoundaryUnion.upazilaName':arry[0],
+            'adminBoundaryUnion.unionName':arry[1],
+            'adminBoundaryUnion.unionNameBangla':arry[2],
+            'adminBoundaryUnion.municipalityName':arry[3],
+            'adminBoundaryUnion.municipalityGeoCode':arry[4],
+            'adminBoundaryUnion.sortingOrder':arry[5]
+        },
+        function(data){
+           //===successfully saved now
+           if(data=="success"){
+
+           }            
+        }
+     );
+}
+
+//====custom input field insert
+$(document).on("click", '.edit-btn', function(){
+    console.log("s")
+    const td=$(this).parent()
+    const allDataInRow=td.parent().children()
+    for(let i=1;i<allDataInRow.length;i++){
+       arry.push(allDataInRow[i].innerText)
+    }        
+    arry.push($(this).attr("d-ungcode"))
+    arry.push($(this).attr("d-upgcode"))
+    
+    //console.log($(this).attr("d-ungcode"))
+    $(td).parent().html(`
+    <td class="sorting_1 dtr-control"><button class="save-btn">Save</button></td>
+    <td><input type="text" id="d0" class="form-control" value="${arry[0]}"/></td>
+    <td><input type="text" id="d1" class="form-control" value="${arry[1]}"/></td>
+    <td><input type="text" id="d2" class="form-control" value="${arry[2]}"/></td>
+    <td><input type="text" id="d3" class="form-control" value="${arry[3]}"/></td>
+    <td><input type="text" id="d4" class="form-control" value="${arry[4]}"/></td>
+    <td><input type="text" id="d5" class="form-control" value="${arry[5]}"/></td>`)
+})
+
+//==== save button
+
+$(document).on("click", '.save-btn', function(){
+    UpdateInDb()
 })
 
  </script>
