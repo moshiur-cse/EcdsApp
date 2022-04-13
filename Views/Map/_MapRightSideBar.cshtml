@@ -22,8 +22,8 @@
             <div id="sidebar-menu">
                 @*Left Menu Start*@
                 @*<ul  class="metismenu list-unstyled map_layer_list">
-            <li style="text-align:center">No Layer Added</li>
-        </ul>*@
+                    <li style="text-align:center">No Layer Added</li>
+                    </ul>*@
                 <div class="map_layer_list">
                     <p style="text-align:center">No Layer Added</p>
                 </div>
@@ -46,17 +46,17 @@
 
                 <div class="col-md-4">
                     <div class="form-check ">
-                        <input type="radio" id="radioDivision" name="radio" class="form-check-input" value="Division" checked="checked"><label class="form-check-label" for="radioDivision">Division</label>
+                        <input type="radio" id="radioDivision" name="radio" class="form-check-input radioButton" value="Division" checked="checked"><label class="form-check-label" for="radioDivision">Division</label>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-check">
-                        <input type="radio" id="radioDistrict" name="radio" class="form-check-input" value="District"><label class="form-check-label" for="radioDistrict">District</label>
+                        <input type="radio" id="radioDistrict" name="radio" class="form-check-input radioButton" value="District"><label class="form-check-label" for="radioDistrict">District</label>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-check">
-                        <input type="radio" id="radioUpazila" name="radio" class="form-check-input" value="Upazila"><label class="form-check-label" for="radioUpazila">Upazila</label>
+                        <input type="radio" id="radioUpazila" name="radio" class="form-check-input radioButton" value="Upazila"><label class="form-check-label" for="radioUpazila">Upazila</label>
                     </div>
                 </div>
             </div>
@@ -64,10 +64,10 @@
             <div class="row">
 
 
-               
 
 
-                <div class="accordion mb-1">
+
+                <div class="accordion mb-1" id="DivisionList">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDivision" aria-expanded="true" aria-controls="collapseDivision">
@@ -94,7 +94,7 @@
 
 
 
-                <div class="accordion" id="DistrictList">
+                <div class="accordion" id="DistrictList" style="display:none">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -107,20 +107,20 @@
                              aria-labelledby="headingOne" data-bs-parent="#DistrictList">
                             <div class="accordion-body">
                                 <ul class="metismenu list-unstyled" id="selectedDistrictList">
-                                    @foreach (AdminBoundaryDistrict item in ViewBag.DistList)
+                                   @* @foreach (AdminBoundaryDistrict item in ViewBag.DistList)
                                     {
                                         <li>
                                             <a><input type="checkbox" id="dist_@item.DistrictGeoCode" value="@item.DistrictGeoCode" class="DistrictList"><label for="dist_@item.DistrictGeoCode">@item.DistrictName</label></a>
                                         </li>
 
-                                    }
+                                    }*@
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="accordion" id="UpazilaList">
+                <div class="accordion" id="UpazilaList" style="display:none">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingUpazila">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -133,13 +133,13 @@
                              aria-labelledby="headingOne" data-bs-parent="#UpazilaList">
                             <div class="accordion-body">
                                 <ul class="metismenu list-unstyled" id="selectedUpazilaList">
-                                    @foreach (AdminBoundaryUpazila item in ViewBag.UpazList)
+                                   @* @foreach (AdminBoundaryUpazila item in ViewBag.UpazList)
                                     {
                                         <li>
                                             <a><input type="checkbox" id="upaz_@item.UpazilaGeoCode" value="@item.UpazilaGeoCode" class="UpazilaList"><label for="upaz_@item.UpazilaGeoCode">@item.UpazilaName</label></a>
                                         </li>
 
-                                    }
+                                    }*@
                                 </ul>
                             </div>
                         </div>
@@ -154,13 +154,3 @@
     </div>
 </div>
 
-@section Scripts{
-    <script>
-                    //jQuery(function () {
-                    //    jQuery("#sortable").sortable();
-                    //    jQuery("#sortable").disableSelection();
-                    //});
-    </script>
-}
-
-<!-- /Right-bar -->
