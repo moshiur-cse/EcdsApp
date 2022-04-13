@@ -119,7 +119,7 @@ namespace EcdsApp.Controllers.Region
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message);
+                return Json(exp.Message);
             }
         }
     
@@ -212,48 +212,42 @@ namespace EcdsApp.Controllers.Region
             }
 
             var adminBoundaryUnion = await _context.AdminBoundaryUnions.FindAsync(id);
+            var upazila = await _context.AdminBoundaryUpazilas.Where(x => x.UpazilaGeoCode == adminBoundaryUnion.UpazilaGeoCode).FirstOrDefaultAsync();
+            adminBoundaryUnion.Upazila = upazila;
             if (adminBoundaryUnion == null)
             {
                 return NotFound();
             }
-            ViewData["UpazilaGeoCode"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaGeoCode", adminBoundaryUnion.UpazilaGeoCode);
-            return View(adminBoundaryUnion);
+            //ViewData["UpazilaGeoCode"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaGeoCode", adminBoundaryUnion.UpazilaGeoCode);
+            return Json(adminBoundaryUnion);
         }
 
         // POST: AdminBoundaryUnions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("UnionGeoCode,OldGeoCode,UnionName,UnionNameBangla,UpazilaGeoCode,MunicipalityGeoCode,MunicipalityName,SortingOrder")] AdminBoundaryUnion adminBoundaryUnion)
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit([FormBody] string upazilaName,string unionName,string unionNameBangla,string municipalityName,string municipalityGeoCode,int sortingOrder)
+        public async Task<IActionResult> Edit(AdminBoundaryUnion adminBoundaryUnion)
         {
-            if (id != adminBoundaryUnion.UnionGeoCode)
-            {
-                return NotFound();
-            }
-
+           
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(adminBoundaryUnion);
                     await _context.SaveChangesAsync();
+                    return Json("success");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdminBoundaryUnionExists(adminBoundaryUnion.UnionGeoCode))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return Json("error");
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
-            ViewData["UpazilaGeoCode"] = new SelectList(_context.AdminBoundaryUpazilas, "UpazilaGeoCode", "UpazilaGeoCode", adminBoundaryUnion.UpazilaGeoCode);
-            return View(adminBoundaryUnion);
+
+            return Json(adminBoundaryUnion);
         }
 
         // GET: AdminBoundaryUnions/Delete/5
