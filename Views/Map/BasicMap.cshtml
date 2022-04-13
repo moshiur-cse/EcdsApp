@@ -55,7 +55,7 @@
 
         .legend_info i {
             /* width: 1.5vw;
-                            height: 1.5vw;*/
+                                            height: 1.5vw;*/
             width: 20px;
             height: 15px;
             float: left;
@@ -321,6 +321,9 @@
 
         var legend = L.control({ position: 'bottomright' });
         var legend_div = L.DomUtil.create('div', 'legend_info');
+        var admin_div_list=[];
+        var admin_dist_list=[];
+        var admin_upz_list=[];
         var admin_code_list = [];
         var dist_list = [];
         var upaz_list = [];
@@ -588,13 +591,15 @@
                     return L.marker(latlng, {icon:L.icon({iconUrl: '../assets/images/'+iconPath,iconSize: [size, size]})});
            }
             function style(feature) {
-
+                console.log(feature.properties.CntLat);
+                console.log(feature.properties.CntLong);
                 if (admin_code_list.length>0 && (admin_code_list.includes(feature.properties[attCode].toString()) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 2)) ||
                     admin_code_list.includes(feature.properties[attCode].toString().substr(0, 4)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 8)) || admin_code_list.includes(feature.properties[attCode].toString().substr(0, 13)))) {
 
+                        //mymap.setView([feature.properties.CntLat, feature.properties.CntLong], 8);
+
                         return {
-                            //fillColor: isLegendColor == 0 ? '#0000ffff' : userDefinedColorList[layerId + "_" + feature.properties[legendcolorField]], //colorList[feature.properties[attCode]],
-                            //fillColor: isLegendColor == 0 ? '#0000ffff' : getColor(layerId, mapBindData[layerId][feature.properties[attCode]]), //colorList[feature.properties[attCode]],
+
                             fillColor: isLegendColor == 0 ? '#0000ffff' : getColor(layerId, mapBindData[layerId][feature.properties[attCode]].get('value')),
                             weight: weight,
                             opacity: opacity,
@@ -677,7 +682,7 @@
             function mapOnClickAction(e) {
                 var layer = e.target;
 
-                
+
                 var popupContent = "";
                 if (layerTypeId == 4) {
 
@@ -1200,57 +1205,66 @@
             jQuery("#busy-indicator").fadeOut(150);
         }
 
-        jQuery("#DistCode").on("change",function (evt, adop) {
-                var distCode = $("#DistCode").val(),
-                    $upazila = $("#UpazCode");
-                    codeValue = distCode;
-
-                $upazila.empty();
 
 
-                if (!distCode) {
-                    mapAttribute(admin, cLat, cLong, mapZoom, codeValue);
-                    return false;
-                }
+
+        //jQuery("#DistCode").on("change",function (evt, adop) {
+        //        var distCode = $("#DistCode").val(),
+        //            $upazila = $("#UpazCode");
+        //            codeValue = distCode;
+
+        //        $upazila.empty();
 
 
-                for (var i = 0; i < indexLenght; i++) {
-                    if (boundary.features[i].properties.dist_code == distCode) {
-                        mapAttribute(admin, boundary.features[i].properties.CNT_LAT, boundary.features[i].properties.CNT_LONG, 9, distCode);
-                        mapZoom = 9;
-                        cLat = boundary.features[i].properties.CNT_LAT;
-                        cLong = boundary.features[i].properties.CNT_LONG;
-                        //mapHighLighter();
-                        break;
-                    }
-                }
+        //        if (!distCode) {
+        //            mapAttribute(admin, cLat, cLong, mapZoom, codeValue);
+        //            return false;
+        //        }
 
 
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("GetUpazilaList")",
-                    dataType: "json",
-                    data: { distCode: distCode },
-                    before: $("#busy-indicator").fadeIn(150),
-                    success: function(upazilas) {
-                        $upazila.append(
-                            '<option value="" selected="selected">----- upazila -----</option>');
-                        $.each(upazilas,
-                            function(i, upazila) {
-                                $("<option />").val(upazila.value).html(upazila.text).appendTo($upazila);
-                            });
-                    },
-                    error: function(ex, status, error) {
-                        msg.init("error",
-                            "Error... . . !",
-                            "Failed to load upazila list. " + ex.responseText);
-                    },
-                    complete: $("#busy-indicator").fadeOut(150)
-                });
-                return false;
-        });
+        //        for (var i = 0; i < indexLenght; i++) {
+        //            if (boundary.features[i].properties.dist_code == distCode) {
+        //                mapAttribute(admin, boundary.features[i].properties.CNT_LAT, boundary.features[i].properties.CNT_LONG, 9, distCode);
+        //                mapZoom = 9;
+        //                cLat = boundary.features[i].properties.CNT_LAT;
+        //                cLong = boundary.features[i].properties.CNT_LONG;
+        //                //mapHighLighter();
+        //                break;
+        //            }
+        //        }
+
+
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "@Url.Action("GetUpazilaList")",
+        //            dataType: "json",
+        //            data: { distCode: distCode },
+        //            before: $("#busy-indicator").fadeIn(150),
+        //            success: function(upazilas) {
+        //                $upazila.append(
+        //                    '<option value="" selected="selected">----- upazila -----</option>');
+        //                $.each(upazilas,
+        //                    function(i, upazila) {
+        //                        $("<option />").val(upazila.value).html(upazila.text).appendTo($upazila);
+        //                    });
+        //            },
+        //            error: function(ex, status, error) {
+        //                msg.init("error",
+        //                    "Error... . . !",
+        //                    "Failed to load upazila list. " + ex.responseText);
+        //            },
+        //            complete: $("#busy-indicator").fadeOut(150)
+        //        });
+        //        return false;
+        //});
 
         jQuery('.DivisionList').click(function ($) {
+            admin_code_list=[];
+            admin_dist_list=[];
+            admin_upz_list=[];
+            jQuery("#selectedUpazilaList").empty();
+            jQuery("#selectedDistrictList").empty();
+           
 
             if (jQuery(this).closest('.DivisionList').prev().find('input[type=checkbox]').prop('checked', true)) {
 
@@ -1258,13 +1272,13 @@
 
 
                 if (jQuery("#" + this.id).prop("checked") == true) {
-                    admin_code_list.push(jQuery("#" + this.id).val());
+                    admin_div_list.push(jQuery("#" + this.id).val());
 
                 } else {
 
-                    var index = admin_code_list.indexOf(jQuery("#" + this.id).val());//get index
+                    var index = admin_div_list.indexOf(jQuery("#" + this.id).val());//get index
                     //remove div from the  array
-                    admin_code_list.splice(index, 1);
+                    admin_div_list.splice(index,1);
 
                 }
 
@@ -1273,7 +1287,7 @@
                     type: "POST",
                     url: "@Url.Action("GetDistrictList")",
                     dataType: "json",
-                    data: { divisionList: admin_code_list },
+                    data: { divisionList: admin_div_list },
                     before: jQuery("#busy-indicator").fadeIn(150),
                     success: function (disticts) {
 
@@ -1299,7 +1313,7 @@
                     },
                     complete: jQuery("#busy-indicator").fadeOut(150)
                 });
-
+                admin_code_list=admin_div_list;
                 jQuery("#busy-indicator").fadeIn(150);
                 LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
                 jQuery("#busy-indicator").fadeOut(150);
@@ -1308,33 +1322,22 @@
         });
 
         function loadDistrict(id) {
+        admin_code_list=[];
+        admin_upz_list=[];
+        jQuery("#selectedUpazilaList").empty();
 
-       // console.log("dist_"+id);
-        admin_code_list = [];
         if (jQuery(this).closest('.DistrictList').prev().find('input[type=checkbox]').prop('checked', true)) {
 
 
 
-            //if (jQuery("#" + this.id).prop("checked") == true) {
-            //    admin_code_list.push(jQuery("#" + this.id).val());
-
-            //} else {
-
-            //    var index = admin_code_list.indexOf(jQuery("#" + this.id).val());//get index
-            //    //remove div from the  array
-            //    admin_code_list.splice(index, 1);
-
-            //}
-
-
             if (jQuery("#dist_" + id).prop("checked") == true) {
-                admin_code_list.push(jQuery("#dist_" + id).val());
+                admin_dist_list.push(jQuery("#dist_" + id).val());
 
             } else {
 
-                var index = admin_code_list.indexOf(jQuery("#dist_" + id).val());//get index
+                var index = admin_dist_list.indexOf(jQuery("#dist_" + id).val());//get index
                 //remove div from the  array
-                admin_code_list.splice(index, 1);
+                admin_dist_list.splice(index, 1);
 
             }
 
@@ -1342,7 +1345,7 @@
                     type: "POST",
                     url: "@Url.Action("GetUpazilaList")",
                     dataType: "json",
-                 data: { upazilaList: admin_code_list },
+                 data: { upazilaList: admin_dist_list },
                     before: jQuery("#busy-indicator").fadeIn(150),
                     success: function (disticts) {
 
@@ -1369,7 +1372,7 @@
                     complete: jQuery("#busy-indicator").fadeOut(150)
                 });
 
-
+                admin_code_list=admin_dist_list;
 
             //console.log(admin_code_list);
 
@@ -1382,24 +1385,18 @@
 
 
         function loadUpazila(id) {
+        admin_code_list=[];
 
-       // console.log("dist_"+id);
-        admin_code_list = [];
         if (jQuery(this).closest('.UpazilaList').prev().find('input[type=checkbox]').prop('checked', true)) {
-
+            admin_code_list=[]
             if (jQuery("#upaz_" + id).prop("checked") == true) {
-                admin_code_list.push(jQuery("#upaz_" + id).val());
+                admin_upz_list.push(jQuery("#upaz_" + id).val());
 
             } else {
-
-                var index = admin_code_list.indexOf(jQuery("#upaz_" + id).val());//get index
-                //remove div from the  array
-                admin_code_list.splice(index, 1);
-
+                var index = admin_upz_list.indexOf(jQuery("#upaz_" + id).val());//get index
+                admin_upz_list.splice(index, 1);
             }
-
-
-
+            admin_code_list=admin_upz_list;
             jQuery("#busy-indicator").fadeIn(150);
             LayerShowHide(g_layerUid, g_layerId, g_filepath, g_mainAttDisName, g_mainAtt, g_attCode, g_cLat, g_cLong, g_layerName, g_layerTypeId, g_isLegendColor, g_legendcolorField, admin_code_list, g_opacity, g_fillOpacity, g_weight, g_color, g_boundaryId, g_tableId);
             jQuery("#busy-indicator").fadeOut(150);
@@ -1541,8 +1538,6 @@
         });
 
 
-
-
         $("#AttributeDiv").draggable();
 
 
@@ -1578,6 +1573,23 @@
                 });
             return false;
         }
+</script>
+<script>
+    $(".radioButton").click(function(){
+               if($(this).val()=="District"){
+                    $("#DivisionList").show();
+                    $("#DistrictList").show();
+                    $("#UpazilaList").hide();
+               }else if ($(this).val()=="Upazila"){
+                    $("#DivisionList").show();
+                    $("#DistrictList").show();
+                    $("#UpazilaList").show();
+               }else{
+                    $("#DivisionList").show();
+                    $("#UpazilaList").hide();
+                    $("#DistrictList").hide();
+               }
+    });
 </script>
 
 }
