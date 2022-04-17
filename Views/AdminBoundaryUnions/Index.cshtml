@@ -120,11 +120,12 @@
 @section Scripts{
  <script type="text/javascript">
  let arry=[]
+ let geoCodes=[]
  let columns=[
             {
                data: null,
                render: function (data) {
-                   return `<button d-ungcode="${data.unionGeoCode}" d-upgcode="${data.upazila.upazilaGeoCode}" class="edit-btn">Edit</button>`;
+                   return `<i role="button" class="bx bx-edit edit-btn fs-3" d-ungcode="${data.unionGeoCode}" d-upgcode="${data.upazila.upazilaGeoCode}"></i>`;
                }      
             },
             { data: "upazila.upazilaName", autoWidth: true },
@@ -132,8 +133,7 @@
             { data: "unionNameBangla", autoWidth: true },
             { data: "municipalityName", autoWidth: true },
             { data: "municipalityGeoCode", autoWidth: true },
-            { data: "sortingOrder", autoWidth: true }
-            
+            { data: "sortingOrder", autoWidth: true }            
         ]
 
 $(document).ready(function () {
@@ -177,68 +177,9 @@ $(document).ready(function () {
         }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
 })
 
-
-//===prevent propagation for a link 
-$(document).on("click", '.edit-anc', function(event){
-        event.preventDefault();
-
-        //====jquery table editable
-        
-
-        //let href=$(this).attr("href")
-        ////href=href.split("/AdminBoundaryUnions/Edit/")[1]
-        //console.log(href)
-        //let myModal = new bootstrap.Modal(document.getElementById('myModal'), {
-        //  keyboard: true
-        //})
-        //myModal.show()
-        //$("input").val("")
-        //$.get(href,
-        //  function(data, status){
-        //      //console.log(data)
-        //    let elements=['unionName','unionNameBangla','municipalityName','municipalityGeoCode','sortingOrder','unionGeoCode']
-        //    $("#upazilaName").val(data.upazila.upazilaName)
-        //    $("#upazilaGeoCode").val(data.upazila.upazilaGeoCode)
-        //    elements.forEach(x=>{
-        //        $("#"+x).val(data[x])
-        //    })
-        //  }
-        //);
-});
-
-//$("#submit").on("click",()=>{
-//    $.post(
-//        '@Url.Action("Edit")',
-//        {
-            
-//            'adminBoundaryUnion.unionGeoCode':$("#unionGeoCode").val(),
-//            'adminBoundaryUnion.upazilaGeoCode':$("#upazilaGeoCode").val(),
-//            'adminBoundaryUnion.upazilaName':$("#upazilaName").val(),
-//            'adminBoundaryUnion.unionName':$("#unionName").val(),
-//            'adminBoundaryUnion.unionNameBangla':$("#unionNameBangla").val(),
-//            'adminBoundaryUnion.municipalityName':$("#municipalityName").val(),
-//            'adminBoundaryUnion.municipalityGeoCode':$("#municipalityGeoCode").val(),
-//            'adminBoundaryUnion.sortingOrder':$("#sortingOrder").val()
-//        },
-//        function(data){
-//            if(data =="success"){
-//                $("#alert").html(`<div class="alert alert-success alert-dismissible" role="alert">
-//                 Information updated successfully  !!
-//                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-//             </div>`)
-//            }
-//            $("form").remove()
-            
-//        }
-//     );
-//})
-
 //====Update Information in the database
-const UpdateInDb =()=>{
+const SaveInDb =(e)=>{
     
-    //===get values from input fields and add them to arrays
-    //let elements=['unionName','unionNameBangla','municipalityName','municipalityGeoCode','sortingOrder','unionGeoCode']
-    let geoCodes=[arry[arry.length-2],arry[arry.length-1]]
     arry=[]
     for(let i=0;i<=5;i++){
         arry.push($("#d"+i).val())
@@ -246,8 +187,7 @@ const UpdateInDb =()=>{
 
     $.post(
         '@Url.Action("Edit")',
-        {
-            
+        {            
             'adminBoundaryUnion.unionGeoCode':geoCodes[0],
             'adminBoundaryUnion.upazilaGeoCode':geoCodes[1],
             'adminBoundaryUnion.upazilaName':arry[0],
@@ -258,9 +198,27 @@ const UpdateInDb =()=>{
             'adminBoundaryUnion.sortingOrder':arry[5]
         },
         function(data){
-           //===successfully saved now
-           if(data=="success"){
+           //=== response returned from server
 
+           if(data=="success"){
+                //=== updated successfully
+                //=== update the row by removing input fields
+
+                const tr=$($(e.target).parent()).parent()                
+                const selected=tr.children()
+                tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="bx bx-edit edit-btn fs-3" d-ungcode="${geoCodes[0]}" d-upgcode="${geoCodes[1]}"></i></td>`)                   
+                for(let i=0;i < arry.length;i++){
+                    tr.append(`<td>${arry[i]}</td>`)
+                }
+
+               //=== show success message
+               window.Swal.fire({
+                    icon: "success",
+                    title: "Updated Successfully",
+                    //confirmButtonText: 'Ok'
+               })
+
+              
            }            
         }
      );
@@ -268,18 +226,19 @@ const UpdateInDb =()=>{
 
 //====custom input field insert
 $(document).on("click", '.edit-btn', function(){
-    console.log("s")
+    arry=[]
     const td=$(this).parent()
     const allDataInRow=td.parent().children()
     for(let i=1;i<allDataInRow.length;i++){
        arry.push(allDataInRow[i].innerText)
-    }        
-    arry.push($(this).attr("d-ungcode"))
-    arry.push($(this).attr("d-upgcode"))
+    }
+    geoCodes=[]
+    geoCodes.push($(this).attr("d-ungcode"))
+    geoCodes.push($(this).attr("d-upgcode"))
+        
     
-    //console.log($(this).attr("d-ungcode"))
     $(td).parent().html(`
-    <td class="sorting_1 dtr-control"><button class="save-btn">Save</button></td>
+    <td class="sorting_1 dtr-control"><i role="button" class="bx bx-save save-btn fs-3"></i></i><i role="button" class="ms-3 bx bx-x cross-btn fs-3"></i></td>
     <td><input type="text" id="d0" class="form-control" value="${arry[0]}"/></td>
     <td><input type="text" id="d1" class="form-control" value="${arry[1]}"/></td>
     <td><input type="text" id="d2" class="form-control" value="${arry[2]}"/></td>
@@ -288,10 +247,29 @@ $(document).on("click", '.edit-btn', function(){
     <td><input type="text" id="d5" class="form-control" value="${arry[5]}"/></td>`)
 })
 
-//==== save button
+//==== Save Information click event handler
 
-$(document).on("click", '.save-btn', function(){
-    UpdateInDb()
+$(document).on("click", '.save-btn',(e)=>{
+    SaveInDb(e)
+})
+
+
+//=== Remove input fields based on clicking x button
+//=== and load the previous data
+
+$(document).on("click", '.cross-btn', function(){
+    
+    const tr=$($(this).parent()).parent()
+    console.log(tr.children())
+    const selected=tr.children()
+    tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="bx bx-edit edit-btn fs-3" d-ungcode="${geoCodes[0]}" d-upgcode="${geoCodes[1]}"></i></td>`)
+    console.log(selected.length)
+    console.log(arry.length)
+    
+    for(let i=0;i < arry.length;i++){
+        tr.append(`<td>${arry[i]}</td>`)
+    }
+    
 })
 
  </script>
