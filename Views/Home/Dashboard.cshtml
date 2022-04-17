@@ -64,7 +64,7 @@
         height: auto !important;
         width: auto !important;
         /*font-weight: bold;
-                                                    color: #025 line-height: 1;*/
+                                                        color: #025 line-height: 1;*/
         padding: 0.2rem 0.3rem;
         text-align: center;
         font-weight: bold;
@@ -109,12 +109,12 @@
         <a href="https://play.google.com/store/apps/details?id=com.cegisbd.ecdsmobileapp" target="_blank">
             <img src="~/assets/images/playstore.png" style="width: 100%; height: 100%; object-fit: contain;">
         </a>
-        
+
     </div>
-    <div  title="Download for iOS" style="position: fixed; right: 0px; top: 30%; width: 45px; height: 45px; padding: 0px; background-color: rgb(255, 255, 255); border-radius: 6px 0px 0px 6px; cursor: pointer; box-shadow: rgb(0, 0, 0) 0px 0px 5px; z-index: 9998;">
+    <div title="Download for iOS" style="position: fixed; right: 0px; top: 30%; width: 45px; height: 45px; padding: 0px; background-color: rgb(255, 255, 255); border-radius: 6px 0px 0px 6px; cursor: pointer; box-shadow: rgb(0, 0, 0) 0px 0px 5px; z-index: 9998;">
         <a href="https://apps.apple.com/app/ecds/id1610273952" target="_blank">
-            <img  src="~/assets/images/appstore.png" style="width: 100%; height: 100%; object-fit: contain;">
-        </a>      
+            <img src="~/assets/images/appstore.png" style="width: 100%; height: 100%; object-fit: contain;">
+        </a>
     </div>
 </div>
 
@@ -317,12 +317,12 @@
                 }
             AppendTextInMarquee();
 
-            setTimeout(()=>{
-        const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
-        keyboard: false
-        })
-        myModal.show()
-    },1000);
+    //        setTimeout(()=>{
+    //    const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
+    //    keyboard: false
+    //    })
+    //    myModal.show()
+    //},1000);
 
 
             var dashboard_map;
@@ -540,40 +540,40 @@
             //});
 
             @*function loadChart() {
-                                                        dist = [];
-                                                        male = [];
-                                                        female = [];
-                                                        total = [];
-                                                        var distCodeList = [];
+                                                            dist = [];
+                                                            male = [];
+                                                            female = [];
+                                                            total = [];
+                                                            var distCodeList = [];
 
-                                                        if ($("#DistCode").val().length > 0) {
-                                                            distCodeList = $("#DistCode").val();
+                                                            if ($("#DistCode").val().length > 0) {
+                                                                distCodeList = $("#DistCode").val();
 
-                                                        } else {
-                                                            distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
-                                                        }
-                                                        jQuery.ajax({
-                                                            type: "POST",
-                                                            url: "@Url.Action("GetChartData")",
-                                                            dataType: "json",
-                                                            data: { distCodeList: distCodeList },
-                                                            before: jQuery("#busy-indicator").fadeIn(150),
-                                                            success: function (datas) {
-                                                                $.each(datas, function (i, item) {
-                                                                    dist.push(item.distName);
-                                                                    male.push(item.male);
-                                                                    female.push(item.female);
-                                                                    total.push(item.total);
-                                                                });
-                                                            },
-                                                            error: function (ex, status, error) {
-
-                                                            },
-                                                            complete: function () {
-                                                                jQuery("#busy-indicator").fadeOut(150);
+                                                            } else {
+                                                                distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
                                                             }
-                                                        });
-                                                    }*@
+                                                            jQuery.ajax({
+                                                                type: "POST",
+                                                                url: "@Url.Action("GetChartData")",
+                                                                dataType: "json",
+                                                                data: { distCodeList: distCodeList },
+                                                                before: jQuery("#busy-indicator").fadeIn(150),
+                                                                success: function (datas) {
+                                                                    $.each(datas, function (i, item) {
+                                                                        dist.push(item.distName);
+                                                                        male.push(item.male);
+                                                                        female.push(item.female);
+                                                                        total.push(item.total);
+                                                                    });
+                                                                },
+                                                                error: function (ex, status, error) {
+
+                                                                },
+                                                                complete: function () {
+                                                                    jQuery("#busy-indicator").fadeOut(150);
+                                                                }
+                                                            });
+                                                        }*@
 
 
             function drawChart() {
