@@ -1,9 +1,4 @@
-﻿using EcdsApp.Data;
-using EcdsApp.Models.RegionModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,9 +15,9 @@ namespace EcdsApp.Controllers.Region
 
         // GET: AdminBoundaryUnions
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-
+            ViewData["toData"] = await _context.AdminBoundaryUnions.CountAsync();
             return View();
         }
 

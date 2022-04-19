@@ -5,9 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    .tab-card{
+    /*.tab-card{
         max-height:50vh;
         overflow:auto;
+    }*/
+    tr{
+        border-color:white;
     }
 </style>
 
@@ -25,8 +28,60 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <div class="table-responsive mt-2 tab-card">
+                        <div class="table-responsive mt-2">
+                            <!--Special Buttons-->
+                            <div class="col-12 d-flex justify-content-end">
+                                <button class="btn btn-danger me-3" onclick="LoadFullData()">Load Full Data</button>
+                                <div class="dropdown">
+                                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                   Dropdown button
+                                   </button>
+                                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-1" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                            Upazila Name
+                                            </label>
+                                         </div>
+                                      </li>
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-2" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                           Union Name
+                                            </label>
+                                         </div>
+                                      </li>
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-3" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                            Union Name Bangla
+                                            </label>
+                                         </div>
+                                      </li>
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-4" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                            Municipality Name
+                                            </label>
+                                         </div>
+                                      </li>
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-5" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                            Municipality Geo Code
+                                            </label>
+                                         </div>
+                                      </li>                                  
+                                   </ul>
+                                </div> 
+                            </div>
                             
+                            <!--Special Buttons End-->
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
@@ -68,7 +123,7 @@
 </div>
 
 
-<!--Bootstrap Modal-->
+@*<!--Bootstrap Modal-->
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -114,18 +169,21 @@
       </div>
    </div>
 </div>
-<!--End Bootstrap Modal-->
+<!--End Bootstrap Modal-->*@
 
 
 @section Scripts{
+ 
  <script type="text/javascript">
+ let columnsToDownload=[]
+ let totalData=@ViewBag.toData
  let arry=[]
  let geoCodes=[]
  let columns=[
             {
                data: null,
                render: function (data) {
-                   return `<i role="button" class="bx bx-edit edit-btn fs-3" d-ungcode="${data.unionGeoCode}" d-upgcode="${data.upazila.upazilaGeoCode}"></i>`;
+                   return `<i role="button" class="bx bx-edit edit-btn fs-3 text-primary" d-ungcode="${data.unionGeoCode}" d-upgcode="${data.upazila.upazilaGeoCode}"></i>`;
                }      
             },
             { data: "upazila.upazilaName", autoWidth: true },
@@ -135,46 +193,47 @@
             { data: "municipalityGeoCode", autoWidth: true },
             { data: "sortingOrder", autoWidth: true }            
         ]
-
+let table = $("#datatable-buttons").DataTable({
+                dom: 'Bfrtip',
+                processing: true,
+                serverSide: true,
+                filter:true,
+                paging:true,
+                fixedHeader: true,
+                scrollY:true,
+                ajax: {
+                     url: '@Url.Action("JqueryDataTableUnionList")',
+                     type: "POST",
+                     datatype: "json"
+                },
+                columns:columns,
+                lengthChange: !1,
+                //pageLength: 10,
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: [1,2,3,4,5]
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                                columns: [1,2,3,4,5]
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [1,2,3,4,5]
+                        }
+                    },
+                    'colvis'
+                ]
+                });
 $(document).ready(function () {
 
-    $("#datatable-buttons").DataTable({
-        dom: 'Bfrtip',
-        processing: true,
-        serverSide: true,
-        filter:true,
-        paging:true,
-        ajax: {
-             url: '@Url.Action("JqueryDataTableUnionList")',
-             type: "POST",
-             datatype: "json"
-        },
-        columns:columns,
-        //columnDefs:columnDefs,
-        lengthChange: !1,
-        //pageLength: 50,
-        buttons: [
-            {
-                    extend: 'copyHtml5',
-                    exportOptions: {
-                        columns: [':visible' ]
-                    }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                            columns: [ ':visible' ]
-                        }
-            },
-            {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: [':visible' ]
-                    }
-            },
-            'colvis'
-        ]
-        }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
+    table.buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
 })
 
 //====Update Information in the database
@@ -206,7 +265,7 @@ const SaveInDb =(e)=>{
 
                 const tr=$($(e.target).parent()).parent()                
                 const selected=tr.children()
-                tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="bx bx-edit edit-btn fs-3" d-ungcode="${geoCodes[0]}" d-upgcode="${geoCodes[1]}"></i></td>`)                   
+                tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="bx bx-edit edit-btn fs-3 text-primary" d-ungcode="${geoCodes[0]}" d-upgcode="${geoCodes[1]}"></i></td>`)                   
                 for(let i=0;i < arry.length;i++){
                     tr.append(`<td>${arry[i]}</td>`)
                 }
@@ -238,7 +297,7 @@ $(document).on("click", '.edit-btn', function(){
         
     
     $(td).parent().html(`
-    <td class="sorting_1 dtr-control"><i role="button" class="bx bx-save save-btn fs-3"></i></i><i role="button" class="ms-3 bx bx-x cross-btn fs-3"></i></td>
+    <td class="sorting_1 dtr-control"><i role="button" class="text-primary bx bx-save save-btn fs-3"></i></i><i role="button" class="ms-3 bx bx-x cross-btn fs-3 text-primary"></i></td>
     <td><input type="text" id="d0" class="form-control" value="${arry[0]}"/></td>
     <td><input type="text" id="d1" class="form-control" value="${arry[1]}"/></td>
     <td><input type="text" id="d2" class="form-control" value="${arry[2]}"/></td>
@@ -262,15 +321,60 @@ $(document).on("click", '.cross-btn', function(){
     const tr=$($(this).parent()).parent()
     console.log(tr.children())
     const selected=tr.children()
-    tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="bx bx-edit edit-btn fs-3" d-ungcode="${geoCodes[0]}" d-upgcode="${geoCodes[1]}"></i></td>`)
-    console.log(selected.length)
-    console.log(arry.length)
+    tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="bx bx-edit edit-btn fs-3 text-primary" d-ungcode="${geoCodes[0]}" d-upgcode="${geoCodes[1]}"></i></td>`)
+    //console.log(selected.length)
+    //console.log(arry.length)
     
     for(let i=0;i < arry.length;i++){
         tr.append(`<td>${arry[i]}</td>`)
     }
     
 })
+
+/* 
+=================================================
+      Multi select dropdown value change event
+=================================================
+ */
+
+ 
+ $(document).on("change", ".form-check-input", function (){
+     let selectedItems=$(".form-check-input")
+     //console.log(selectedItems.length)     
+     for(let i=0;i<selectedItems.length;i++){
+         //console.log(selectedItems[i].checked)
+        //======= the checkbox is checked
+        if(selectedItems[i].checked){
+            columnsToDownload.push(i+1)
+        }
+        
+     }
+     //console.log(columnsToDownload)
+     columnsToDownload=[]
+     return false
+    
+ })
+
+ //====Load Full Data
+
+ const LoadFullData = async ()=>{
+     jQuery("#busy-indicator").fadeIn(150);
+     let x= await LoadAllRows()
+     if(x=="completed")
+        jQuery("#busy-indicator").fadeOut(150);
+     
+ }
+
+ const LoadAllRows = async () => {
+
+     return new Promise(resolve=>{
+         table.page.len(totalData).draw()
+         setTimeout(()=>{
+             resolve("completed")
+         },1000)
+         
+     })     
+ }
 
  </script>
 }
