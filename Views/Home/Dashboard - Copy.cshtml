@@ -65,7 +65,7 @@
         height: auto !important;
         width: auto !important;
         /*font-weight: bold;
-                                                            color: #025 line-height: 1;*/
+                                                                color: #025 line-height: 1;*/
         padding: 0.2rem 0.3rem;
         text-align: center;
         font-weight: bold;
@@ -156,7 +156,10 @@
                         <div class="row p-2">
                             <img class="img-fluid" src="~/assets/images/image_collection/animation_powerpoint.gif" />
                         </div>
-                       
+
+                      
+
+
                     </div>
                 </div>
             </div>
@@ -506,40 +509,40 @@
             //});
 
             @*function loadChart() {
-                                                                dist = [];
-                                                                male = [];
-                                                                female = [];
-                                                                total = [];
-                                                                var distCodeList = [];
+                                                                    dist = [];
+                                                                    male = [];
+                                                                    female = [];
+                                                                    total = [];
+                                                                    var distCodeList = [];
 
-                                                                if ($("#DistCode").val().length > 0) {
-                                                                    distCodeList = $("#DistCode").val();
+                                                                    if ($("#DistCode").val().length > 0) {
+                                                                        distCodeList = $("#DistCode").val();
 
-                                                                } else {
-                                                                    distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
-                                                                }
-                                                                jQuery.ajax({
-                                                                    type: "POST",
-                                                                    url: "@Url.Action("GetChartData")",
-                                                                    dataType: "json",
-                                                                    data: { distCodeList: distCodeList },
-                                                                    before: jQuery("#busy-indicator").fadeIn(150),
-                                                                    success: function (datas) {
-                                                                        $.each(datas, function (i, item) {
-                                                                            dist.push(item.distName);
-                                                                            male.push(item.male);
-                                                                            female.push(item.female);
-                                                                            total.push(item.total);
-                                                                        });
-                                                                    },
-                                                                    error: function (ex, status, error) {
-
-                                                                    },
-                                                                    complete: function () {
-                                                                        jQuery("#busy-indicator").fadeOut(150);
+                                                                    } else {
+                                                                        distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
                                                                     }
-                                                                });
-                                                            }*@
+                                                                    jQuery.ajax({
+                                                                        type: "POST",
+                                                                        url: "@Url.Action("GetChartData")",
+                                                                        dataType: "json",
+                                                                        data: { distCodeList: distCodeList },
+                                                                        before: jQuery("#busy-indicator").fadeIn(150),
+                                                                        success: function (datas) {
+                                                                            $.each(datas, function (i, item) {
+                                                                                dist.push(item.distName);
+                                                                                male.push(item.male);
+                                                                                female.push(item.female);
+                                                                                total.push(item.total);
+                                                                            });
+                                                                        },
+                                                                        error: function (ex, status, error) {
+
+                                                                        },
+                                                                        complete: function () {
+                                                                            jQuery("#busy-indicator").fadeOut(150);
+                                                                        }
+                                                                    });
+                                                                }*@
 
 
             function drawChart() {

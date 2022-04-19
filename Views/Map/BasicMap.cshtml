@@ -387,8 +387,6 @@
                     });
 
 
-
-
                 mymap.setView([23.837777, 90.347777], 7.0);
 
                 var baseMaps = {
@@ -464,13 +462,9 @@
                 bgLayers = L.control.layers(baseMaps, {'drawlayer': drawnItems }, { collapsed: false });
                 bgLayers.addTo(mymap);
 
-
-
-
                 mymap.on('zoomend', function (evt) {
                     hideOverlappingTooltips();
                 });
-
 
                 var bgLayersContent = $(bgLayers.getContainer());
                 bgLayersContent.find("a.leaflet-control-layers-toggle").remove();
@@ -570,7 +564,6 @@
                     pointToLayer : pointToLayer,
 
                 });
-
 
                     $.getJSON(layerPath, function (LayerInfo) {
                         if (!LayerInfo) return;
