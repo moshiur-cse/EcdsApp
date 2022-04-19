@@ -34,7 +34,7 @@
                                 <button class="btn btn-danger me-3" onclick="LoadFullData()">Load Full Data</button>
                                 <div class="dropdown">
                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                   Dropdown button
+                                   Column Customization
                                    </button>
                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                       <li>
@@ -193,46 +193,48 @@
             { data: "municipalityGeoCode", autoWidth: true },
             { data: "sortingOrder", autoWidth: true }            
         ]
-let table = $("#datatable-buttons").DataTable({
-                dom: 'Bfrtip',
-                processing: true,
-                serverSide: true,
-                filter:true,
-                paging:true,
-                fixedHeader: true,
-                scrollY:true,
-                ajax: {
-                     url: '@Url.Action("JqueryDataTableUnionList")',
-                     type: "POST",
-                     datatype: "json"
-                },
-                columns:columns,
-                lengthChange: !1,
-                //pageLength: 10,
-                buttons: [
-                    {
-                        extend: 'copyHtml5',
-                        exportOptions: {
-                            columns: [1,2,3,4,5]
-                        }
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        exportOptions: {
-                                columns: [1,2,3,4,5]
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        exportOptions: {
-                            columns: [1,2,3,4,5]
-                        }
-                    },
-                    'colvis'
-                ]
-                });
+//====data Table properties
+let dTableProps ={
+    dom: 'Bfrtip',
+    processing: true,
+    serverSide: true,
+    filter:true,
+    paging:true,
+    fixedHeader: true,
+    scrollY:true,
+    ajax: {
+            url: '@Url.Action("JqueryDataTableUnionList")',
+            type: "POST",
+            datatype: "json"
+    },
+    columns:columns,
+    lengthChange: !1,
+    pageLength: 10,
+    buttons: [
+        {
+            extend: 'copyHtml5',
+            exportOptions: {
+                columns: [1,2,3,4,5]
+            }
+        },
+        {
+            extend: 'excelHtml5',
+            exportOptions: {
+                    columns: [1,2,3,4,5]
+            }
+        },
+        {
+            extend: 'pdfHtml5',
+            exportOptions: {
+                columns: [1,2,3,4,5]
+            }
+        },
+        'colvis'
+    ]
+}
+//=====data Table initialized
+let table = $("#datatable-buttons").DataTable(dTableProps);
 $(document).ready(function () {
-
     table.buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
 })
 
@@ -350,6 +352,35 @@ $(document).on("click", '.cross-btn', function(){
         
      }
      //console.log(columnsToDownload)
+     //console.log(table.buttons())
+     table.button().remove()
+     table.button().remove()  
+     table.button().remove()  
+     table.button().remove()  
+     table.button().add(0,{
+        extend: 'copyHtml5',
+        exportOptions: {
+            columns: columnsToDownload
+        }
+            
+     })
+     table.button().add(1,{
+        extend: 'excelHtml5',
+        exportOptions: {
+                columns: columnsToDownload
+        }
+        
+     })
+     table.button().add(2,{
+        extend: 'pdfHtml5',
+        exportOptions: {
+            columns: columnsToDownload
+        }
+            
+     })
+     table.button().add(3,'colvis')
+     
+     //===reinitialize buttons to download only the selected columns    
      columnsToDownload=[]
      return false
     
