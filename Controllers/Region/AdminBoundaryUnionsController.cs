@@ -23,9 +23,9 @@ namespace EcdsApp.Controllers.Region
         
         // GET: AdminBoundaryUnions
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            
+            ViewData["toData"] = await _context.AdminBoundaryUnions.CountAsync();
             return View();
         }
 

@@ -151,5 +151,10 @@ namespace EcdsApp.Controllers
         {
             return View();
         }
+
+        public IActionResult OurPolicies()
+        {
+            return View();
+        }
     }
 }
