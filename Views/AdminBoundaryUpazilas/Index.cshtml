@@ -18,6 +18,82 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive mt-2">
+                            <!--Special Buttons-->
+                            <div class="col-12 d-flex justify-content-center justify-content-md-end align-items-center my-3">
+                                
+                                <!--First Dropdown-->
+                                <div class="dropdown me-3">
+                                   <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                  No. of Rows <i class="bx bxs-down-arrow pt-1"></i>
+                                   </button>
+                                   <ul class="dropdown-menu" >
+                                      <li class="my-2">
+                                         <span onclick="LoadData(10)">Load 10 rows</span>
+                                      </li>
+                                      <li class="my-2">
+                                         <span onclick="LoadData(25)">Load 25 rows</span>
+                                      </li>
+                                      <li class="my-2">
+                                         <span onclick="LoadData(50)">Load 50 rows</span>
+                                      </li>
+                                       <li class="my-2">
+                                         <span onclick="LoadFullData()">All rows</span>
+                                      </li>
+                                   </ul>
+                                </div>
+                                <!--End First Dropdown-->
+                                <!--Second Dropdown-->
+                                <div class="dropdown">
+                                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                   Column Customization
+                                   </button>
+                                   <ul class="dropdown-menu" >
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-1" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                            Upazila Name
+                                            </label>
+                                         </div>
+                                      </li>
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-2" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                           Union Name
+                                            </label>
+                                         </div>
+                                      </li>
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-3" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                            Union Name Bangla
+                                            </label>
+                                         </div>
+                                      </li>
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-4" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                            Municipality Name
+                                            </label>
+                                         </div>
+                                      </li>
+                                      <li>
+                                         <div class="form-check">
+                                            <input id="mld-5" class="form-check-input" type="checkbox" value="" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                            Municipality Geo Code
+                                            </label>
+                                         </div>
+                                      </li>                                  
+                                   </ul>
+                                </div>
+                                <!--End Second Dropdown-->
+                            </div>
+                            
+                            <!--Special Buttons End-->
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
@@ -76,13 +152,44 @@
 
 @section Scripts
 {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#datatable-buttons").DataTable({
-                lengthChange: !1,
-                buttons: ["copy", "excel", "pdf", "colvis"]
-            }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
-        });
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#datatable-buttons").DataTable({
+            lengthChange: !1,
+            buttons: ["copy", "excel", "pdf", "colvis"]
+        }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
+    });
 
-    </script>
+
+    //====Load Full Data
+    const LoadFullData = async ()=>{
+        jQuery("#busy-indicator").fadeIn(150);
+        let x= await LoadAllRows()
+        if(x=="completed")
+        jQuery("#busy-indicator").fadeOut(150);
+     
+    }
+
+    const LoadAllRows = async () => {
+
+        return new Promise(resolve=>{
+            table.page.len(totalData).draw()
+            setTimeout(()=>{
+                resolve("completed")
+            },1000)
+         
+        })     
+    }
+
+
+    //=====Go to default pagination
+    //====Load 10 rows
+
+    const LoadData = (noOfRows)=>{
+        jQuery("#busy-indicator").fadeIn(150);
+        table.page.len(noOfRows).draw()
+        jQuery("#busy-indicator").fadeOut(150);     
+    }
+
+</script>
 }

@@ -47,11 +47,17 @@
                                   No. of Rows <i class="bx bxs-down-arrow pt-1"></i>
                                    </button>
                                    <ul class="dropdown-menu" >
-                                      <li class="my-2">
-                                         <span onclick="LoadFullData()">All rows</span>
+                                     <li class="my-2">
+                                         <span onclick="LoadData(10)">Load 10 rows</span>
                                       </li>
                                       <li class="my-2">
-                                         <span onclick="LoadDefaultData()">Load 10 rows</span>
+                                         <span onclick="LoadData(25)">Load 25 rows</span>
+                                      </li>
+                                      <li class="my-2">
+                                         <span onclick="LoadData(50)">Load 50 rows</span>
+                                      </li>
+                                       <li class="my-2">
+                                         <span onclick="LoadFullData()">All rows</span>
                                       </li>
                                    </ul>
                                 </div>
@@ -413,7 +419,6 @@ $(document).on("click", '.cross-btn', function(){
  })
 
  //====Load Full Data
-
  const LoadFullData = async ()=>{
      jQuery("#busy-indicator").fadeIn(150);
      let x= await LoadAllRows()
@@ -437,9 +442,9 @@ $(document).on("click", '.cross-btn', function(){
  //=====Go to default pagination
  //====Load 10 rows
 
- const LoadDefaultData = ()=>{
+ const LoadData = (noOfRows)=>{
      jQuery("#busy-indicator").fadeIn(150);
-     table.page.len(10).draw()
+     table.page.len(noOfRows).draw()
      jQuery("#busy-indicator").fadeOut(150);     
  }
 
