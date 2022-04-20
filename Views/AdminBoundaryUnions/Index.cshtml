@@ -12,6 +12,15 @@
     tr{
         border-color:white;
     }
+    .bx{
+        font-size:0.75rem;
+    }
+    
+    .dropdown-menu li>span{
+        cursor:pointer;
+        padding-right:5px;
+        padding-left:5px;
+    }
 </style>
 
 
@@ -30,13 +39,29 @@
                     <div class="card-body">
                         <div class="table-responsive mt-2">
                             <!--Special Buttons-->
-                            <div class="col-12 d-flex justify-content-end">
-                                <button class="btn btn-danger me-3" onclick="LoadFullData()">Load Full Data</button>
+                            <div class="col-12 d-flex justify-content-center justify-content-md-end align-items-center my-3">
+                                
+                                <!--First Dropdown-->
+                                <div class="dropdown me-3">
+                                   <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                  No. of Rows <i class="bx bxs-down-arrow pt-1"></i>
+                                   </button>
+                                   <ul class="dropdown-menu" >
+                                      <li class="my-2">
+                                         <span onclick="LoadFullData()">All rows</span>
+                                      </li>
+                                      <li class="my-2">
+                                         <span onclick="LoadDefaultData()">Load 10 rows</span>
+                                      </li>
+                                   </ul>
+                                </div>
+                                <!--End First Dropdown-->
+                                <!--Second Dropdown-->
                                 <div class="dropdown">
                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                    Column Customization
                                    </button>
-                                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                   <ul class="dropdown-menu" >
                                       <li>
                                          <div class="form-check">
                                             <input id="mld-1" class="form-check-input" type="checkbox" value="" checked>
@@ -78,7 +103,8 @@
                                          </div>
                                       </li>                                  
                                    </ul>
-                                </div> 
+                                </div>
+                                <!--End Second Dropdown-->
                             </div>
                             
                             <!--Special Buttons End-->
@@ -405,6 +431,16 @@ $(document).on("click", '.cross-btn', function(){
          },1000)
          
      })     
+ }
+
+
+ //=====Go to default pagination
+ //====Load 10 rows
+
+ const LoadDefaultData = ()=>{
+     jQuery("#busy-indicator").fadeIn(150);
+     table.page.len(10).draw()
+     jQuery("#busy-indicator").fadeOut(150);     
  }
 
  </script>
