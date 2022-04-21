@@ -1,8 +1,10 @@
-﻿using EcdsApp.Data;
+﻿using ClosedXML.Excel;
+using EcdsApp.Data;
 using EcdsApp.Models.ThemeModels;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels;
 using EcdsApp.Security;
+using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -401,6 +405,94 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             return View(themeLayerDetail);
         }
+
+        public async Task<FileResult> Download(int? id)
+        {
+
+
+            var layerObj = _context.ThemeLayerDetails.Include(t => t.SubThemes.Themes).FirstOrDefault(m => m.LayerId == id);
+            var themePath = layerObj?.SubThemes.Themes.ThemePath;
+            var subThemePath = layerObj?.SubThemes.SubThemePath;
+            var folderPathDirectory = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{layerObj.LayerName.Trim()}";
+
+
+
+            var webRoot = _hostEnvironment.WebRootPath;
+            var fileName = layerObj.LayerName.Trim() + ".zip";
+            var tempOutput = webRoot + "/zip/" + fileName;
+
+            if (layerObj.LayerTypeId == 4)
+            {
+                var tableName = _context.TableInfos.Where(i => i.Id == layerObj.TableInfoId).Select(i => i.TableName).FirstOrDefault();
+                IList<string> tableColumn = _context.TableColumnInfos.Where(i => i.TableId == layerObj.TableInfoId).Select(i => i.DbColumnName).ToArray();
+
+                string columList = "";
+                for (var i = 0; i < tableColumn.Count(); i++)
+                {
+                    columList += (i == 0 ? tableColumn[i] : "," + tableColumn[i]);
+                }
+
+                Task<DataTable> data = _context.GetAllData(tableColumn, columList, tableName);
+                //var data = _context.ExecSql<>("select " + columList + " from " + tableName);
+
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    //DataTable dt = this.GetCustomers().Tables[0];
+                    DataTable dt = await data;
+                    wb.Worksheets.Add(dt, layerObj.LayerName.Trim());  //Sheet Name
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        wb.SaveAs(stream);
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", layerObj.LayerName.Trim() + ".xlsx");
+                    }
+                }
+
+                //return File("", "application/zip", fileName);
+            }
+
+            using (ZipOutputStream IzipOutputStream = new ZipOutputStream(System.IO.File.Create(tempOutput)))
+            {
+                IzipOutputStream.SetLevel(9);
+                byte[] buffer = new byte[4096];
+
+                var files = Directory.EnumerateFiles(folderPathDirectory, "*", SearchOption.AllDirectories);
+                foreach (string filePath in files)
+                {
+                    ZipEntry entry = new ZipEntry(Path.GetFileName(filePath));
+                    entry.DateTime = DateTime.Now;
+                    entry.IsUnicodeText = true;
+                    IzipOutputStream.PutNextEntry(entry);
+
+                    using (FileStream oFileStream = System.IO.File.OpenRead(filePath))
+                    {
+                        int sourceBytes;
+                        do
+                        {
+                            sourceBytes = oFileStream.Read(buffer, 0, buffer.Length);
+                            IzipOutputStream.Write(buffer, 0, sourceBytes);
+                        } while (sourceBytes > 0);
+                    }
+                }
+                IzipOutputStream.Finish();
+                IzipOutputStream.Flush();
+                IzipOutputStream.Close();
+            }
+
+            byte[] finalResult = System.IO.File.ReadAllBytes(tempOutput);
+            if (System.IO.File.Exists(tempOutput))
+            {
+                System.IO.File.Delete(tempOutput);
+            }
+            if (finalResult == null || !finalResult.Any())
+            {
+                throw new Exception(String.Format("Nothing found"));
+
+            }
+
+            return File(finalResult, "application/zip", fileName);
+        }
+
+
 
         // POST: ThemeLayerDetails/Delete/5
         [HttpPost, ActionName("Delete")]

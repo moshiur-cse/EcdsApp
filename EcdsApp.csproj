@@ -19,6 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="ClosedXML" Version="0.95.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.12" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.12" />
@@ -35,6 +36,7 @@
 		<PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.8" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.2" />
 		<PackageReference Include="ReflectionIT.Mvc.Paging" Version="5.1.1" />
+		<PackageReference Include="SharpZipLib" Version="1.3.3" />
 		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.15" />
 	</ItemGroup>
 
@@ -43,6 +45,7 @@
 		<Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\division\" />
 		<Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\upazila\" />
 		<Folder Include="wwwroot\assets\js\map\map_data\hazard_and_natural_disaster\geophysical_hazard\seismic_zone\" />
+		<Folder Include="wwwroot\zip\" />
 	</ItemGroup>
 
 </Project>

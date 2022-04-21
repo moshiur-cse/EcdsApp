@@ -116,7 +116,7 @@
                                     {
                                         <a asp-action="Edit" asp-route-id="@item.LayerId" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
                                     }
-                                    @*<a asp-action="Delete" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>*@
+                                    <a asp-action="Download" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Download</a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)

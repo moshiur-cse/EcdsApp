@@ -28,7 +28,7 @@ namespace EcdsApp.Data
             if (!optionsBuilder.IsConfigured)
                 //optionsBuilder.UseMySQL("server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
                 //optionsBuilder.UseMySQL("server=202.53.173.185;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;");
-            optionsBuilder.UseMySQL("server=202.53.173.185;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;SSL Mode=None");
+                optionsBuilder.UseMySQL("server=202.53.173.185;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;SSL Mode=None");
         }
 
         public string GetConnectionString()
@@ -155,10 +155,29 @@ namespace EcdsApp.Data
 
         public JsonResult GetTabularData(string columnName, string tableName)
         {
+
             try
             {
                 var columnNameSepArray = columnName.Split(',');
                 var sqlQry = "SELECT " + columnNameSepArray[0] + " AS Code, " + columnNameSepArray[1] + " AS Value FROM " + tableName + " ";
+                var queryResult = ExecSql<JsonDataBindingViewModel>(sqlQry);
+                //var jsonData = JsonSerializer.Serialize(queryResult);
+
+                return new JsonResult(queryResult);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+
+            return null;
+        }
+
+        public JsonResult GetAllData(string columnName, string tableName)
+        {
+            try
+            {
+                var sqlQry = "SELECT " + columnName + " FROM " + tableName + " ";
                 var queryResult = ExecSql<JsonDataBindingViewModel>(sqlQry);
                 //var jsonData = JsonSerializer.Serialize(queryResult);
 
@@ -232,10 +251,29 @@ namespace EcdsApp.Data
                     .Select(pi => pi.Name)).ToList();
         }
 
-        public async Task<List<string>> GetData(string columnName, string tableName)
+        public async Task<DataTable> GetAllData(IList<string> tableColumn, string columnName, string tableName)
         {
             try
             {
+                // Create a new DataTable.
+                DataTable table = new DataTable();
+                DataColumn column;
+                DataRow row;
+
+                foreach (var colName in tableColumn)
+                {
+
+                    column = new DataColumn();
+                    column.DataType = System.Type.GetType("System.String");
+                    column.ColumnName = colName;
+                    column.AutoIncrement = false;
+                    column.Caption = colName;
+                    column.ReadOnly = false;
+                    column.Unique = false;
+
+                    // Add the column to the DataColumnCollection.
+                    table.Columns.Add(column);
+                }
                 var fields = new List<string>();
 
                 var conn = new MySqlConnection(GetConnectionString());
@@ -245,22 +283,28 @@ namespace EcdsApp.Data
                 var reader = await cmd.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
-                    var field = reader[columnName].ToString();
-                    if (!string.IsNullOrEmpty(field))
+                    row = table.NewRow();
+                    foreach (var colName in tableColumn)
                     {
-                        fields.Add(field);
+                        var field = reader[colName].ToString();
+                        if (!string.IsNullOrEmpty(field))
+                        {
+                            row[colName] = field;
+                        }
+
                     }
+                    table.Rows.Add(row);
                 }
 
                 await conn.CloseAsync();
-                return fields;
+                return table;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
             }
 
-            return new List<string>();
+            return new DataTable();
         }
     }
 
