@@ -1,4 +1,5 @@
-﻿using EcdsApp.Data;
+﻿using ClosedXML.Excel;
+using EcdsApp.Data;
 using EcdsApp.Models.ThemeModels;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels;
@@ -14,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -404,7 +406,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             return View(themeLayerDetail);
         }
 
-        public FileResult Download(int? id)
+        public async Task<FileResult> Download(int? id)
         {
 
 
@@ -421,7 +423,6 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             if (layerObj.LayerTypeId == 4)
             {
-
                 var tableName = _context.TableInfos.Where(i => i.Id == layerObj.TableInfoId).Select(i => i.TableName).FirstOrDefault();
                 IList<string> tableColumn = _context.TableColumnInfos.Where(i => i.TableId == layerObj.TableInfoId).Select(i => i.DbColumnName).ToArray();
 
@@ -431,9 +432,22 @@ namespace EcdsApp.Controllers.ThemeLayer
                     columList += (i == 0 ? tableColumn[i] : "," + tableColumn[i]);
                 }
 
-                var data = _context.GetTabularData(columList, tableName);
+                Task<DataTable> data = _context.GetAllData(tableColumn, columList, tableName);
+                //var data = _context.ExecSql<>("select " + columList + " from " + tableName);
 
-                return File("", "application/zip", fileName);
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    //DataTable dt = this.GetCustomers().Tables[0];
+                    DataTable dt = await data;
+                    wb.Worksheets.Add(dt, layerObj.LayerName.Trim());  //Sheet Name
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        wb.SaveAs(stream);
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", layerObj.LayerName.Trim() + ".xlsx");
+                    }
+                }
+
+                //return File("", "application/zip", fileName);
             }
 
             using (ZipOutputStream IzipOutputStream = new ZipOutputStream(System.IO.File.Create(tempOutput)))
