@@ -171,7 +171,16 @@
 
 @section Scripts
 {
+<script src="~/assets/js/fonts/vfs_fonts.js"></script>
 <script type="text/javascript">
+	pdfMake.fonts = {
+        nikosh: {
+            normal: "Nikosh.ttf",
+			bold: "Nikosh.ttf",
+            italics: "Nikosh.ttf",
+            bolditalics: "Nikosh.ttf"
+		}
+    };
 	let arry=[]
 	let columnsToDownload=[]
 	let tableProps={
@@ -204,6 +213,10 @@
 				title: 'District Data',
 				exportOptions: {
 					columns: [1,2,3,4,5]
+				},
+				customize: function (doc) {        
+					doc.defaultStyle.fontSize = 12;
+					doc.defaultStyle.font = 'nikosh'
 				}
 			},
 			'colvis'
@@ -253,14 +266,19 @@
 			}
 
 		 })
-		 table.button().add(2,{
-			extend: 'pdfHtml5',
-			title: 'District Data',
-			exportOptions: {
-				columns: columnsToDownload
-			}
-
-		 })
+		 table.button().add(2,
+			 {
+				extend: 'pdfHtml5',
+				title: 'District Data',
+				exportOptions: {
+					columns: columnsToDownload
+				},
+				customize: function (doc) {        
+					doc.defaultStyle.fontSize = 12;
+					doc.defaultStyle.font = 'nikosh'
+				}
+			 }
+		 )
 		 table.button().add(3,'colvis')
 
 		 //===reinitialize buttons to download only the selected columns

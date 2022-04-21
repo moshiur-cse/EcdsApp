@@ -123,8 +123,8 @@ namespace EcdsApp.Controllers.Region
 
                 try
                 {
-                    //_context.Update(adminBoundaryUpazila);
-                    //await _context.SaveChangesAsync();
+                    _context.Update(adminBoundaryUpazila);
+                    await _context.SaveChangesAsync();
                     return Json("success");
                 }
                 catch (DbUpdateConcurrencyException)
