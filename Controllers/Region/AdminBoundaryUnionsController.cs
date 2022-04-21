@@ -30,6 +30,7 @@ namespace EcdsApp.Controllers.Region
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult JqueryDataTableUnionList()
         {
             try
@@ -246,8 +247,19 @@ namespace EcdsApp.Controllers.Region
                 }
                 
             }
+            //===displaying all model errors.
 
-            return Json(adminBoundaryUnion);
+            var errormsg = "";
+            foreach (var modelState in ModelState.Values)
+            {
+                foreach (var modelError in modelState.Errors)
+                {
+                    errormsg += modelError.ErrorMessage + " ";
+                }
+            }
+
+            return Json(errormsg);
+         
         }
 
         // GET: AdminBoundaryUnions/Delete/5

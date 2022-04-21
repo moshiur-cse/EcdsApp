@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReflectionIT.Mvc.Paging;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -110,36 +111,47 @@ namespace EcdsApp.Controllers.Region
 
         // POST: AdminBoundaryDistricts/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [UserAuthorization]
-        public async Task<IActionResult> Edit(string id, [Bind("DistrictGeoCode,DistrictName,DistrictNameBangla,DivisionGeoCode,SortingOrder")] AdminBoundaryDistrict adminBoundaryDistrict)
+        public async Task<IActionResult> Edit(AdminBoundaryDistrict adminBoundaryDistrict)
         {
-            if (id != adminBoundaryDistrict.DistrictGeoCode)
-            {
-                return NotFound();
-            }
+            AdminBoundaryDivision item = await _context.AdminBoundaryDivisions.Where(x => x.DivisionName == adminBoundaryDistrict.Division.DivisionName).FirstOrDefaultAsync();
+            adminBoundaryDistrict.DivisionGeoCode = item.DivisionGeoCode;
+            if(ModelState.IsValid)
+            { 
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
                     _context.Update(adminBoundaryDistrict);
                     await _context.SaveChangesAsync();
+                    return Json("success");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!AdminBoundaryDistrictExists(adminBoundaryDistrict.DistrictGeoCode))
                     {
-                        return NotFound();
+                        return Json("Failed to Save.");
                     }
 
                     throw;
                 }
-                return RedirectToAction(nameof(Index));
+
+
             }
 
-            ViewData["DivisionName"] = new SelectList(_context.AdminBoundaryDivisions, "DivisionGeoCode", "DivisionName", adminBoundaryDistrict.DivisionGeoCode);
-            return View(adminBoundaryDistrict);
+            //===displaying all model errors.
+
+            var errormsg = "";
+            foreach (var modelState in ModelState.Values)
+            {
+                foreach (var modelError in modelState.Errors)
+                {
+                    errormsg+=modelError.ErrorMessage + " ";
+                }
+            }
+
+            return Json(errormsg);
+
         }
 
         // GET: AdminBoundaryDistricts/Delete/5

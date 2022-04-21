@@ -1,27 +1,28 @@
 ﻿@model IEnumerable<EcdsApp.Models.RegionModels.AdminBoundaryUnion>
-
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery antiForgeryToken
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var tokenSet = antiForgeryToken.GetAndStoreTokens(Context);
 }
-<style>
-    /*.tab-card{
-        max-height:50vh;
-        overflow:auto;
-    }*/
-    tr{
-        border-color:white;
-    }
-    .bx{
-        font-size:0.75rem;
-    }
-    
-    .dropdown-menu li>span{
-        cursor:pointer;
-        padding-right:5px;
-        padding-left:5px;
-    }
-</style>
+@section Styles{
+	<style>
+	tr {
+		border-color: white;
+	}
+
+	.bx {
+		font-size: 0.75rem;
+	}
+
+	.dropdown-menu li > span {
+		cursor: pointer;
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+	</style>
+}
 
 
 <div class="page-content">
@@ -30,9 +31,10 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="display-6 mb-0">List of Union</h3>
-                        <p class="card-title-desc">Union Details Information</p>
-                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Union</a>
+                        <div class="d-flex justify-content-between align-items-center">
+							<h4 class="display-6 mb-0 fs-4">List of Union</h4>
+							<a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Union</a>
+						</div>
                     </div>
                 </div>
                 <div class="card">
@@ -65,7 +67,7 @@
                                 <!--Second Dropdown-->
                                 <div class="dropdown">
                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                   Column Customization
+                                  Export Columns <i class="bx bxs-down-arrow pt-1"></i>
                                    </button>
                                    <ul class="dropdown-menu" >
                                       <li>
@@ -236,6 +238,9 @@ let dTableProps ={
     scrollY:true,
     ajax: {
             url: '@Url.Action("JqueryDataTableUnionList")',
+            headers: {
+             '@tokenSet.HeaderName' : '@tokenSet.RequestToken'
+            },
             type: "POST",
             datatype: "json"
     },
@@ -245,18 +250,21 @@ let dTableProps ={
     buttons: [
         {
             extend: 'copyHtml5',
+            title: 'Union Data',
             exportOptions: {
                 columns: [1,2,3,4,5]
             }
         },
         {
             extend: 'excelHtml5',
+            title: 'Union Data',
             exportOptions: {
                     columns: [1,2,3,4,5]
             }
         },
         {
             extend: 'pdfHtml5',
+            title: 'Union Data',
             exportOptions: {
                 columns: [1,2,3,4,5]
             }
@@ -272,7 +280,7 @@ $(document).ready(function () {
 
 //====Update Information in the database
 const SaveInDb =(e)=>{
-    
+    let oldArry=arry    
     arry=[]
     for(let i=0;i<=5;i++){
         arry.push($("#d"+i).val())
@@ -292,13 +300,13 @@ const SaveInDb =(e)=>{
         },
         function(data){
            //=== response returned from server
-
+           const tr=$($(e.target).parent()).parent() 
            if(data=="success"){
                 //=== updated successfully
                 //=== update the row by removing input fields
 
-                const tr=$($(e.target).parent()).parent()                
-                const selected=tr.children()
+                               
+                //const selected=tr.children()
                 tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="bx bx-edit edit-btn fs-3 text-primary" d-ungcode="${geoCodes[0]}" d-upgcode="${geoCodes[1]}"></i></td>`)                   
                 for(let i=0;i < arry.length;i++){
                     tr.append(`<td>${arry[i]}</td>`)
@@ -309,16 +317,27 @@ const SaveInDb =(e)=>{
                     icon: "success",
                     title: "Updated Successfully",
                     //confirmButtonText: 'Ok'
-               })
-
-              
-           }            
+               })              
+           }
+           else{
+               window.Swal.fire({
+				    icon: "error",
+				    title: data
+				    //confirmButtonText: 'Ok'
+			    })
+				tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="bx bx-edit edit-btn fs-3 text-primary"></i></td>`)
+				for(let i=0;i < oldArry.length;i++){
+					tr.append(`<td>${oldArry[i]}</td>`)
+				}
+           }
         }
      );
 }
 
 //====custom input field insert
 $(document).on("click", '.edit-btn', function(){
+    table.columns().visible( true );
+    //table.columns.adjust().draw( false );
     arry=[]
     const td=$(this).parent()
     const allDataInRow=td.parent().children()
@@ -353,7 +372,7 @@ $(document).on("click", '.save-btn',(e)=>{
 $(document).on("click", '.cross-btn', function(){
     
     const tr=$($(this).parent()).parent()
-    console.log(tr.children())
+    //console.log(tr.children())
     const selected=tr.children()
     tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="bx bx-edit edit-btn fs-3 text-primary" d-ungcode="${geoCodes[0]}" d-upgcode="${geoCodes[1]}"></i></td>`)
     //console.log(selected.length)
@@ -391,6 +410,7 @@ $(document).on("click", '.cross-btn', function(){
      table.button().remove()  
      table.button().add(0,{
         extend: 'copyHtml5',
+        title: 'Union Data',
         exportOptions: {
             columns: columnsToDownload
         }
@@ -398,6 +418,7 @@ $(document).on("click", '.cross-btn', function(){
      })
      table.button().add(1,{
         extend: 'excelHtml5',
+        title: 'Union Data',
         exportOptions: {
                 columns: columnsToDownload
         }
@@ -405,6 +426,7 @@ $(document).on("click", '.cross-btn', function(){
      })
      table.button().add(2,{
         extend: 'pdfHtml5',
+        title: 'Union Data',
         exportOptions: {
             columns: columnsToDownload
         }

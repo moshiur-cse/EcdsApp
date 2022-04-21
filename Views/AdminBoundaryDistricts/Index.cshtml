@@ -1,109 +1,395 @@
-﻿@model ReflectionIT.Mvc.Paging.PagingList<EcdsApp.Models.AdminBoundaryDistrict>
-@using ReflectionIT.Mvc.Paging
-@addTagHelper *, ReflectionIT.Mvc.Paging
+﻿@model IEnumerable<EcdsApp.Models.AdminBoundaryDistrict>
 
 @{
-    ViewData["Title"] = "District List";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "District List";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	
 }
-@section Styles
-{
-    <!-- Responsive Table css -->
-    <link href="~/assets/libs/admin-resources/rwd-table/rwd-table.min.css" rel="stylesheet" type="text/css" />
+@section Styles{
+	<style>
+	tr {
+		border-color: white;
+	}
+
+	.bx {
+		font-size: 0.75rem;
+	}
+
+	.dropdown-menu li > span {
+		cursor: pointer;
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+	</style>
 }
 
 <div class="page-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="display-6 mb-0">List of Districts</h3>
-                        <p class="card-title-desc">District Details Information</p>
-                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New District</a>
-                    </div>
-                </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="d-flex justify-content-between align-items-center">
+							<h4 class="display-6 mb-0 fs-4">List of District</h4>
+							<a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New District</a>
+						</div>						
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive mt-2">
+							<!--Special Buttons-->
+							<div class="col-12 d-flex justify-content-center justify-content-md-end align-items-center my-3">
 
-                <div class="card m-0">
-                    <div class="card-body">
-                        <div class="table-rep-plugin">
-                            <div class="table-responsive mb-0" data-pattern="priority-columns">
-                                <table id="tech-companies-1" class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Action</th>
-                                            <th data-priority="1">
-                                                @Html.DisplayNameFor(model => model.DistrictGeoCode)
-                                            </th>
-                                            <th data-priority="2">
-                                                @Html.DisplayNameFor(model => model.DistrictName)
-                                            </th>
-                                            <th data-priority="3">
-                                                @Html.DisplayNameFor(model => model.DistrictNameBangla)
-                                            </th>
-                                            <th data-priority="4">
-                                                Division Name
-                                            </th>
-                                            <th data-priority="5">
-                                                @Html.DisplayNameFor(model => model.SortingOrder)
-                                            </th>
+								<!--First Dropdown-->
+								<div class="dropdown me-3">
+									<button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+										No. of Rows <i class="bx bxs-down-arrow pt-1"></i>
+									</button>
+									<ul class="dropdown-menu">
+										<li class="my-2">
+											<span onclick="LoadData(10)">Load 10 rows</span>
+										</li>
+										<li class="my-2">
+											<span onclick="LoadData(25)">Load 25 rows</span>
+										</li>
+										<li class="my-2">
+											<span onclick="LoadData(50)">Load 50 rows</span>
+										</li>
+										@* <li class="my-2">
+											<span onclick="LoadFullData()">All rows</span>
+											</li>*@
+									</ul>
+								</div>
+								<!--End First Dropdown-->
+								<!--Second Dropdown-->
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+										Export Columns <i class="bx bxs-down-arrow pt-1"></i>
+									</button>
+									<ul class="dropdown-menu">
+										<li>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" checked>
+												<label class="form-check-label" for="flexCheckChecked">
+													District Geo Code
+												</label>
+											</div>
+										</li>
+										<li>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" checked>
+												<label class="form-check-label" for="flexCheckChecked">
+													District Name
+												</label>
+											</div>
+										</li>
+										<li>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" checked>
+												<label class="form-check-label" for="flexCheckChecked">
+													District Name Bangla
+												</label>
+											</div>
+										</li>
+										<li>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" checked>
+												<label class="form-check-label" for="flexCheckChecked">
+													Division Name
+												</label>
+											</div>
+										</li>
+										<li>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" checked>
+												<label class="form-check-label" for="flexCheckChecked">
+													Sorting Order
+												</label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<!--End Second Dropdown-->
+							</div>
+
+							<!--Special Buttons End-->
+							<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+								<thead>
+									 <tr>
+                                        <th>Action</th>
+                                        <th data-priority="1">
+                                            @Html.DisplayNameFor(model => model.DistrictGeoCode)
+                                        </th>
+                                        <th data-priority="2">
+                                            @Html.DisplayNameFor(model => model.DistrictName)
+                                        </th>
+                                        <th data-priority="3">
+                                            @Html.DisplayNameFor(model => model.DistrictNameBangla)
+                                        </th>
+                                        <th data-priority="4">
+                                            Division Name
+                                        </th>
+                                        <th data-priority="5">
+                                            @Html.DisplayNameFor(model => model.SortingOrder)
+                                        </th>
+                                    </tr>
+								</thead>
+								<tbody>
+									@foreach (var item in Model)
+									{
+										<tr>
+                                            <td>
+                                                <i role="button" class="text-primary bx bx-edit font-size-20 edit-btn"></i>
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DistrictGeoCode)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DistrictName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DistrictNameBangla)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Division.DivisionName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SortingOrder)
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <a asp-action="Edit" asp-route-id="@item.DistrictGeoCode" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
-                                                    @*<a asp-action="Delete" asp-route-id="@item.DistrictGeoCode" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Delete</a>*@
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DistrictGeoCode)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DistrictName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DistrictNameBangla)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Division.DivisionName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.SortingOrder)
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div style="text-align: center;">
-                            <vc:pager paging-list="@Model" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 @section Scripts
 {
-    <!-- Responsive Table js -->
-    <script src="~/assets/libs/admin-resources/rwd-table/rwd-table.min.js"></script>
+<script type="text/javascript">
+	let arry=[]
+	let columnsToDownload=[]
+	let tableProps={
+		dom: 'Bfrtip',
+		processing: true,
+		filter:true,
+		paging:true,
+		fixedHeader: true,
+		scrollY:true,
+		//columns:columns,
+		lengthChange: !1,
+		pageLength: 10,
+		buttons: [
+			{
+				extend: 'copyHtml5',
+				title: 'District Data',
+				exportOptions: {
+					columns: [1,2,3,4,5]
+				}
+			},
+			{
+				extend: 'excelHtml5',
+				title: 'District Data',
+				exportOptions: {
+						columns: [1,2,3,4,5]
+				}
+			},
+			{
+				extend: 'pdfHtml5',
+				title: 'District Data',
+				exportOptions: {
+					columns: [1,2,3,4,5]
+				}
+			},
+			'colvis'
+		]
+	}
+	let table=$("#datatable-buttons").DataTable(tableProps)
 
-    <script type="text/javascript">
-        $(document).ready(function () {
+	//====add customized buttons in data table
+	$(document).ready(function () {
+		table.buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
+	});
 
-            $(function () { $(".table-responsive").responsiveTable({ addDisplayAllBtn: "btn btn-secondary" }), $(".btn-toolbar [data-toggle=dropdown]").attr("data-bs-toggle", "dropdown") });
+	//=======================================
+	//======= Change Columns to Download
+	//=======================================
 
-            //$("#datatable-buttons").DataTable({
-            //    lengthChange: !1,
-            //    buttons: ["copy", "excel", "pdf", "colvis"]
-            //}).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)"), $(".dataTables_length select").addClass("form-select form-select-sm");
-        });
+	 $(document).on("change", ".form-check-input", function (){
+		 let selectedItems=$(".form-check-input")
+		 //console.log(selectedItems.length)
+		 for(let i=0;i<selectedItems.length;i++){
+			 //console.log(selectedItems[i].checked)
+			//======= the checkbox is checked
+			if(selectedItems[i].checked){
+				columnsToDownload.push(i+1)
+			}
 
-    </script>
+		 }
+		 //console.log(columnsToDownload)
+
+		 for(let i=0;i<4;i++){
+			 table.button().remove()
+		 }
+
+		 table.button().add(0,{
+			extend: 'copyHtml5',
+			title: 'District Data',
+			exportOptions: {
+				columns: columnsToDownload
+			}
+
+		 })
+		 table.button().add(1,{
+			extend: 'excelHtml5',
+			title: 'District Data',
+			exportOptions: {
+					columns: columnsToDownload
+			}
+
+		 })
+		 table.button().add(2,{
+			extend: 'pdfHtml5',
+			title: 'District Data',
+			exportOptions: {
+				columns: columnsToDownload
+			}
+
+		 })
+		 table.button().add(3,'colvis')
+
+		 //===reinitialize buttons to download only the selected columns
+		 columnsToDownload=[]
+		 return false
+	})
+
+	//========================================
+	//=======Save, Edit, Delete Action
+	//========================================
+
+
+	//========================================
+	//====custom input field insert
+	//========================================
+	$(document).on("click", '.edit-btn', function(e){
+		table.columns().visible( true );
+		table.columns.adjust().draw( false );
+		arry=[]
+		const td=$(this).parent()
+		const allDataInRow=td.parent().children()
+		for(let i=1;i<allDataInRow.length;i++){
+		   arry.push(allDataInRow[i].innerText)
+		}
+		//console.log(arry)
+		$(td).parent().html(`
+		<td class="sorting_1 dtr-control"><i role="button" class="text-primary bx bx-save save-btn fs-3"></i></i><i role="button" class="ms-3 bx bx-x cross-btn fs-3 text-primary"></i></td>
+		<td><input type="text" id="d0" class="form-control" value="${arry[0]}"/></td>
+		<td><input type="text" id="d1" class="form-control" value="${arry[1]}"/></td>
+		<td><input type="text" id="d2" class="form-control" value="${arry[2]}"/></td>
+		<td><input type="text" id="d3" class="form-control" value="${arry[3]}"/></td>
+		<td><input type="text" id="d4" class="form-control" value="${arry[4]}"/></td>`)
+	})
+
+	//==========================================
+	//==== Save Information click event handler
+	//==========================================
+
+	$(document).on("click", '.save-btn',(e)=>{
+		SaveInDb(e)
+	})
+
+	//=====================================================
+	//===== Remove input fields based on clicking x button
+	//======= And load the previous data
+	//=====================================================
+
+	$(document).on("click", '.cross-btn', function(){
+
+		const tr=$($(this).parent()).parent()
+		//console.log(tr.children())
+		const selected=tr.children()
+		tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="text-primary bx bx-edit font-size-20 edit-btn"></i></td>`)
+		//console.log(selected.length)
+		//console.log(arry)
+
+		for(let i=0;i < arry.length;i++){
+			tr.append(`<td>${arry[i]}</td>`)
+		}
+
+	})
+
+	//=======================================
+	//==== Update Information in the database
+	//=======================================
+	const SaveInDb =(e)=>{
+		let oldArry=arry
+		arry=[]
+		for(let i=0;i<=4;i++){
+			arry.push($("#d"+i).val())
+		}
+
+		$.post(
+			'@Url.Action("Edit")',
+			{
+				'adminBoundaryDistrict.districtGeoCode':arry[0],
+				'adminBoundaryDistrict.districtName':arry[1],
+				'adminBoundaryDistrict.districtNameBangla':arry[2],
+				'adminBoundaryDistrict.division.divisionName':arry[3],
+				'adminBoundaryDistrict.sortingOrder':arry[4],
+
+			},
+			function(data){
+				//=== response returned from server
+				//console.log(data)
+				const tr=$($(e.target).parent()).parent()
+				if(data=="success"){
+					//=== updated successfully
+					//=== update the row by removing input fields					
+					//const selected=tr.children()
+					tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="text-primary bx bx-edit font-size-20 edit-btn"></i></td>`)
+					for(let i=0;i < arry.length;i++){
+						tr.append(`<td>${arry[i]}</td>`)
+					}
+
+					//=== show success message
+					window.Swal.fire({
+						icon: "success",
+						title: "Updated Successfully",
+						//confirmButtonText: 'Ok'
+					})
+				}
+				else{
+					window.Swal.fire({
+						icon: "error",
+						title: data
+						//confirmButtonText: 'Ok'
+					})
+					tr.html(`<td class="sorting_1 dtr-control"><i role="button" class="text-primary bx bx-edit font-size-20 edit-btn"></i></td>`)
+					for(let i=0;i < oldArry.length;i++){
+						tr.append(`<td>${oldArry[i]}</td>`)
+					}
+				}
+
+
+			});
+	}
+
+
+
+	//========================================
+	//=====Load Data based on required items
+	//========================================
+
+	const LoadData = (noOfRows)=>{
+		jQuery("#busy-indicator").fadeIn(150);
+		table.page.len(noOfRows).draw()
+		jQuery("#busy-indicator").fadeOut(150);
+	}
+
+</script>
 }

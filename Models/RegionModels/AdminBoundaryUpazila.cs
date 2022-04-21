@@ -51,7 +51,8 @@ namespace EcdsApp.Models
         public virtual AdminBoundaryDistrict District { get; set; }
 
         [Column("sorting_order", Order = 3, TypeName = "int")]
-        [DataType(DataType.Text)]
+        //[DataType(DataType.Text)]
+        [Range(0, int.MaxValue)]
         [Display(Name = "Sorting Order")]
         public int? SortingOrder { get; set; }
     }

@@ -102,36 +102,44 @@ namespace EcdsApp.Controllers.Region
 
         // POST: AdminBoundaryDivisions/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [UserAuthorization]
-        public async Task<IActionResult> Edit(string id, [Bind("DivisionGeoCode,DivisionName,DivisionNameBangla,SortingOrder")] AdminBoundaryDivision adminBoundaryDivision)
+        public async Task<IActionResult> Edit(AdminBoundaryDivision adminBoundaryDivision)
         {
-            if (id != adminBoundaryDivision.DivisionGeoCode)
-            {
-                return NotFound();
-            }
-
+            
             if (ModelState.IsValid)
             {
+
                 try
                 {
                     _context.Update(adminBoundaryDivision);
                     await _context.SaveChangesAsync();
+                    return Json("success");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!AdminBoundaryDivisionExists(adminBoundaryDivision.DivisionGeoCode))
                     {
-                        return NotFound();
+                        return Json("Failed to Save.");
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
-                return RedirectToAction(nameof(Index));
+
             }
-            return View(adminBoundaryDivision);
+
+            //===displaying all model errors.
+
+            var errormsg = "";
+            foreach (var modelState in ModelState.Values)
+            {
+                foreach (var modelError in modelState.Errors)
+                {
+                    errormsg += modelError.ErrorMessage + " ";
+                }
+            }
+
+            return Json(errormsg);
         }
 
         // GET: AdminBoundaryDivisions/Delete/5

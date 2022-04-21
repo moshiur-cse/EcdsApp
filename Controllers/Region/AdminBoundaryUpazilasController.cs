@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -108,35 +110,49 @@ namespace EcdsApp.Controllers.Region
 
         // POST: AdminBoundaryUpazilas/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [UserAuthorization]
-        public async Task<IActionResult> Edit(string id, [Bind("UpazilaGeoCode,UpazilaName,UpazilaNameBangla,DistrictGeoCode,SortingOrder")] AdminBoundaryUpazila adminBoundaryUpazila)
+        public async Task<IActionResult> Edit(AdminBoundaryUpazila adminBoundaryUpazila, string districtName)
         {
-            if (id != adminBoundaryUpazila.UpazilaGeoCode)
-            {
-                return NotFound();
-            }
+            AdminBoundaryDistrict item = await _context.AdminBoundaryDistricts.Where(x => x.DistrictName == districtName).FirstOrDefaultAsync();
+            adminBoundaryUpazila.DistrictGeoCode = item.DistrictGeoCode;
+            adminBoundaryUpazila.District= item;
 
             if (ModelState.IsValid)
             {
+
                 try
                 {
-                    _context.Update(adminBoundaryUpazila);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(adminBoundaryUpazila);
+                    //await _context.SaveChangesAsync();
+                    return Json("success");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!AdminBoundaryUpazilaExists(adminBoundaryUpazila.UpazilaGeoCode))
                     {
-                        return NotFound();
+                        return Json("Failed to Save.");
                     }
 
                     throw;
                 }
-                return RedirectToAction(nameof(Index));
+
+                
             }
-            ViewData["DistrictName"] = new SelectList(_context.AdminBoundaryDistricts, "DistrictGeoCode", "DistrictName", adminBoundaryUpazila.DistrictGeoCode);
-            return View(adminBoundaryUpazila);
+
+            //===displaying all model errors.
+
+            var errormsg = "";
+            foreach (var modelState in ModelState.Values)
+            {
+                foreach (var modelError in modelState.Errors)
+                {
+                    errormsg += modelError.ErrorMessage + " ";
+                }
+            }
+
+            return Json(errormsg);
+
         }
 
         // GET: AdminBoundaryUpazilas/Delete/5
