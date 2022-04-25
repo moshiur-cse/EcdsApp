@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using EcdsApp.Models.UserManage;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using EcdsApp.Services;
 
 namespace EcdsApp.Areas.Identity.Pages.Account
 {
@@ -124,6 +124,7 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     UserName = Input.UserName
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -136,8 +137,19 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    bool state= await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
+                    {
+                        Subject = "Confirm your email",
+                        To = Input.Email,
+                        Msg = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
+                    });
+                    if (state)
+                    {
+                        ViewData["emailStatus"] = "succeeded";
+                    }
+
+                    //Input.Email, "Confirm your email",
+                    //$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

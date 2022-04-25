@@ -26,22 +26,29 @@ namespace EcdsApp.Areas.Identity.Pages.Account
         public string StatusMessage { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
+
         {
+            string msg = "";
             if (userId == null || code == null)
             {
                 return RedirectToPage("/Index");
             }
 
             var user = await _userManager.FindByIdAsync(userId);
+            
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                msg = "Unable to get user information.";
             }
-
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
-            return Page();
+            else
+            {
+                code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+                var result = await _userManager.ConfirmEmailAsync(user, code);
+                StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+                msg = $"The email {user.Email} is confirmed successfully. Now you can login to ECDS.";
+            }
+            string url = $"/Identity/Account/Login?message={msg}";
+            return Redirect(url);
         }
     }
 }

@@ -1,5 +1,6 @@
 using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
+using EcdsApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -86,7 +87,7 @@ namespace EcdsApp
                 options.SlidingExpiration = true;
             });
 
-
+            services.AddTransient<IEmailSender, EmailSender>();
             //Add application services.
             //services.AddTransient<IEmailSender, EmailSender>();
             //services.AddSingleton<IEmailSender, IEmailSender>();

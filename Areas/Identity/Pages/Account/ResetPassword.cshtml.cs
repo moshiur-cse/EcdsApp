@@ -72,19 +72,24 @@ namespace EcdsApp.Areas.Identity.Pages.Account
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToPage("./ResetPasswordConfirmation");
+                ViewData["msg"] = "The password changed";
+                return Page();
             }
 
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
-                return RedirectToPage("./ResetPasswordConfirmation");
+                ViewData["msg"] = "The password changed successfully.";
+                return Page();
             }
-
+            var msg = "";
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
+
+                msg+=error.Description.ToString();
             }
+            ViewData["msg"]=msg;
             return Page();
         }
     }

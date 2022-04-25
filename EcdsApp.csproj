@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="ClosedXML" Version="0.95.4" />
+		<PackageReference Include="MailKit" Version="3.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.12" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.12" />
@@ -32,6 +33,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+		<PackageReference Include="MimeKit" Version="3.2.0" />
 		<PackageReference Include="MySql.Data" Version="8.0.27" />
 		<PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.8" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.2" />

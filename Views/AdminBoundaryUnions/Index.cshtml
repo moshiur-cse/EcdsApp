@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Antiforgery
 @inject IAntiforgery antiForgeryToken
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Union List";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var tokenSet = antiForgeryToken.GetAndStoreTokens(Context);
 }
