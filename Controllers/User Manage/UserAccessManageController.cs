@@ -4,12 +4,14 @@ using EcdsApp.Models.ViewModels.UserManage;
 using EcdsApp.Security;
 using EcdsApp.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -370,6 +372,71 @@ namespace EcdsApp.Controllers.User_Manage
         [Authorize]
         public async Task<IActionResult> ViewProfile()
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            return View(applicationUser);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile(string userid)
+        {
+            var userProfile= await _userManager.FindByIdAsync(userid);
+            if (userProfile == null)
+                return NotFound();
+            return View(userProfile);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile(ApplicationUser appUser, IFormFile image)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(appUser.Id);
+
+                if (image != null)
+                {   
+                    if(user.ProfilePic != null)
+                    {
+                        FileInfo f = new FileInfo(user.ProfilePic);
+                        if (f.Exists)//=====check if file exists or not  
+                        {
+                            f.Delete();
+                        }
+                    }
+                    
+                    var supportedTypes = new[] { "jpg", "png"};
+                    var fileExt = Path.GetExtension(image.FileName).Substring(1).ToLower();
+                    if (!supportedTypes.Contains(fileExt))
+                    {
+                        return Json("Wrong file type");
+                    }
+                    else
+                    {
+                        var fileToUpload = "wwwroot/assets/profile_pics/" + appUser.Id + Path.GetExtension(image.FileName);
+                        using (var fileStream = new FileStream(fileToUpload, FileMode.Create, FileAccess.Write))
+                        {
+                            image.CopyTo(fileStream);
+                            fileStream.Flush();
+                        }
+                        appUser.ProfilePic = fileToUpload;
+                    }
+                    
+                    
+                }
+                
+                user.FirstName = appUser.FirstName;
+                user.LastName = appUser.LastName;
+                user.Email = appUser.Email;
+                user.Address = appUser.Address; 
+                user.MobileNo = appUser.MobileNo;
+                user.Designation = appUser.Designation;
+                user.DateOfBirth = appUser.DateOfBirth;
+                user.Organization = appUser.Organization;
+                user.ProfilePic = appUser.ProfilePic;
+                await _userManager.UpdateAsync(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("ViewProfile");
+            }
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
             return View(applicationUser);
         }

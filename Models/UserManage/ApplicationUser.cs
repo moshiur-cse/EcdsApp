@@ -71,6 +71,11 @@ namespace EcdsApp.Models.UserManage
         [Display(Name = "Verification Code")]
         public string VerificationCode { get; set; }
 
+        [Display(Name = "Profile Picture")]
+        [Column("profile_picture")]
+        [StringLength(200)]
+        public string? ProfilePic  { get; set; }
+
         //[Required]
         [Column("user_role_id")]
         [Display(Name = "Role")]

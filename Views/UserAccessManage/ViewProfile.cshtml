@@ -1,8 +1,13 @@
 ﻿@model EcdsApp.Models.UserManage.ApplicationUser
 @{
-    ViewData["Title"] = "Profile Info";
-	
+	ViewData["Title"] = "Profile Info";	
+	string profilePic = Model.ProfilePic;  
+	profilePic = profilePic.Split("wwwroot")[1];
+
+	string[] date = Model.DateOfBirth.Split("-");
+	string dateOfBirth = $"{date[2]}/{date[1]}/{date[0]}";
 }
+
 @section Styles{
 	<style>
 	table td{
@@ -25,16 +30,33 @@
 	.vh90{
 		min-height:90vh;
 	}
+
+	.prof-img{
+		height:150px;
+		border-radius:50%;
+	}
 	</style>
 }
 <div class="page-content bg-white vh90 d-flex justify-content-center align-items-center">
 	<div class="container-fluid">
 		<div class="row justify-content-center align-items-center">
 			<div class="prof-card col-lg-5 col-md-10 col-12">
-				<div class="d-flex justify-content-center align-items-center">
-					<i class="py-2 bx bx-lg bx-user-pin"></i>
+				<div class="d-flex justify-content-end align-items-center">
+					<a asp-action="UpdateProfile" asp-route-userid="@Model.Id"><i class="bx bx-edit fs-5 pe-2"></i>Edit Profile</a>
 				</div>
-				<h2 class="text-center fs-2">Profile Info</h2>
+				<div class="d-flex justify-content-center align-items-center">
+					@*<i class="py-2 bx bx-lg bx-user-pin"></i>*@
+					@if(Model.ProfilePic == null)
+					{
+						<img class="prof-img" src="~/assets/images/profile_pics/user_icon.png" />
+					}
+					else
+					{
+						<img class="prof-img" src="@profilePic" />
+					}
+
+				</div>
+				<h2 class="text-center fs-2 mt-5">Profile Info</h2>
 				<table class="w-100 table-responsive mt-5">
 				<thead>
 					<tr>
@@ -45,7 +67,7 @@
 				<tbody>
 					<tr>
 						<td>Name</td>
-						<td>@Html.Raw(Model.FirstName+" "+@Model.LastName)</td>
+						<td>@Html.Raw(Model.FirstName+" "+Model.LastName)</td>
 					</tr>
 					<tr>
 						<td>Email</td>
@@ -65,7 +87,7 @@
 					</tr>
 					<tr>
 						<td>Date of Birth</td>
-						<td>@Model.DateOfBirth</td>
+						<td>@dateOfBirth</td>
 					</tr>
 					<tr>
 						<td>Name of the Organization</td>
