@@ -1,4 +1,5 @@
-﻿using EcdsApp.Models.ViewModels;
+﻿using DRIPWebApp.Data;
+using EcdsApp.Models.ViewModels;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
@@ -31,11 +32,11 @@ namespace EcdsApp.Services
                 using var smtp = new MailKit.Net.Smtp.SmtpClient();
                 EmailConfig emconfig = new EmailConfig()
                 {
-                    Host = _config.GetSection("EmailSender").GetSection("Host").Value,
-                    Port = int.Parse(_config.GetSection("EmailSender").GetSection("Port").Value),
-                    UserName = _config.GetSection("EmailSender").GetSection("UserName").Value,
-                    Pass = _config.GetSection("EmailSender").GetSection("Password").Value,
-                    Sender = _config.GetSection("EmailSender").GetSection("Sender").Value
+                    Host = Credentials.Host,
+                    Port = Credentials.Port,
+                    UserName = Credentials.UserName,
+                    Pass = Credentials.Password,
+                    Sender = Credentials.EmailSender
                 };
                 email.From.Add(MailboxAddress.Parse(emconfig.Sender));
                 smtp.Connect(emconfig.Host, emconfig.Port, SecureSocketOptions.StartTls);

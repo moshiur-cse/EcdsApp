@@ -171,7 +171,7 @@
                         $(".f-validation").text("")
                         readyToSend=true
                     }
-                    url='@Url.Action("ForgotPassword","Home")'
+                    url='@Url.Action("ForgotPassword","UserAccessManage")'
                     data={email:$("#f-email").val()}
                 }
                 else if(type ==="ce"){
@@ -185,7 +185,7 @@
                         $(".c-validation").text("")
                         readyToSend=true
                     }
-                    url='@Url.Action("SendConfirmationEmailLink","Home")'
+                    url='@Url.Action("SendConfirmationEmailLink","UserAccessManage")'
                     data={email:$("#c-email").val()}
                 }
                 if(readyToSend){

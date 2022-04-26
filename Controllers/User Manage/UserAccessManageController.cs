@@ -2,13 +2,17 @@
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels.UserManage;
 using EcdsApp.Security;
+using EcdsApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.User_Manage
@@ -294,6 +298,80 @@ namespace EcdsApp.Controllers.User_Manage
         public IActionResult UnAuthorizeActionResult()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string email, [FromServices] IEmailSender emailSender)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return Json("The link has been sent to the registered email address.");
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Page(
+                    "/Account/ResetPassword",
+                    pageHandler: null,
+                    values: new { area = "Identity", code },
+                    protocol: Request.Scheme);
+
+
+                bool emailState = await emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
+                {
+                    To = email,
+                    Subject = "Password Reset of ECDS platform.",
+                    Msg = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
+                });
+                if (emailState)
+                {
+                    return Json("The Password reset link has been sent successfully. Please check your inbox.");
+                }
+
+            }
+
+            return Json("The link has been sent to the registered email address.");
+
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendConfirmationEmailLink(string email, [FromServices] IEmailSender _emailSender)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { area = "Identity", userId = user.Id, code = code },
+                protocol: Request.Scheme);
+
+            bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
+            {
+                Subject = "Confirm your email",
+                To = email,
+                Msg = $"Please confirm your email by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
+            });
+            if (state)
+            {
+                return Json("The confirmation link has been sent successfully.");
+            }
+
+            return Json("Failed to confirm the email.");
+        }
+
+
+        [Authorize]
+        public async Task<IActionResult> ViewProfile()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            return View(applicationUser);
         }
     }
 }
