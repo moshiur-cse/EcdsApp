@@ -1,11 +1,18 @@
 ﻿@model EcdsApp.Models.UserManage.ApplicationUser
 @{
 	ViewData["Title"] = "Profile Info";	
-	string profilePic = Model.ProfilePic;  
-	profilePic = profilePic.Split("wwwroot")[1];
-
-	string[] date = Model.DateOfBirth.Split("-");
-	string dateOfBirth = $"{date[2]}/{date[1]}/{date[0]}";
+	string profilePic = Model.ProfilePic;
+	if(profilePic != null){
+		profilePic = profilePic.Split("wwwroot")[1];
+	}
+	string dateOfBirth = null;
+	if(Model.DateOfBirth != null)
+	{
+		string[] date = Model.DateOfBirth.Split("-");
+		dateOfBirth = $"{date[2]}/{date[1]}/{date[0]}";
+	}
+	
+	
 }
 
 @section Styles{
@@ -46,9 +53,9 @@
 				</div>
 				<div class="d-flex justify-content-center align-items-center">
 					@*<i class="py-2 bx bx-lg bx-user-pin"></i>*@
-					@if(Model.ProfilePic == null)
+					@if(profilePic == null)
 					{
-						<img class="prof-img" src="~/assets/images/profile_pics/user_icon.png" />
+						<img class="prof-img" src="~/assets/profile_pics/user_icon.png" />
 					}
 					else
 					{
