@@ -33,13 +33,7 @@
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="mb-3 row">
-                        <label asp-for="Email" class="col-md-2 col-form-label"></label>
-                        <div class="col-md-10">
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </div>                    
+                                        
                     <div class="mb-3 row">
                         <label asp-for="MobileNo" class="col-md-2 col-form-label"></label>
                         <div class="col-md-10">
@@ -50,7 +44,7 @@
                     <div class="mb-3 row">
                         <label asp-for="DateOfBirth" class="col-md-2 col-form-label"></label>
                         <div class="col-md-10">
-                            <input asp-for="DateOfBirth" class="form-control" />
+                            <input id="date-of-birth" asp-for="DateOfBirth" class="form-control" type="date" />
                             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
                     </div>
@@ -91,3 +85,24 @@
 	</div>
 </div>
 
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+    $( "#date-of-birth" ).datepicker(
+        {
+            altFormat: "yyyy-mm-dd"
+        }
+    );
+    $("#date-of-birth" ).val($("#date-of-birth" ).attr("value")) 
+    console.log($( "#date-of-birth" ).val())
+    let msg='@ViewBag.msg'
+    if(msg.length>0){
+        window.Swal.fire({
+				icon: "error",
+				title: msg
+		})
+    }
+    
+    </script>
+}

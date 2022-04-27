@@ -408,7 +408,8 @@ namespace EcdsApp.Controllers.User_Manage
                     var fileExt = Path.GetExtension(image.FileName).Substring(1).ToLower();
                     if (!supportedTypes.Contains(fileExt))
                     {
-                        return Json("Wrong file type");
+                        ViewData["msg"]="Choose a jpg or png image.";
+                        return View(appUser);
                     }
                     else
                     {
@@ -426,7 +427,6 @@ namespace EcdsApp.Controllers.User_Manage
                 
                 user.FirstName = appUser.FirstName;
                 user.LastName = appUser.LastName;
-                user.Email = appUser.Email;
                 user.Address = appUser.Address; 
                 user.MobileNo = appUser.MobileNo;
                 user.Designation = appUser.Designation;
