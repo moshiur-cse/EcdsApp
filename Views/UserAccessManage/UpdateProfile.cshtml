@@ -4,18 +4,18 @@
     ViewData["Title"] = "Update Profile";
 }
 @section Styles{
-    <style>
-        .vh90{
-            min-height:90vh;
-        }
-    </style>
+<style>
+    .vh90 {
+        min-height: 90vh;
+    }
+</style>
 }
 <div class="page-content bg-white vh90 d-flex justify-content-center align-items-center vh90">
-	<div class="container-fluid">
-		<div class="row justify-content-center align-items-center">
-			<div class="col-12 col-sm-10 col-md-8 col-lg-5">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-5">
                 <h3 class="text-center fs-3 py-4">Update User Information</h3>
-				<form asp-action="UpdateProfile" class="mt-4 custom-validation" method="post" enctype="multipart/form-data">
+                <form asp-action="UpdateProfile" class="mt-4 custom-validation" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
 
@@ -33,7 +33,7 @@
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                     </div>
-                                        
+
                     <div class="mb-3 row">
                         <label asp-for="MobileNo" class="col-md-2 col-form-label"></label>
                         <div class="col-md-10">
@@ -44,7 +44,7 @@
                     <div class="mb-3 row">
                         <label asp-for="DateOfBirth" class="col-md-2 col-form-label"></label>
                         <div class="col-md-10">
-                            <input id="date-of-birth" asp-for="DateOfBirth" class="form-control" type="date" />
+                            <input id="date-of-birth" asp-for="DateOfBirth" class="form-control" />
                             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
                     </div>
@@ -71,38 +71,62 @@
                     </div>
                     <div class="mb-3 row">
                         <label class="col-md-2 col-form-label">Profile Picture</label>
+
+
                         <div class="col-md-10">
-                            <input name="image" class="form-control" type="file" />                            
+                            <input onchange="previewImage(event)" name="image" class="form-control" type="file" />
+
+                            <div class="card card-body">
+                                @if(Model.ProfilePic != null)
+                                {
+                                    <img id="myImage" src="~/assets/profile_pics/@Model.ProfilePic" style="width:100px">
+                                }
+                                else
+                                {
+                                    <img src="~/assets/profile_pics/user_icon.png" style="width:100px">
+                                }
+                            </div>
+
                         </div>
+
+
                     </div>
                     <div class="d-flex justify-content-center align-items-center my-4">
                         <button type="submit" class="btn btn-dark px-4 py-2">Update</button>
                     </div>
-                    
+
                 </form>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-    $( "#date-of-birth" ).datepicker(
-        {
-            altFormat: "yyyy-mm-dd"
-        }
-    );
-    $("#date-of-birth" ).val($("#date-of-birth" ).attr("value")) 
-    console.log($( "#date-of-birth" ).val())
-    let msg='@ViewBag.msg'
-    if(msg.length>0){
-        window.Swal.fire({
-				icon: "error",
-				title: msg
-		})
-    }
-    
-    </script>
+<partial name="_ValidationScriptsPartial" />
+<script>
+     $( "#date-of-birth" ).datepicker(
+         {
+             altFormat: "dd-mm-yyyy"
+         }
+     );
+     $("#date-of-birth" ).val($("#date-of-birth" ).attr("value"))
+     let msg='@ViewBag.msg'
+     if(msg.length>0){
+         window.Swal.fire({
+                 icon: "error",
+                 title: msg
+         })
+     }
+    const previewImage = e => {
+       const reader = new FileReader();
+       reader.readAsDataURL(e.target.files[0]);
+       reader.onload = () => {
+          const preview = document.getElementById('myImage');
+          preview.src = reader.result;
+       };
+    };
+
+
+</script>
 }

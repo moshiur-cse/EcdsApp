@@ -23,6 +23,7 @@ namespace EcdsApp.Models.UserManage
         [StringLength(100)]
         public string FullName { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Date Of Birth")]
         [Column("date_of_birth")]
         [StringLength(20)]
@@ -74,7 +75,7 @@ namespace EcdsApp.Models.UserManage
         [Display(Name = "Profile Picture")]
         [Column("profile_picture")]
         [StringLength(200)]
-        public string? ProfilePic  { get; set; }
+        public string ProfilePic { get; set; }
 
         //[Required]
         [Column("user_role_id")]
