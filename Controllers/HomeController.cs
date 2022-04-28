@@ -20,9 +20,9 @@ namespace EcdsApp.Controllers
     {
         private readonly DataContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        
 
-        public HomeController(DataContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public HomeController(DataContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -193,57 +193,5 @@ namespace EcdsApp.Controllers
         //    return RedirectToAction("Dashboard");
         //}
 
-
-        public IActionResult GoogleLogin()
-        {
-            string redirectUrl = Url.Action("GoogleResponse", "Home");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
-            return new ChallengeResult("Google", properties);
-        }
-
-        //[Route("signin-google")]
-        public async Task<IActionResult> GoogleResponse()
-        {
-
-            ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-                return RedirectToPage("/Identity/Account/Login");
-
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
-            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
-            if (result.Succeeded)
-                return View(userInfo);
-            else
-            {
-                ApplicationUser user = new ApplicationUser
-                {
-                    Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
-                    UserName = info.Principal.FindFirst(ClaimTypes.Email).Value
-                };
-
-                var registeredUser = _userManager.FindByEmailAsync(user.Email);
-                if (registeredUser == null)
-                {
-                    IdentityResult identResult = await _userManager.CreateAsync(user);
-                    if (identResult.Succeeded)
-                    {
-                        identResult = await _userManager.AddLoginAsync(user, info);
-                        if (identResult.Succeeded)
-                        {
-                            await _signInManager.SignInAsync(user,false);
-                            return RedirectToAction("Dashboard");
-                        }
-                    }
-                }
-                else
-                {
-                   await _signInManager.SignInAsync(user, false);
-                   return RedirectToAction("Dashboard");
-
-                }
-
-                return RedirectToPage("/Identity/Account/Login");
-            }
-        }
     }
 }

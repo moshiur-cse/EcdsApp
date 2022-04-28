@@ -26,14 +26,16 @@ namespace EcdsApp.Controllers.User_Manage
     {
         private readonly DataContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IWebHostEnvironment _hostEnvironment;
 
-        public UserAccessManageController(DataContext context, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserAccessManageController(DataContext context, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
             _userManager = userManager;
+            _signInManager = signInManager;
             _roleManager = roleManager;
         }
 
@@ -450,6 +452,58 @@ namespace EcdsApp.Controllers.User_Manage
             }
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
             return View(applicationUser);
+        }
+
+        public IActionResult GoogleLogin()
+        {
+            string redirectUrl = Url.Action("GoogleResponse", "Home");
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            return new ChallengeResult("Google", properties);
+        }
+
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+
+            ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+                return RedirectToPage("/Identity/Account/Login");
+
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
+            if (result.Succeeded)
+                return View(userInfo);
+            else
+            {
+                ApplicationUser user = new ApplicationUser
+                {
+                    Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                    UserName = info.Principal.FindFirst(ClaimTypes.Email).Value
+                };
+
+                var registeredUser = _userManager.FindByEmailAsync(user.Email);
+                if (registeredUser == null)
+                {
+                    IdentityResult identResult = await _userManager.CreateAsync(user);
+                    if (identResult.Succeeded)
+                    {
+                        identResult = await _userManager.AddLoginAsync(user, info);
+                        if (identResult.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, false);
+                            return RedirectToAction("Dashboard");
+                        }
+                    }
+                }
+                else
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Dashboard");
+
+                }
+
+                return RedirectToPage("/Identity/Account/Login");
+            }
         }
     }
 }
