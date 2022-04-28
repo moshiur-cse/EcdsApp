@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -373,6 +374,10 @@ namespace EcdsApp.Controllers.User_Manage
         public async Task<IActionResult> ViewProfile()
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            if(applicationUser == null)
+            {
+                applicationUser = await _userManager.FindByEmailAsync(User.FindFirst(ClaimTypes.Email).Value);
+            }
             return View(applicationUser);
         }
 

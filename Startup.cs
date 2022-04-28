@@ -1,7 +1,9 @@
 using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReflectionIT.Mvc.Paging;
 using System;
+
 
 namespace EcdsApp
 {
@@ -71,6 +74,19 @@ namespace EcdsApp
                 // options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             }).AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders().AddDefaultUI();
+
+
+            //====External Login Provider
+
+            services.AddAuthentication().AddCookie()
+            .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+            {
+                options.ClientId = "444141584048-ecgn1sa3ubmvrbmmd7ocpl8sehvu3vpm.apps.googleusercontent.com";
+                options.ClientSecret = "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";
+                options.Scope.Add("profile");
+                options.SignInScheme = IdentityConstants.ExternalScheme;     
+            });
+
 
             services.Configure<FormOptions>(x => x.ValueCountLimit = 104857600);
 
@@ -131,7 +147,7 @@ namespace EcdsApp
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
-
+                       
 
             services.AddMvc()
                 .AddSessionStateTempDataProvider()
@@ -171,6 +187,12 @@ namespace EcdsApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Dashboard}/{id?}");
                 endpoints.MapRazorPages();
+
+                //endpoints.MapControllerRoute(
+                //    name: "signin-url",
+                //    pattern: "{controller=Home}/{action=GoogleResponse}");
+                //endpoints.MapRazorPages();
+
             });
 
         }

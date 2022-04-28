@@ -74,7 +74,7 @@ namespace EcdsApp.Models.UserManage
         [Display(Name = "Profile Picture")]
         [Column("profile_picture")]
         [StringLength(200)]
-        public string? ProfilePic  { get; set; }
+        public string ProfilePic  { get; set; }
 
         //[Required]
         [Column("user_role_id")]

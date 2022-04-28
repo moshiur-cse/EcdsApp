@@ -1,6 +1,9 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels.Dashboard;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers
@@ -16,11 +20,13 @@ namespace EcdsApp.Controllers
     {
         private readonly DataContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public HomeController(DataContext context, UserManager<ApplicationUser> userManager)
+        public HomeController(DataContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         public async Task<IActionResult> Dashboard()
         {
@@ -159,6 +165,85 @@ namespace EcdsApp.Controllers
         {
             return View();
         }
-        
+
+        //public async Task Login()
+        //{
+        //    await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties()
+        //    {
+        //        RedirectUri = Url.Action("GoogleResponse")
+        //    });
+        //}
+
+        //public async Task<IActionResult> GoogleResponse()
+        //{
+        //    var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        //    var claims = result.Principal.Identities.FirstOrDefault().Claims.Select(clm => new
+        //    {
+        //        clm.Issuer,
+        //        clm.OriginalIssuer,
+        //        clm.Type,
+        //        clm.Value
+        //    });
+        //    return Json(claims);
+        //}
+
+        //public async Task<IActionResult> Logout()
+        //{
+        //    await HttpContext.SignOutAsync();
+        //    return RedirectToAction("Dashboard");
+        //}
+
+
+        public IActionResult GoogleLogin()
+        {
+            string redirectUrl = Url.Action("GoogleResponse", "Home");
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            return new ChallengeResult("Google", properties);
+        }
+
+        //[Route("signin-google")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+
+            ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+                return RedirectToPage("/Identity/Account/Login");
+
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
+            if (result.Succeeded)
+                return View(userInfo);
+            else
+            {
+                ApplicationUser user = new ApplicationUser
+                {
+                    Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                    UserName = info.Principal.FindFirst(ClaimTypes.Email).Value
+                };
+
+                var registeredUser = _userManager.FindByEmailAsync(user.Email);
+                if (registeredUser == null)
+                {
+                    IdentityResult identResult = await _userManager.CreateAsync(user);
+                    if (identResult.Succeeded)
+                    {
+                        identResult = await _userManager.AddLoginAsync(user, info);
+                        if (identResult.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user,false);
+                            return RedirectToAction("Dashboard");
+                        }
+                    }
+                }
+                else
+                {
+                   await _signInManager.SignInAsync(user, false);
+                   return RedirectToAction("Dashboard");
+
+                }
+
+                return RedirectToPage("/Identity/Account/Login");
+            }
+        }
     }
 }

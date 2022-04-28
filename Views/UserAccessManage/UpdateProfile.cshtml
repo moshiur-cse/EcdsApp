@@ -44,7 +44,7 @@
                     <div class="mb-3 row">
                         <label asp-for="DateOfBirth" class="col-md-2 col-form-label"></label>
                         <div class="col-md-10">
-                            <input id="date-of-birth" asp-for="DateOfBirth" class="form-control" type="date" />
+                            <input id="date-of-birth" asp-for="DateOfBirth" class="form-control"/>
                             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
                     </div>
@@ -89,13 +89,8 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-    $( "#date-of-birth" ).datepicker(
-        {
-            altFormat: "yyyy-mm-dd"
-        }
-    );
-    $("#date-of-birth" ).val($("#date-of-birth" ).attr("value")) 
-    console.log($( "#date-of-birth" ).val())
+    $( "#date-of-birth" ).datepicker();
+    
     let msg='@ViewBag.msg'
     if(msg.length>0){
         window.Swal.fire({
