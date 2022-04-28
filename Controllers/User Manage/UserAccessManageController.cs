@@ -454,14 +454,15 @@ namespace EcdsApp.Controllers.User_Manage
             return View(applicationUser);
         }
 
+        [AllowAnonymous]
         public IActionResult GoogleLogin()
         {
-            string redirectUrl = Url.Action("GoogleResponse", "Home");
+            string redirectUrl = Url.Action("GoogleResponse", "UserAccessManage");
             var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
             return new ChallengeResult("Google", properties);
         }
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> GoogleResponse()
         {
 
@@ -491,14 +492,14 @@ namespace EcdsApp.Controllers.User_Manage
                         if (identResult.Succeeded)
                         {
                             await _signInManager.SignInAsync(user, false);
-                            return RedirectToAction("Dashboard");
+                            return RedirectToAction("Dashboard", "Home");
                         }
                     }
                 }
                 else
                 {
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Dashboard");
+                    return RedirectToAction("Dashboard","Home");
 
                 }
 

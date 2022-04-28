@@ -1,9 +1,6 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels.Dashboard;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers
@@ -25,8 +21,7 @@ namespace EcdsApp.Controllers
         public HomeController(DataContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _userManager = userManager;            
         }
         public async Task<IActionResult> Dashboard()
         {

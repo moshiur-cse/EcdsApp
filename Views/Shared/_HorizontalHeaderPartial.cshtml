@@ -7,8 +7,18 @@
 @inject UserManager<ApplicationUser> _userManager
 @{
     var user = await _userManager.GetUserAsync(User);
+    if(user == null)
+    {
+        var hasEmail = User.HasClaim(x => x.Value.Contains("@gmail.com"));
+        if (hasEmail)
+        {
+            var email = User.Claims.FirstOrDefault(c => c.Value.Contains("@gmail.com")).Value;
+            user = await _userManager.FindByEmailAsync(email);
+        }
+        
+        
+    }
     var userRoleId = user?.UserRoleId;
-
     var dbContext = new DataContext();
     var userPermMenu = dbContext.RoleWisePermittedContents
         .Include(r => r.UserPermittedContent)
