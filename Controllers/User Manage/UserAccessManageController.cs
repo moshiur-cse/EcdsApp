@@ -4,6 +4,7 @@ using EcdsApp.Models.ViewModels.UserManage;
 using EcdsApp.Security;
 using EcdsApp.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +27,12 @@ namespace EcdsApp.Controllers.User_Manage
         private readonly DataContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public UserAccessManageController(DataContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserAccessManageController(DataContext context, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -384,7 +387,7 @@ namespace EcdsApp.Controllers.User_Manage
         [Authorize]
         public async Task<IActionResult> UpdateProfile(string userid)
         {
-            var userProfile= await _userManager.FindByIdAsync(userid);
+            var userProfile = await _userManager.FindByIdAsync(userid);
             if (userProfile == null)
                 return NotFound();
             return View(userProfile);
@@ -399,8 +402,8 @@ namespace EcdsApp.Controllers.User_Manage
                 var user = await _userManager.FindByIdAsync(appUser.Id);
 
                 if (image != null)
-                {   
-                    if(user.ProfilePic != null)
+                {
+                    if (user.ProfilePic != null)
                     {
                         FileInfo f = new FileInfo(user.ProfilePic);
                         if (f.Exists)//=====check if file exists or not  
@@ -408,31 +411,34 @@ namespace EcdsApp.Controllers.User_Manage
                             f.Delete();
                         }
                     }
-                    
-                    var supportedTypes = new[] { "jpg", "png"};
+
+                    var supportedTypes = new[] { "jpg", "png" };
                     var fileExt = Path.GetExtension(image.FileName).Substring(1).ToLower();
                     if (!supportedTypes.Contains(fileExt))
                     {
-                        ViewData["msg"]="Choose a jpg or png image.";
+                        ViewData["msg"] = "Choose a jpg or png image.";
                         return View(appUser);
                     }
                     else
                     {
-                        var fileToUpload = "wwwroot/assets/profile_pics/" + appUser.Id + Path.GetExtension(image.FileName);
-                        using (var fileStream = new FileStream(fileToUpload, FileMode.Create, FileAccess.Write))
+
+                        var fileToUpload = user.UserName + Path.GetExtension(image.FileName);
+                        var folderPathDirectory = $"{_hostEnvironment.WebRootPath}\\assets\\profile_pics\\{fileToUpload}";
+
+                        using (var fileStream = new FileStream(folderPathDirectory, FileMode.Create, FileAccess.Write))
                         {
                             image.CopyTo(fileStream);
                             fileStream.Flush();
                         }
                         appUser.ProfilePic = fileToUpload;
                     }
-                    
-                    
+
+
                 }
-                
+
                 user.FirstName = appUser.FirstName;
                 user.LastName = appUser.LastName;
-                user.Address = appUser.Address; 
+                user.Address = appUser.Address;
                 user.MobileNo = appUser.MobileNo;
                 user.Designation = appUser.Designation;
                 user.DateOfBirth = appUser.DateOfBirth;

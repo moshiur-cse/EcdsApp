@@ -237,7 +237,6 @@ namespace EcdsApp.Data
                 .SelectMany(t => t.GetProperties()
                     .Select(pi => pi.Name)).ToList();
 
-
         }
         public static List<string> GetColumn(string modelName)
         {
@@ -262,7 +261,6 @@ namespace EcdsApp.Data
 
                 foreach (var colName in tableColumn)
                 {
-
                     column = new DataColumn();
                     column.DataType = System.Type.GetType("System.String");
                     column.ColumnName = colName;
@@ -270,7 +268,6 @@ namespace EcdsApp.Data
                     column.Caption = colName;
                     column.ReadOnly = false;
                     column.Unique = false;
-
                     // Add the column to the DataColumnCollection.
                     table.Columns.Add(column);
                 }
