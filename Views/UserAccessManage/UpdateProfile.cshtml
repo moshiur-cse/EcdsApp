@@ -74,8 +74,7 @@
 
 
                         <div class="col-md-10">
-                            <input onchange="previewImage(event)" name="image" class="form-control" type="file" />
-
+                            <input onchange="previewImage(event)" name="image" class="form-control" type="file" src="~/assets/profile_pics/@Model.ProfilePic"/>
                             <div class="card card-body">
                                 @if(Model.ProfilePic != null)
                                 {
@@ -86,7 +85,6 @@
                                     <img src="~/assets/profile_pics/user_icon.png" style="width:100px">
                                 }
                             </div>
-
                         </div>
 
 
