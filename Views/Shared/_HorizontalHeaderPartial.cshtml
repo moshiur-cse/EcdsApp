@@ -59,10 +59,12 @@
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                        @if(user.ProfilePic!=null)
+                        @if(user!=null)
                         {
-                            <img class="rounded-circle header-profile-user" src="~/assets/profile_pics/@user.ProfilePic" alt="Profile Pictures" />
-
+                            @if (user.ProfilePic != null)
+                            {
+                                <img class="rounded-circle header-profile-user" src="~/assets/profile_pics/@user.ProfilePic" alt="Profile Pictures" />
+                            }
                         }
                         else
                         {
