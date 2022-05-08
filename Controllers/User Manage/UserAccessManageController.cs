@@ -381,7 +381,13 @@ namespace EcdsApp.Controllers.User_Manage
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
             if(applicationUser == null)
             {
-                applicationUser = await _userManager.FindByEmailAsync(User.FindFirst(ClaimTypes.Email).Value);
+                var hasEmail = User.HasClaim(x => x.Value.Contains("@gmail.com"));
+                if (hasEmail)
+                {
+                    var email = User.Claims.FirstOrDefault(c => c.Value.Contains("@gmail.com")).Value;
+                    applicationUser = await _userManager.FindByEmailAsync(email);
+                }
+                    
             }
             return View(applicationUser);
         }

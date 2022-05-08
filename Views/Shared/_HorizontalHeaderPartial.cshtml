@@ -65,6 +65,7 @@
                             {
                                 <img class="rounded-circle header-profile-user" src="~/assets/profile_pics/@user.ProfilePic" alt="Profile Pictures" />
                             }
+                            else {<img class="rounded-circle header-profile-user" src="~/assets/images/user_icon.png" alt="Profile Pictures">}
                         }
                         else
                         {
@@ -78,7 +79,10 @@
 
 
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" asp-action="ViewProfile" asp-controller="UserAccessManage"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">View Profile</span></a>
+                        @if(user != null)
+                        {
+                            <a class="dropdown-item" asp-action="ViewProfile" asp-controller="UserAccessManage"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">View Profile</span></a>
+                        }
                         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new {area = ""})" method="post">
                             <button type="submit" class="dropdown-item"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">Sign out</span></button>
                         </form>
