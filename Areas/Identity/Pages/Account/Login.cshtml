@@ -160,6 +160,7 @@
     @section Scripts {
         <partial name="_ValidationScriptsPartial" />
         <script>
+
             const myModal = new bootstrap.Modal(document.getElementById('mymodal'),{ keyboard: true })
             const myModal2 = new bootstrap.Modal(document.getElementById('mymodal2'),{ keyboard: true })
             //====display validation message on successfull email confirmation.
@@ -167,6 +168,12 @@
             if(msg.includes("is confirmed successfully")){
                 window.Swal.fire({
 						icon: "success",
+						title: msg
+				})
+            }
+            else if(msg.includes("user already exits")){
+                window.Swal.fire({
+						icon: "error",
 						title: msg
 				})
             }

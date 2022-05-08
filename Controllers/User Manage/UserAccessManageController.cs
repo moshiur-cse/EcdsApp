@@ -381,13 +381,7 @@ namespace EcdsApp.Controllers.User_Manage
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
             if(applicationUser == null)
             {
-                var hasEmail = User.HasClaim(x => x.Value.Contains("@gmail.com"));
-                if (hasEmail)
-                {
-                    var email = User.Claims.FirstOrDefault(c => c.Value.Contains("@gmail.com")).Value;
-                    applicationUser = await _userManager.FindByEmailAsync(email);
-                }
-                    
+                applicationUser = await _userManager.FindByEmailAsync(User.FindFirst(ClaimTypes.Email).Value);
             }
             return View(applicationUser);
         }
@@ -489,7 +483,7 @@ namespace EcdsApp.Controllers.User_Manage
                 };
 
                 var registeredUser = _userManager.FindByEmailAsync(user.Email);
-                if (registeredUser == null)
+                if (registeredUser.Result == null)
                 {
                     IdentityResult identResult = await _userManager.CreateAsync(user);
                     if (identResult.Succeeded)
@@ -504,13 +498,20 @@ namespace EcdsApp.Controllers.User_Manage
                 }
                 else
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Dashboard","Home");
+                    //await _signInManager.SignInAsync(user, false);
+                    //return RedirectToAction("Dashboard","Home");
+                    //var status=_signInManager.IsSignedIn(info.Principal);
+                    //if(status)
+                    //    await _signInManager.SignOutAsync();
+                    string msg = "The user already exits in the system. Please use existing credentials.";
+                    string url = "/Identity/Account/Login?message=" + msg;
+                    return LocalRedirect(url);
 
                 }
 
                 return RedirectToPage("/Identity/Account/Login");
             }
         }
+        
     }
 }
