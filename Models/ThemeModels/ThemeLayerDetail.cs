@@ -168,7 +168,7 @@ namespace EcdsApp.Models.ThemeModels
         [Required]
         [Column("fill_opacity", TypeName = "decimal(1, 1)")]
         [Range(0.0, 1.0)]
-        [Display(Name = "Fill Opacity")]     
+        [Display(Name = "Fill Opacity")]
         public decimal FillOpacity { get; set; }
 
         [Required]

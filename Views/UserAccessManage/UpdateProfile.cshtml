@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Update Profile";
 }
+
 @section Styles{
 <style>
     .vh90 {
@@ -98,8 +99,6 @@
         </div>
     </div>
 </div>
-
-
 @section Scripts {
 <partial name="_ValidationScriptsPartial" />
 <script>
@@ -120,11 +119,6 @@
        const reader = new FileReader();
        reader.readAsDataURL(e.target.files[0]);
        reader.onload = () => {
-          const preview = document.getElementById('myImage');
-          preview.src = reader.result;
-       };
-    };
-
-
+          const preview =
 </script>
 }

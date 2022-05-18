@@ -650,7 +650,7 @@
                         var uColor = getColor(layerId, feature.properties[legendcolorField]);
                         return {
                             color: uColor,
-                            weight: weight,
+                            weight: getIconSize(layerId, feature.properties[legendcolorField])!=0?getIconSize(layerId, feature.properties[legendcolorField]):weight,
                             opacity: opacity,
                             //dashArray: '10,10',
                             //lineJoin: 'round',  //miter | round | bevel
