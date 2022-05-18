@@ -1,5 +1,6 @@
-﻿@{
-	ViewData["Title"] = "AboutUs";
+﻿@model EcdsApp.Models.Message;
+@{
+	ViewData["Title"] = "About Us";
 }
 
 @section Styles{
@@ -73,23 +74,27 @@
 
 					<div class="w-100 bg-thm-grn text-white rounded-top my-2"><h3 class="text-center fw-normal fs-5 text-white py-2">Message Us</h3></div>
 					<!--form-->
-					<form class="form-cont py-4 px-2 rounded-3 bg-white">
+					<form class="form-cont py-4 px-2 rounded-3 bg-white" method="post" asp-action="ContactUs">
+						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 						<div class="row mb-4 mx-2">
 							<label for="horizontal-Fullname-input" class="col-sm-3 col-form-label">Full Name</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="horizontal-Fullname-input" placeholder="Enter your full name">
+								<input type="text" asp-for="FullName" class="form-control" id="horizontal-Fullname-input" placeholder="Enter your full name">
+								<span asp-validation-for="FullName" class="text-danger"></span>
 							</div>
 						</div>
 						<div class="row mb-4 mx-2">
 							<label for="horizontal-email-input" class="col-sm-3 col-form-label">Email</label>
 							<div class="col-sm-9">
-								<input type="email" class="form-control" id="horizontal-email-input" placeholder="Enter your email address">
+								<input type="email" asp-for="Email" class="form-control" id="horizontal-email-input" placeholder="Enter your email address">
+								<span asp-validation-for="Email" class="text-danger"></span>
 							</div>
 						</div>
 						<div class="row mb-4 mx-2">
 							<label for="horizontal-password-input" class="col-sm-3 col-form-label">Message</label>
 							<div class="col-sm-9">
-								<textarea class="form-control" rows="13" cols="50" placeholder="Enter the message"></textarea>
+								<span asp-validation-for="Msg" class="text-danger"></span>
+								<textarea class="form-control" asp-for="Msg" rows="13" cols="50" placeholder="Enter the message"></textarea>
 							</div>
 						</div>
 
@@ -110,5 +115,19 @@
 	</div>
 </div>
 
+@section Scripts {
+   @* @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+	<script>
+		let message='@ViewBag.Message'
+		if(message.length>0 && message.includes("message has been sent successfully")){
+			window.Swal.fire({
+				icon: "success",
+				title: "Sent Successfully",
+				text:message                    
+			})
+		}
+		 
+	</script>
+}
 
 

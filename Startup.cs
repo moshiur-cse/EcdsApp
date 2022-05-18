@@ -81,8 +81,10 @@ namespace EcdsApp
             services.AddAuthentication().AddCookie()
             .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
             {
-                options.ClientId = "444141584048-ecgn1sa3ubmvrbmmd7ocpl8sehvu3vpm.apps.googleusercontent.com";
-                options.ClientSecret = "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";
+                //options.ClientId = "444141584048-ecgn1sa3ubmvrbmmd7ocpl8sehvu3vpm.apps.googleusercontent.com";
+                //options.ClientSecret = "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";
+                options.ClientId = "636285168617-vgnq3f6h1cvc8slmu6vhict38nvdael8.apps.googleusercontent.com";
+                options.ClientSecret = "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";                
                 options.Scope.Add("profile");
                 options.SignInScheme = IdentityConstants.ExternalScheme;     
             });

@@ -6,6 +6,7 @@ using EcdsApp.Models.ThemeModels;
 using EcdsApp.Models.UnionWiseInfoModels;
 using EcdsApp.Models.UpazilaWiseInfoModels;
 using EcdsApp.Models.UserManage;
+using EcdsApp.Models.UserMessage;
 using EcdsApp.Models.ViewModels.TabularVm;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -101,6 +102,12 @@ namespace EcdsApp.Data
         public DbSet<UserPermittedContent> UserPermittedContents { get; set; }
         public DbSet<RoleWisePermittedContent> RoleWisePermittedContents { get; set; }
         public DbSet<RoleWiseComponent> RoleWiseComponents { get; set; }
+
+        //===add user message models
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<MessageReply> MessageReplies { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

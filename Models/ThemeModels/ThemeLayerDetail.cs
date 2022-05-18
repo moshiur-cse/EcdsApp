@@ -182,5 +182,10 @@ namespace EcdsApp.Models.ThemeModels
         public int? DataVerificationStateId { get; set; }
         [ForeignKey("DataVerificationStateId")]
         public virtual DataVerificationState DataVerificationState { get; set; }
+
+        [Column("sorting_order")]
+        [Display(Name = "Sorting Order")]
+        public int? SortingOrder { get; set; }
+
     }
 }

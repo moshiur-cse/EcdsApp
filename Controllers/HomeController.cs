@@ -1,4 +1,5 @@
 ﻿using EcdsApp.Data;
+using EcdsApp.Models;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels.Dashboard;
 using Microsoft.AspNetCore.Identity;
@@ -149,6 +150,19 @@ namespace EcdsApp.Controllers
 
         public IActionResult ContactUs()
         {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ContactUs(Message message)
+        {
+            if (ModelState.IsValid)
+            {
+                message.ReplyStatusId = 1;
+                message.CreatedAt= DateTime.Now;
+                _context.Messages.Add(message);
+                await _context.SaveChangesAsync();
+                ViewData["Message"] ="The message has been sent successfully.";
+            }
             return View();
         }
         public IActionResult AboutUs()
