@@ -100,8 +100,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         [ValidateAntiForgeryToken]
         [DisableRequestSizeLimit]
         [UserAuthorization]
-        public async Task<IActionResult> Create([Bind("LayerId,SubThemeId,LayerDisplayName,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName," +
-            "FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName," +
+        public async Task<IActionResult> Create([Bind("LayerId,SubThemeId,LayerDisplayName,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FileLatName,FileLongName," +
             "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")]
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
@@ -252,8 +251,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserAuthorization]
-        public async Task<IActionResult> Edit(int id, [Bind("LayerId,SubThemeId,LayerDisplayName,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FirstAttributeDisplayName," +
-            "FirstAttributeName,FirstAttributeCode,SecondAttributeDisplayName,SecondAttributeName,SecondAttributeCode,ThirdAttributeDisplayName,ThirdAttributeName,ThirdAttributeCode,FileLatName,FileLongName," +
+        public async Task<IActionResult> Edit(int id, [Bind("LayerId,SubThemeId,LayerDisplayName,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FileLatName,FileLongName," +
             "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")]
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
@@ -267,10 +265,14 @@ namespace EcdsApp.Controllers.ThemeLayer
                 var subThemeObj = _context.SubThemes
                     .Include(s => s.Themes)
                     .FirstOrDefault(s => s.SubThemeId == themeLayerDetail.SubThemeId);
+
                 if (geoJsonFile.Count > 0 || shapeFile.Count > 0)
                 {
+
+
                     var themePath = subThemeObj?.Themes.ThemePath;
                     var subThemePath = subThemeObj?.SubThemePath;
+
                     var folderPathDirectory = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}";
                     if (shapeFile.Count > 0)
                     {
@@ -345,13 +347,11 @@ namespace EcdsApp.Controllers.ThemeLayer
                 //in case of theme & sub-theme change
                 else
                 {
-                    var themeLayerExtObj = await _context.ThemeLayerDetails
-                        .Include(t => t.SubThemes)
-                        .Include(t => t.SubThemes.Themes)
-                        .FirstOrDefaultAsync(t => t.LayerId == id);
-                    var sourceThemePath = themeLayerExtObj.SubThemes.Themes.ThemePath;
-                    var sourceSubThemePath = themeLayerExtObj.SubThemes.SubThemePath;
-                    if (themeLayerExtObj.SubThemeId != themeLayerDetail.SubThemeId)
+                    var sourceThemePath = await _context.ThemeLayerDetails.Include(t => t.SubThemes.Themes).Where(i => i.LayerId == id).Select(i => i.SubThemes.Themes.ThemePath).FirstOrDefaultAsync();
+                    var sourceSubThemePath = await _context.ThemeLayerDetails.Include(t => t.SubThemes.Themes).Where(i => i.LayerId == id).Select(i => i.SubThemes.SubThemePath).FirstOrDefaultAsync();
+                    var SubThemeId = await _context.ThemeLayerDetails.Include(t => t.SubThemes.Themes).Where(i => i.LayerId == id).Select(i => i.SubThemeId).FirstOrDefaultAsync();
+
+                    if (SubThemeId != themeLayerDetail.SubThemeId)
                     {
                         var sourcePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{sourceThemePath?.Trim()}\\{sourceSubThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}";
                     }

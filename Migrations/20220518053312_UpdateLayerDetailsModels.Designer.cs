@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220518053312_UpdateLayerDetailsModels")]
+    partial class UpdateLayerDetailsModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -766,7 +768,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("fill_color_code");
 
                     b.Property<decimal>("FillOpacity")
-                        .HasColumnType("decimal(4, 2)")
+                        .HasColumnType("decimal(1, 1)")
                         .HasColumnName("fill_opacity");
 
                     b.Property<string>("LayerDisplayName")
@@ -825,7 +827,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("main_attribute_name");
 
                     b.Property<decimal>("Opacity")
-                        .HasColumnType("decimal(4, 2)")
+                        .HasColumnType("decimal(1, 1)")
                         .HasColumnName("opacity");
 
                     b.Property<int?>("SortingOrder")

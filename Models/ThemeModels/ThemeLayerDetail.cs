@@ -64,52 +64,52 @@ namespace EcdsApp.Models.ThemeModels
         public string MainAttributeCode { get; set; }
 
         //First Attribute
-        [Column("first_attribute_display_name")]
-        [StringLength(256)]
-        [Display(Name = "First Attribute Display Name")]
-        public string FirstAttributeDisplayName { get; set; }
+        //[Column("first_attribute_display_name")]
+        //[StringLength(256)]
+        //[Display(Name = "First Attribute Display Name")]
+        //public string FirstAttributeDisplayName { get; set; }
 
-        [Column("first_attribute_name")]
-        [StringLength(256)]
-        [Display(Name = "First Attribute Name")]
-        public string FirstAttributeName { get; set; }
+        //[Column("first_attribute_name")]
+        //[StringLength(256)]
+        //[Display(Name = "First Attribute Name")]
+        //public string FirstAttributeName { get; set; }
 
-        [Column("first_attribute_code")]
-        [StringLength(256)]
-        [Display(Name = "First Attribute Code")]
-        public string FirstAttributeCode { get; set; }
+        //[Column("first_attribute_code")]
+        //[StringLength(256)]
+        //[Display(Name = "First Attribute Code")]
+        //public string FirstAttributeCode { get; set; }
 
-        //Second Attribute
-        [Column("second_attribute_display_name")]
-        [StringLength(256)]
-        [Display(Name = "Second Attribute Display Name")]
-        public string SecondAttributeDisplayName { get; set; }
+        ////Second Attribute
+        //[Column("second_attribute_display_name")]
+        //[StringLength(256)]
+        //[Display(Name = "Second Attribute Display Name")]
+        //public string SecondAttributeDisplayName { get; set; }
 
-        [Column("second_attribute_name")]
-        [StringLength(256)]
-        [Display(Name = "Second Attribute Name")]
-        public string SecondAttributeName { get; set; }
+        //[Column("second_attribute_name")]
+        //[StringLength(256)]
+        //[Display(Name = "Second Attribute Name")]
+        //public string SecondAttributeName { get; set; }
 
-        [Column("second_attribute_code")]
-        [StringLength(256)]
-        [Display(Name = "Second Attribute Code")]
-        public string SecondAttributeCode { get; set; }
+        //[Column("second_attribute_code")]
+        //[StringLength(256)]
+        //[Display(Name = "Second Attribute Code")]
+        //public string SecondAttributeCode { get; set; }
 
-        //Third Attribute
-        [Column("third_attribute_display_name")]
-        [StringLength(256)]
-        [Display(Name = "Third Attribute Display Name")]
-        public string ThirdAttributeDisplayName { get; set; }
+        ////Third Attribute
+        //[Column("third_attribute_display_name")]
+        //[StringLength(256)]
+        //[Display(Name = "Third Attribute Display Name")]
+        //public string ThirdAttributeDisplayName { get; set; }
 
-        [Column("third_attribute_name")]
-        [StringLength(256)]
-        [Display(Name = "Third Attribute Name")]
-        public string ThirdAttributeName { get; set; }
+        //[Column("third_attribute_name")]
+        //[StringLength(256)]
+        //[Display(Name = "Third Attribute Name")]
+        //public string ThirdAttributeName { get; set; }
 
-        [Column("third_attribute_code")]
-        [StringLength(256)]
-        [Display(Name = "Third Attribute Code")]
-        public string ThirdAttributeCode { get; set; }
+        //[Column("third_attribute_code")]
+        //[StringLength(256)]
+        //[Display(Name = "Third Attribute Code")]
+        //public string ThirdAttributeCode { get; set; }
 
         [Column("file_lat_name")]
         [StringLength(256)]
@@ -160,14 +160,14 @@ namespace EcdsApp.Models.ThemeModels
         public string FillColorCode { get; set; }
 
         [Required]
-        [Column("opacity", TypeName = "decimal(1, 1)")]
-        [Range(0.0, 1.0)]
+        [Column("opacity", TypeName = "decimal(4, 2)")]
+        [Range(0.0, 1.1)]
         [Display(Name = "Opacity")]
         public decimal Opacity { get; set; }
 
         [Required]
-        [Column("fill_opacity", TypeName = "decimal(1, 1)")]
-        [Range(0.0, 1.0)]
+        [Column("fill_opacity", TypeName = "decimal(4, 2)")]
+        [Range(0.0, 1.1)]
         [Display(Name = "Fill Opacity")]
         public decimal FillOpacity { get; set; }
 

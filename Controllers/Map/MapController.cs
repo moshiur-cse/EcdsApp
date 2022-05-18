@@ -26,7 +26,7 @@ namespace EcdsApp.Controllers.Map
             ViewBag.UpazList = await _context.AdminBoundaryUpazilas.ToListAsync();
 
             ViewBag.LayerInfo = _context.ThemeLayerDetails
-                .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
+                .Include(s => s.SubThemes.Themes).OrderBy(model => model.SortingOrder).AsQueryable().ToList()
                 .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
                 .Select(k => new ThemeList
                 {
