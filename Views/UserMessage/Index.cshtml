@@ -3,6 +3,37 @@
 	ViewData["Title"] = "All Messages";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+	.txt-justify{
+		text-align:justify;
+	}
+	.msg-box{
+		width:20%;
+		text-align:justify;
+	}
+	.dtr-data{
+		word-wrap:break-word;
+		max-width:200px;
+	}
+	.msg-red{
+		background:red;
+		color:white;
+	}
+	.msg-yellow{
+		background:yellow;
+		color:black;
+	}
+	.msg-green{
+		background:green;
+		color:white;
+	}
+	.msg-item{
+		max-width:150px;
+		border-radius:30px;
+		text-align:center;
+		font-weight:600;
+	}
+</style>
 <div class="page-content">
 	<div class="container-fluid">
 		<div class="row">
@@ -110,9 +141,24 @@
 								<tbody>
 									@foreach (var item in Model)
 									{
+										string colorClass = "";
+										if (item.Status.Id == 1)
+										{
+											colorClass = "msg-red";
+										}
+										else if (item.Status.Id == 2)
+										{
+											colorClass = "msg-yellow";
+										}
+										else if(item.Status.Id == 3)
+										{
+											colorClass = "msg-green";
+										}
+										
+									
 										<tr>
                                             <td>
-                                                <a href=""><i role="button" class="text-primary far fa-eye font-size-20 edit-btn"></i></a>                                                
+                                                <a class="me-2" asp-action="Reply" asp-route-id="@item.Id"><i role="button" class="text-primary far fa-eye font-size-20"></i></a><i role="button" class="text-primary bx bx-edit font-size-20" onclick="DynamicModalDisplay(@item.Id)"></i>                                              
                                             </td>
                                             <td data-field="id">
                                                 @Html.DisplayFor(modelItem => item.FullName)
@@ -120,11 +166,11 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Email)
                                             </td>
-                                            <td>
+                                            <td class="msg-box">
                                                 @Html.DisplayFor(modelItem => item.Msg)
                                             </td>
 											<td>
-                                                @Html.DisplayFor(modelItem => item.Status.MessageStatus)
+												<div class="msg-item px-4 py-1 @colorClass">@Html.Raw(item.Status.MessageStatus)</div>
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.CreatedAt)
@@ -140,6 +186,8 @@
 		</div>
 	</div>
 </div>
+//===dynamic modal
+<div id="dynamic-modal"></div>
 
 @section Scripts{
 	<script type="text/javascript">
@@ -149,8 +197,60 @@
 		filter:true,
 		paging:true,
 		fixedHeader: true,
-		scrollY:true,
+		scrollY:true
 	}
 	let table=$("#datatable-buttons").DataTable(tableProps)
+
+	const DynamicModalDisplay=(id)=>{
+		$.ajax({
+            type: "GET",
+            url: '@Url.Action("MessageWithReply")',
+			dataType:"json",
+			data: {id:id},
+            success: function(obj) {
+				console.log(obj)
+				let content=`<div class="modal fade" id="msgModal" tabindex="-1" >
+				  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<h5 class="modal-title">Message with Reply</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					  </div>
+					  <div class="modal-body">									
+						<div class="col-12 col-sm-10 col-lg-8 d-flex justify-content-center align-items-center">
+							<div class="p-4">
+								<div class="d-flex justify-content-start align-items-center my-2">
+									<h6 class="fw-bold me-5">Name:</h6>
+									<h6 class="fw-light">${obj.message.fullName}</h6>
+								</div>
+								<div class="d-flex justify-content-start align-items-center my-2">
+									<h6 class="fw-bold me-5">Email:</h6>
+									<h6 class="fw-light">${obj.message.email}</h6>
+								</div>
+								
+								<div class="d-flex justify-content-start align-items-center mt-2">
+									<h6 class="fw-bold me-4">Message:</h6>
+									<h6 class="fw-light txt-justify col-12">${obj.message.msg}</h6>
+								</div>
+								<div class="d-flex justify-content-start align-items-center mt-2">
+									<h6 class="fw-bold me-5">Reply:</h6>
+									<h6 class="fw-light txt-justify col-12">${obj.repliedMsg}</h6>
+								</div>
+							</div>
+						</div>
+
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					  </div>
+					</div>
+				  </div>
+				</div>`
+				document.getElementById("dynamic-modal").innerHTML=content
+				const mod= new bootstrap.Modal(document.getElementById("msgModal"))
+				mod.show()
+            }                               
+        })
+	}
 	</script>
 }

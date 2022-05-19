@@ -1,0 +1,83 @@
+﻿@model EcdsApp.Models.Message
+
+@{
+	ViewData["Title"] = "Message Reply";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+.txt-justify{
+	text-align:justify;
+}
+</style>
+<div class="page-content bg-light">
+	<div class="container-fluid">
+		<div class="row">
+			<h2 class="text-center my-4">Message Reply</h2>
+		<div class="row d-flex justify-content-center align-items-start">
+			<div class="col-12 col-sm-10 col-lg-6 d-flex justify-content-center align-items-center">
+				<div class="p-4">
+					<div class="d-flex justify-content-start align-items-center my-2">
+						<h6 class="fw-bold me-5">Name:</h6>
+						<h6 class="fw-light">@Model.FullName</h6>
+					</div>
+					<div class="d-flex justify-content-start align-items-center my-2">
+						<h6 class="fw-bold me-5">Email:</h6>
+						<h6 class="fw-light">@Model.Email</h6>
+					</div>
+					<div class="d-flex justify-content-start align-items-center my-2">
+						<h6 class="fw-bold me-3">Created at:</h6>
+						<h6 class="fw-light">@Model.CreatedAt</h6>
+					</div>
+					<div class="d-flex justify-content-start align-items-center mt-2">
+						<h6 class="fw-bold me-4">Message:</h6>
+						<h6 class="fw-light txt-justify col-12 col-sm-10 col-lg-7">@Model.Msg</h6>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-sm-10 col-lg-5">
+				<form class="mt-4">
+					<input type="hidden" id="msgid" value="@Model.Id" />
+					<textarea id="reply" class="form-control" rows="10"></textarea>
+					<div class="d-flex justify-content-center align-items-center my-4">
+						<button type="button" class="rounded-pill btn btn-danger px-4 py-1" onclick="Submit()">Send</button>
+					</div>					
+				</form>
+				
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+@section Scripts {
+<script>
+	
+	const Submit=()=>{
+		console.log("submit req")
+		let data={ reply: $("#reply").val(),id: $("#msgid").val() }
+		console.log(data)
+		$.ajax({
+            type: "POST",
+            url: '@Url.Action("MessageReply")',
+			dataType:"json",
+			data: data,
+            success: function(message) {
+				if(message.length>0 && message.includes("successfully")){
+					window.Swal.fire({
+						icon: "success",
+						title: "Saved Successfully",
+						text:message                    
+					})
+				}
+				else if(message.length>0 && (message.includes("Failed") || message.includes("Already"))){
+					window.Swal.fire({
+						icon: "error",
+						title: "Failed to save",
+						text:message                    
+					})
+				}
+            }                               
+        })
+	}
+		 
+</script>
+}
