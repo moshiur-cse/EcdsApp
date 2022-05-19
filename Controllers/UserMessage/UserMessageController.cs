@@ -1,6 +1,7 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.UserMessage;
+using EcdsApp.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -38,35 +39,49 @@ namespace EcdsApp.Controllers.UserMessage
             return View(msg);
         }
         [HttpPost]
-        public async Task<IActionResult> MessageReply(string reply, int id)
+        public async Task<IActionResult> MessageReply(string reply, int id, [FromServices] IEmailSender _emailSender)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var msgCount = await _context.MessageReplies.Where(x => x.MsgId == id).CountAsync();
-                    if (msgCount > 0)
+                    var replyCount = await _context.MessageReplies.Where(x => x.MsgId == id).CountAsync();
+                    if (replyCount > 0)
                     {
                         return Json("Already Replied!");
                     }
 
-                    MessageReply replyMsg = new MessageReply()
+                    //====try to send email
+                    var userMsg= await _context.Messages.Where(x => x.Id == id).FirstOrDefaultAsync();
+                    bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
                     {
+                        Subject = "Response to your message in ECDS platform",
+                        To = userMsg.Email,
+                        Msg = $"Dear {userMsg.FullName},<br/><br/>{reply}<br/><br/>Best Wishes<br/>System Administrator, ECDS"
+                    });
 
-                        RepliedMsg = reply,
-                        CreatedAt = DateTime.Now,
-                        MsgId = id
-                    };
-                    _context.Add(replyMsg);
-                    await _context.SaveChangesAsync();
+                    if (state)
+                    {
+                        //===Message is not replied yet so save it in db
 
-                    //===change status of the message
-                    //===set to replied
-                    var message = await _context.Messages.FindAsync(id);
-                    message.ReplyStatusId = 3;
-                    _context.Update(message);
-                    await _context.SaveChangesAsync();
-                    return Json("The Reply has been sent successfully.");
+                        MessageReply replyMsg = new MessageReply()
+                        {
+                            RepliedMsg = reply,
+                            CreatedAt = DateTime.Now,
+                            MsgId = id
+                        };
+                        _context.Add(replyMsg);
+                        await _context.SaveChangesAsync();
+
+                        //===change status of the message
+                        //===set to replied
+
+                        userMsg.ReplyStatusId = 3;
+                        _context.Update(userMsg);
+                        await _context.SaveChangesAsync();
+                        return Json("The Reply has been sent successfully.");
+                    }
+                    
                 }
                 return Json("Failed to send.");
 
@@ -85,9 +100,17 @@ namespace EcdsApp.Controllers.UserMessage
             
             if (msgWithReply != null)
             {
+                //===update state in reply status in db
+                var message = msgWithReply.Message;
+                message.ReplyStatusId = 2;
+                _context.Update(message);
+                await _context.SaveChangesAsync();
+
+                //====send info back to user
                 msgWithReply.Id = 0;
                 msgWithReply.Message.Id = 0;
                 msgWithReply.MsgId = 0;
+                
                 return Json(msgWithReply);
             }
                 

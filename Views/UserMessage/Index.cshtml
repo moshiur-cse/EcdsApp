@@ -157,8 +157,9 @@
 										
 									
 										<tr>
-                                            <td>
-                                                <a class="me-2" asp-action="Reply" asp-route-id="@item.Id"><i role="button" class="text-primary far fa-eye font-size-20"></i></a><i role="button" class="text-primary bx bx-edit font-size-20" onclick="DynamicModalDisplay(@item.Id)"></i>                                              
+                                            <td class="d-flex justify-content-start align-items-center">
+                                                <a class="mx-2" asp-action="Reply" asp-route-id="@item.Id"><i style="font-size:24px;" role="button" class="text-primary bx bx-message-rounded-dots"></i></a>
+												<i role="button" class="text-primary far fa-eye font-size-20" onclick="DynamicModalDisplay(@item.Id)"></i>                                              
                                             </td>
                                             <td data-field="id">
                                                 @Html.DisplayFor(modelItem => item.FullName)
@@ -186,7 +187,7 @@
 		</div>
 	</div>
 </div>
-//===dynamic modal
+<!--Dynamic Modal-->
 <div id="dynamic-modal"></div>
 
 @section Scripts{

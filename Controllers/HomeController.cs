@@ -1,7 +1,9 @@
-﻿using EcdsApp.Data;
+﻿using DRIPWebApp.Data;
+using EcdsApp.Data;
 using EcdsApp.Models;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels.Dashboard;
+using EcdsApp.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -153,15 +155,27 @@ namespace EcdsApp.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> ContactUs(Message message)
+        public async Task<IActionResult> ContactUs(Message message, [FromServices] IEmailSender _emailSender)
         {
             if (ModelState.IsValid)
             {
-                message.ReplyStatusId = 1;
-                message.CreatedAt= DateTime.Now;
-                _context.Messages.Add(message);
-                await _context.SaveChangesAsync();
-                ViewData["Message"] ="The message has been sent successfully.";
+                //====try to send email
+                
+                bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
+                {
+                    Subject = "Message from ECDS Contact form",
+                    To = "abrar.bd27@gmail.com",
+                    Msg = $"Dear Admin,<br/><br/>{message.Msg}<br/><br/>Best Wishes<br/>Name: {message.FullName}<br/>email: {message.Email}"
+                });
+
+                if (state)
+                {
+                    message.ReplyStatusId = 1;
+                    message.CreatedAt = DateTime.Now;
+                    _context.Messages.Add(message);
+                    await _context.SaveChangesAsync();
+                    ViewData["Message"] = "The message has been sent successfully.";
+                }                    
             }
             return View();
         }
