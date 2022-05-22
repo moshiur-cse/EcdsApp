@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<EcdsApp.Models.Message>
 @{
-	ViewData["Title"] = "All Messages";
+	ViewData["Title"] = "All Feedbacks";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -41,7 +41,7 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="d-flex justify-content-center align-items-center">
-							<h4 class="display-6 mb-0 fs-4">List of Messages</h4>							
+							<h4 class="display-6 mb-0 fs-4">List of Feedbacks</h4>							
 						</div>						
 					</div>
 				</div>
@@ -128,10 +128,10 @@
                                             @Html.DisplayNameFor(model => model.Email)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Msg)
+                                            Feedback
                                         </th>
 										 <th>
-                                            @Html.DisplayNameFor(model => model.Status.MessageStatus)
+                                            Feedback Status
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.CreatedAt)
@@ -158,8 +158,8 @@
 									
 										<tr>
                                             <td class="d-flex justify-content-start align-items-center">
-                                                <a class="mx-2" asp-action="Reply" asp-route-id="@item.Id"><i style="font-size:24px;" role="button" class="text-primary bx bx-message-rounded-dots"></i></a>
-												<i role="button" class="text-primary far fa-eye font-size-20" onclick="DynamicModalDisplay(@item.Id)"></i>                                              
+                                                <a class="mx-2" asp-action="Reply" asp-route-id="@item.Id"><i style="font-size:24px;" role="button" class="text-primary bx bx-message-rounded-dots" data-bs-toggle="tooltip" data-bs-placement="top" title="Reply the feedback"></i></a>
+												<i role="button" class="text-primary far fa-eye font-size-20" onclick="DynamicModalDisplay(@item.Id)" data-bs-toggle="tooltip" data-bs-placement="top" title="View the feedback"></i>                                              
                                             </td>
                                             <td data-field="id">
                                                 @Html.DisplayFor(modelItem => item.FullName)
@@ -214,7 +214,7 @@
 				  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 					<div class="modal-content">
 					  <div class="modal-header">
-						<h5 class="modal-title">Message with Reply</h5>
+						<h5 class="modal-title">Feedback</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					  </div>
 					  <div class="modal-body">									
@@ -253,5 +253,12 @@
             }                               
         })
 	}
+
+	//====initializing tooltip in bootstrap
+	const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+	const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		return new bootstrap.Tooltip(tooltipTriggerEl)
+	})
+
 	</script>
 }
