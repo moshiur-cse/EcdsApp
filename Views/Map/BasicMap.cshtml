@@ -819,12 +819,13 @@
 
             jQuery(".map_layer_list").empty();
             //data_layer_details
+             var sNo=1;
             jQuery.each(data_layer_details, function (layerNameU, val) {
-
                 if (layerNameU == layerId) {
-                    jQuery(".map_layer_list").append('<p title="Top Layer"  onclick="setTopLayer(\'' + layerNameU +'\')"  style="background: rosybrown;">' + data_layer_details[layerNameU].get('layerName') + '</p>')
-                } else {
-                    jQuery(".map_layer_list").append('<p title="Set as Top Layer"  onclick="setTopLayer(\'' + layerNameU +'\')">' + data_layer_details[layerNameU].get('layerName') + '</p>')
+                    jQuery(".map_layer_list").append('<p title="Top Layer"  onclick="setTopLayer(\'' + layerNameU +'\')"  style="background: rosybrown;">1. ' + data_layer_details[layerNameU].get('layerName') + '</p>')
+                } else {   
+                    sNo=sNo+1;
+                    jQuery(".map_layer_list").append('<p title="Set as Top Layer"  onclick="setTopLayer(\'' + layerNameU +'\')">'+(sNo)+'. ' + data_layer_details[layerNameU].get('layerName') + '</p>')
                 }
             });
         }
