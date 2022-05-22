@@ -349,6 +349,7 @@ namespace EcdsApp.Controllers.User_Manage
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> SendConfirmationEmailLink(string email, [FromServices] IEmailSender _emailSender)
         {
             var user = await _userManager.FindByEmailAsync(email);

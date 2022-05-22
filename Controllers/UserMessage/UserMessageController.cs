@@ -1,4 +1,5 @@
 ﻿using EcdsApp.Data;
+using EcdsApp.Models;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.UserMessage;
 using EcdsApp.Services;
@@ -96,7 +97,8 @@ namespace EcdsApp.Controllers.UserMessage
 
         public async Task<IActionResult> MessageWithReply(int id)
         {
-            MessageReply msgWithReply = await _context.MessageReplies.Include(x=>x.Message).Where(x => x.MsgId == id).FirstOrDefaultAsync();
+            MessageReply msgWithReply = new MessageReply(){};        
+            msgWithReply = await _context.MessageReplies.Include(x=>x.Message).Where(x => x.MsgId == id).FirstOrDefaultAsync();
             
             if (msgWithReply != null)
             {
@@ -109,13 +111,30 @@ namespace EcdsApp.Controllers.UserMessage
                 //====send info back to user
                 msgWithReply.Id = 0;
                 msgWithReply.Message.Id = 0;
-                msgWithReply.MsgId = 0;
-                
+                msgWithReply.MsgId = 0;                
+                return Json(msgWithReply);
+
+            }
+            var userMessage = await _context.Messages.FindAsync(id);
+            Message msg = new()
+            {
+                Msg = userMessage.Msg,
+                FullName = userMessage.FullName,
+                Email = userMessage.Email,
+                ReplyStatusId = 1
+            };
+            
+
+            if (userMessage != null)
+            {
+                msgWithReply = new MessageReply() { Id = 0, MsgId = 0, RepliedMsg = "",Message=msg };
                 return Json(msgWithReply);
             }
+            
                 
             return Json(new MessageReply() { });
 
         }
+
     }
 }

@@ -145,21 +145,22 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     });
                     if (state)
                     {
-                        ViewData["emailStatus"] = "succeeded";
+                        var msg = "Please registered Successfully. Click the confirmation link from your email to activate your account.";
+                        return RedirectToPage("Register", new { msg = msg });
                     }
 
                     //Input.Email, "Confirm your email",
                     //$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    //{
+                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    //}
+                    //else
+                    //{
+                    //    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //    return LocalRedirect(returnUrl);
+                    //}
                 }
                 foreach (var error in result.Errors)
                 {
