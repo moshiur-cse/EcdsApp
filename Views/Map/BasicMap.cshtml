@@ -647,14 +647,25 @@
                     }
                     else if (isLegendColor == 1 && layerTypeId == 2) {
 
+                        console.log(layerId);
                         var uColor = getColor(layerId, feature.properties[legendcolorField]);
+
+                        if(layerId=="rail_line"){
                         return {
                             color: uColor,
                             weight: getIconSize(layerId, feature.properties[legendcolorField])!=0?getIconSize(layerId, feature.properties[legendcolorField]):weight,
                             opacity: opacity,
-                            //dashArray: '10,10',
-                            //lineJoin: 'round',  //miter | round | bevel
+                            dashArray: '4,4',
+                            lineJoin: 'round',  //miter | round | bevel
                         };
+                        }else{
+                            return {
+                            color: uColor,
+                            weight: getIconSize(layerId, feature.properties[legendcolorField])!=0?getIconSize(layerId, feature.properties[legendcolorField]):weight,
+                            opacity: opacity,                           
+                        };
+
+                        }
 
 
                 }

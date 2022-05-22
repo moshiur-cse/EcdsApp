@@ -63,54 +63,6 @@ namespace EcdsApp.Models.ThemeModels
         [Display(Name = "Main Attribute Code")]
         public string MainAttributeCode { get; set; }
 
-        //First Attribute
-        //[Column("first_attribute_display_name")]
-        //[StringLength(256)]
-        //[Display(Name = "First Attribute Display Name")]
-        //public string FirstAttributeDisplayName { get; set; }
-
-        //[Column("first_attribute_name")]
-        //[StringLength(256)]
-        //[Display(Name = "First Attribute Name")]
-        //public string FirstAttributeName { get; set; }
-
-        //[Column("first_attribute_code")]
-        //[StringLength(256)]
-        //[Display(Name = "First Attribute Code")]
-        //public string FirstAttributeCode { get; set; }
-
-        ////Second Attribute
-        //[Column("second_attribute_display_name")]
-        //[StringLength(256)]
-        //[Display(Name = "Second Attribute Display Name")]
-        //public string SecondAttributeDisplayName { get; set; }
-
-        //[Column("second_attribute_name")]
-        //[StringLength(256)]
-        //[Display(Name = "Second Attribute Name")]
-        //public string SecondAttributeName { get; set; }
-
-        //[Column("second_attribute_code")]
-        //[StringLength(256)]
-        //[Display(Name = "Second Attribute Code")]
-        //public string SecondAttributeCode { get; set; }
-
-        ////Third Attribute
-        //[Column("third_attribute_display_name")]
-        //[StringLength(256)]
-        //[Display(Name = "Third Attribute Display Name")]
-        //public string ThirdAttributeDisplayName { get; set; }
-
-        //[Column("third_attribute_name")]
-        //[StringLength(256)]
-        //[Display(Name = "Third Attribute Name")]
-        //public string ThirdAttributeName { get; set; }
-
-        //[Column("third_attribute_code")]
-        //[StringLength(256)]
-        //[Display(Name = "Third Attribute Code")]
-        //public string ThirdAttributeCode { get; set; }
-
         [Column("file_lat_name")]
         [StringLength(256)]
         [Display(Name = "File Latitude Name")]
@@ -132,10 +84,6 @@ namespace EcdsApp.Models.ThemeModels
         public int? TableInfoId { get; set; }
         [ForeignKey("TableInfoId")]
         public virtual TableInfo TableInfo { get; set; }
-
-        //[Column("is_legend_color")]
-        //[Display(Name = "Legend Color?")]
-        //public bool IsLegendColor { get; set; }
 
         [Column("legend_color_option_id")]
         [Display(Name = "Legend Color")]
