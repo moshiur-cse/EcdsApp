@@ -29,8 +29,11 @@ namespace EcdsApp.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        //[TempData]
+        //public string StatusMessage { get; set; }
+
         [TempData]
-        public string StatusMessage { get; set; }
+        public string Message { get; set; }
 
         public class InputModel
         {
@@ -49,6 +52,7 @@ namespace EcdsApp.Areas.Identity.Pages.Account
             [Display(Name = "Confirm new password")]
             [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -93,8 +97,7 @@ namespace EcdsApp.Areas.Identity.Pages.Account
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
-
+            Message = "The password is changed successfully.";
             return RedirectToPage();
         }
     }

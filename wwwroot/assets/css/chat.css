@@ -1,0 +1,42 @@
+﻿.chat-cont{
+    position:absolute;
+    bottom:60px;
+    right:10px;
+}
+
+.chat-circle {
+    position: relative;
+    height: 50x;
+    width: 55px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    margin: 10px 5px;
+}
+
+.chat-box {
+    position: absolute;
+    bottom: 60px;
+    right: 50px;
+    width: 20vw;
+    height: 400px;
+    background: whitesmoke;
+}
+
+.chat-msg{
+    min-width:20px;
+    border-radius:20px;
+}
+
+.chat-right {
+    padding: 10px 5px;
+    background: #7a54eb;
+    color: white;
+}
+
+.chat-left {
+    padding: 10px 5px;
+    background: white;
+    color:navy;
+    font-weight:600;
+}
