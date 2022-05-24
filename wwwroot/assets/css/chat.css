@@ -6,7 +6,6 @@
 
 .chat-circle {
     position: relative;
-    height: 50x;
     width: 55px;
     border-radius: 50%;
     background: red;
@@ -24,8 +23,10 @@
 }
 
 .chat-msg{
-    min-width:20px;
+    min-width:50px;
     border-radius:20px;
+    padding-left:5px;
+    padding-right:5px;
 }
 
 .chat-right {
@@ -39,4 +40,19 @@
     background: white;
     color:navy;
     font-weight:600;
+}
+
+.msg-send-cont{
+    padding:10px 5px;
+    width:100%;
+    position:absolute;
+    bottom:0px;
+}
+
+.chat-input{
+    padding:5px 10px;
+    margin-top:5px;
+    margin-bottom:2px;
+    width:90%;
+    border:1px solid blue !important;
 }
