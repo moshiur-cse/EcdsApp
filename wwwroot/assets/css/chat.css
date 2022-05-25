@@ -56,3 +56,27 @@
     width:90%;
     border:1px solid blue !important;
 }
+
+.chat-topbar {
+    background: #7a54eb;
+    padding: 6px 2px;
+    color: white;
+}
+
+.cross-btn{
+    position:absolute;
+    right:0px;
+}
+
+.chat-usr-img{
+    width:40px;
+    height:30px;
+}
+
+.chat-usr-name{
+    margin-right:5px;
+    font-size:14px;
+    font-weight:500;
+    color:red;
+    min-width:120px;
+}

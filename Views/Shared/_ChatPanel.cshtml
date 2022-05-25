@@ -17,11 +17,15 @@
 }
 @if (userLoggedIn)
 {
-	<div class="chat-cont">
+	<div class="chat-cont d-block">
 		<div class="chat-circle"><i class='bx bxs-message-rounded-dots fs-1 mt-1 mx-2'></i></div>
 	</div>
-	<div class="chat-box overflow-auto mx-4">
-		<div id="chat-msg-box"></div>
+	<div class="chat-box overflow-auto mx-4 d-none">
+		<div class="d-flex justify-content-between align-items-center">
+			<div class="chat-topbar w-100">Chat Box<i class='bx bx-x fs-2 cross-btn'></i></div>			
+		</div>
+		<div id="chat-msg-box">
+		</div>
 		<div class="msg-send-cont">
 			<div class="d-flex justify-content-between align-items-center">
 				<input id="chat-msg" class="chat-input" />

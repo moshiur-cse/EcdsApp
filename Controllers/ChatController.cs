@@ -1,10 +1,12 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.SystemCommon;
 using EcdsApp.Models.UserManage;
+using EcdsApp.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,8 +21,34 @@ namespace EcdsApp.Controllers
             _context = context;
             _userManager = userManager;
         }
-        public IActionResult DisplayChats(string receiver,string sender)
+
+        [Authorize]
+        public async Task<IActionResult> DefaultUserMessages()
         {
+            var loggedInUser = await _userManager.GetUserAsync(User);
+            var msgSenders = _context.Chats.Where(x => x.Receiver == loggedInUser.Email).Select(x => x.Sender).ToList();
+            List<ChatUserInfoViewModel> appUsers = new() { };
+            foreach (var sender in msgSenders)
+            {
+                var user = await _userManager.FindByEmailAsync(sender);
+                ChatUserInfoViewModel chatUser = new()
+                {
+                    Name = user.FullName,
+                    Email = user.Email,
+                    ImageUrl = user.ProfilePic!=null? "/assets/profile_pics" +user.ProfilePic: "/assets/profile_pics/user_icon.png",
+                    UrlToGetIndvMsg = Url.Action("DisplayChats").ToString(),
+                };
+                if(!appUsers.Where(x=>x.Email==user.Email).Any())
+                    appUsers.Add(chatUser);
+            }
+            return Json(appUsers);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> DisplayChats(string sender)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var receiver = user.Email;
             if (!(string.IsNullOrEmpty(receiver) || string.IsNullOrEmpty(receiver)))
             {
                 var chats = _context.Chats
@@ -35,6 +63,25 @@ namespace EcdsApp.Controllers
             }
             return Json("error");
         }
+
+        //====built for testing functionality
+
+        //public IActionResult DisplayChats(string receiver, string sender)
+        //{
+        //    if (!(string.IsNullOrEmpty(receiver) || string.IsNullOrEmpty(receiver)))
+        //    {
+        //        var chats = _context.Chats
+        //            .Where(x => x.Sender == sender || x.Sender == receiver)
+        //            .Where(y => y.Receiver == receiver || y.Receiver == sender)
+        //            .OrderBy(y => y.SentAt)
+        //            .Select(x => new { x.Sender, x.Receiver, x.Message, x.SentAt })
+        //            .ToList();
+        //        if (chats == null)
+        //            return Json("not found");
+        //        return Json(chats);
+        //    }
+        //    return Json("error");
+        //}
 
         [HttpPost]
         [Authorize]
@@ -57,14 +104,14 @@ namespace EcdsApp.Controllers
             return Json("error");
         }
 
-        public IActionResult PersonalChat(string email)
-        {
-            if (!ModelState.IsValid)
-            {
-               var chats = _context.Chats.Where(y => y.Sender == email).OrderByDescending(y => y.SentAt).Select(y=>new{y.Message,y.Sender,y.Receiver}).ToList();
-               return Json(chats);
-            }
-            return Json("error");
-        }
+        //public IActionResult PersonalChat(string email)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //       var chats = _context.Chats.Where(y => y.Sender == email).OrderByDescending(y => y.SentAt).Select(y=>new{y.Message,y.Sender,y.Receiver}).ToList();
+        //       return Json(chats);
+        //    }
+        //    return Json("error");
+        //}
     }
 }
