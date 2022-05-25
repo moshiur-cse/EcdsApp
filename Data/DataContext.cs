@@ -46,7 +46,6 @@ namespace EcdsApp.Data
         public DbSet<AdminBoundaryUnion> AdminBoundaryUnions { get; set; }
 
         public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
-
         public DbSet<Theme> Themes { get; set; }
         public DbSet<SubTheme> SubThemes { get; set; }
         public DbSet<ThemeLayerDetail> ThemeLayerDetails { get; set; }
@@ -76,11 +75,6 @@ namespace EcdsApp.Data
         public DbSet<DistrictWiseLightening> DistrictWiseLightenings { get; set; }
         public DbSet<DistrictWiseThunderstrom> DistrictWiseThunderstroms { get; set; }
         public DbSet<DistrictWisePopulationDensity> DistrictWisePopulationDensities { get; set; }
-
-
-
-
-
 
         //Union Wise
         public DbSet<FutureProjectionRainfall4Point5> FutureProjectionRainfall4Point5s { get; set; }
