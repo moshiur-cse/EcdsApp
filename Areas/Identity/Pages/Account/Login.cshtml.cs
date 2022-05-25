@@ -85,6 +85,12 @@ namespace EcdsApp.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(await _userManager.FindByNameAsync(Input.UserName));
+                if (!isEmailConfirmed)
+                {
+                    ModelState.AddModelError(string.Empty, "Email is not confirmed yet.");
+                    return Page();
+                }
                 var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
@@ -100,6 +106,7 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
+                
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");

@@ -1,9 +1,23 @@
 ﻿@model EcdsApp.Models.Message;
+@using Microsoft.AspNetCore.Identity
+@using EcdsApp.Models.UserManage;
+@inject UserManager<ApplicationUser> _userManager
 @{
 	ViewData["Title"] = "About Us";
+
+	//====check if the user is logged in
+	bool userLoggedIn = false;
+	string email = "";
+	if(User.Identity.IsAuthenticated)
+	{
+		userLoggedIn = true;
+		var user = await _userManager.FindByNameAsync(User.Identity.Name);
+		email = user.Email;
+	}
 }
 
 @section Styles{
+<link href="~/assets/css/chat.css" rel="stylesheet"/>
 <style>
 	.bg-thm-grn {
 		background: rgba(0, 107, 59, 0.8);
@@ -113,24 +127,41 @@
 			</div>
 		</div>
 	</div>
+	<!--Chat Panel-->
+	<partial name="_ChatPanel" />
+	<!--Chat Panel Ends-->
 </div>
 
 @section Scripts {
    @* @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
-	<script>
-		let message='@ViewBag.Message'
-		if(message.length>0 && message.includes("message has been sent successfully")){
-			window.Swal.fire({
-				icon: "success",
-				title: "Sent Successfully",
-				text:message                    
-			})
-			setTimeout(()=>{
-				window.location.reload
-			},5000)
-		}
+		<script src="~/assets/js/chat/chat.js"></script>
+		<script>
+			let isLoggedIn='@userLoggedIn'
+			let message='@ViewBag.Message'
+			if(message.length>0 && message.includes("message has been sent successfully")){
+				window.Swal.fire({
+					icon: "success",
+					title: "Sent Successfully",
+					text:message                    
+				})
+				setTimeout(()=>{
+					window.location.reload
+				},5000)
+			}
+
+
+			//====Render if the user is logged in
+			if(isLoggedIn=="True")
+			{
+				//====Chat Section Javascipt Code
+				$("#send-btn").on("click", () => {
+					//SendMsg('@Url.Action("SendMsg","Chat")',"abrar.bd27@gmail.com" ,"moshiur.mgmh@gmail.com" )
+					SendMsg('@Url.Action("SendMsg","Chat")',"abrar.bd27@gmail.com" )
+				})
+				DisplayChat('@Url.Action("DisplayChats","Chat")',"@email","abrar.bd27@gmail.com")
+			}
 		 
-	</script>
+		</script>
 }
 
 

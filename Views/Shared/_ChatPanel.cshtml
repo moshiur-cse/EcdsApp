@@ -1,0 +1,32 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<EcdsApp.Models.SystemCommon.Chat>
+@using Microsoft.AspNetCore.Identity
+@using EcdsApp.Models.UserManage;
+@inject UserManager<ApplicationUser> _userManager
+@{
+	bool userLoggedIn = false;
+	if (User.Identity.IsAuthenticated)
+	{
+		userLoggedIn = true;
+		var user = await _userManager.FindByNameAsync(User.Identity.Name);
+		var email = user.Email;
+	}
+
+}
+@if (userLoggedIn)
+{
+	<div class="chat-cont">
+		<div class="chat-circle"><i class='bx bxs-message-rounded-dots fs-1 mt-1 mx-2'></i></div>
+	</div>
+	<div class="chat-box overflow-auto mx-4">
+		<div id="chat-msg-box"></div>
+		<div class="msg-send-cont">
+			<div class="d-flex justify-content-between align-items-center">
+				<input id="chat-msg" class="chat-input" />
+				<i id="send-btn" class="fs-2 bx bxs-send text-primary"></i>
+			</div>
+		</div>
+	</div>
+}

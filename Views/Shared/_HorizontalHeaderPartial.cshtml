@@ -83,6 +83,7 @@
                         {
                             <a class="dropdown-item" asp-action="ViewProfile" asp-controller="UserAccessManage"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">View Profile</span></a>
                         }
+                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/ChangePassword"><i class="bx bxs-lock-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Change Password</span></a>
                         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new {area = ""})" method="post">
                             <button type="submit" class="dropdown-item"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">Sign out</span></button>
                         </form>
@@ -180,6 +181,7 @@
                                         <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Users">Users</a>
                                         <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Roles">User Roles</a>
                                         <a class="dropdown-item" asp-controller="TableInfo" asp-action="Index">Table & Column</a>
+                                        <a class="dropdown-item" asp-controller="UserMessage" asp-action="Index">User Message</a>
                                     </div>
                                 </li>
                             }

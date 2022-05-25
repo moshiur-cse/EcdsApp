@@ -60,7 +60,7 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label" asp-for="Input.DateOfBirth">Date Of Birth</label>
-                                            <input type="date" id="date-of-birth" class="form-control" asp-for="Input.DateOfBirth">
+                                            <input id="date-of-birth" class="form-control" asp-for="Input.DateOfBirth">
                                             <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -165,6 +165,17 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
+    //==display message sent from server
+    let message='@Request.Query["msg"]'
+    if(message.length>0 && message.includes("Please registered Successfully. Click the confirmation link from your email to activate your account.")){
+        console.log(message)
+		window.Swal.fire({
+			icon: "success",
+			title: "Successful",
+			text:message                    
+		})
+	}
+    //====date picker
     $( "#date-of-birth" ).datepicker(
         {
             altFormat: "yyyy-mm-dd"

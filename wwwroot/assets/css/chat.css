@@ -1,0 +1,58 @@
+﻿.chat-cont{
+    position:absolute;
+    bottom:60px;
+    right:10px;
+}
+
+.chat-circle {
+    position: relative;
+    width: 55px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    margin: 10px 5px;
+}
+
+.chat-box {
+    position: absolute;
+    bottom: 60px;
+    right: 50px;
+    width: 20vw;
+    height: 400px;
+    background: whitesmoke;
+}
+
+.chat-msg{
+    min-width:50px;
+    border-radius:20px;
+    padding-left:5px;
+    padding-right:5px;
+}
+
+.chat-right {
+    padding: 10px 5px;
+    background: #7a54eb;
+    color: white;
+}
+
+.chat-left {
+    padding: 10px 5px;
+    background: white;
+    color:navy;
+    font-weight:600;
+}
+
+.msg-send-cont{
+    padding:10px 5px;
+    width:100%;
+    position:absolute;
+    bottom:0px;
+}
+
+.chat-input{
+    padding:5px 10px;
+    margin-top:5px;
+    margin-bottom:2px;
+    width:90%;
+    border:1px solid blue !important;
+}

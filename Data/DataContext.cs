@@ -1,6 +1,7 @@
 ﻿using EcdsApp.Models;
 using EcdsApp.Models.DistrictWiseInfoModels;
 using EcdsApp.Models.RegionModels;
+using EcdsApp.Models.SystemCommon;
 using EcdsApp.Models.TabularModels;
 using EcdsApp.Models.ThemeModels;
 using EcdsApp.Models.UnionWiseInfoModels;
@@ -103,6 +104,10 @@ namespace EcdsApp.Data
         public DbSet<MessageReply> MessageReplies { get; set; }
         public DbSet<Status> Statuses { get; set; }
 
+        //====Email Configuration and Chat Models
+
+        public DbSet<EmailConfiguration> EmailConfigurations { get; set; }
+        public DbSet<Chat> Chats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
