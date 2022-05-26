@@ -65,7 +65,7 @@
 
 .cross-btn{
     position:absolute;
-    right:0px;
+    right:10px;
 }
 
 .chat-usr-img{
@@ -73,10 +73,30 @@
     height:30px;
 }
 
+
 .chat-usr-name{
     margin-right:5px;
     font-size:14px;
     font-weight:500;
     color:red;
     min-width:120px;
+}
+
+.chat-topbar-info-panel{
+    padding:10px 5px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.chat-info{
+    font-size:10px;
+    font-weight:600;
+    color:blueviolet;
+}
+
+.chat-info-box{
+    font-weight:600;
+    color:slategray;
 }
