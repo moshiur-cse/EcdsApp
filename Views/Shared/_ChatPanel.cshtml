@@ -17,12 +17,23 @@
 }
 @if (userLoggedIn)
 {
-	<div class="chat-cont">
+	<div class="chat-cont d-block">
 		<div class="chat-circle"><i class='bx bxs-message-rounded-dots fs-1 mt-1 mx-2'></i></div>
 	</div>
-	<div class="chat-box overflow-auto mx-4">
-		<div id="chat-msg-box"></div>
-		<div class="msg-send-cont">
+	<div class="chat-box overflow-auto mx-4 d-none">
+		<div class="d-flex justify-content-between align-items-center">
+			<div class="chat-topbar w-100">Chat Box<i class='bx bx-x fs-2 cross-btn'></i></div>			
+		</div>
+		<div class="d-flex justify-content-between align-items-center">
+			<div class="chat-topbar-info-panel w-100 mb-2">
+				<div class="d-flex justify-content-start aling-items-center">
+					<i class='bx bx-info-circle fs-5 me-1'></i><span class="chat-info-box">Click to view full chat.</span>
+				</div>
+			</div>			
+		</div>
+		<div id="chat-msg-box">
+		</div>
+		<div class="msg-send-cont d-none">
 			<div class="d-flex justify-content-between align-items-center">
 				<input id="chat-msg" class="chat-input" />
 				<i id="send-btn" class="fs-2 bx bxs-send text-primary"></i>

@@ -149,6 +149,10 @@
 				},5000)
 			}
 
+			/* ==========================
+			   ==========Chat Section====
+			   ==========================
+			*/
 
 			//====Render if the user is logged in
 			if(isLoggedIn=="True")
@@ -156,9 +160,12 @@
 				//====Chat Section Javascipt Code
 				$("#send-btn").on("click", () => {
 					//SendMsg('@Url.Action("SendMsg","Chat")',"abrar.bd27@gmail.com" ,"moshiur.mgmh@gmail.com" )
-					SendMsg('@Url.Action("SendMsg","Chat")',"abrar.bd27@gmail.com" )
+					SendMsg('@Url.Action("SendMsg","Chat")')
 				})
-				DisplayChat('@Url.Action("DisplayChats","Chat")',"@email","abrar.bd27@gmail.com")
+
+				//===show the name of users who sent messages
+				DefaultUserMessages('@Url.Action("DefaultUserMessages","Chat")')
+				//DisplayChat('@Url.Action("DisplayChats","Chat")',"@email","abrar.bd27@gmail.com")
 			}
 		 
 		</script>
