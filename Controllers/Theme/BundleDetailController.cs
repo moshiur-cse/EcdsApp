@@ -1,7 +1,6 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models;
 using EcdsApp.Security;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Theme
 {
-    [Authorize]
+    //[Authorize]
     public class BundleDetailController : Controller
     {
         private readonly DataContext _context;

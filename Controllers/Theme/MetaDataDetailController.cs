@@ -1,7 +1,6 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.ThemeModels;
 using EcdsApp.Security;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Theme
 {
-    [Authorize]
+    //[Authorize]
     public class MetaDataDetailController : Controller
     {
         private readonly DataContext _context;
