@@ -70,12 +70,24 @@ namespace EcdsApp.Data
 
 
 
-
+        //District Wise
         public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }
         public DbSet<DistrictWisePopulation> DistrictWisePopulations { get; set; }
         public DbSet<DistrictWiseLightening> DistrictWiseLightenings { get; set; }
         public DbSet<DistrictWiseThunderstrom> DistrictWiseThunderstroms { get; set; }
         public DbSet<DistrictWisePopulationDensity> DistrictWisePopulationDensities { get; set; }
+
+        public DbSet<DistrictWiseDisabilityDisabRate> DistrictWiseDisabilityDisabRate { get; set; }
+
+        public DbSet<DistrictWiseFertilityRateTFR> DistrictWiseFertilityRateTFR { get; set; }
+        public DbSet<DistrictWiseFertilityRateGFR> DistrictWiseFertilityRateGFR { get; set; }
+        public DbSet<DistrictWiseFertilityRateCPR> DistrictWiseFertilityRateCPR { get; set; }
+        public DbSet<DistrictWiseFertilityRateCBR> DistrictWiseFertilityRateCBR { get; set; }
+
+        public DbSet<DistrictWiseMortalityRateU5MR> DistrictWiseMortalityRateU5MR { get; set; }
+        public DbSet<DistrictWiseMortalityRateIMR> DistrictWiseMortalityRateIMR { get; set; }
+        public DbSet<DistrictwiseMortalityRateCDR> DistrictwiseMortalityRateCDR { get; set; }
+
 
         //Union Wise
         public DbSet<FutureProjectionRainfall4Point5> FutureProjectionRainfall4Point5s { get; set; }
