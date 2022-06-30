@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcdsApp.Models.DistrictWiseInfoModels
 {
-    [Table("district_wise_disability_rate")]
-    public class DistrictWiseDisabilityRate
+    [Table("district_wise_disability_disab_rate")]
+    public class DistrictWiseDisabilityDisabRate
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
