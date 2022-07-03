@@ -1,5 +1,4 @@
-﻿using DRIPWebApp.Data;
-using EcdsApp.Data;
+﻿using EcdsApp.Data;
 using EcdsApp.Models;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels.Dashboard;
@@ -19,12 +18,12 @@ namespace EcdsApp.Controllers
     {
         private readonly DataContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        
+
 
         public HomeController(DataContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _userManager = userManager;            
+            _userManager = userManager;
         }
         public async Task<IActionResult> Dashboard()
         {
@@ -106,16 +105,14 @@ namespace EcdsApp.Controllers
                                     {
                                         name = p.Select(i => i.LayerDisplayName).FirstOrDefault(),
                                         description = p.Select(i => i.LayerName).FirstOrDefault(),
-                                        size = 1
-
-
+                                        size = p.Count()
                                     }).ToList()
 
                                 }).ToList()
                         }).ToList();
 
-            data.name = "Theme Wise Information";
-            data.description = "Click cirle Box to view details and click center to back";
+            data.name = "Theme Wise Information \n (Click title to view details and click center to back)";
+            data.description = "Click title to view details and click center to back";
             data.children = dataList;
 
             return Json(data);
@@ -160,7 +157,7 @@ namespace EcdsApp.Controllers
             if (ModelState.IsValid)
             {
                 //====try to send email
-                
+
                 bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
                 {
                     Subject = "Message from ECDS Contact form",
@@ -175,7 +172,7 @@ namespace EcdsApp.Controllers
                     _context.Messages.Add(message);
                     await _context.SaveChangesAsync();
                     ViewData["Message"] = "The message has been sent successfully.";
-                }                    
+                }
             }
             return View();
         }

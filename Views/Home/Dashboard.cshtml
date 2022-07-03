@@ -97,7 +97,7 @@
 
     textPath {
         stroke: none !important;
-        font-size: 14px;
+        font-size: 12px;
         font-family: Helvetica,Arial, sans-serif;
     }
 </style>
@@ -586,12 +586,9 @@
 
     const formatNumber = d3.format(',d');
 
-    const x = d3.scaleLinear()
-        .range([0, 2 * Math.PI])
-        .clamp(true);
+    const x = d3.scaleLinear().range([0, 2 * Math.PI]).clamp(true);
 
-    const y = d3.scaleSqrt()
-        .range([maxRadius * .1, maxRadius]);
+    const y = d3.scaleSqrt().range([maxRadius * .1, maxRadius]);
 
     const color = d3.scaleOrdinal(d3.schemeCategory20);
 
@@ -619,7 +616,7 @@
     };
 
     const textFits = d => {
-        const CHAR_SPACE = 6;
+        const CHAR_SPACE = 6;  //6
         const deltaAngle = x(d.x1) - x(d.x0);
         const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
         const perimeter = r * deltaAngle;
@@ -634,7 +631,7 @@
 
 
     var rootPath=window.location.pathname;
-    console.log(rootPath);
+   
      if(window.location.pathname.slice(-1)=="/"){
          rootPath=rootPath.substring(0, rootPath.length - 1)
      }
@@ -655,7 +652,7 @@
                 focusOn(d);
             });
 
-        newSlice.append('title').text(d => d.data.name);  //Display value also on toolstips + '\n' + d.data.description
+        newSlice.append('title').text(d => d.data.name+ '\n' + d.data.description);  //Display value also on toolstips + '\n' + d.data.description
 
         newSlice.append('path')
             .attr('class', 'main-arc')
