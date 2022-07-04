@@ -95,17 +95,20 @@ namespace EcdsApp.Controllers
                         {
                             name = k.Key,
                             description = k.Select(i => i.SubThemes.Themes.ThemePath).FirstOrDefault(),
+                            color = k.Select(i => i.SubThemes.Themes.ThemeColor).FirstOrDefault(),
                             children = k.GroupBy(i => i.SubThemes.SubThemeName)
                                 .Select(j => new
                                 {
                                     name = j.Key,
                                     description = j.Select(i => i.SubThemes.SubThemePath).FirstOrDefault(),
+                                    color = j.Select(i => i.SubThemes.Themes.ThemeColor).FirstOrDefault(),
                                     children = j.GroupBy(j => j.LayerId).
                                     Select(p => new
                                     {
                                         name = p.Select(i => i.LayerDisplayName).FirstOrDefault(),
                                         description = p.Select(i => i.LayerName).FirstOrDefault(),
-                                        size = p.Count()
+                                        size = p.Count(),
+                                        color = p.Select(i => i.SubThemes.Themes.ThemeColor).FirstOrDefault(),
                                     }).ToList()
 
                                 }).ToList()
@@ -113,10 +116,40 @@ namespace EcdsApp.Controllers
 
             data.name = "Theme Wise Information \n (Click title to view details and click center to back)";
             data.description = "Click title to view details and click center to back";
+            data.color = "#007500";
             data.children = dataList;
-
             return Json(data);
+        }
 
+        public JsonResult Data1()
+        {
+
+
+
+            var data = _context.ThemeLayerDetails
+                       .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
+                        .GroupBy(model => model.SubThemes.Themes.ThemeId).AsQueryable().ToList()
+                        .Select(k => new
+                        {
+                            id = k.Key.ToString(),
+                            name = k.Select(i => i.SubThemes.Themes.ThemeName).FirstOrDefault(),
+                            parent = "0",
+                            group1 = k.GroupBy(i => i.SubThemes.SubThemeId)
+                                .Select(j => new
+                                {
+                                    id = k.Key + "." + j.Key,
+                                    name = j.Select(i => i.SubThemes.SubThemeName).FirstOrDefault(),
+                                    parent = k.Key.ToString(),
+                                    group2 = j.GroupBy(j => j.LayerId).
+                                    Select(p => new
+                                    {
+                                        name = p.Select(i => i.LayerDisplayName).FirstOrDefault(),
+                                        parent = k.Key + "." + j.Key,
+                                        value = p.Count()
+                                    }).ToList()
+                                }).ToList()
+                        }).ToList();
+            return Json(data);
         }
 
         public IActionResult index()

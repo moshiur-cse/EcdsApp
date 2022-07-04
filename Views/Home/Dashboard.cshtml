@@ -24,163 +24,240 @@
 }
 @section Styles{
 
-<link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
-<link href="~/assets/css/mapstyle.css" rel="stylesheet" />
+    <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
     @*<link href="~/assets/libs/bootstrap/css/bootstrap-select.css" rel="stylesheet" />*@
 
-<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
-<style>
-    .legend_info {
-        padding: 1px;
-        background: rgba(255,255,255,0.8);
-        box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        border-radius: 5px;
-        /*font-size: 1vw;*/
-        font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
-        /*overflow: scroll;*/
-        min-height: 100px;
-        max-height: 400px;
-        /* resize: both;*/
-        text-align: left;
-    }
+    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
+    <style>
 
-    .card {
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-    }
-
-    .legend_info i {
-        width: 20px;
-        height: 15px;
-        float: left;
-        margin-right: 10px;
-        opacity: 0.7;
-        font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    .legend_info p {
-        padding: 0.2vw;
-    }
-
-    .mapLabel {
-        height: auto !important;
-        width: auto !important;
-        /*font-weight: bold;
-                                                            color: #025 line-height: 1;*/
-        padding: 0.2rem 0.3rem;
-        text-align: center;
-        font-weight: bold;
-        font-size: 0.5rem;
-        color: #000000;
-        text-shadow: 0 0 1px #aaa;
-        background: rgba(250,250,250,0.45);
-        border-radius: 0.25rem;
-    }
-
-    .slice {
-        cursor: pointer;
-    }
-
-        .slice .main-arc {
-            stroke: #fff;
-            stroke-width: 1px;
+        .highcharts-figure,
+        .highcharts-data-table table {
+            min-width: 320px;
+            max-width: 800px;
+            margin: 1em auto;
         }
 
-        .slice .hidden-arc {
-            fill: none;
+        .highcharts-data-table table {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #ebebeb;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
         }
 
-        .slice text {
-            pointer-events: none;
-            dominant-baseline: middle;
-            text-anchor: middle;
+        .highcharts-data-table caption {
+            padding: 1em 0;
+            font-size: 1.2em;
+            color: #555;
         }
 
-    textPath {
-        stroke: none !important;
-        font-size: 12px;
-        font-family: Helvetica,Arial, sans-serif;
-    }
-</style>
+        .highcharts-data-table th {
+            font-weight: 600;
+            padding: 0.5em;
+        }
+
+        .highcharts-data-table td,
+        .highcharts-data-table th,
+        .highcharts-data-table caption {
+            padding: 0.5em;
+        }
+
+        .highcharts-data-table thead tr,
+        .highcharts-data-table tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        .highcharts-data-table tr:hover {
+            background: #f1f7ff;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        .legend_info {
+            padding: 1px;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            /*font-size: 1vw;*/
+            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+            /*overflow: scroll;*/
+            min-height: 100px;
+            max-height: 400px;
+            /* resize: both;*/
+            text-align: left;
+        }
+
+        .card {
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+        }
+
+        .legend_info i {
+            width: 20px;
+            height: 15px;
+            float: left;
+            margin-right: 10px;
+            opacity: 0.7;
+            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .legend_info p {
+            padding: 0.2vw;
+        }
+
+        .mapLabel {
+            height: auto !important;
+            width: auto !important;
+            /*font-weight: bold;
+                                                                                                    color: #025 line-height: 1;*/
+            padding: 0.2rem 0.3rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.5rem;
+            color: #000000;
+            text-shadow: 0 0 1px #aaa;
+            background: rgba(250,250,250,0.45);
+            border-radius: 0.25rem;
+        }
+
+        .slice {
+            cursor: pointer;
+        }
+
+            .slice .main-arc {
+                stroke: #fff;
+                stroke-width: 1px;
+            }
+
+            .slice .hidden-arc {
+                fill: none;
+            }
+
+            .slice text {
+                pointer-events: none;
+                dominant-baseline: middle;
+                text-anchor: middle;
+            }
+
+        textPath {
+            stroke: none !important;
+            font-size: 12px;
+            font-family: Helvetica,Arial, sans-serif;
+        }
+        .highcharts-credits{
+            display:none
+        }
+    </style>
 }
 
 
 
-<div class="col-lg-12  d-none d-sm-block" style="position: relative; z-index: 9999;">
-    <div title="Download for Android" style="position: fixed; right: 0px; top: 20%; width: 45px; height: 45px; padding: 0px; background-color: rgb(255, 255, 255); border-radius: 6px 0px 0px 6px; cursor: pointer; box-shadow: rgb(0, 0, 0) 0px 0px 5px; z-index: 9998;">
-        <a href="https://play.google.com/store/apps/details?id=com.cegisbd.ecdsmobileapp" target="_blank">
-            <img src="~/assets/images/playstore.png" style="width: 100%; height: 100%; object-fit: contain;">
-        </a>
+    <div class="col-lg-12  d-none d-sm-block" style="position: relative; z-index: 9999;">
+        <div title="Download for Android" style="position: fixed; right: 0px; top: 20%; width: 45px; height: 45px; padding: 0px; background-color: rgb(255, 255, 255); border-radius: 6px 0px 0px 6px; cursor: pointer; box-shadow: rgb(0, 0, 0) 0px 0px 5px; z-index: 9998;">
+            <a href="https://play.google.com/store/apps/details?id=com.cegisbd.ecdsmobileapp" target="_blank">
+                <img src="~/assets/images/playstore.png" style="width: 100%; height: 100%; object-fit: contain;">
+            </a>
 
+        </div>
+        <div title="Download for iOS" style="position: fixed; right: 0px; top: 30%; width: 45px; height: 45px; padding: 0px; background-color: rgb(255, 255, 255); border-radius: 6px 0px 0px 6px; cursor: pointer; box-shadow: rgb(0, 0, 0) 0px 0px 5px; z-index: 9998;">
+            <a href="https://apps.apple.com/app/ecds/id1610273952" target="_blank">
+                <img src="~/assets/images/appstore.png" style="width: 100%; height: 100%; object-fit: contain;">
+            </a>
+        </div>
     </div>
-    <div title="Download for iOS" style="position: fixed; right: 0px; top: 30%; width: 45px; height: 45px; padding: 0px; background-color: rgb(255, 255, 255); border-radius: 6px 0px 0px 6px; cursor: pointer; box-shadow: rgb(0, 0, 0) 0px 0px 5px; z-index: 9998;">
-        <a href="https://apps.apple.com/app/ecds/id1610273952" target="_blank">
-            <img src="~/assets/images/appstore.png" style="width: 100%; height: 100%; object-fit: contain;">
-        </a>
-    </div>
-</div>
 
-@*<div id="onlinePollBlock" style="position: relative; z-index: 9999;"><div id="widget_polling_icon" title="Polling"  style="position: fixed; right: 0px; top: 35%; width: 45px; height: 45px; padding: 0px; background-color: rgb(255, 255, 255); border-radius: 6px 0px 0px 6px; cursor: pointer; box-shadow: rgb(0, 0, 0) 0px 0px 5px; z-index: 9998;"><img id="poll_widget_icon" src="//polling.portal.gov.bd/poll-icon.png" style="width: 100%; height: 100%; object-fit: contain;"></div></div>
+    @*<div id="onlinePollBlock" style="position: relative; z-index: 9999;"><div id="widget_polling_icon" title="Polling"  style="position: fixed; right: 0px; top: 35%; width: 45px; height: 45px; padding: 0px; background-color: rgb(255, 255, 255); border-radius: 6px 0px 0px 6px; cursor: pointer; box-shadow: rgb(0, 0, 0) 0px 0px 5px; z-index: 9998;"><img id="poll_widget_icon" src="//polling.portal.gov.bd/poll-icon.png" style="width: 100%; height: 100%; object-fit: contain;"></div></div>
 *@
 
 
-<div class="page-content bg-white">
-    <div class="container-fluid">
-        <div class="row">
-            <!--Marquees-->
-            <div class="d-flex">
+    <div class="page-content bg-white">
+        <div class="container-fluid">
+            <div class="row">
+                <!--Marquees-->
+                <div class="d-flex">
 
-                <h3>
-                    <marquee direction="left" scrollamount="4" onmouseover="this.stop()" onmouseout="this.start()">
-                        নো মাস্ক নো সার্ভিস। করোনাভাইরাসের বিস্তার রোধে এখনই ডাউনলোড করুন Corona Tracer BD অ্যাপ। ডাউনলোড করতে ক্লিক করুন <a href="https://bit.ly/coronatracerbd" target="_blank" style="color: blue;" title="https://bit.ly/coronatracerbd">https://bit.ly/coronatracerbd</a>। নিজে সুরক্ষিত থাকুন অন্যকেও নিরাপদ রাখুন। দেশের প্রথম ক্রাউডফান্ডিং প্ল্যাটফর্ম 'একদেশ'- এর মাধ্যমে আর্থিক অনুদান পৌঁছে দিন নির্বাচিত সরকারি-বেসরকারি প্রতিষ্ঠানসমূহে। ভিজিট করুন <a href="//ekdesh.ekpay.gov.bd" target="_blank" style="color: blue;" title="ekdesh.ekpay.gov.bd">ekdesh.ekpay.gov.bd</a> অথবা <a href="//play.google.com/store/apps/details?id=com.synesis.donationapp" target="_blank" style="color: blue;" title="“Ek Desh”">“Ek Desh”</a> অ্যাপ ডাউনলোড করুন। করোনার লক্ষণ দেখা দিলে গোপন না করে ডাক্তারের পরামর্শের জন্য ফ্রি কল করুন ৩৩৩ ও ১৬২৬৩ নম্বরে। করোনাভাইরাস প্রতিরোধে নিয়ম মেনে মাস্ক ব্যবহার করুন। আতঙ্কিত না হয়ে বরং সচেতন থাকুন। ভিজিট করুন <a href="//corona.gov.bd" target="_blank" style="color: blue;" title="corona.gov.bd">corona.gov.bd</a>
-                    </marquee>
-                </h3>
+                    <h3>
+                        <marquee direction="left" scrollamount="4" onmouseover="this.stop()" onmouseout="this.start()">
+                            নো মাস্ক নো সার্ভিস। করোনাভাইরাসের বিস্তার রোধে এখনই ডাউনলোড করুন Corona Tracer BD অ্যাপ। ডাউনলোড করতে ক্লিক করুন <a href="https://bit.ly/coronatracerbd" target="_blank" style="color: blue;" title="https://bit.ly/coronatracerbd">https://bit.ly/coronatracerbd</a>। নিজে সুরক্ষিত থাকুন অন্যকেও নিরাপদ রাখুন। দেশের প্রথম ক্রাউডফান্ডিং প্ল্যাটফর্ম 'একদেশ'- এর মাধ্যমে আর্থিক অনুদান পৌঁছে দিন নির্বাচিত সরকারি-বেসরকারি প্রতিষ্ঠানসমূহে। ভিজিট করুন <a href="//ekdesh.ekpay.gov.bd" target="_blank" style="color: blue;" title="ekdesh.ekpay.gov.bd">ekdesh.ekpay.gov.bd</a> অথবা <a href="//play.google.com/store/apps/details?id=com.synesis.donationapp" target="_blank" style="color: blue;" title="“Ek Desh”">“Ek Desh”</a> অ্যাপ ডাউনলোড করুন। করোনার লক্ষণ দেখা দিলে গোপন না করে ডাক্তারের পরামর্শের জন্য ফ্রি কল করুন ৩৩৩ ও ১৬২৬৩ নম্বরে। করোনাভাইরাস প্রতিরোধে নিয়ম মেনে মাস্ক ব্যবহার করুন। আতঙ্কিত না হয়ে বরং সচেতন থাকুন। ভিজিট করুন <a href="//corona.gov.bd" target="_blank" style="color: blue;" title="corona.gov.bd">corona.gov.bd</a>
+                        </marquee>
+                    </h3>
+                </div>
             </div>
-        </div>
-        <!--End Marquees-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="gggg">
-                            @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
-                                <span class="sr-only">Loading... . .</span>
-                                </div>*@
+            <!--End Marquees-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            @* <div class="gggg">
+
+                        </div>*@
+                           @* <figure class="highcharts-figure">*@
+                                <div id="container"></div>
+                                @*<p class="highcharts-description">
+                                    This chart is used to visualize hierarchical data in a
+                                circular shape. The inner elements are parent nodes, with
+                                child nodes distributed on the outer rings. Click on a parent
+                                node to drill down and inspect the tree in more detail.
+                                </p>*@
+                           @* </figure>*@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
 
-                        <div class="row p-2">
-                            <img class="img-fluid" src="~/assets/images/image_collection/animation_powerpoint.gif" />
+                            <div class="row p-2">
+                                <img class="img-fluid" src="~/assets/images/image_collection/edited_ecds_video.gif" />
+                            </div>
+
                         </div>
-                       
                     </div>
                 </div>
-            </div>
 
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title mb-4">Latest Five Layer List</h4>
-                        <div class="table-responsive">
-                            <table id="tblLayerData" class="table table-centered table-nowrap mb-0">
-                                <thead class="table-light">
-                                    <tr class="bg-transparent">
-                                        <th>Theme Name</th>
-                                        <th>Sub-theme Name</th>
-                                        <th>Layer Name</th>
-                                        <th>Layer Type</th>
-                                        @*<th>Boundary</th>*@
-                                        <th>Tabular Data</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.ThemeLayerDetails)
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            @* <figure class="highcharts-figure">
+                        <div id="container"></div>
+                        <p class="highcharts-description">
+                        This chart is used to visualize hierarchical data in a
+                        circular shape. The inner elements are parent nodes, with
+                        child nodes distributed on the outer rings. Click on a parent
+                        node to drill down and inspect the tree in more detail.
+                        </p>
+                        </figure>*@
+
+
+                            <h4 class="card-title mb-4">Latest Five Layer List</h4>
+                            <div class="table-responsive">
+                                <table id="tblLayerData" class="table table-centered table-nowrap mb-0">
+                                    <thead class="table-light">
+                                        <tr class="bg-transparent">
+                                            <th>Theme Name</th>
+                                            <th>Sub-theme Name</th>
+                                            <th>Layer Name</th>
+                                            <th>Layer Type</th>
+                                            @*<th>Boundary</th>*@
+                                            <th>Tabular Data</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ThemeLayerDetails)
                                     {
                                         <tr>
                                             <td>
@@ -221,8 +298,8 @@
                     <div class="card-body">
                         <div id="dash_chart1" class=" apex-charts text-center" padding:0.75rem;">
                             @*<div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
-                                <span class="sr-only">Loading... . .</span>
-                                </div>*@
+                            <span class="sr-only">Loading... . .</span>
+                            </div>*@
                         </div>
 
                     </div> <!-- end card-body-->
@@ -266,29 +343,127 @@
 </div>
 
 @section Scripts{
-<!-- apexcharts -->
-<script src="~/assets/libs/leaflet/leaflet.js"></script>
-<script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
-<script src="~/assets/libs/select2/js/select2.min.js"></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- apexcharts -->
+    <script src="~/assets/libs/leaflet/leaflet.js"></script>
+    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/libs/select2/js/select2.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 
-<script type="text/javascript">
-        $(function () {
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/sunburst.js"></script>
+    <script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
+    @*<script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>*@
 
 
-            const AppendTextInMarquee =()=>{
 
-                msg=`এক নদী রক্ত পেরিয়ে বাংলার স্বাধীনতা আনলে যারা আমরা তোমাদের ভুলবোনা….!” বাংলার স্বাধীনতার জন্য যাদের রক্তের নদী বয়ে গিয়েছিল বাংলার বুকে সেই সকল শহীদদের আত্মার মাগফেরাত কামনায় স্বাধীনতা দিবস সফল হোক।`
-                $(".marquee").text(msg)
+
+
+
+
+
+    <script>
+
+        var data = [{ "id": "0", "name": "Theme List" }, { "id": "1", "name": "Administrative", "parent": "0" }, { "id": "1.1", "name": "Administrative Boundary", "parent": "1" }, { "name": "Division", "parent": "1.1", "value": 1 }, { "name": "District", "parent": "1.1", "value": 1 }, { "name": "Upazila", "parent": "1.1", "value": 1 }, { "name": "Union", "parent": "1.1", "value": 1 }, { "name": "City Corporation", "parent": "1.1", "value": 1 }, { "name": "Municipality", "parent": "1.1", "value": 1 }, { "id": "1.2", "name": "Road Network", "parent": "1" }, { "name": "National Highway", "parent": "1.2", "value": 1 }, { "name": "Regional Highway", "parent": "1.2", "value": 1 }, { "name": "Zilla Road", "parent": "1.2", "value": 1 }, { "name": "Upazila Road", "parent": "1.2", "value": 1 }, { "id": "1.3", "name": "Railway Network", "parent": "1" }, { "name": "Rail Line", "parent": "1.3", "value": 1 }, { "name": "Rail Station", "parent": "1.3", "value": 1 }, { "id": "1.4", "name": "River Network", "parent": "1" }, { "name": "Main River", "parent": "1.4", "value": 1 }, { "id": "2", "name": "Environmental \u0026 Natural Resources", "parent": "0" }, { "id": "2.6", "name": "Land Use and Land Cover", "parent": "2" }, { "name": "Flood Regime Land Type", "parent": "2.6", "value": 1 }, { "id": "2.7", "name": "Soil and Agriculture", "parent": "2" }, { "name": "Ground Water Level 2018", "parent": "2.7", "value": 1 }, { "id": "2.9", "name": "Forestry", "parent": "2" }, { "name": "Forestry", "parent": "2.9", "value": 1 }, { "id": "3", "name": "Climate \u0026 Climate Change", "parent": "0" }, { "id": "3.12", "name": "Weather and Climate", "parent": "3" }, { "name": "Yearly Total Avg Lightening 2015 to 2019", "parent": "3.12", "value": 1 }, { "name": "Precipitation", "parent": "3.12", "value": 1 }, { "name": "District Wise Yearly Total Lightening", "parent": "3.12", "value": 1 }, { "name": "District Wise Yearly Average Thunderstorm", "parent": "3.12", "value": 1 }, { "id": "3.13", "name": "Climate Change", "parent": "3" }, { "name": "Projection of Rainfall SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Rainfall SSP5-8.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Max Temp SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Max Temp SSP5-8.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Min Temp SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Min Temp SSP5-8.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Mean Temp SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Mean Temp SSP5-8.5", "parent": "3.13", "value": 1 }, { "id": "4", "name": "Hazard \u0026 Natural Disaster", "parent": "0" }, { "id": "4.14", "name": "Climatic Hazard", "parent": "4" }, { "name": "Upazila Wise Exposure", "parent": "4.14", "value": 1 }, { "name": "Upazila Wise Risk Index", "parent": "4.14", "value": 1 }, { "name": "Major River Erosion and Accretion", "parent": "4.14", "value": 1 }, { "name": "Cyclone Affected Area", "parent": "4.14", "value": 1 }, { "name": "Tornado Affected Area", "parent": "4.14", "value": 1 }, { "id": "4.15", "name": "Geophysical Hazard", "parent": "4" }, { "name": "Seismic Zone", "parent": "4.15", "value": 1 }, { "name": "Landslide Locations", "parent": "4.15", "value": 1 }, { "id": "5", "name": "Ecosystem and Biodiversity", "parent": "0" }, { "id": "5.18", "name": "Critical or Endangered Areas", "parent": "5" }, { "name": "National Parks of bangladesh 2020", "parent": "5.18", "value": 1 }, { "name": "Wildlife Sanctuaries of bangladesh 2020", "parent": "5.18", "value": 1 }, { "id": "6", "name": "Demographic and Socio Economic\r\n", "parent": "0" }, { "id": "6.19", "name": "Socio-Economic Indicators", "parent": "6" }, { "name": "Upazila Wise Poverty", "parent": "6.19", "value": 1 }, { "name": "District Wise Poverty", "parent": "6.19", "value": 1 }, { "name": "Upazila Wise Population Density", "parent": "6.19", "value": 1 }, { "name": "District Wise Fertility Rate CBR", "parent": "6.19", "value": 1 }, { "name": "District Wise Fertility Rate GFR", "parent": "6.19", "value": 1 }, { "name": "District Wise Fertility Rate TFR", "parent": "6.19", "value": 1 }, { "name": "District Wise Mortality Rate CDR", "parent": "6.19", "value": 1 }, { "name": "District Wise Mortality Rate IMR", "parent": "6.19", "value": 1 }, { "name": "District Wise Mortality Rate  U5MR", "parent": "6.19", "value": 1 }, { "id": "6.20", "name": "Health Hazard Data", "parent": "6" }, { "name": "District Wise Disability Rate DISAB", "parent": "6.20", "value": 1 }];
+
+
+        Highcharts.chart('container', {
+
+            chart: {
+                height: '100%'
+            },
+
+            // Let the center circle be transparent
+            colors: ['#2986B5','#A1BFE4','#39687E','#1251B5','#6DA643','#84ACD7'],
+            //colors: {
+            //        radialGradient: { cx: 0.5, cy: 0.5, r: 0.5 },
+            //        stops: [
+            //            [0, '#003399'],
+            //            [1, '#3366AA']
+            //        ]
+            //    },
+               
+
+                title: {
+                    text: ''
+                },
+
+                subtitle: {
+                    text: ''
+                },
+
+                series: [{
+                    type: 'sunburst',
+                    data: data,
+                    name: 'Root',
+                    allowDrillToNode: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        format: '{point.name}',
+                        filter: {
+                            property: 'innerArcLength',
+                            operator: '>',
+                            value: 16
+                        },
+                        rotationMode: 'circular'
+                    },
+                    levels: [{
+                        level: 1,
+                        levelIsConstant: false,
+                        dataLabels: {
+                            filter: {
+                                property: 'outerArcLength',
+                                operator: '>',
+                                value: 64
+                            }
+                        }
+                    }, {
+                        level: 2,
+                        colorByPoint: true
+                    },
+                    {
+                        level: 3,
+                        colorVariation: {
+                            key: 'brightness',
+                            to: -0.5
+                        }
+                    }, {
+                        level: 4,
+                        colorVariation: {
+                            key: 'brightness',
+                            to: 0.5
+                        }
+                    }]
+
+                }],
+
+                tooltip: {
+                    headerFormat: '',
+                    //pointFormat: '<b>{point.name}</b> has <b>{point.value} layers</b>'  //Customization
+                    pointFormat: '<b>{point.name}</b>'
                 }
+            });
+    </script>
+
+
+    <script type="text/javascript">
+        $(function() {
+
+
+            const AppendTextInMarquee = () => {
+
+                msg = `এক নদী রক্ত পেরিয়ে বাংলার স্বাধীনতা আনলে যারা আমরা তোমাদের ভুলবোনা….!” বাংলার স্বাধীনতার জন্য যাদের রক্তের নদী বয়ে গিয়েছিল বাংলার বুকে সেই সকল শহীদদের আত্মার মাগফেরাত কামনায় স্বাধীনতা দিবস সফল হোক।`
+                $(".marquee").text(msg)
+            }
             AppendTextInMarquee();
 
-    //        setTimeout(()=>{
-    //    const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
-    //    keyboard: false
-    //    })
-    //    myModal.show()
-    //},1000);
+            //        setTimeout(()=>{
+            //    const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
+            //    keyboard: false
+            //    })
+            //    myModal.show()
+            //},1000);
 
 
             var dashboard_map;
@@ -307,9 +482,9 @@
             var total = [];
             var optionsChart = {};
 
-            jQuery.when(getMapData()).then(function () {
-                jQuery.when(mapInit()).then(function () {
-                    setTimeout(function () { addLayer() }, 500);
+            jQuery.when(getMapData()).then(function() {
+                jQuery.when(mapInit()).then(function() {
+                    setTimeout(function() { addLayer() }, 500);
                 });
             });
 
@@ -355,7 +530,7 @@
             }
 
             function addLayer() {
-                var layerPath = window.location.pathname+"/assets/js/map/map_data/administrative/administrative_boundary/district/district.json";
+                var layerPath = window.location.pathname + "/assets/js/map/map_data/administrative/administrative_boundary/district/district.json";
                 //var layerPath = "../assets/js/map/map_data/" + filepath;
                 var layerData = L.geoJson(null, {
                     style: style,
@@ -363,10 +538,10 @@
                 });
 
 
-                $.getJSON(layerPath, function (LayerInfo) {
+                $.getJSON(layerPath, function(LayerInfo) {
                     if (!LayerInfo) return;
                     layerData.addData(LayerInfo);
-                }).done(function (e) {
+                }).done(function(e) {
                     dashboard_map.addLayer(layerData);
                 });
                 function style(feature) {
@@ -421,7 +596,7 @@
                     var popupContent = '<div style="width:120px;text-align:center;"><p>' + layer.feature.properties["District"] + " : " + layerMapData[layer.feature.properties["GeoCode"]] + ' (%)</p></div>';
 
 
-                    layer.bindPopup(popupContent,L.popup({
+                    layer.bindPopup(popupContent, L.popup({
                         //setLatLng: marker.getLatLng(),
                         closeOnClick: false,
                         autoClose: false,
@@ -434,8 +609,8 @@
                     layerData.resetStyle(e.target);
                 }
 
-                legend.onAdd = function (map) {
-                    legend_data =@Html.Raw(legendData);
+                legend.onAdd = function(map) {
+                    legend_data = @Html.Raw(legendData);
                     legend_div.innerHTML += '<p style="text-decoration: underline;">District Wise Poverty Rate(%) </p>';
                     for (var i = 0; i < legend_data.length; i++) {
 
@@ -458,7 +633,7 @@
                 }
             }
             function getMapData() {
-                layer_Data =@Html.Raw(mapData);
+                layer_Data = @Html.Raw(mapData);
                 for (var i = 0; i < layer_Data.length; i++) {
                     layerMapData[layer_Data[i].DistrictGeoCode] = layer_Data[i].PovertyRate;
                 }
@@ -505,215 +680,259 @@
             //    });
             //});
 
-            @*function loadChart() {
-                                                                dist = [];
-                                                                male = [];
-                                                                female = [];
-                                                                total = [];
-                                                                var distCodeList = [];
+        @*function loadChart() {
+            dist = [];
+            male = [];
+            female = [];
+            total = [];
+            var distCodeList = [];
 
-                                                                if ($("#DistCode").val().length > 0) {
-                                                                    distCodeList = $("#DistCode").val();
+            if ($("#DistCode").val().length > 0) {
+            distCodeList = $("#DistCode").val();
 
-                                                                } else {
-                                                                    distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
-                                                                }
-                                                                jQuery.ajax({
-                                                                    type: "POST",
-                                                                    url: "@Url.Action("GetChartData")",
-                                                                    dataType: "json",
-                                                                    data: { distCodeList: distCodeList },
-                                                                    before: jQuery("#busy-indicator").fadeIn(150),
-                                                                    success: function (datas) {
-                                                                        $.each(datas, function (i, item) {
-                                                                            dist.push(item.distName);
-                                                                            male.push(item.male);
-                                                                            female.push(item.female);
-                                                                            total.push(item.total);
-                                                                        });
-                                                                    },
-                                                                    error: function (ex, status, error) {
-
-                                                                    },
-                                                                    complete: function () {
-                                                                        jQuery("#busy-indicator").fadeOut(150);
-                                                                    }
-                                                                });
-                                                            }*@
-
-
-            function drawChart() {
-                /*$("#dash_chart1").empty();*/
-                var optionsDashChart1 = {
-                    chart: { height: 600, type: "line", stacked: !1, toolbar: { show: !1 } },
-                    stroke: { width: [0, 1, 2], curve: "smooth" },
-                    plotOptions: { bar: { columnWidth: "15%" } },
-                    colors: ["#F2520C", "#F1B44C", "#5B73E8"], //"#F2860C","#F2E10C", "#F2B30C",
-                    series: [
-                        { name: "Male", type: "column", data:  @Html.Raw(yMale) },
-                        { name: "Female", type: "line", data: @Html.Raw(yFemale) },
-                        { name: "Total Population", type: "area", data: @Html.Raw(yTotal) }
-                    ],
-                    fill: {
-                        opacity: [.85, .85, 0.5],
-                        gradient: { inverseColors: !1, shade: "light", type: "vertical", opacityFrom: .85, opacityTo: .55, stops: [0, 100, 100, 100] }
-                    },
-                    labels: @Html.Raw(xLabels),
-                    markers: { size: 0 },
-                    xaxis: { title: { text: "District" } },
-                    yaxis: { title: { text: "Population" } },
-                    tooltip: {
-                        shared: !0, intersect: !1,
-                        y: { formatter: function (e) { return void 0 !== e ? e.toFixed(0) + "" : e } }
-                    },
-                    grid: { borderColor: "#f1f1f1" }
-                };
-
-                (chart = new ApexCharts(document.querySelector("#dash_chart1"), optionsDashChart1)).render();
-
+            } else {
+            distCodeList = ['3026', '6091', '5527', '5081', '1006', '2015', '4047'];
             }
+            jQuery.ajax({
+            type: "POST",
+            url: "@Url.Action("GetChartData")",
+            dataType: "json",
+            data: { distCodeList: distCodeList },
+            before: jQuery("#busy-indicator").fadeIn(150),
+            success: function (datas) {
+            $.each(datas, function (i, item) {
+            dist.push(item.distName);
+            male.push(item.male);
+            female.push(item.female);
+            total.push(item.total);
+            });
+            },
+            error: function (ex, status, error) {
+
+            },
+            complete: function () {
+            jQuery("#busy-indicator").fadeOut(150);
+            }
+            });
+            }*@
+
+
+                function drawChart() {
+                    /*$("#dash_chart1").empty();*/
+                    var optionsDashChart1 = {
+                        chart: { height: 600, type: "line", stacked: !1, toolbar: { show: !1 } },
+                        stroke: { width: [0, 1, 2], curve: "smooth" },
+                        plotOptions: { bar: { columnWidth: "15%" } },
+                        colors: ["#F2520C", "#F1B44C", "#5B73E8"], //"#F2860C","#F2E10C", "#F2B30C",
+                        series: [
+                            { name: "Male", type: "column", data: @Html.Raw(yMale) },
+                            { name: "Female", type: "line", data: @Html.Raw(yFemale) },
+                            { name: "Total Population", type: "area", data: @Html.Raw(yTotal) }
+                        ],
+                        fill: {
+                            opacity: [.85, .85, 0.5],
+                            gradient: { inverseColors: !1, shade: "light", type: "vertical", opacityFrom: .85, opacityTo: .55, stops: [0, 100, 100, 100] }
+                        },
+                        labels: @Html.Raw(xLabels),
+                        markers: { size: 0 },
+                        xaxis: { title: { text: "District" } },
+                        yaxis: { title: { text: "Population" } },
+                        tooltip: {
+                            shared: !0, intersect: !1,
+                            y: { formatter: function(e) { return void 0 !== e ? e.toFixed(0) + "" : e } }
+                        },
+                        grid: { borderColor: "#f1f1f1" }
+                    };
+
+                    (chart = new ApexCharts(document.querySelector("#dash_chart1"), optionsDashChart1)).render();
+
+                }
 
         });
 
-</script>
-
-<script>
-    //const width = window.innerWidth,
-    //    height = window.innerHeight,
-    //    maxRadius = (Math.min(width, height) / 2) - 5;
-
-    const width = 600, height = 600, maxRadius = (Math.min(width, height) / 2) - 5;
-
-    const formatNumber = d3.format(',d');
-
-    const x = d3.scaleLinear().range([0, 2 * Math.PI]).clamp(true);
-
-    const y = d3.scaleSqrt().range([maxRadius * .1, maxRadius]);
-
-    const color = d3.scaleOrdinal(d3.schemeCategory20);
+    </script>
 
 
-    const partition = d3.partition();
-
-    const arc = d3.arc()
-        .startAngle(d => x(d.x0))
-        .endAngle(d => x(d.x1))
-        .innerRadius(d => Math.max(0, y(d.y0)))
-        .outerRadius(d => Math.max(0, y(d.y1)));
-
-    const middleArcLine = d => {
-        const halfPi = Math.PI / 2;
-        const angles = [x(d.x0) - halfPi, x(d.x1) - halfPi];
-        const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
-
-        const middleAngle = (angles[1] + angles[0]) / 2;
-        const invertDirection = middleAngle > 0 && middleAngle < Math.PI; // On lower quadrants write text ccw
-        if (invertDirection) { angles.reverse(); }
-
-        const path = d3.path();
-        path.arc(0, 0, r, angles[0], angles[1], invertDirection);
-        return path.toString();
-    };
-
-    const textFits = d => {
-        const CHAR_SPACE = 6;  //6
-        const deltaAngle = x(d.x1) - x(d.x0);
-        const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
-        const perimeter = r * deltaAngle;
-        return d.data.name.length * CHAR_SPACE < perimeter;
-    };
-
-    const svg = d3.select('.gggg').append('svg')
-        //.style('width', '100vw')
-        //.style('height', '600px')
-        .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
-        .on('click', () => focusOn()); // Reset zoom on canvas click
 
 
-    var rootPath=window.location.pathname;
-   
-     if(window.location.pathname.slice(-1)=="/"){
-         rootPath=rootPath.substring(0, rootPath.length - 1)
-     }
+    <script>
 
-    d3.json(rootPath + '/Home/Data', (error, root) => {
-        if (error) throw error;
-        root = d3.hierarchy(root);
-        root.sum(d => d.size);
-        const slice = svg.selectAll('g.slice')
-            .data(partition(root).descendants());
+        const width = 600, height = 600, maxRadius = (Math.min(width, height) / 2) - 5;
 
-        slice.exit().remove();
+        const formatNumber = d3.format(',d');
 
-        const newSlice = slice.enter()
-            .append('g').attr('class', 'slice')
-            .on('click', d => {
-                d3.event.stopPropagation();
-                focusOn(d);
-            });
+        const x = d3.scaleLinear().range([0, 2 * Math.PI]).clamp(true);
 
-        newSlice.append('title').text(d => d.data.name+ '\n' + d.data.description);  //Display value also on toolstips + '\n' + d.data.description
+        const y = d3.scaleSqrt().range([maxRadius * .1, maxRadius]);
 
-        newSlice.append('path')
-            .attr('class', 'main-arc')
-            .style('fill', d => color((d.children ? d : d.parent).data.name))
-            .attr('d', arc);
+        const color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        newSlice.append('path')
-            .attr('class', 'hidden-arc')
-            .attr('id', (_, i) => `hiddenArc${i}`)
-            .attr('d', middleArcLine);
 
-        const text = newSlice.append('text')
-            .attr('display', d => textFits(d)); //.attr('display', d => textFits(d) ? null : 'none');  Edit by RMO
+        const partition = d3.partition();
 
-        // Add white contour
-        //text.append('textPath')
-        //    .attr('startOffset', '50%')
-        //    .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
-        //    .text(d => d.data.name)
-        //    .style('fill', 'none')
-        //    .style('stroke', '#fff')
-        //    .style('stroke-width', 5)
-        //    .style('stroke-linejoin', 'round');
+        const arc = d3.arc()
+            .startAngle(d => x(d.x0))
+            .endAngle(d => x(d.x1))
+            .innerRadius(d => Math.max(0, y(d.y0)))
+            .outerRadius(d => Math.max(0, y(d.y1)));
 
-        text.append('textPath')
-            .attr('startOffset', '50%')
-            .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
-            .text(d => d.data.name);
+        const middleArcLine = d => {
+            const halfPi = Math.PI / 2;
+            const angles = [x(d.x0) - halfPi, x(d.x1) - halfPi];
+            const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
 
-    });
+            const middleAngle = (angles[1] + angles[0]) / 2;
+            const invertDirection = middleAngle > 0 && middleAngle < Math.PI; // On lower quadrants write text ccw
+            if (invertDirection) { angles.reverse(); }
 
-    function focusOn(d = { x0: 0, x1: 1, y0: 0, y1: 1 }) {
-        // Reset to top-level if no data point specified
-        const transition = svg.transition()
-            .duration(750)
-            .tween('scale', () => {
-                const xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
-                    yd = d3.interpolate(y.domain(), [d.y0, 1]);
-                return t => { x.domain(xd(t)); y.domain(yd(t)); };
-            });
-        transition.selectAll('path.main-arc')
-            .attrTween('d', d => () => arc(d));
+            const path = d3.path();
+            path.arc(0, 0, r, angles[0], angles[1], invertDirection);
+            return path.toString();
+        };
 
-        transition.selectAll('path.hidden-arc')
-            .attrTween('d', d => () => middleArcLine(d));
+        const textFits = d => {
+            const CHAR_SPACE = 2;  //6
+            const deltaAngle = x(d.x1) - x(d.x0);
+            const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
+            const perimeter = r * deltaAngle;
+            return d.data.name.length * CHAR_SPACE < perimeter;
+        };
 
-        transition.selectAll('text')
-            .attrTween('display', d => () => textFits(d));  // .attrTween('display', d => () => textFits(d) ? null : 'none');
+        const svg = d3.select('.gggg').append('svg')
+            .on("mouseleave", mouseleave)
+            .on("mouseover", mouseover)
+            //.style('width', '100vw')
+            //.style('height', '600px')
+            .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
+            .on('click', () => focusOn()); // Reset zoom on canvas click
 
-        moveStackToFront(d);
-        //
-        function moveStackToFront(elD) {
-            svg.selectAll('.slice').filter(d => d === elD)
-                .each(function (d) {
-                    this.parentNode.appendChild(this);
-                    if (d.parent) { moveStackToFront(d.parent); }
-            })
+
+        var rootPath = window.location.pathname;
+
+        if (window.location.pathname.slice(-1) == "/") {
+            rootPath = rootPath.substring(0, rootPath.length - 1)
         }
-    }
+
+        d3.json(rootPath + '/Home/Data', (error, root) => {
+            if (error) throw error;
+            root = d3.hierarchy(root);
+            root.sum(d => d.size);
+            const slice = svg.selectAll('g.slice')
+                .data(partition(root).descendants());
+
+            slice.exit().remove();
+
+            const newSlice = slice.enter()
+                .append('g').attr('class', 'slice')
+                .on('click', d => {
+                    d3.event.stopPropagation();
+                    focusOn(d);
+                });
+
+            newSlice.append('title').text(d => d.data.name + '\n' + d.data.description);  //Display value also on toolstips + '\n' + d.data.description
+
+            newSlice.append('path')
+                .attr('class', 'main-arc')
+                //.style('fill', d => color((d.children ? d : d.parent).data.name))  //
+                .style('fill', d => d.data.color)
+                .attr('d', arc);
+
+            newSlice.append('path')
+                .attr('class', 'hidden-arc')
+                .attr('id', (_, i) => `hiddenArc${i}`)
+                .attr('d', middleArcLine);
+
+            const text = newSlice.append('text').attr('display', d => textFits(d)); //.attr('display', d => textFits(d) ? null : 'none');  Edit by RMO
+
+            //    var text = newSlice.append("text")
+            //.attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+            //.attr("x", function(d) { return y(d.y); })
+            //.attr("dx", "6")  margin
+            //.attr("dy", ".35em")  vertical-align
+            //.attr("visibility",function(d) { return d.dx < 0.01? "hidden" : "visible"})
+            //.text(function(d) { return d.name; });
+
+            // Add white contour
+            //text.append('textPath')
+            //    .attr('startOffset', '50%')
+            //    .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
+            //    .text(d => d.data.name)
+            //    .style('fill', 'none')
+            //    .style('stroke', '#fff')
+            //    .style('stroke-width', 5)
+            //    .style('stroke-linejoin', 'round');
+
+            text.append('textPath')
+                .attr('startOffset', '50%')
+                .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
+                .text(d => d.data.name);
+
+        });
+
+        function mouseleave(d) {
+            // Deactivate all segments during transition.
+            d3.selectAll("path").on("mouseover", null);
+
+            // Transition each segment to full opacity and then reactivate it.
+            d3.selectAll("path")
+                .transition()
+                .duration(1000)
+                .style("opacity", 1)
+                .on("end", function() {
+                    d3.select(this).on("mouseover", mouseover);
+                });
+        }
+        function mouseover(d) {
+
+            var sequenceArray = getAncestors(d);
+
+            // Fade all the segments.
+            d3.selectAll("path")
+                .style("opacity", 0.3);
+
+            // Then highlight only those that are an ancestor of the current segment.
+            svg.selectAll("path")
+                .filter(function(node) {
+                    return (sequenceArray.indexOf(node) >= 0);
+                })
+                .style("opacity", 1);
+        }
+
+        //  function computeTextRotation(d) {
+        //var ang = (x(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+        //return (ang > 90) ? 180 + ang : ang;
+        //}
+
+        function focusOn(d = { x0: 0, x1: 1, y0: 0, y1: 1 }) {
+            // Reset to top-level if no data point specified
+            const transition = svg.transition()
+                .duration(750)
+                .tween('scale', () => {
+                    const xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+                        yd = d3.interpolate(y.domain(), [d.y0, 1]);
+                    return t => { x.domain(xd(t)); y.domain(yd(t)); };
+                });
+            transition.selectAll('path.main-arc')
+                .attrTween('d', d => () => arc(d));
+
+            transition.selectAll('path.hidden-arc')
+                .attrTween('d', d => () => middleArcLine(d));
+
+            transition.selectAll('text')
+                .attrTween('display', d => () => textFits(d));  // .attrTween('display', d => () => textFits(d) ? null : 'none');
+
+            moveStackToFront(d);
+            //
+            function moveStackToFront(elD) {
+                svg.selectAll('.slice').filter(d => d === elD)
+                    .each(function(d) {
+                        this.parentNode.appendChild(this);
+                        if (d.parent) { moveStackToFront(d.parent); }
+                    })
+            }
+        }
 
 
-</script>
+    </script>
 
 }
