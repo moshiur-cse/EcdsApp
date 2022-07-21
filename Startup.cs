@@ -1,7 +1,6 @@
 using EcdsApp.Data;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
@@ -55,6 +54,7 @@ namespace EcdsApp
             {
                 // User settings
                 options.User.RequireUniqueEmail = true;
+                //options.User.AllowedUserNameCharacters=;
                 options.Stores.MaxLengthForKeys = 128;
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 4;
@@ -67,7 +67,7 @@ namespace EcdsApp
                 //adding lockout user options
 
                 options.Lockout.AllowedForNewUsers = true;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(20);
                 options.Lockout.MaxFailedAccessAttempts = 3;
 
 
@@ -84,9 +84,9 @@ namespace EcdsApp
                 //options.ClientId = "444141584048-ecgn1sa3ubmvrbmmd7ocpl8sehvu3vpm.apps.googleusercontent.com";
                 //options.ClientSecret = "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";
                 options.ClientId = "636285168617-vgnq3f6h1cvc8slmu6vhict38nvdael8.apps.googleusercontent.com";
-                options.ClientSecret = "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";                
+                options.ClientSecret = "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";
                 options.Scope.Add("profile");
-                options.SignInScheme = IdentityConstants.ExternalScheme;     
+                options.SignInScheme = IdentityConstants.ExternalScheme;
             });
 
 
@@ -149,7 +149,7 @@ namespace EcdsApp
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
-                       
+
 
             services.AddMvc()
                 .AddSessionStateTempDataProvider()

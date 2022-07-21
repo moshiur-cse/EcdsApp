@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using EcdsApp.Models.UserManage;
+﻿using EcdsApp.Models.UserManage;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcdsApp.Areas.Identity.Pages.Account
 {
@@ -22,7 +19,7 @@ namespace EcdsApp.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, 
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
         {
@@ -80,20 +77,21 @@ namespace EcdsApp.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(await _userManager.FindByNameAsync(Input.UserName));
-                if (!isEmailConfirmed)
-                {
-                    ModelState.AddModelError(string.Empty, "Email is not confirmed yet.");
-                    return Page();
-                }
+
                 var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(await _userManager.FindByNameAsync(Input.UserName));
+                    if (!isEmailConfirmed)
+                    {
+                        ModelState.AddModelError(string.Empty, "Email is not confirmed yet.");
+                        return Page();
+                    }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
@@ -106,7 +104,7 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                
+
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");

@@ -1,19 +1,18 @@
-﻿using System;
+﻿using EcdsApp.Models.UserManage;
+using EcdsApp.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using EcdsApp.Models.UserManage;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using EcdsApp.Services;
 
 namespace EcdsApp.Areas.Identity.Pages.Account
 {
@@ -124,9 +123,34 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     UserName = Input.UserName
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                
+
                 if (result.Succeeded)
                 {
+
+                    //var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //var confirmationLink = Url.Action("ConfirmEmail", "Home", new { UserId = user.Id, token = token }, Request.Scheme);
+                    //string emailBodyInHTML = "<h4>Dear User,</h4><p>Please click on the link below to confirm your registration<p>" + "<a href='" + confirmationLink + "'>Click here</a></br><p>Thanks<p><p>System Administrator, Disaster and Climate Risk Information Platform<p>";
+
+                    //EmailSender email = new EmailSender();
+                    //EmailCredentials emailCredentials = new EmailCredentials()
+                    //{
+                    //    subject = "Email Verification link.",
+                    //    htmlBody = emailBodyInHTML,
+                    //    receiver = user.Email
+                    //};
+                    //var status = email.SendMessage(emailCredentials);
+                    //if (status == "succeed")
+                    //{
+                    //    _logger.LogInformation(confirmationLink);
+                    //    _logger.LogInformation("User created a new account with password.");
+
+                    //    ViewData["ConfirmEmail"] = true;
+                    //    return Page();
+                    //}
+
+
+
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -137,7 +161,7 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    bool state= await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
+                    bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
                     {
                         Subject = "Confirm your email",
                         To = Input.Email,
@@ -145,22 +169,14 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     });
                     if (state)
                     {
-                        var msg = "Please registered Successfully. Click the confirmation link from your email to activate your account.";
-                        return RedirectToPage("Register", new { msg = msg });
+                        var msg = "Registered Successfully. Click the confirmation link from your email to activate your account.";
+
+                        ModelState.AddModelError(string.Empty, msg);
+                        return Page();
+                        //return RedirectToPage("Register", new { msg = msg });
                     }
 
-                    //Input.Email, "Confirm your email",
-                    //$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    //{
-                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    //}
-                    //else
-                    //{
-                    //    await _signInManager.SignInAsync(user, isPersistent: false);
-                    //    return LocalRedirect(returnUrl);
-                    //}
                 }
                 foreach (var error in result.Errors)
                 {

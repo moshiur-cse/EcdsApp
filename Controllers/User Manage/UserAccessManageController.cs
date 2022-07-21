@@ -377,12 +377,16 @@ namespace EcdsApp.Controllers.User_Manage
 
 
         [Authorize]
-        public async Task<IActionResult> ViewProfile()
+        public async Task<IActionResult> ViewProfile(string id)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
-            if(applicationUser == null)
+            if (applicationUser == null)
             {
                 applicationUser = await _userManager.FindByEmailAsync(User.FindFirst(ClaimTypes.Email).Value);
+            }
+            if (id != null)
+            {
+                return View(await _userManager.FindByIdAsync(id));
             }
             return View(applicationUser);
         }
@@ -394,6 +398,23 @@ namespace EcdsApp.Controllers.User_Manage
             if (userProfile == null)
                 return NotFound();
             return View(userProfile);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                await _userManager.DeleteAsync(user);
+                return Json("Succeeded");
+            }
+            else
+            {
+                var errmessg = "The User " + id + " not found";
+                return Json(errmessg);
+            }
+
         }
 
         [HttpPost]
@@ -513,6 +534,6 @@ namespace EcdsApp.Controllers.User_Manage
                 return RedirectToPage("/Identity/Account/Login");
             }
         }
-        
+
     }
 }

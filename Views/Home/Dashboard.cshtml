@@ -30,61 +30,7 @@
 
     <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
     <style>
-
-        .highcharts-figure,
-        .highcharts-data-table table {
-            min-width: 320px;
-            max-width: 800px;
-            margin: 1em auto;
-        }
-
-        .highcharts-data-table table {
-            font-family: Verdana, sans-serif;
-            border-collapse: collapse;
-            border: 1px solid #ebebeb;
-            margin: 10px auto;
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .highcharts-data-table caption {
-            padding: 1em 0;
-            font-size: 1.2em;
-            color: #555;
-        }
-
-        .highcharts-data-table th {
-            font-weight: 600;
-            padding: 0.5em;
-        }
-
-        .highcharts-data-table td,
-        .highcharts-data-table th,
-        .highcharts-data-table caption {
-            padding: 0.5em;
-        }
-
-        .highcharts-data-table thead tr,
-        .highcharts-data-table tr:nth-child(even) {
-            background: #f8f8f8;
-        }
-
-        .highcharts-data-table tr:hover {
-            background: #f1f7ff;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
+        
         .legend_info {
             padding: 1px;
             background: rgba(255,255,255,0.8);
@@ -120,7 +66,7 @@
             height: auto !important;
             width: auto !important;
             /*font-weight: bold;
-                                                                                                    color: #025 line-height: 1;*/
+                                                                                                                                            color: #025 line-height: 1;*/
             padding: 0.2rem 0.3rem;
             text-align: center;
             font-weight: bold;
@@ -155,8 +101,9 @@
             font-size: 12px;
             font-family: Helvetica,Arial, sans-serif;
         }
-        .highcharts-credits{
-            display:none
+
+        .highcharts-credits {
+            display: none
         }
     </style>
 }
@@ -202,15 +149,15 @@
                             @* <div class="gggg">
 
                         </div>*@
-                           @* <figure class="highcharts-figure">*@
-                                <div id="container"></div>
-                                @*<p class="highcharts-description">
-                                    This chart is used to visualize hierarchical data in a
-                                circular shape. The inner elements are parent nodes, with
-                                child nodes distributed on the outer rings. Click on a parent
-                                node to drill down and inspect the tree in more detail.
-                                </p>*@
-                           @* </figure>*@
+                            @* <figure class="highcharts-figure">*@
+                            <div id="container"></div>
+                            @*<p class="highcharts-description">
+                        This chart is used to visualize hierarchical data in a
+                        circular shape. The inner elements are parent nodes, with
+                        child nodes distributed on the outer rings. Click on a parent
+                        node to drill down and inspect the tree in more detail.
+                        </p>*@
+                            @* </figure>*@
                         </div>
                     </div>
                 </div>
@@ -365,7 +312,7 @@
 
     <script>
 
-        var data = [{ "id": "0", "name": "Theme List" }, { "id": "1", "name": "Administrative", "parent": "0" }, { "id": "1.1", "name": "Administrative Boundary", "parent": "1" }, { "name": "Division", "parent": "1.1", "value": 1 }, { "name": "District", "parent": "1.1", "value": 1 }, { "name": "Upazila", "parent": "1.1", "value": 1 }, { "name": "Union", "parent": "1.1", "value": 1 }, { "name": "City Corporation", "parent": "1.1", "value": 1 }, { "name": "Municipality", "parent": "1.1", "value": 1 }, { "id": "1.2", "name": "Road Network", "parent": "1" }, { "name": "National Highway", "parent": "1.2", "value": 1 }, { "name": "Regional Highway", "parent": "1.2", "value": 1 }, { "name": "Zilla Road", "parent": "1.2", "value": 1 }, { "name": "Upazila Road", "parent": "1.2", "value": 1 }, { "id": "1.3", "name": "Railway Network", "parent": "1" }, { "name": "Rail Line", "parent": "1.3", "value": 1 }, { "name": "Rail Station", "parent": "1.3", "value": 1 }, { "id": "1.4", "name": "River Network", "parent": "1" }, { "name": "Main River", "parent": "1.4", "value": 1 }, { "id": "2", "name": "Environmental \u0026 Natural Resources", "parent": "0" }, { "id": "2.6", "name": "Land Use and Land Cover", "parent": "2" }, { "name": "Flood Regime Land Type", "parent": "2.6", "value": 1 }, { "id": "2.7", "name": "Soil and Agriculture", "parent": "2" }, { "name": "Ground Water Level 2018", "parent": "2.7", "value": 1 }, { "id": "2.9", "name": "Forestry", "parent": "2" }, { "name": "Forestry", "parent": "2.9", "value": 1 }, { "id": "3", "name": "Climate \u0026 Climate Change", "parent": "0" }, { "id": "3.12", "name": "Weather and Climate", "parent": "3" }, { "name": "Yearly Total Avg Lightening 2015 to 2019", "parent": "3.12", "value": 1 }, { "name": "Precipitation", "parent": "3.12", "value": 1 }, { "name": "District Wise Yearly Total Lightening", "parent": "3.12", "value": 1 }, { "name": "District Wise Yearly Average Thunderstorm", "parent": "3.12", "value": 1 }, { "id": "3.13", "name": "Climate Change", "parent": "3" }, { "name": "Projection of Rainfall SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Rainfall SSP5-8.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Max Temp SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Max Temp SSP5-8.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Min Temp SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Min Temp SSP5-8.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Mean Temp SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Mean Temp SSP5-8.5", "parent": "3.13", "value": 1 }, { "id": "4", "name": "Hazard \u0026 Natural Disaster", "parent": "0" }, { "id": "4.14", "name": "Climatic Hazard", "parent": "4" }, { "name": "Upazila Wise Exposure", "parent": "4.14", "value": 1 }, { "name": "Upazila Wise Risk Index", "parent": "4.14", "value": 1 }, { "name": "Major River Erosion and Accretion", "parent": "4.14", "value": 1 }, { "name": "Cyclone Affected Area", "parent": "4.14", "value": 1 }, { "name": "Tornado Affected Area", "parent": "4.14", "value": 1 }, { "id": "4.15", "name": "Geophysical Hazard", "parent": "4" }, { "name": "Seismic Zone", "parent": "4.15", "value": 1 }, { "name": "Landslide Locations", "parent": "4.15", "value": 1 }, { "id": "5", "name": "Ecosystem and Biodiversity", "parent": "0" }, { "id": "5.18", "name": "Critical or Endangered Areas", "parent": "5" }, { "name": "National Parks of bangladesh 2020", "parent": "5.18", "value": 1 }, { "name": "Wildlife Sanctuaries of bangladesh 2020", "parent": "5.18", "value": 1 }, { "id": "6", "name": "Demographic and Socio Economic\r\n", "parent": "0" }, { "id": "6.19", "name": "Socio-Economic Indicators", "parent": "6" }, { "name": "Upazila Wise Poverty", "parent": "6.19", "value": 1 }, { "name": "District Wise Poverty", "parent": "6.19", "value": 1 }, { "name": "Upazila Wise Population Density", "parent": "6.19", "value": 1 }, { "name": "District Wise Fertility Rate CBR", "parent": "6.19", "value": 1 }, { "name": "District Wise Fertility Rate GFR", "parent": "6.19", "value": 1 }, { "name": "District Wise Fertility Rate TFR", "parent": "6.19", "value": 1 }, { "name": "District Wise Mortality Rate CDR", "parent": "6.19", "value": 1 }, { "name": "District Wise Mortality Rate IMR", "parent": "6.19", "value": 1 }, { "name": "District Wise Mortality Rate  U5MR", "parent": "6.19", "value": 1 }, { "id": "6.20", "name": "Health Hazard Data", "parent": "6" }, { "name": "District Wise Disability Rate DISAB", "parent": "6.20", "value": 1 }];
+        var data = [{ "id": "0", "name": "Theme Wise Data Layers" }, { "id": "1", "name": "Administrative", "parent": "0" }, { "id": "1.1", "name": "Administrative Boundary", "parent": "1" }, { "name": "Division", "parent": "1.1", "value": 1 }, { "name": "District", "parent": "1.1", "value": 1 }, { "name": "Upazila", "parent": "1.1", "value": 1 }, { "name": "Union", "parent": "1.1", "value": 1 }, { "name": "City Corporation", "parent": "1.1", "value": 1 }, { "name": "Municipality", "parent": "1.1", "value": 1 }, { "id": "1.2", "name": "Road Network", "parent": "1" }, { "name": "National Highway", "parent": "1.2", "value": 1 }, { "name": "Regional Highway", "parent": "1.2", "value": 1 }, { "name": "Zilla Road", "parent": "1.2", "value": 1 }, { "name": "Upazila Road", "parent": "1.2", "value": 1 }, { "id": "1.3", "name": "Railway Network", "parent": "1" }, { "name": "Rail Line", "parent": "1.3", "value": 1 }, { "name": "Rail Station", "parent": "1.3", "value": 1 }, { "id": "1.4", "name": "River Network", "parent": "1" }, { "name": "Main River", "parent": "1.4", "value": 1 }, { "id": "2", "name": "Environmental \u0026 Natural Resources", "parent": "0" }, { "id": "2.6", "name": "Land Use and Land Cover", "parent": "2" }, { "name": "Flood Regime Land Type", "parent": "2.6", "value": 1 }, { "id": "2.7", "name": "Soil and Agriculture", "parent": "2" }, { "name": "Ground Water Level 2018", "parent": "2.7", "value": 1 }, { "id": "2.9", "name": "Forestry", "parent": "2" }, { "name": "Forestry", "parent": "2.9", "value": 1 }, { "id": "3", "name": "Climate \u0026 Climate Change", "parent": "0" }, { "id": "3.12", "name": "Weather and Climate", "parent": "3" }, { "name": "Yearly Total Avg Lightening 2015 to 2019", "parent": "3.12", "value": 1 }, { "name": "Precipitation", "parent": "3.12", "value": 1 }, { "name": "District Wise Yearly Total Lightening", "parent": "3.12", "value": 1 }, { "name": "District Wise Yearly Average Thunderstorm", "parent": "3.12", "value": 1 }, { "id": "3.13", "name": "Climate Change", "parent": "3" }, { "name": "Projection of Rainfall SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Rainfall SSP5-8.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Max Temp SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Max Temp SSP5-8.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Min Temp SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Min Temp SSP5-8.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Mean Temp SSP2-4.5", "parent": "3.13", "value": 1 }, { "name": "Projection of Mean Temp SSP5-8.5", "parent": "3.13", "value": 1 }, { "id": "4", "name": "Hazard \u0026 Natural Disaster", "parent": "0" }, { "id": "4.14", "name": "Climatic Hazard", "parent": "4" }, { "name": "Upazila Wise Exposure", "parent": "4.14", "value": 1 }, { "name": "Upazila Wise Risk Index", "parent": "4.14", "value": 1 }, { "name": "Major River Erosion and Accretion", "parent": "4.14", "value": 1 }, { "name": "Cyclone Affected Area", "parent": "4.14", "value": 1 }, { "name": "Tornado Affected Area", "parent": "4.14", "value": 1 }, { "id": "4.15", "name": "Geophysical Hazard", "parent": "4" }, { "name": "Seismic Zone", "parent": "4.15", "value": 1 }, { "name": "Landslide Locations", "parent": "4.15", "value": 1 }, { "id": "5", "name": "Ecosystem and Biodiversity", "parent": "0" }, { "id": "5.18", "name": "Critical or Endangered Areas", "parent": "5" }, { "name": "National Parks of bangladesh 2020", "parent": "5.18", "value": 1 }, { "name": "Wildlife Sanctuaries of bangladesh 2020", "parent": "5.18", "value": 1 }, { "id": "6", "name": "Demographic and Socio Economic\r\n", "parent": "0" }, { "id": "6.19", "name": "Socio-Economic Indicators", "parent": "6" }, { "name": "Upazila Wise Poverty", "parent": "6.19", "value": 1 }, { "name": "District Wise Poverty", "parent": "6.19", "value": 1 }, { "name": "Upazila Wise Population Density", "parent": "6.19", "value": 1 }, { "name": "District Wise Fertility Rate CBR", "parent": "6.19", "value": 1 }, { "name": "District Wise Fertility Rate GFR", "parent": "6.19", "value": 1 }, { "name": "District Wise Fertility Rate TFR", "parent": "6.19", "value": 1 }, { "name": "District Wise Mortality Rate CDR", "parent": "6.19", "value": 1 }, { "name": "District Wise Mortality Rate IMR", "parent": "6.19", "value": 1 }, { "name": "District Wise Mortality Rate  U5MR", "parent": "6.19", "value": 1 }, { "id": "6.20", "name": "Health Hazard Data", "parent": "6" }, { "name": "District Wise Disability Rate DISAB", "parent": "6.20", "value": 1 }];
 
 
         Highcharts.chart('container', {
@@ -374,76 +321,98 @@
                 height: '100%'
             },
 
-            // Let the center circle be transparent
-            colors: ['#2986B5','#A1BFE4','#39687E','#1251B5','#6DA643','#84ACD7'],
-            //colors: {
-            //        radialGradient: { cx: 0.5, cy: 0.5, r: 0.5 },
-            //        stops: [
-            //            [0, '#003399'],
-            //            [1, '#3366AA']
-            //        ]
-            //    },
-               
+            colors: ['#1251B5', '#2986B5', '#A1BFE4', '#39687E', '#6DA643', '#84ACD7'],
+            //6DA643
+            //'#1251B5'
 
-                title: {
-                    text: ''
-                },
+            title: {
+                text: ''
+            },
 
-                subtitle: {
-                    text: ''
-                },
+            subtitle: {
+                text: ''
+            },
 
-                series: [{
-                    type: 'sunburst',
-                    data: data,
-                    name: 'Root',
-                    allowDrillToNode: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        format: '{point.name}',
-                        filter: {
-                            property: 'innerArcLength',
-                            operator: '>',
-                            value: 16
-                        },
-                        rotationMode: 'circular'
+            series: [{
+                type: 'sunburst',
+                data: data,
+                name: 'Root',
+                allowDrillToNode: true,
+                //allowTraversingTree:true,
+                cursor: 'pointer',
+                dataLabels: {
+                    format: '{point.name}',
+                    filter: {
+                        property: 'innerArcLength',
+                        operator: '>',
+                        value: 16
                     },
-                    levels: [{
+                    style: {
+                        //textOverflow: 'clip'
+                        textOverflow: 'ellipsis'
+                    },
+                    rotationMode: 'circular'
+                },
+                levels: [
+                    {
                         level: 1,
                         levelIsConstant: false,
-                        dataLabels: {
+                        //colorByPoint: true,
+                        dataLabels:
+                        {
+                            format: '{point.name}',
                             filter: {
                                 property: 'outerArcLength',
                                 operator: '>',
                                 value: 64
                             }
+
                         }
-                    }, {
+                    },
+                    {
                         level: 2,
-                        colorByPoint: true
+                        colorByPoint: true,
+                        filter: {
+                            property: 'innerArcLength',
+                            operator: '>',
+                            value: 16
+                        },
+
                     },
                     {
                         level: 3,
+                        //colorByPoint: true,
                         colorVariation: {
                             key: 'brightness',
                             to: -0.5
                         }
-                    }, {
+                    },
+                    {
                         level: 4,
+                        //colorByPoint: true,
                         colorVariation: {
                             key: 'brightness',
                             to: 0.5
+                        },
+                        filter: {
+                            property: 'innerArcLength',
+                            operator: '>',
+                            value: 20
+                        },
+                        style: {
+                            textOverflow: 'clip'
+
                         }
                     }]
 
-                }],
+            }],
 
-                tooltip: {
-                    headerFormat: '',
-                    //pointFormat: '<b>{point.name}</b> has <b>{point.value} layers</b>'  //Customization
-                    pointFormat: '<b>{point.name}</b>'
-                }
-            });
+            tooltip: {
+                headerFormat: '',
+                //pointFormat: '<b>{point.name}</b> has <b>{point.value} layers</b>'  //Customization
+                pointFormat: '<b>{point.name}</b>'
+            }
+        });
     </script>
 
 

@@ -36,7 +36,10 @@
                                 <td>@item.Email</td>
                                 <td>
                                     @*<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light w-sm">Edit</a>*@
-                                    <a id="btnAssignRole" onclick="AssignRoleInUser('@item.Id')" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light w-sm">Assign Role</a>
+                                     <a id="btnAssignRole" onclick="AssignRoleInUser('@item.Id')" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light w-sm">Assign Role</a>
+                                     <a class="btn btn-outline-dark px-4" asp-action="UpdateProfile" asp-route-userid="@item.Id">Edit</a>
+                                     <a class="btn btn-outline-info navy-btn ml-2" asp-action="ViewProfile" asp-route-id="@item.Id">Details</a>
+                                     <a class="btn btn-danger ml-2" id="@item.Id" data-name="@item.UserName" data-email="@item.Email" onclick="Delete()">Delete</a>
                                 </td>
                             </tr>
                         }
@@ -81,6 +84,13 @@
 {
     <script type="text/javascript">
 
+ 
+        $(document).ready(function () {
+
+            $(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
+            
+        });
+    
         function AssignRoleInUser(userId) {
             $('#txtUserId').val(userId);
 
@@ -139,5 +149,51 @@
             });
 
         });
+
+        const Delete = () => {
+
+            let id = "#" + event.target.id;
+            //console.log(id);
+            let message = "You want to delete the user " + $(id).attr("data-name") + " ?";
+
+            let res = window.confirm(message);
+            id = id.slice(1);
+            if (res) {
+
+                $.ajax({
+                    url: '@Url.Action("DeleteUser")',
+                    data: { id: id },
+                    success: function (res) {
+                        if (res == "Succeeded") {
+                            ShowDeleteMessage(Reload)
+                        }
+                    }
+                });
+            }
+        }
+        let succMsg = "@TempData["msg"]";
+        if (succMsg != "") {
+            //swal("Success", succMsg, "success");
+
+            window.Swal.fire({
+						icon: "success",
+						title: succMsg,
+						//confirmButtonText: 'Ok'
+					})
+        }
+        
+        const Reload = () => {
+            setTimeout(function () { location.reload() }, 2000)
+        }
+
+        const ShowDeleteMessage = (callback) => {
+              window.Swal.fire({
+						icon: "success",
+						title: "The User is deleted successfully !",
+						//confirmButtonText: 'Ok'
+					})
+            callback()
+        }
+      
     </script>
 }
