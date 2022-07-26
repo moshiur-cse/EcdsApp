@@ -7,7 +7,8 @@
 }
 
 .topnav {
-    background: #526a8f !important;
+    /*background: #147189 !important;*/
+    background-image: linear-gradient(to top, #17677b, #196f86)!important;
 }
 
     .topnav .navbar-nav .nav-link {
@@ -25,7 +26,8 @@
 }
 
 .footer {
-    background: rgba(82, 106, 142, 0.8);
+    /*background: rgba(82, 106, 142, 0.8);*/
+    background-image: linear-gradient(to top, #17677b, #196f86) !important;
     color: #fcfdff;
 }
 
@@ -42,7 +44,7 @@
 .bd_logo {
     width: auto;
     height: 7vw;
-    max-height: 112px;
+    max-height: 120px;
     min-height: 55px;
     margin-top:-122px;
     padding: 0;
