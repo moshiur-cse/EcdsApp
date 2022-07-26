@@ -1,6 +1,7 @@
 ﻿
 #page-topbar {
-    background-image: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)), url('../images/banner.png');
+   /* background-image: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.1)), url('../images/banner.png');*/
+    background-image: url('../images/banner.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center right;
@@ -8,7 +9,7 @@
 
 .topnav {
     /*background: #147189 !important;*/
-    background-image: linear-gradient(to top, #17677b, #196f86)!important;
+    background-image: linear-gradient(to top, #2B7E91, #09A1C4)!important;
 }
 
     .topnav .navbar-nav .nav-link {
