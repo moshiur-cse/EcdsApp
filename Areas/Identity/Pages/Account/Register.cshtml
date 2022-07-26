@@ -166,8 +166,8 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
     //==display message sent from server
-    let message='@Request.Query["msg"]'
-    if(message.length>0 && message.includes("Please registered Successfully. Click the confirmation link from your email to activate your account.")){
+    let message=$(".validation-summary-errors > ul > li").text();
+    if(message.length>0 && message.includes("Registered Successfully. ")){
         console.log(message)
 		window.Swal.fire({
 			icon: "success",
