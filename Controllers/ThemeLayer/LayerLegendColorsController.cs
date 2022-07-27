@@ -2,6 +2,7 @@
 using EcdsApp.Models.ThemeModels;
 using EcdsApp.Security;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -53,7 +54,8 @@ namespace EcdsApp.Controllers.ThemeLayer
         [UserAuthorization]
         public IActionResult Create()
         {
-            ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(t => t.LegendColorOptionId == 1), "LayerId", "LayerDisplayName");
+            //ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(t => t.LegendColorOptionId == 1), "LayerId", "LayerDisplayName");
+            ViewData["Themes"] = new SelectList(_context.Themes.ToList(), "ThemeId", "ThemeName");
             return View();
         }
 
@@ -61,7 +63,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         [HttpPost]
         //[ValidateAntiForgeryToken]
         [UserAuthorization]
-        public IActionResult Create(LayerLegendColor formData)
+        public IActionResult Create(LayerLegendColor formData, IFormFile file)
         {
             var result = "Error";
             if (!ModelState.IsValid)
