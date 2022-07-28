@@ -29,14 +29,16 @@ namespace EcdsApp.Controllers.User_Manage
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IEmailSender _emailSender;
 
-        public UserAccessManageController(DataContext context, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager)
+        public UserAccessManageController(DataContext context, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager,IEmailSender emailSender)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -308,6 +310,7 @@ namespace EcdsApp.Controllers.User_Manage
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(string email, [FromServices] IEmailSender emailSender)
         {
@@ -334,7 +337,7 @@ namespace EcdsApp.Controllers.User_Manage
                 {
                     To = email,
                     Subject = "Password Reset of ECDS platform.",
-                    Msg = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
+                    Msg = $"Please reset your password of ECDS Platform by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
                 });
                 if (emailState)
                 {
@@ -365,7 +368,7 @@ namespace EcdsApp.Controllers.User_Manage
             {
                 Subject = "Confirm your email",
                 To = email,
-                Msg = $"Please confirm your email by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
+                Msg = $"Please confirm your email of ECDS Platform by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
             });
             if (state)
             {
@@ -421,8 +424,11 @@ namespace EcdsApp.Controllers.User_Manage
         [Authorize]
         public async Task<IActionResult> UpdateProfile(ApplicationUser appUser, IFormFile image)
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+
             if (ModelState.IsValid)
             {
+                
                 var user = await _userManager.FindByIdAsync(appUser.Id);
 
                 if (image != null)
@@ -457,7 +463,26 @@ namespace EcdsApp.Controllers.User_Manage
                         appUser.ProfilePic = fileToUpload;
                     }
 
+                }
 
+                //=== Change the other useremail and UserName only
+                //=== if the user is Admin
+                
+                if(applicationUser.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd")
+                {
+                    //==now the user is admin
+                    if (appUser.Email != user.Email)
+                    {
+                        user.Email = appUser.Email;
+                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        await _userManager.ChangeEmailAsync(user, appUser.Email, token);
+                    }
+                        
+                    if(appUser.UserName != user.UserName)
+                    {
+                        user.UserName = appUser.UserName;
+                    }
+                    user.EmailConfirmed = appUser.EmailConfirmed;
                 }
 
                 user.FirstName = appUser.FirstName;
@@ -472,7 +497,7 @@ namespace EcdsApp.Controllers.User_Manage
                 await _context.SaveChangesAsync();
                 return RedirectToAction("ViewProfile");
             }
-            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            
             return View(applicationUser);
         }
 

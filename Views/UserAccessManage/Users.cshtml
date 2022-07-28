@@ -36,7 +36,7 @@
                                 <td>@item.Email</td>
                                 <td>
                                     @*<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light w-sm">Edit</a>*@
-                                     <a id="btnAssignRole" onclick="AssignRoleInUser('@item.Id')" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light w-sm">Assign Role</a>
+                                     <a id="btnAssignRole" onclick="AssignRoleInUser('@item.Id',event)" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light w-sm">Assign Role</a>
                                      <a class="btn btn-outline-dark px-4" asp-action="UpdateProfile" asp-route-userid="@item.Id">Edit</a>
                                      <a class="btn btn-outline-info navy-btn ml-2" asp-action="ViewProfile" asp-route-id="@item.Id">Details</a>
                                      <a class="btn btn-danger ml-2" id="@item.Id" data-name="@item.UserName" data-email="@item.Email" onclick="Delete()">Delete</a>
@@ -90,11 +90,28 @@
             $(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
             
         });
+
+        function GetUserRoleFromRow(){
+            let elm=$(event.target).parents("tr");
+            let role=elm[0].children[2].innerText;
+            return Promise.resolve(role);
+        }
     
         function AssignRoleInUser(userId) {
-            $('#txtUserId').val(userId);
-
-            $("#assignRoleModal").modal("show");
+            GetUserRoleFromRow().then(x=>{
+                $("#ddlRole").val("");
+                if(x.length>0){
+                    let roles=$("#ddlRole").children();
+                    for(let i=0;i<roles.length;i++){
+                        if(roles[i].innerText==x){
+                            $("#ddlRole").val(roles[i].value);
+                        }
+                    }
+                   
+                }
+                 $('#txtUserId').val(userId);
+                 $("#assignRoleModal").modal("show");
+            })
         }
 
         $('#btnSave').click(function () {

@@ -76,8 +76,9 @@ namespace EcdsApp.Areas.Identity.Pages.Account
             [StringLength(50)]
             public string Designation { get; set; }
 
+            [Required]
             [Display(Name = "UserName")]
-            [StringLength(20)]
+            [StringLength(20, MinimumLength =4, ErrorMessage ="Username should be at least {2} characters long.")]
             public string UserName { get; set; }
 
             [Required]
