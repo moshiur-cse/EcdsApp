@@ -88,6 +88,7 @@ namespace EcdsApp.Data
         public DbSet<DistrictWiseMortalityRateIMR> DistrictWiseMortalityRateIMR { get; set; }
         public DbSet<DistrictwiseMortalityRateCDR> DistrictwiseMortalityRateCDR { get; set; }
 
+        public DbSet<DistrictWiseMotherHealthRisk> DistrictWiseMotherHealthRisk { get; set; }
 
         //Union Wise
         public DbSet<FutureProjectionRainfall4Point5> FutureProjectionRainfall4Point5s { get; set; }
