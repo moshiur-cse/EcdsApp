@@ -37,20 +37,17 @@ namespace EcdsApp.Models.ThemeModels
         [Column("icon_size", TypeName = "decimal(4, 2)")]
         [Range(0.0, 100)]
         [Display(Name = "Icon Size")]
-        public decimal IconSize { get; set; }
+        public decimal IconSize { get; set; } = 0;
 
         [Column("icon_path")]
         [StringLength(200)]
         [Display(Name = "Icon Path")]
         public string IconPath { get; set; }
 
-
         [Column("legend_column_name")]
         [StringLength(200)]
         [Display(Name = "Legend Column Name")]
         public string LegendColumnName { get; set; }
-
-
 
 
     }

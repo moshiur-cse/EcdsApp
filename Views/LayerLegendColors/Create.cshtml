@@ -12,6 +12,26 @@
 					<div class="card-body">
 						<h3 class="display-6 mb-3">Add Layer Legend Color Information</h3>
 						<br />
+						<div class="row my-5">
+							<div class="d-flex">
+								<h6 class="me-4">Add Icon?</h6>
+								<div class="d-flex">
+									<div class="form-check me-2">
+										<input class="form-check-input" type="radio" name="iconChecker" value="yes">
+										<label class="form-check-label">
+											Yes
+										</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="iconChecker" value="no" checked>
+										<label class="form-check-label">
+											No
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<div class="row">
 							<div class="mb-3 col-md-3">
 								<label class="form-label required">Theme</label>
@@ -20,53 +40,55 @@
 								</select>
 							</div>
 
-							<div class="mb-3 col-md-2">
+							<div class="mb-3 col-md-3">
 								<label class="form-label required">Sub Theme</label>
 								<select id="subtheme-info" class="form-control" onchange="GetLayerData()">
 									<option value=""> -- Select -- </option>
 								</select>
 							</div>
 							<div class="mb-3 col-md-3">
-									<label class="form-label required">Layer</label>
-									<select id="ddlLayerOption" asp-for="LayerId" class="form-control"></select>
-									<span asp-validation-for="LayerId"></span>
-								</div>
+								<label class="form-label required">Layer</label>
+								<select id="ddlLayerOption" asp-for="LayerId" class="form-control"></select>
+								<span asp-validation-for="LayerId"></span>
+							</div>
 
-								<div class="mb-3 col-md-2">
-									<label asp-for="LayerMainAttribureValue" class="form-label required"></label>
-									<input id="txtMainAttrValue" asp-for="LayerMainAttribureValue" class="form-control edit" />
-								</div>
+							<div class="mb-3 col-md-3">
+								<label asp-for="LayerMainAttribureValue" class="form-label required"></label>
+								<input id="txtMainAttrValue" asp-for="LayerMainAttribureValue" class="form-control edit" />
+							</div>
 						</div>
 						<form method="post" enctype="multipart/form-data">
-							<div class="row">							
+							<div class="row">
 
-								<div class="mb-3 col-md-2">
+								<div class="mb-3 col-md-3" id="cont-txtLegendColorCode">
 									<label class="form-label required" asp-for="LayerLegendColorCode"></label>
-									<input type="text" id="txtLegendColorCode" value="" class="form-control edit" />
+									<input type="text" id="txtLegendColorCode" value="" class="form-control edit" placeholder="e.g. #ffffff" />
 								</div>
 
-								<div class="mb-3 col-md-2">
+								<div class="mb-3 col-md-3" id="cont-fileUploaded">
+									<label class="form-label required">Upload Icon File</label>
+									<input type="file" id="fileUploaded" class="form-control edit" accept="image/*" />
+								</div>
+
+								<div class="mb-3 col-md-3" id="cont-txtIconSize">
+									<label class="form-label required" asp-for="IconSize"></label>
+									<input id="txtIconSize" asp-for="IconSize" class="form-control edit" />
+								</div>
+								<div class="mb-3 col-md-3">
 									<label class="form-label required" asp-for="LayerLegendDisplayName"></label>
 									<input id="txtLegendDisplayName" asp-for="LayerLegendDisplayName" class="form-control edit" />
 								</div>
 
-								<div class="mb-3 col-md-2">
-									<label class="form-label" asp-for="IconSize"></label>
-									<input id="txtIconSize" asp-for="IconSize" class="form-control edit" />
-								</div>
-								<div class="mb-3 col-md-2">
+								<div class="mb-3 col-md-3">
 									<label class="form-label" asp-for="LegendColumnName"></label>
 									<input id="txtLegendColumnName" asp-for="LegendColumnName" class="form-control edit" />
 								</div>
 
-								<div class="mb-3 col-md-3">
+								@*<div class="mb-3 col-md-3">
 									<label class="form-label required" asp-for="LayerLegendDisplayName"></label>
 									<input id="txtLegendDisplayName" asp-for="LayerLegendDisplayName" class="form-control edit" />
-								</div>
-								<div class="mb-3 col-md-3">
-									<label class="form-label required">Upload Icon File</label>
-									<input type="file" id="fileUploadedFile" class="form-control edit" />
-								</div>
+									</div>*@
+
 
 								<div class="col-md-2 align-self-center">
 									<div class="d-grid" style="margin-top: 11px">
@@ -77,6 +99,15 @@
 							</div>
 							<div class="table-responsive mt-3">
 								<table class="table table-nowrap table-striped table-bordered">
+									<thead>
+										<tr class="fw-bold">
+											<td>Main Attribute</td>
+											<td>Legend Display Name</td>
+											<td>Legend Column Name</td>
+											<td>Legend Color Code/ Icon</td>
+											<td></td>
+										</tr>
+									</thead>
 									<tbody id="tblLegendColorData"></tbody>
 								</table>
 							</div>
@@ -93,19 +124,35 @@
 										<div class="modal-body">
 											<input type="hidden" id="txtLayerLegendColorId" />
 											<input type="hidden" id="txtLayerId" class="form-control" />
+											<input type="hidden" id="editIconPath" class="form-control" value="" />
 
-											<div class="row">
+											<div class="row" id="edit-modal-body">
 												<div class="col-md-12 mb-3">
 													<label class="form-label required">Main Attribute Value</label>
 													<input id="editTxtMainAttrValue" type="text" class="form-control" />
 												</div>
-												<div class="col-md-12 mb-3">
-													<label class="form-label required">Legend Color Code</label>
-													<input id="editTxtLegendColorCode" type="text" class="form-control" />
-												</div>
+
 												<div class="col-md-12 mb-3">
 													<label class="form-label required">Legend Display Name</label>
 													<input id="editTxtLegendDisplayName" type="text" class="form-control" />
+												</div>
+												<div class="col-md-12 mb-3">
+													<label class="form-label required">Legend Column Name</label>
+													<input id="editTxtLegendColumnName" type="text" class="form-control" />
+												</div>
+												<div class="col-md-12 mb-3" id="edit-color-code-cont">
+													<label class="form-label required">Legend Color Code</label>
+													<input id="editTxtLegendColorCode" type="text" class="form-control" placeholder="e.g. #ffffff"/>
+												</div>
+												<div class="col-md-12" id="img-section-mod">
+													<div class="mb-3 col-md-12" id="cont-fileUploaded">
+														<label class="form-label required">Upload Icon File</label>
+														<input type="file" id="editfileUploaded" class="form-control edit" accept="image/*" />
+													</div>
+													<div class="mb-3 col-md-12" id="cont-txtIconSize">
+														<label class="form-label required">Icon Size</label>
+														<input id="editIconSize" asp-for="IconSize" class="form-control edit" value="" />
+													</div>
 												</div>
 											</div>
 										</div>
@@ -129,9 +176,12 @@
     @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
 
 <script type="text/javascript">
+	var frmData=new FormData();
 	$(document).ready(function () {
-		var file;
+		var editSectionMode="txt";
+		
 		//var formData=new FormData();
+
 		//$('#txtLegendColorCode').spectrum({
 		//    showInitial: true,
 		//    showInput: true
@@ -144,22 +194,87 @@
 		});
 
 		//==add event listener for file upload
-		$("#fileUploadedFile").on("change",(event)=>{
-			console.log("file changed");
-			let fileUpload = $("#fileUploadedFile").get(0)
-            file = fileUpload.files[0];
-			console.log(file);
-			//file=event.target.files[0];
+		$("#fileUploaded").on("change",(event)=>{
+			//console.log("file changed");
+			let submittedFile=event.target.files[0];
+			//console.log(submittedFile);
+			let allowedFormats=['png','jpeg','jpg','webp','svg','ico'];
+			let isImageInRightFormat=false;
+			allowedFormats.forEach(x=>{
+				if(submittedFile.name.toLowerCase().includes(x)){
+					frmData.append("file",submittedFile);
+					isImageInRightFormat=isImageInRightFormat | true;
+					return;
+				}
+			})
+
+			if(!isImageInRightFormat){
+				window.Swal.fire({
+					icon: "error",
+					title: "Only .jpg /.jpeg /.png /.svg /.ico /.svg file format is supported",
+					showConfirmButton: false,
+					timer: 3000
+				});
+			}
+			return;
+
+		});
+
+		$("#editfileUploaded").on("change",(event)=>{
+			console.log(frmData);
+			let submittedFile=event.target.files[0];
+			//console.log(submittedFile);
+			let allowedFormats=['png','jpeg','jpg','webp','svg','ico'];
+			let isImageInRightFormat=false;
+			allowedFormats.forEach(x=>{
+				if(submittedFile.name.toLowerCase().includes(x)){
+					frmData.append("file",submittedFile);
+					isImageInRightFormat=isImageInRightFormat | true;
+					return;
+				}
+			})
+
+			if(!isImageInRightFormat){
+				window.Swal.fire({
+					icon: "error",
+					title: "Only .jpg /.jpeg /.png /.svg /.ico /.svg file format is supported",
+					showConfirmButton: false,
+					timer: 3000
+				});
+			}
+			return;
+
+		});
+
+		//===Show only legend color code text box initially and block others
+		$("#cont-txtLegendColorCode").show();
+		$("#cont-fileUploaded").hide();
+		$("#cont-txtIconSize").hide();
+		//====check for Icon upload or Legend Color code insert Mode
+		$("input[type='radio']").change(function(){
+			var  radioValue = $('input[name="iconChecker"]:checked').val();
+			if(radioValue ==="yes"){
+				$("#cont-txtLegendColorCode").hide();
+				$("#cont-fileUploaded").show();
+				$("#cont-txtIconSize").show();
+			}
+			else{
+				$("#cont-txtLegendColorCode").show();
+				$("#cont-fileUploaded").hide();
+				$("#cont-txtIconSize").hide();
+			}
 		});
 
 
 		$('#btnSaveLegendColorInfo').click(function () {
-			//console.log($("#fileUploadedFile")[0].files[0])
+
 			var layerId = $('#ddlLayerOption option:selected').val(),
 				mainAttrValue = $('#txtMainAttrValue').val(),
 				legendColorCode = $('#txtLegendColorCode').val(),
-				legendDisplayName = $('#txtLegendDisplayName').val();
-			if (layerId === "" || mainAttrValue === "" || legendColorCode === "" || legendDisplayName === "") {
+				legendDisplayName = $('#txtLegendDisplayName').val(),
+				iconSize =$('#txtIconSize').val();
+			if (layerId === "" || mainAttrValue === "" || legendDisplayName === "") {
+				console.log("layerid and main and display name error");
 				window.Swal.fire({
 					icon: "error",
 					title: "Please fill up all required fields!",
@@ -168,7 +283,70 @@
 				});
 				return;
 			}
-			if (!legendColorCode.startsWith('#') || legendColorCode.length !== 7) {
+
+			if($('input[name="iconChecker"]:checked').val() === "yes"){
+
+				if(iconSize===""){
+					console.log("icon size name error");
+					window.Swal.fire({
+						icon: "error",
+						title: "Icon Size field can't be empty",
+						showConfirmButton: false,
+						timer: 3000
+					});
+					return;
+				}
+				if($("#fileUploaded").val() !==""){
+					let allowedFormats=['png','jpeg','jpg','webp','svg','ico'];
+					let isImageInRightFormat=false;
+					let fileValue=$("#fileUploaded").val();
+					console.log(fileValue);
+					allowedFormats.forEach(x=>{
+						if(fileValue.includes(x)){
+							isImageInRightFormat=isImageInRightFormat | true;
+						}
+					})
+					if(!isImageInRightFormat){
+						window.Swal.fire({
+							icon: "error",
+							title: "Only .jpg /.jpeg /.png /.svg /.ico /.svg file format is supported",
+							showConfirmButton: false,
+							timer: 3000
+						});
+						return;
+					}
+
+				}
+				if($("#fileUploaded").val() ===""){
+					window.Swal.fire({
+						icon: "error",
+						title: "Upload Relevant Icon file",
+						showConfirmButton: false,
+						timer: 3000
+					});
+					return;
+				}
+
+			}
+
+			if($('input[name="iconChecker"]:checked').val() === "no"){
+				$("#txtIconSize").val("0");
+				if(legendColorCode === ""){
+					console.log("legend color code error");
+					window.Swal.fire({
+						icon: "error",
+						title: "Please fill up all required fields!",
+						showConfirmButton: false,
+						timer: 3000
+					});
+					return;
+				}
+
+			}
+
+
+			if ($('input[name="iconChecker"]:checked').val() === "no" && (!legendColorCode.startsWith('#') || legendColorCode.length !== 7)) {
+				//console.log("error in legend color code");
 				window.Swal.fire({
 					icon: "error",
 					title: "Legend Layer Color Code starts with '#' & Length must be 6 Character!",
@@ -177,35 +355,34 @@
 				});
 				return;
 			}
-			
-			const formData = {
-				'LayerId': layerId,
-				'LayerMainAttribureValue': $('#txtMainAttrValue').val(),
-				'LayerLegendColorCode': $('#txtLegendColorCode').val(),
-				'LayerLegendDisplayName': $('#txtLegendDisplayName').val(),
-				'IconSize':$("#txtIconSize").val(),
-				'LegendColumnName':$("#txtLegendColumnName").val(),
-				'file':file
-				
-			};
 
-			//formData.append("LayerId",layerId);
-			//formData.append("LayerMainAttribureValue",$('#txtMainAttrValue').val());
-			//formData.append("LayerLegendColorCode",$('#txtLegendColorCode').val());
-			//formData.append("LayerLegendDisplayName",$('#txtLegendDisplayName').val());
-			//formData.append("IconSize",$("#txtIconSize").val());
-			//formData.append("LegendColumnName",$("#txtLegendColumnName").val());
-			//formData.append("UploadedFile",event.target.files[0]);
-			
+			//const formData = {
+			//	'LayerId': layerId,
+			//	'LayerMainAttribureValue': $('#txtMainAttrValue').val(),
+			//	'LayerLegendColorCode': $('#txtLegendColorCode').val(),
+			//	'LayerLegendDisplayName': $('#txtLegendDisplayName').val(),
+			//	'IconSize':$("#txtIconSize").val(),
+			//	'LegendColumnName':$("#txtLegendColumnName").val(),
+			//	'file':file
+
+			//};
+
+			frmData.append("formData.LayerId",layerId);
+			frmData.append("formData.LayerMainAttribureValue",$('#txtMainAttrValue').val());
+			frmData.append("formData.LayerLegendColorCode",$('#txtLegendColorCode').val());
+			frmData.append("formData.LayerLegendDisplayName",$('#txtLegendDisplayName').val());
+			frmData.append("formData.IconSize",$("#txtIconSize").val());
+			frmData.append("formData.LegendColumnName",$("#txtLegendColumnName").val());
+
+
 
 			const url = '@Url.Action("Create", "LayerLegendColors")';
-			console.log(file);
-			console.log(formData);
+			console.log(frmData);
 			$.ajax({
 				type: "POST",
 				url: url,
 				accept: "application/json; charset=utf-8",
-				data: {formData},
+				data: frmData,
 				contentType: false,
 				processData: false,
 				before: $("#busy-indicator").fadeIn(150),
@@ -244,46 +421,104 @@
 
 	});
 
+
+	//====Update Section
+
 	$('#btnUpdateLegendColorInfo').click(function() {
+
+		//frmData= new FormData();
 
 		var layerLegendColorId = $('#txtLayerLegendColorId').val(),
 			layerId = $('#txtLayerId').val(),
 			mainAttrValue = $('#editTxtMainAttrValue').val(),
 			legendColorCode = $('#editTxtLegendColorCode').val(),
-			legendDisplayName = $('#editTxtLegendDisplayName').val();
-		if (mainAttrValue === "" || legendColorCode === "" || legendDisplayName === "") {
-			window.Swal.fire({
-				icon: "error",
-				title: "Please fill up all required fields!",
-				showConfirmButton: false,
-				timer: 3000
-			});
-			return;
-		}
-		if (!legendColorCode.startsWith('#') || legendColorCode.length !== 7) {
-			window.Swal.fire({
-				icon: "error",
-				title: "Legend Layer Color Code starts with '#' & Length must be 6 Character!",
-				showConfirmButton: false,
-				timer: 3000
-			});
-			return;
-		}
+			legendDisplayName = $('#editTxtLegendDisplayName').val(),
+			iconSize=$('#editIconSize').val(),
+			legendColumnName=$("#editTxtLegendColumnName").val();
 
-		const formData = {
-			'LayerLegendColorId': layerLegendColorId,
-			'LayerId': layerId,
-			'LayerMainAttribureValue': mainAttrValue,
-			'LayerLegendColorCode': legendColorCode,
-			'LayerLegendDisplayName': legendDisplayName
-		};
+			//===check for layerid main attribute and legend display name
 
-		const url = '@Url.Action("Edit", "LayerLegendColors")';
+			if (layerId === "" || mainAttrValue === "" || legendDisplayName === "") {
+				console.log("layerid and main and display name error");
+				window.Swal.fire({
+					icon: "error",
+					title: "Please fill up all required fields!",
+					showConfirmButton: false,
+					timer: 3000
+				});
+				return;
+			}
+
+			if(editSectionMode =="img"){
+				console.log(iconSize);
+				if(iconSize ==""){
+
+					console.log("icon size name error");
+					window.Swal.fire({
+						icon: "error",
+						title: "Icon Size field can't be empty",
+						showConfirmButton: false,
+						timer: 3000
+					});
+					return;
+				}
+
+				if($("#editfileUploaded").val() !==""){
+					let allowedFormats=['png','jpeg','jpg','webp','svg','ico'];
+					let isImageInRightFormat=false;
+					let fileValue=$("#editfileUploaded").val();
+					console.log(fileValue);
+					allowedFormats.forEach(x=>{
+						if(fileValue.includes(x)){
+							isImageInRightFormat=isImageInRightFormat | true;
+						}
+					})
+					if(!isImageInRightFormat){
+						window.Swal.fire({
+							icon: "error",
+							title: "Only .jpg /.jpeg /.png /.svg /.ico /.svg file format is supported",
+							showConfirmButton: false,
+							timer: 3000
+						});
+						return;
+					}
+
+				}
+			}
+			
+			if(editSectionMode == "txt"){
+				if(!legendColorCode.startsWith('#') || legendColorCode.length !== 7){
+					window.Swal.fire({
+						icon: "error",
+						title: "Legend Layer Color Code starts with '#' & Length must be 6 Character!",
+						showConfirmButton: false,
+						timer: 3000
+					});
+					return;
+
+				}
+			}
+
+			frmData.append("formData.LayerId",layerId);
+			frmData.append("formData.LayerMainAttribureValue",mainAttrValue);
+			frmData.append("formData.LayerLegendColorCode",legendColorCode);
+			frmData.append("formData.LayerLegendDisplayName",legendDisplayName);
+			frmData.append("formData.LayerLegendColorId",layerLegendColorId);
+			iconSize=iconSize == ""? "0":iconSize;
+			frmData.append("formData.IconSize",iconSize);
+			frmData.append("formData.LegendColumnName",legendColumnName);
+			frmData.append("formData.IconPath",$("#editIconPath").val());
+
+			//===send data with ajax call
+
+			const url = '@Url.Action("Edit", "LayerLegendColors")';
 		$.ajax({
 			type: "POST",
 			url: url,
 			accept: "application/json; charset=utf-8",
-			data: formData,
+			data: frmData,
+			contentType: false,
+			processData: false,
 			before: $("#busy-indicator").fadeIn(150),
 			success: function (result) {
 				if (result === "Success") {
@@ -318,7 +553,9 @@
 			},
 			complete: $("#busy-indicator").fadeOut(150)
 		});
+
 	});
+
 
 	function GetLayerLegendColorInfo(layerId) {
 
@@ -334,7 +571,16 @@
 					var rows = '';
 
 					$.each(data, function (i, item) {
-						rows += '<tr><td class="col-md-3">' + item.themeLayerDetails.layerName + '</td><td class="col-md-2 text-center">' + item.layerMainAttribureValue + '</td><td class="col-md-2 text-center">' + item.layerLegendColorCode + '</td><td class="col-md-3 text-center">' + item.layerLegendDisplayName + '</td><td class="col-md-3"><input type="button" onclick="javascript:EditLayerLegendColorInfo(' + item.layerLegendColorId + ');" class="btn btn-info" value="Edit" style="margin-right: 15px;" /><input type="button" onclick="javascript:DeleteLayerLegendColorInfo(' + item.layerLegendColorId + ', ' + item.layerId + '); GetLayerLegendColorInfo(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
+						//console.log(item);
+						//rows += '<tr><td class="col-md-3">' + item.themeLayerDetails.layerName + '</td><td class="col-md-2 text-center">' + item.layerMainAttribureValue + '</td><td class="col-md-2 text-center">' + item.layerLegendColorCode + '</td><td class="col-md-3 text-center">' + item.layerLegendDisplayName + '</td><td class="col-md-3"><input type="button" onclick="javascript:EditLayerLegendColorInfo(' + item.layerLegendColorId + ');" class="btn btn-info" value="Edit" style="margin-right: 15px;" /><input type="button" onclick="javascript:DeleteLayerLegendColorInfo(' + item.layerLegendColorId + ', ' + item.layerId + '); GetLayerLegendColorInfo(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
+						rows += '<tr><td class="col-md-2 text-center">' + item.layerMainAttribureValue + '</td><td class="col-md-2 text-center">' + item.layerLegendDisplayName + '</td>';
+						if(item.iconPath != null && item.iconPath.length>0){
+							rows+='<td class="col-md-2 text-center">' + item.legendColumnName + '</td><td class="col-md-2 text-center" colspan="2"><a href="./ShowImage?id='+item.layerLegendColorId+'">Icon Path ( Size='+item.iconSize+') </a></td>'+'<td class="col-md-3"><input type="button" onclick="javascript:EditLayerLegendColorInfo(' + item.layerLegendColorId + ');" class="btn btn-info" value="Edit" style="margin-right: 15px;" /><input type="button" onclick="javascript:DeleteLayerLegendColorInfo(' + item.layerLegendColorId + ', ' + item.layerId + '); GetLayerLegendColorInfo(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
+						}
+						else if(item.iconPath ==null || item.iconPath == "null"){
+							rows+='<td class="col-md-2 text-center">' + item.legendColumnName + '</td><td class="col-md-2 text-center" colspan="2">'+item.layerLegendColorCode+'</td><td class="col-md-3"><input type="button" onclick="javascript:EditLayerLegendColorInfo(' + item.layerLegendColorId + ');" class="btn btn-info" value="Edit" style="margin-right: 15px;" /><input type="button" onclick="javascript:DeleteLayerLegendColorInfo(' + item.layerLegendColorId + ', ' + item.layerId + '); GetLayerLegendColorInfo(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
+						}
+
 					});
 
 					$("#tblLegendColorData").html(rows);
@@ -350,6 +596,22 @@
 		});
 	}
 
+
+	function InsertHtmlBasedOnType(type){
+
+		if(type == "img"){
+			$('#edit-color-code-cont').hide();
+			$("#img-section-mod").show();
+
+		}
+		else if(type == "txt"){
+			$("#img-section-mod").hide();
+			$('#edit-color-code-cont').show();
+		}
+	}
+
+	//====Initial Edit function call after button press
+
 	function EditLayerLegendColorInfo(layerLegendColorId) {
 		const url = '@Url.Action("GetLegendColorPropertyInfo", "LayerLegendColors")';
 		$.ajax({
@@ -360,11 +622,26 @@
 			before: $("#busy-indicator").fadeIn(150),
 			success: function (data, status, jqXhr) {
 
+				//===if imagepath available call to insert image related info
+				if(data.iconPath !=null){
+					console.log("image edit");
+					$("#editIconSize").val(data.iconSize);
+					InsertHtmlBasedOnType('img');
+					editSectionMode="img";
+				}
+				else{
+					console.log("code txt edit");
+					InsertHtmlBasedOnType('txt');
+					editSectionMode="txt";
+				}
+
 				$('#txtLayerLegendColorId').val(data.layerLegendColorId);
 				$('#txtLayerId').val(data.layerId);
 				$('#editTxtMainAttrValue').val(data.layerMainAttribureValue);
 				$('#editTxtLegendColorCode').val(data.layerLegendColorCode);
 				$('#editTxtLegendDisplayName').val(data.layerLegendDisplayName);
+				$("#editTxtLegendColumnName").val(data.legendColumnName);
+				$("#editIconPath").val(data.iconPath);
 
 				$("#editLegendColorModal").modal("show");
 			},
@@ -487,7 +764,7 @@
 					$('#ddlLayerOption').empty();
 					$.each(responseData,
 						function (i, themeLayer) {
-							
+
 							items += "<option value='" + themeLayer.value + "'>" + themeLayer.text + "</option>";
 						});
 					if (items !== `<option value=""> -- Select -- </option>`) {
