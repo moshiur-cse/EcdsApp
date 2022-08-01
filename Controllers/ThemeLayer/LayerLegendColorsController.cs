@@ -185,8 +185,8 @@ namespace EcdsApp.Controllers.ThemeLayer
                     {
                         //===delete file
 
-                        var fileToUpload = formData.LayerLegendColorId + "_" + formData.LayerId + Path.GetExtension(file.FileName);
-                        var fileLocation = $"{_env.ContentRootPath}\\wwwroot\\assets\\images\\{fileToUpload}";
+                        
+                        var fileLocation = $"{_env.ContentRootPath}\\wwwroot\\assets\\images\\{formData.IconPath}";
                         FileInfo f = new FileInfo(fileLocation);
                         if (f.Exists)//=====check if file exists or not  
                         {
@@ -195,7 +195,7 @@ namespace EcdsApp.Controllers.ThemeLayer
 
                         //===insert file
 
-                        fileToUpload = formData.LayerLegendColorId + "_" + formData.LayerId + Path.GetExtension(file.FileName);
+                        var fileToUpload = formData.LayerLegendColorId + "_" + formData.LayerId + Path.GetExtension(file.FileName);
                         fileLocation = $"{_env.ContentRootPath}\\wwwroot\\assets\\images\\{fileToUpload}";
                         using (var fileStream = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
                         {
