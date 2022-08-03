@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,10 +20,12 @@ namespace EcdsApp.Controllers.ThemeLayer
     public class LayerLegendColorsController : Controller
     {
         private readonly DataContext _context;
+        private readonly IHostEnvironment _env;
 
-        public LayerLegendColorsController(DataContext context)
+        public LayerLegendColorsController(DataContext context, IHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: LayerLegendColors
@@ -71,7 +76,19 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             var newLayerLegendColorId = (_context.LayerLegendColors.Max(s => (int?)s.LayerLegendColorId) ?? 0) + 1;
 
-            formData.LayerLegendColorId = newLayerLegendColorId;
+            //=== save the file before uploading to db
+            if(file != null)
+            {
+                var fileToUpload = newLayerLegendColorId + "_" + formData.LayerId + Path.GetExtension(file.FileName);
+                var fileLocation = $"{_env.ContentRootPath}\\wwwroot\\assets\\images\\{fileToUpload}";
+                using (var fileStream = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
+                {
+                    file.CopyTo(fileStream);
+                    fileStream.Flush();
+                }
+                formData.IconPath = fileToUpload;
+                formData.LayerLegendColorId = newLayerLegendColorId;
+            }            
             _context.Add(formData);
             var response = _context.SaveChanges() > 0;
             result = response ? "Success" : "Error";
@@ -85,7 +102,16 @@ namespace EcdsApp.Controllers.ThemeLayer
         [HttpPost]
         public IActionResult DeleteLayerLegendColorInfo(int layerLegendColorId)
         {
+            
             var layerLegendColorObj = _context.LayerLegendColors.Find(layerLegendColorId);
+
+            var fileLocation = $"{_env.ContentRootPath}\\wwwroot\\assets\\images\\{layerLegendColorObj.IconPath}";
+            FileInfo f = new FileInfo(fileLocation);
+            if (f.Exists)//=====check if file exists or not  
+            {
+                f.Delete();
+            }
+
             _context.LayerLegendColors.Remove(layerLegendColorObj);
 
             var response = _context.SaveChanges() > 0;
@@ -144,7 +170,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         [HttpPost]
         [UserAuthorization]
         //[ValidateAntiForgeryToken]
-        public IActionResult Edit(LayerLegendColor formData)
+        public IActionResult Edit(LayerLegendColor formData, IFormFile file)
         {
             var result = "Error";
             if (!ModelState.IsValid)
@@ -152,6 +178,47 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             try
             {
+                if (file != null)
+                {                    
+                   
+                    if(formData.IconPath != null)
+                    {
+                        //===delete file
+
+                        
+                        var fileLocation = $"{_env.ContentRootPath}\\wwwroot\\assets\\images\\{formData.IconPath}";
+                        FileInfo f = new FileInfo(fileLocation);
+                        if (f.Exists)//=====check if file exists or not  
+                        {
+                            f.Delete();
+                        }
+
+                        //===insert file
+
+                        var fileToUpload = formData.LayerLegendColorId + "_" + formData.LayerId + Path.GetExtension(file.FileName);
+                        fileLocation = $"{_env.ContentRootPath}\\wwwroot\\assets\\images\\{fileToUpload}";
+                        using (var fileStream = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
+                        {
+                            file.CopyTo(fileStream);
+                            fileStream.Flush();
+                        }
+                        formData.IconPath = fileToUpload;
+                    }
+                    else
+                    {
+                        var fileToUpload = formData.LayerLegendColorId + "_" + formData.LayerId + Path.GetExtension(file.FileName);
+                        var fileLocation = $"{_env.ContentRootPath}\\wwwroot\\assets\\images\\{fileToUpload}";
+                        using (var fileStream = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
+                        {
+                            file.CopyTo(fileStream);
+                            fileStream.Flush();
+                        }
+                        formData.IconPath = fileToUpload;
+
+                    }
+
+                    
+                }
                 _context.Update(formData);
                 var response = _context.SaveChanges() > 0;
                 result = response ? "Success" : "Error";
@@ -201,6 +268,24 @@ namespace EcdsApp.Controllers.ThemeLayer
         private bool LayerLegendColorExists(int id)
         {
             return _context.LayerLegendColors.Any(e => e.LayerLegendColorId == id);
+        }
+
+
+        public async Task<IActionResult> ShowImage(int id)
+        {
+            var layerColorInfo = await _context.LayerLegendColors.FirstOrDefaultAsync(x => x.LayerLegendColorId == id);
+            if(layerColorInfo != null && layerColorInfo.IconPath != null)
+            {
+                string fileLoc = $"{ _env.ContentRootPath}\\wwwroot\\assets\\images\\" + layerColorInfo.IconPath;
+                //var fileType = layerColorInfo.IconPath.Split(".")[1];
+                //string fileTypString = $"image/{fileType}";
+                string contentType = "";
+                new FileExtensionContentTypeProvider().TryGetContentType(fileLoc, out contentType);
+                return new FileStreamResult(new FileStream(fileLoc, FileMode.Open), contentType);
+            }
+
+            return NotFound();
+            
         }
     }
 }
