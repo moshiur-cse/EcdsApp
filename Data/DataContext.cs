@@ -67,8 +67,7 @@ namespace EcdsApp.Data
         public DbSet<UpazilaWiseRiskIndex> UpazilaWiseRiskIndex { get; set; }
         public DbSet<UpazilaWisePoverty> UpazilaWisePoverties { get; set; }
         public DbSet<UpazilaWisePopulationDensity> UpazilaWisePopulationDensities { get; set; }
-
-
+        public DbSet<UpazilaWisePopulationDistribution> UpazilaWisePopulationDistributions { get; set; }
 
         //District Wise
         public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }

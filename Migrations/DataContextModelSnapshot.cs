@@ -1693,6 +1693,29 @@ namespace EcdsApp.Migrations
                     b.ToTable("tbl_upazila_wise_population_density");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDistribution", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<int?>("PopulationDistribution")
+                        .HasColumnType("int")
+                        .HasColumnName("population_distribution");
+
+                    b.Property<string>("UpazilaGeoCode")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("varchar(8)")
+                        .HasColumnName("upz_geo_code");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UpazilaGeoCode");
+
+                    b.ToTable("tbl_upazila_wise_population_distribution");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePoverty", b =>
                 {
                     b.Property<int>("Id")
@@ -2609,6 +2632,17 @@ namespace EcdsApp.Migrations
                     b.Navigation("StormSurgeExposure");
 
                     b.Navigation("TsunamiExposure");
+
+                    b.Navigation("Upazila");
+                });
+
+            modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDistribution", b =>
+                {
+                    b.HasOne("EcdsApp.Models.AdminBoundaryUpazila", "Upazila")
+                        .WithMany()
+                        .HasForeignKey("UpazilaGeoCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Upazila");
                 });
