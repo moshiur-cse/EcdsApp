@@ -480,6 +480,52 @@ namespace EcdsApp.Migrations
                     b.ToTable("district_wise_mortality_rate_u5mr");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseMotherHealthRisk", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<decimal?>("AntCare1")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("ant_care1");
+
+                    b.Property<decimal?>("AntCare4")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("ant_care4");
+
+                    b.Property<decimal?>("AntCareUB")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("ant_care_ub");
+
+                    b.Property<decimal?>("Caesar")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("caesar");
+
+                    b.Property<string>("DistrictGeoCode")
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)")
+                        .HasColumnName("dist_geo_code");
+
+                    b.Property<decimal?>("InstDeliv")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("inst_deliv");
+
+                    b.Property<decimal?>("NeoTetanus")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("neo_tetanus");
+
+                    b.Property<decimal?>("PnHealth")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("pn_health");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistrictGeoCode");
+
+                    b.ToTable("DistrictWiseMotherHealthRisk");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulation", b =>
                 {
                     b.Property<int>("Id")
@@ -1647,6 +1693,29 @@ namespace EcdsApp.Migrations
                     b.ToTable("tbl_upazila_wise_population_density");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDistribution", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<int?>("PopulationDistribution")
+                        .HasColumnType("int")
+                        .HasColumnName("population_distribution");
+
+                    b.Property<string>("UpazilaGeoCode")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("varchar(8)")
+                        .HasColumnName("upz_geo_code");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UpazilaGeoCode");
+
+                    b.ToTable("tbl_upazila_wise_population_distribution");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePoverty", b =>
                 {
                     b.Property<int>("Id")
@@ -2264,6 +2333,15 @@ namespace EcdsApp.Migrations
                     b.Navigation("District");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseMotherHealthRisk", b =>
+                {
+                    b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictGeoCode");
+
+                    b.Navigation("District");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulation", b =>
                 {
                     b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
@@ -2554,6 +2632,17 @@ namespace EcdsApp.Migrations
                     b.Navigation("StormSurgeExposure");
 
                     b.Navigation("TsunamiExposure");
+
+                    b.Navigation("Upazila");
+                });
+
+            modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDistribution", b =>
+                {
+                    b.HasOne("EcdsApp.Models.AdminBoundaryUpazila", "Upazila")
+                        .WithMany()
+                        .HasForeignKey("UpazilaGeoCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Upazila");
                 });

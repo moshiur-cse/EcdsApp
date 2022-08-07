@@ -50,11 +50,11 @@ namespace EcdsApp
 
             services.AddMemoryCache(); //RMO
             services.AddDbContext<DataContext>();
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            _ = services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // User settings
                 options.User.RequireUniqueEmail = true;
-                //options.User.AllowedUserNameCharacters=;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+";
                 options.Stores.MaxLengthForKeys = 128;
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 4;
@@ -95,7 +95,7 @@ namespace EcdsApp
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
-                options.Cookie.Name = ".DRIP-APP.Session";
+                options.Cookie.Name = ".ECDS-APP.Session";
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(25);
                 options.LoginPath = $"/Identity/Account/Login";

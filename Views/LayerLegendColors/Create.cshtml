@@ -194,29 +194,13 @@
 		});
 
 		//==add event listener for file upload
-		$("#fileUploaded").on("change",(event)=>{
-			//console.log("file changed");
-			let submittedFile=event.target.files[0];
-			//console.log(submittedFile);
-			let allowedFormats=['png','jpeg','jpg','webp','svg','ico'];
-			let isImageInRightFormat=false;
-			allowedFormats.forEach(x=>{
-				if(submittedFile.name.toLowerCase().includes(x)){
-					frmData.append("file",submittedFile);
-					isImageInRightFormat=isImageInRightFormat | true;
-					return;
-				}
-			})
-
-			if(!isImageInRightFormat){
-				window.Swal.fire({
-					icon: "error",
-					title: "Only .jpg /.jpeg /.png /.svg /.ico /.svg file format is supported",
-					showConfirmButton: false,
-					timer: 3000
-				});
-			}
-			return;
+		$("#fileUploadedFile").on("change",(event)=>{
+			console.log("file changed");
+			let fileUpload = $("#fileUploadedFile").get(0)
+            file = fileUpload.files[0];
+			console.log(file);
+			//file=event.target.files[0];
+		});
 
 		});
 
