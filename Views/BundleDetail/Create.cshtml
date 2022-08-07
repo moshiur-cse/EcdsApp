@@ -1,359 +1,446 @@
 ﻿@model EcdsApp.Models.BundleDetail
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Create";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="page-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="display-6 mb-0">Add Bundle Information</h3>
-                        
-                        <form class="mt-4 custom-validation">
-                            <div class="row">
-                                <div class="mb-3 col-md-3">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<h3 class="display-6 mb-0">Add Bundle Information</h3>
+
+						<form class="mt-4 custom-validation">
+							<div class="row">
+								<div class="mb-3 col-md-3">
+									<label class="form-label required">Theme</label>
+									<select id="theme-info" class="form-control" asp-items="ViewBag.Themes" onchange="GetSubThemeData()">
+										<option value=""> -- Select -- </option>
+									</select>
+								</div>
+
+								<div class="mb-3 col-md-3">
+									<label class="form-label required">Sub Theme</label>
+									<select id="subtheme-info" class="form-control" onchange="GetLayerData()">
+										<option value=""> -- Select -- </option>
+									</select>
+								</div>
+								@*<div class="mb-3 col-md-3">
+									<label class="form-label required">Layer</label>
+									<select id="ddlLayerOption" asp-for="LayerId" class="form-control"></select>
+									<span asp-validation-for="LayerId"></span>
+								</div>*@
+
+								<div class="mb-3 col-md-3">
                                     <label class="form-label required">Layer</label>
-                                    <select id="ddlLayerOption" asp-for="LayerId" class="form-control" asp-items="ViewBag.LayerId">
-                                        <option value="">Select</option>
+                                    <select id="ddlLayerOption" asp-for="LayerId" class="form-control">
+                                        <option value="">-- Select--</option>
                                     </select>
                                 </div>
 
-                                <div class="mb-3 col-md-2">
-                                    <label asp-for="FieldName" class="form-label required"></label>
-                                    <input id="txtFieldName" asp-for="FieldName" class="form-control" />
-                                </div>
+								<div class="mb-3 col-md-3">
+									<label asp-for="FieldName" class="form-label required"></label>
+									<input id="txtFieldName" asp-for="FieldName" class="form-control" />
+								</div>
+								
+							</div>
+							<div class="row">
+								<div class="mb-3 col-md-3">
+									<label class="form-label required" asp-for="FieldDescription"></label>
+									<input id="txtFieldDescription" asp-for="FieldDescription" class="form-control" />
+								</div>
+								<div class="mb-3 col-md-3">
+									<label class="form-label" asp-for="FieldUnit"></label>
+									<input id="txtFieldUnit" asp-for="FieldUnit" class="form-control" />
+								</div>
+								<div class="col-md-3 align-self-center">
+									<div class="d-grid" style="margin-top: 11px">
+										<input id="btnSaveBundleInfo" type="button" class="btn btn-primary" value="Add" />
+									</div>
+								</div>
+							</div>
 
-                                <div class="mb-3 col-md-2">
-                                    <label class="form-label required" asp-for="FieldDescription"></label>
-                                    <input id="txtFieldDescription" asp-for="FieldDescription" class="form-control" />
-                                </div>
+							<div class="table-responsive mt-3">
+								<table class="table table-nowrap table-striped table-bordered">
+									<tbody id="tblBundleInfoData"></tbody>
+								</table>
+							</div>
 
-                                <div class="mb-3 col-md-3">
-                                    <label class="form-label" asp-for="FieldUnit"></label>
-                                    <input id="txtFieldUnit" asp-for="FieldUnit" class="form-control" />
-                                </div>
+							<!--  Large modal example -->
+							<div id="editBundleInfoModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content" style="margin-top: 190px">
+										<div class="modal-header">
+											<h5 class="modal-title" id="myLargeModalLabel">Edit Bundle Information</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<input type="hidden" id="txtBundleInfoId" />
+											<input type="hidden" id="txtLayerId" class="form-control" />
 
-                                <div class="col-md-2 align-self-center">
-                                    <div class="d-grid" style="margin-top: 11px">
-                                        <input id="btnSaveBundleInfo" type="button" class="btn btn-primary" value="Add" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-                                <table class="table table-nowrap table-striped table-bordered">
-                                    <tbody id="tblBundleInfoData"></tbody>
-                                </table>
-                            </div>
-
-                            <!--  Large modal example -->
-                            <div id="editBundleInfoModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content" style="margin-top: 190px">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="myLargeModalLabel">Edit Bundle Information</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="hidden" id="txtBundleInfoId" />
-                                            <input type="hidden" id="txtLayerId" class="form-control" />
-
-                                            <div class="row">
-                                                <div class="col-md-12 mb-3">
-                                                    <label class="form-label required">Field Name</label>
-                                                    <input id="editTxtFieldName" type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-12 mb-3">
-                                                    <label class="form-label required">Field Description</label>
-                                                    <input id="editTxtFieldDescription" type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-12 mb-3">
-                                                    <label class="form-label">Field Unit</label>
-                                                    <input id="editTxtFieldUnit" type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                            <button id="btnUpdateBundleInfo" type="button" class="btn btn-success">Update</button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+											<div class="row">
+												<div class="col-md-12 mb-3">
+													<label class="form-label required">Field Name</label>
+													<input id="editTxtFieldName" type="text" class="form-control" />
+												</div>
+												<div class="col-md-12 mb-3">
+													<label class="form-label required">Field Description</label>
+													<input id="editTxtFieldDescription" type="text" class="form-control" />
+												</div>
+												<div class="col-md-12 mb-3">
+													<label class="form-label">Field Unit</label>
+													<input id="editTxtFieldUnit" type="text" class="form-control" />
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+											<button id="btnUpdateBundleInfo" type="button" class="btn btn-success">Update</button>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 @section Scripts
 {
-    <script type="text/javascript">
-        $(document).ready(function () {
+<script type="text/javascript">
+	$(document).ready(function () {
 
-            $('#ddlLayerOption').change(function () {
-                const layerId = $('#ddlLayerOption option:selected').val();
+		$('#ddlLayerOption').change(function () {
+			const layerId = $('#ddlLayerOption option:selected').val();
 
-                GetBundleInfoList(layerId);
-            });
+			GetBundleInfoList(layerId);
+		});
 
-            $('#btnSaveBundleInfo').click(function () {
+		$('#btnSaveBundleInfo').click(function () {
 
-                var layerId = $('#ddlLayerOption option:selected').val(),
-                    fieldName = $('#txtFieldName').val(),
-                    fieldDescription = $('#txtFieldDescription').val(),
-                    fieldUnit = $('#txtFieldUnit').val();
-                if (layerId === "" || fieldName === "" || fieldDescription === "") {
-                    window.Swal.fire({
-                        icon: "error",
-                        title: "Please fill up all required fields!",
-                        showConfirmButton: false,
-                        timer: 3000
-                    });
-                    return;
-                }
+			var layerId = $('#ddlLayerOption option:selected').val(),
+				fieldName = $('#txtFieldName').val(),
+				fieldDescription = $('#txtFieldDescription').val(),
+				fieldUnit = $('#txtFieldUnit').val();
+			if (layerId === "" || fieldName === "" || fieldDescription === "") {
+				window.Swal.fire({
+					icon: "error",
+					title: "Please fill up all required fields!",
+					showConfirmButton: false,
+					timer: 3000
+				});
+				return;
+			}
 
-                const formData = {
-                    'LayerId': layerId,
-                    'FieldName': $('#txtFieldName').val(),
-                    'FieldDescription': $('#txtFieldDescription').val(),
-                    'FieldUnit': $('#txtFieldUnit').val()
-                };
+			const formData = {
+				'LayerId': layerId,
+				'FieldName': $('#txtFieldName').val(),
+				'FieldDescription': $('#txtFieldDescription').val(),
+				'FieldUnit': $('#txtFieldUnit').val()
+			};
 
-                const url = '@Url.Action("Create", "BundleDetail")';
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    accept: "application/json; charset=utf-8",
-                    data: formData,
-                    before: $("#busy-indicator").fadeIn(150),
-                    success: function (result) {
-                        if (result === "Success") {
-                            window.Swal.fire({
-                                icon: "success",
-                                title: "Data Added Successfully!",
-                                showConfirmButton: false,
-                                timer: 2500
-                            });
-                            GetBundleInfoList(layerId);
-                            clearFormData();
-                        } else {
-                            window.Swal.fire({
-                                icon: "error",
-                                title: "Error Saving Data! Please try again",
-                                showConfirmButton: false,
-                                timer: 2500
-                            });
-                        }
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        const errorMsg = xhr.responseText;
-                        window.Swal.fire({
-                            icon: "error",
-                            title: errorMsg,
-                            showConfirmButton: false,
-                            timer: 2500
-                        });
-                    },
-                    complete: $("#busy-indicator").fadeOut(150)
-                });
-            });
-        });
-        //document-ready end
+			const url = '@Url.Action("Create", "BundleDetail")';
+			$.ajax({
+				type: "POST",
+				url: url,
+				accept: "application/json; charset=utf-8",
+				data: formData,
+				before: $("#busy-indicator").fadeIn(150),
+				success: function (result) {
+					if (result === "Success") {
+						window.Swal.fire({
+							icon: "success",
+							title: "Data Added Successfully!",
+							showConfirmButton: false,
+							timer: 2500
+						});
+						GetBundleInfoList(layerId);
+						clearFormData();
+					} else {
+						window.Swal.fire({
+							icon: "error",
+							title: "Error Saving Data! Please try again",
+							showConfirmButton: false,
+							timer: 2500
+						});
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					const errorMsg = xhr.responseText;
+					window.Swal.fire({
+						icon: "error",
+						title: errorMsg,
+						showConfirmButton: false,
+						timer: 2500
+					});
+				},
+				complete: $("#busy-indicator").fadeOut(150)
+			});
+		});
+	});
+	//document-ready end
 
-        $('#btnUpdateBundleInfo').click(function() {
+	$('#btnUpdateBundleInfo').click(function() {
 
-            var bundleId = $('#txtBundleInfoId').val(),
-                layerId = $('#txtLayerId').val(),
-                fieldName = $('#editTxtFieldName').val(),
-                fieldDescription = $('#editTxtFieldDescription').val(),
-                fieldUnit = $('#editTxtFieldUnit').val();
-            if (fieldName === "" || fieldDescription === "") {
-                window.Swal.fire({
-                    icon: "error",
-                    title: "Please fill up all required fields!",
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-                return;
-            }
-            
-            const formData = {
-                'Id': bundleId,
-                'LayerId': layerId,
-                'FieldName': fieldName,
-                'FieldDescription': fieldDescription,
-                'FieldUnit': fieldUnit
-            };
+		var bundleId = $('#txtBundleInfoId').val(),
+			layerId = $('#txtLayerId').val(),
+			fieldName = $('#editTxtFieldName').val(),
+			fieldDescription = $('#editTxtFieldDescription').val(),
+			fieldUnit = $('#editTxtFieldUnit').val();
+		if (fieldName === "" || fieldDescription === "") {
+			window.Swal.fire({
+				icon: "error",
+				title: "Please fill up all required fields!",
+				showConfirmButton: false,
+				timer: 3000
+			});
+			return;
+		}
 
-            const url = '@Url.Action("Edit", "BundleDetail")';
-            $.ajax({
-                type: "POST",
-                url: url,
-                accept: "application/json; charset=utf-8",
-                data: formData,
-                before: $("#busy-indicator").fadeIn(150),
-                success: function (result) {
-                    if (result === "Success") {
-                        window.Swal.fire({
-                            //position: "top-end",
-                            icon: "success",
-                            title: "Data Updated Successfully!",
-                            showConfirmButton: false,
-                            timer: 2500
-                        });
-                        GetBundleInfoList(layerId);
-                        setTimeout(function() {
-                            $('#editBundleInfoModal').modal('hide');
-                        }, 2500);
-                    } else {
-                        window.Swal.fire({
-                            icon: "error",
-                            title: "Error Updating Data! Please try again",
-                            showConfirmButton: false,
-                            timer: 2500
-                        });
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    const errorMsg = xhr.responseText;
-                    window.Swal.fire({
-                        icon: "error",
-                        title: errorMsg,
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
-                },
-                complete: $("#busy-indicator").fadeOut(150)
-            });
-        });
+		const formData = {
+			'Id': bundleId,
+			'LayerId': layerId,
+			'FieldName': fieldName,
+			'FieldDescription': fieldDescription,
+			'FieldUnit': fieldUnit
+		};
 
-        function GetBundleInfoList(layerId) {
-            const url = '@Url.Action("GetBundleInfo", "BundleDetail")';
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: { layerId: layerId},
-                dataType: "json",
-                before: $("#busy-indicator").fadeIn(150),
-                success: function (data, status, jqXhr) {
-                    if (data.length > 0) {
-                        var rows = '';
+		const url = '@Url.Action("Edit", "BundleDetail")';
+		$.ajax({
+			type: "POST",
+			url: url,
+			accept: "application/json; charset=utf-8",
+			data: formData,
+			before: $("#busy-indicator").fadeIn(150),
+			success: function (result) {
+				if (result === "Success") {
+					window.Swal.fire({
+						//position: "top-end",
+						icon: "success",
+						title: "Data Updated Successfully!",
+						showConfirmButton: false,
+						timer: 2500
+					});
+					GetBundleInfoList(layerId);
+					setTimeout(function() {
+						$('#editBundleInfoModal').modal('hide');
+					}, 2500);
+				} else {
+					window.Swal.fire({
+						icon: "error",
+						title: "Error Updating Data! Please try again",
+						showConfirmButton: false,
+						timer: 2500
+					});
+				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				const errorMsg = xhr.responseText;
+				window.Swal.fire({
+					icon: "error",
+					title: errorMsg,
+					showConfirmButton: false,
+					timer: 2500
+				});
+			},
+			complete: $("#busy-indicator").fadeOut(150)
+		});
+	});
 
-                        $.each(data, function (i, item) {
-                            rows += '<tr><td class="col-md-3">' + item.themeLayerDetails.layerName + '</td><td class="col-md-2 text-center">' + item.fieldName + '</td><td class="col-md-2 text-center">' + item.fieldDescription + '</td><td class="col-md-3 text-center">' + item.fieldUnit + '</td><td class="col-md-3"><input type="button" onclick="javascript:EditBundleInfo(' + item.id + ');" class="btn btn-info" value="Edit" style="margin-right: 15px;" /><input type="button" onclick="javascript:DeleteBundleInfo(' + item.id + ', ' + item.layerId + '); GetBundleInfoList(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
-                        });
+	function GetBundleInfoList(layerId) {
+		const url = '@Url.Action("GetBundleInfo", "BundleDetail")';
+		$.ajax({
+			type: "GET",
+			url: url,
+			data: { layerId: layerId},
+			dataType: "json",
+			before: $("#busy-indicator").fadeIn(150),
+			success: function (data, status, jqXhr) {
+				if (data.length > 0) {
+					var rows = '';
 
-                        $("#tblBundleInfoData").html(rows);
-                    }
-                    else {
-                        $("#tblBundleInfoData").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, No Data Found </div></td></tr>');
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    $("#tblBundleInfoData").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert"> Sorry! Something Went Wrong</div></td></tr>');
-                },
-                complete: $("#busy-indicator").fadeOut(150)
-            });
-        }
+					$.each(data, function (i, item) {
+						rows += '<tr><td class="col-md-3">' + item.themeLayerDetails.layerName + '</td><td class="col-md-2 text-center">' + item.fieldName + '</td><td class="col-md-2 text-center">' + item.fieldDescription + '</td><td class="col-md-3 text-center">' + item.fieldUnit + '</td><td class="col-md-3"><input type="button" onclick="javascript:EditBundleInfo(' + item.id + ');" class="btn btn-info" value="Edit" style="margin-right: 15px;" /><input type="button" onclick="javascript:DeleteBundleInfo(' + item.id + ', ' + item.layerId + '); GetBundleInfoList(' + item.layerId + ');" class="btn btn-danger" value="Delete" /></td></tr>';
+					});
 
-        function EditBundleInfo(bundleId) {
-            const url = '@Url.Action("GetBundlePropertyInfo", "BundleDetail")';
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: { bundleId: bundleId },
-                dataType: "json",
-                before: $("#busy-indicator").fadeIn(150),
-                success: function (data, status, jqXhr) {
+					$("#tblBundleInfoData").html(rows);
+				}
+				else {
+					$("#tblBundleInfoData").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, No Data Found </div></td></tr>');
+				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				$("#tblBundleInfoData").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert"> Sorry! Something Went Wrong</div></td></tr>');
+			},
+			complete: $("#busy-indicator").fadeOut(150)
+		});
+	}
 
-                    $('#txtBundleInfoId').val(data.id);
-                    $('#txtLayerId').val(data.layerId);
-                    $('#editTxtFieldName').val(data.fieldName);
-                    $('#editTxtFieldDescription').val(data.fieldDescription);
-                    $('#editTxtFieldUnit').val(data.fieldUnit);
+	function EditBundleInfo(bundleId) {
+		const url = '@Url.Action("GetBundlePropertyInfo", "BundleDetail")';
+		$.ajax({
+			type: "GET",
+			url: url,
+			data: { bundleId: bundleId },
+			dataType: "json",
+			before: $("#busy-indicator").fadeIn(150),
+			success: function (data, status, jqXhr) {
 
-                    $("#editBundleInfoModal").modal("show");
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    const errorMsg = xhr.responseText;
-                    window.Swal.fire({
-                        icon: "error",
-                        title: errorMsg,
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
-                },
-                complete: $("#busy-indicator").fadeOut(150)
-            });
+				$('#txtBundleInfoId').val(data.id);
+				$('#txtLayerId').val(data.layerId);
+				$('#editTxtFieldName').val(data.fieldName);
+				$('#editTxtFieldDescription').val(data.fieldDescription);
+				$('#editTxtFieldUnit').val(data.fieldUnit);
 
-        }
+				$("#editBundleInfoModal").modal("show");
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				const errorMsg = xhr.responseText;
+				window.Swal.fire({
+					icon: "error",
+					title: errorMsg,
+					showConfirmButton: false,
+					timer: 2500
+				});
+			},
+			complete: $("#busy-indicator").fadeOut(150)
+		});
 
-        function DeleteBundleInfo(bundleId, layerId) {
-            Swal.fire({
-                icon: "warning",
-                title: "Are you sure?",
-                text: "You won't be able to Revert this!",
-                showCancelButton: true,
-                confirmButtonText: "Yes, Delete it!",
-                cancelButtonText: "No, Cancel!",
-                confirmButtonClass: "btn btn-success mt-2",
-                cancelButtonClass: "btn btn-danger ms-2 mt-2",
-                buttonsStyling: false,
-                allowOutsideClick: false
-            }).then(function (t) {
-                if (t.isConfirmed) {
+	}
 
-                    const url = '@Url.Action("DeleteBundleInfo", "BundleDetail")';
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: { bundleId: bundleId },
-                        dataType: "json",
-                        before: jQuery("#busy-indicator").fadeIn(150),
-                        success: function (result) {
-                            window.Swal.fire({
-                                icon: "success",
-                                title: "Deleted!",
-                                text: "Bundle Information has been deleted."
-                            });
-                            GetBundleInfoList(layerId);
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            const errorMsg = xhr.responseText;
-                            window.Swal.fire({
-                                icon: "error",
-                                title: "Error!",
-                                text: errorMsg
-                            });
-                        },
-                        complete: jQuery("#busy-indicator").fadeOut(150)
-                    });
+	function DeleteBundleInfo(bundleId, layerId) {
+		Swal.fire({
+			icon: "warning",
+			title: "Are you sure?",
+			text: "You won't be able to Revert this!",
+			showCancelButton: true,
+			confirmButtonText: "Yes, Delete it!",
+			cancelButtonText: "No, Cancel!",
+			confirmButtonClass: "btn btn-success mt-2",
+			cancelButtonClass: "btn btn-danger ms-2 mt-2",
+			buttonsStyling: false,
+			allowOutsideClick: false
+		}).then(function (t) {
+			if (t.isConfirmed) {
 
-                }
-                else if (t.dismiss === Swal.DismissReason.cancel) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Cancelled",
-                        text: "Your Data is Safe :)"
-                    });
-                }
-            });
+				const url = '@Url.Action("DeleteBundleInfo", "BundleDetail")';
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: { bundleId: bundleId },
+					dataType: "json",
+					before: jQuery("#busy-indicator").fadeIn(150),
+					success: function (result) {
+						window.Swal.fire({
+							icon: "success",
+							title: "Deleted!",
+							text: "Bundle Information has been deleted."
+						});
+						GetBundleInfoList(layerId);
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						const errorMsg = xhr.responseText;
+						window.Swal.fire({
+							icon: "error",
+							title: "Error!",
+							text: errorMsg
+						});
+					},
+					complete: jQuery("#busy-indicator").fadeOut(150)
+				});
+
+			}
+			else if (t.dismiss === Swal.DismissReason.cancel) {
+				Swal.fire({
+					icon: "error",
+					title: "Cancelled",
+					text: "Your Data is Safe :)"
+				});
+			}
+		});
 
 
-        }
+	}
 
-        function clearFormData() {
-            $('#txtFieldName').val('');
-            $('#txtFieldDescription').val('');
-            $('#txtFieldUnit').val('');
-        }
+	function clearFormData() {
+		$('#txtFieldName').val('');
+		$('#txtFieldDescription').val('');
+		$('#txtFieldUnit').val('');
+	}
 
-    </script>
+	//==== Get theme and subtheme information
+	//==== Get Subtheme information
+	function GetSubThemeData(){
+		let items = '<option value=""> -- Select -- </option>';
+		$.ajax({
+				type: 'GET',
+				url: '@Url.Action("GetSubThemeData", "ThemeLayerDetails")',
+				dataType: "json",
+				data: { themeId: $("#theme-info").val() },
+				success: function (responseData) {
+					$('#subtheme-info').empty();
+					$.each(responseData,
+						function (i, subTheme) {
+							items += "<option value='" + subTheme.value + "'>" + subTheme.text + "</option>";
+						});
+					if (items !== `<option value=""> -- Select -- </option>`) {
+						$('#subtheme-info').html(items);
+					} else {
+						$('#subtheme-info').html("<option value=''>No Sub-Theme available under the selected Theme</option> ");
+					}
+				},
+				error: function (ex) {
+					window.Swal.fire({
+						title: "Error",
+						text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+						icon: "error",
+						showConfirmButton: false,
+						timer: 2000
+					});
+				}
+			});
+			return false;
+	}
+
+	//==== Get theme and subtheme information
+	//==== Get Layer information
+	function GetLayerData(){
+		let items = '<option value=""> -- Select -- </option>';
+		$.ajax({
+				type: 'GET',
+				url: '@Url.Action("GetLayerData", "ThemeLayerDetails")',
+				dataType: "json",
+				data: { subThemeId: $('#subtheme-info').val() },
+				success: function (responseData) {
+					$('#ddlLayerOption').empty();
+					$.each(responseData,
+						function (i, themeLayer) {
+
+							items += "<option value='" + themeLayer.value + "'>" + themeLayer.text + "</option>";
+						});
+					if (items !== `<option value=""> -- Select -- </option>`) {
+						$('#ddlLayerOption').html(items);
+					} else {
+						$('#ddlLayerOption').html("<option value=''>No Layer available under the selected Sub-Theme</option> ");
+					}
+				},
+				error: function (ex) {
+					window.Swal.fire({
+						title: "Error",
+						text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+						icon: "error",
+						showConfirmButton: false,
+						timer: 2000
+					});
+				}
+			});
+			return false;
+	}
+</script>
 }

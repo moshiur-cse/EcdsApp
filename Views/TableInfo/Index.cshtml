@@ -3,21 +3,28 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>    
+    .display-6{
+        font-size:1.7rem;
+    }
+</style>
 
 <div class="page-content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body m-0 d-flex justify-content-between">
                         <h3 class="display-6 mb-0">List of Tables</h3>
-                        <p class="card-title-desc">Database Table Details Information</p>
+                        @*<p class="card-title-desc">Database Table Details Information</p>*@
                         <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Record</a>
                     </div>
                 </div>
 
-                <div class="table-responsive mb-4">
-                    <table class="table table-centered datatable nowrap table-card-list" style="border-collapse: collapse; border-spacing: 0 12px; width: 100%;">
+               <div class="card">
+					<div class="card-body p-0">
+						<div class="table-responsive m-0">
+							<table class="table table-nowrap table-striped table-bordered">
                         <thead>
                             <tr class="bg-transparent">
                                 <th>Action</th>
@@ -44,7 +51,7 @@
                                         <a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="fas fa-pen-alt font-size-20"></i></a>
                                     </td>
                                     <td>
-                                        <a type="button" onclick="GetColumnInfoList(@item.Id, '@item.TableName')" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl" class="px-3 text-primary"><i class="far fa-eye font-size-20"></i></a>
+                                        <a onclick="GetColumnInfoList(@item.Id, '@item.TableName')" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl" class="px-3 text-primary"><i class="far fa-eye font-size-20"></i></a>
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.SubThemes.Themes.ThemeName)
@@ -68,6 +75,8 @@
                             }
                         </tbody>
                     </table>
+                    </div>
+                    </div>
 
                     <!--  Extra Large modal example -->
                     <div id="viewTableColumnModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" 

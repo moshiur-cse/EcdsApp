@@ -1,6 +1,9 @@
-﻿@model EcdsApp.Models.UserManage.ApplicationUser
+﻿@using EcdsApp.Models.UserManage
+@model EcdsApp.Models.UserManage.ApplicationUser
+@inject UserManager<ApplicationUser> UserManager
 @{
 	ViewData["Title"] = "Profile Info";
+	var user = await UserManager.GetUserAsync(User);
 }
 
 @section Styles{
@@ -24,7 +27,7 @@
 <div class="page-content bg-white vh90 d-flex justify-content-center align-items-center">
 	<div class="container-fluid">
 		<div class="row justify-content-center align-items-center">
-			<div class="prof-card col-lg-5 col-md-10 col-12">
+			<div class="prof-card col-lg-5 col-md-10 col-12 mt-3 mb-5">
 				<div class="d-flex justify-content-end align-items-center">
 					<a asp-action="UpdateProfile" asp-route-userid="@Model.Id"><i class="bx bx-edit fs-5 pe-2"></i>Edit Profile</a>
 				</div>
@@ -51,6 +54,13 @@
 						<th>Email</th>
 						<td>@Model.Email</td>
 					</tr>
+					@if (user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd")
+					{
+						<tr>
+							<th>Username</th>
+							<td>@Model.UserName</td>
+						</tr>
+					}
 					<tr>
 						<th>Designation</th>
 						<td>@Model.Designation</td>
@@ -78,6 +88,9 @@
 				</tbody>
 			</table>
 			</div>
+		</div>
+		<div class="row justify-content-lg-end justify-content-center align-items-center mt-2 mb-3">
+			<a class="col-2 btn btn-rounded btn-info w-lg" asp-action="Users" >Back to List</a>
 		</div>
 	</div>
 </div>

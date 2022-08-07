@@ -167,8 +167,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         public JsonResult GetSubThemeData(int themeId)
         {
             var subThemeList = _context.SubThemes.Where(e => e.ThemeId == themeId).ToList();
-            subThemeList.Insert(0, new SubTheme { SubThemeId = 0, SubThemeName = "Select" });
-
+            //subThemeList.Insert(0, new SubTheme { SubThemeId = 0, SubThemeName = "Select" });
             return Json(new SelectList(subThemeList, "SubThemeId", "SubThemeName"));
         }
 

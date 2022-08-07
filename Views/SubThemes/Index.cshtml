@@ -7,6 +7,11 @@
 {
     <!-- Responsive Table css -->
     <link href="~/assets/libs/admin-resources/rwd-table/rwd-table.min.css" rel="stylesheet" type="text/css" />
+    <style>    
+        .display-6{
+            font-size:1.7rem;
+        }
+    </style>
 }
 
 <div class="page-content">
@@ -14,9 +19,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body d-flex justify-content-between">
                         <h3 class="display-6 mb-0">List of Components</h3>
-                        <p class="card-title-desc">Component Details Information</p>
+                        @*<p class="card-title-desc">Component Details Information</p>*@
                         <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Component</a>
                     </div>
                 </div>
