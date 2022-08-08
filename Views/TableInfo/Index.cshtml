@@ -1,204 +1,364 @@
 ﻿@model IEnumerable<EcdsApp.Models.TabularModels.TableInfo>
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>    
-    .display-6{
-        font-size:1.7rem;
-    }
+<style>
+	.display-6 {
+		font-size: 1.7rem;
+	}
 </style>
 
 <div class="page-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body m-0 d-flex justify-content-between">
-                        <h3 class="display-6 mb-0">List of Tables</h3>
-                        @*<p class="card-title-desc">Database Table Details Information</p>*@
-                        <a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Record</a>
-                    </div>
-                </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body m-0 d-flex justify-content-between">
+						<h3 class="display-6 mb-0">List of Tables</h3>
+						@*<p class="card-title-desc">Database Table Details Information</p>*@
+						<a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Record</a>
+					</div>
+				</div>
 
-               <div class="card">
+				<div class="card">
 					<div class="card-body p-0">
 						<div class="table-responsive m-0">
 							<table class="table table-nowrap table-striped table-bordered">
-                        <thead>
-                            <tr class="bg-transparent">
-                                <th>Action</th>
-                                <th>Column</th>
-                                <th>Theme</th>
-                                <th>Sub-Theme</th>
-                                <th>Boundary</th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TableName)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TableModelName)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.DisplayName)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="fas fa-pen-alt font-size-20"></i></a>
-                                    </td>
-                                    <td>
-                                        <a onclick="GetColumnInfoList(@item.Id, '@item.TableName')" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl" class="px-3 text-primary"><i class="far fa-eye font-size-20"></i></a>
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubThemes.Themes.ThemeName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.BoundaryInfo.BoundaryName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TableName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TableModelName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DisplayName)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    </div>
-                    </div>
+								<thead>
+									<tr class="bg-transparent">
+										<th>Action</th>
+										<th>Column</th>
+										<th>Theme</th>
+										<th>Sub-Theme</th>
+										<th>Boundary</th>
+										<th>
+											@Html.DisplayNameFor(model => model.TableName)
+										</th>
+										<th>
+											@Html.DisplayNameFor(model => model.TableModelName)
+										</th>
+										<th>
+											@Html.DisplayNameFor(model => model.DisplayName)
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var item in Model)
+									{
+										<tr>
+											<td>
+												<a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="fas fa-pen-alt font-size-20"></i></a>
+											</td>
+											<td>
+												<a onclick="GetColumnInfoList(@item.Id, '@item.TableName')" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl" class="px-3 text-primary"><i class="far fa-eye font-size-20"></i></a>
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.SubThemes.Themes.ThemeName)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.BoundaryInfo.BoundaryName)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.TableName)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.TableModelName)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.DisplayName)
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
 
-                    <!--  Extra Large modal example -->
-                    <div id="viewTableColumnModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" 
-                         aria-hidden="true" data-bs-backdrop="static">
-                        <div class="modal-dialog modal-xl">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="display-6 mb-0" id="myExtraLargeModalLabel">Table Columns</h4><br/>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form class="mt-2 custom-validation">
-                                        <div class="row">
-                                            <div class="mb-3 col-md-2">
-                                                <label class="form-label required">Table Name</label>
-                                                <input id="txtTableName" class="form-control" required="" />
-                                            </div>
+					<!--  Extra Large modal example -->
+					<div id="viewTableColumnModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+						 aria-hidden="true" data-bs-backdrop="static">
+						<div class="modal-dialog modal-xl">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="display-6 mb-0" id="myExtraLargeModalLabel">Table Columns</h4><br />
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">									
+									<form class="mt-2 custom-validation">
+										<div class="row">
+											<input id="hiddenTableId" type="hidden" value="" />
+											<div class="mb-3 col-md-2">
+												<label class="form-label required">Table Name</label>
+												<input id="txtTableName" class="form-control" required="" />
+											</div>
 
-                                            <div class="mb-3 col-md-3">
-                                                <label class="form-label required">Column Name</label>
-                                                <input id="txtColumnName" class="form-control" required="" />
-                                            </div>
+											<div class="mb-3 col-md-3">
+												<label class="form-label required">Column Name</label>
+												<input id="txtColumnName" class="form-control" required="" />
+											</div>
 
-                                            <div class="mb-3 col-md-2">
-                                                <label class="form-label">Model Property Name</label>
-                                                <input id="txtModelPropName" class="form-control" />
-                                            </div>
+											<div class="mb-3 col-md-2">
+												<label class="form-label">Model Property Name</label>
+												<input id="txtModelPropName" class="form-control" />
+											</div>
 
-                                            <div class="mb-3 col-md-2">
-                                                <label class="form-label required">Display Name</label>
-                                                <input id="txtDisplayName" class="form-control" required="" />
-                                            </div>
+											<div class="mb-3 col-md-2">
+												<label class="form-label required">Display Name</label>
+												<input id="txtDisplayName" class="form-control" required="" />
+											</div>
 
-                                            <div class="mb-3 col-md-2">
-                                                <label class="form-label required">Column Type</label>
-                                                <select id="ddlColumnType" class="form-control" asp-items="ViewBag.ColumnTypeId">
-                                                    <option value="">Select</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div class="col-md-1 align-self-center">
-                                                <div class="d-grid" style="margin-top: 11px">
-                                                    <input id="btnSaveColumnInfo" type="button" class="btn btn-primary" value="Add" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row mt-3">
-                                            <table class="table table-nowrap table-striped table-bordered">
-                                                <tbody id="tblColumnInfoList"></tbody>
-                                            </table>
-                                        </div>
-                                    </form>
+											<div class="mb-3 col-md-2">
+												<label class="form-label required">Column Type</label>
+												<select id="ddlColumnType" class="form-control" asp-items="ViewBag.ColumnTypeId">
+													<option value="">Select</option>
+												</select>
+											</div>
 
-                                    
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                    
-                                    @*<input type="button" id="btnEditColumn" onclick="EditColumnInfo(' + item.id + ')" class="btn btn-info" value="Edit"/>*@
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
+											<div class="col-md-1 align-self-center">
+												<div class="d-grid" style="margin-top: 11px">
+													<input id="btnSaveColumnInfo" type="button" class="btn btn-primary" value="Add" />
+												</div>
+											</div>
+										</div>
 
-                </div>
-            </div>
-        </div>
-    </div>
+										<div class="row mt-3">
+											<table class="table table-nowrap table-striped table-bordered">
+												<tbody id="tblColumnInfoList"></tbody>
+											</table>
+										</div>
+									</form>
+
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+									@*<input type="button" id="btnEditColumn" onclick="EditColumnInfo(' + item.id + ')" class="btn btn-info" value="Edit"/>*@
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<!--Start Second Modal-->
+
+					<div class="modal" tabindex="2" id="editTableColumnMod">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Edit Table Column</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body" id="edit-tbl-col-mod">
+									
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" onclick="UpdateTableColumnInfo()">Save changes</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!--End Second Modal-->
+
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 @section Scripts
 {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
-        });
+<script type="text/javascript">
+	var tabId, tableColumnInfoId;
+	$(document).ready(function () {
+		$(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
+	});
 
-        function GetColumnInfoList(tableId, tableName) {
-            const url = '@Url.Action("GetTableColumnList", "TableInfo")';
-            $.ajax({
-                type: "GET",
-                url: url,
-                dataType: "json",
-                data: { tableId: tableId },
-                before: $("#busy-indicator").fadeIn(150),
-                success: function(data, status, jqXhr) {
-                    if (data.length > 0) {
-                        var rows = '';
+	function GetColumnInfoList(tableId, tableName) {
+		const url = '@Url.Action("GetTableColumnList", "TableInfo")';
+		$("#hiddenTableId").val(tableId);
+		$.ajax({
+			type: "GET",
+			url: url,
+			dataType: "json",
+			data: { tableId: tableId },
+			before: $("#busy-indicator").fadeIn(150),
+			success: function(data, status, jqXhr) {
+				if (data.length > 0) {
+					var rows = '';
 
-                        $.each(data,
-                            function(i, item) {
-                                rows += '<tr>' +
-                                    '<td style="display: none">' + item.id + '</td>'+
-                                    '<td class="col-md-2"><input type="text" class="form-control" value= "' + item.tableInfo.tableName + '" readonly/></td>' +
-                                    '<td class="col-md-3"><input type="text" class="form-control" value= "' + item.dbColumnName + '" readonly/></td>' +
-                                    '<td class="col-md-2"><input type="text" class="form-control" value= "' + item.modelPropertyName + '" readonly/></td>' +
-                                    '<td class="col-md-2"><input type="text" class="form-control" value= "' + item.displayName + '" readonly/></td>' +
-                                    '<td class="col-md-2"><input type="text" class="form-control" value= "' + item.columnType.typeName + '" readonly/></td>' +
-                                    '<td class="col-md-1 align-self-center"> <input type="button" id="btnEditColumn_' + item.id +'" onclick="EditColumnInfo(' + item.id + ')" class="btn btn-info" value="Edit"/> </td>' +
-                                    '</tr>';
-                            });
-                        $("#tblColumnInfoList").html(rows);
-                        $('#txtTableName').val(tableName);
-                        $('#txtTableName').prop('readonly', true);
-                    }
-                    else {
-                        $("#tblColumnInfoList").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, No Data Found </div></td></tr>');
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    $("#tblColumnInfoList").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert"> Sorry! Something Went Wrong</div></td></tr>');
-                },
-                complete: $("#busy-indicator").fadeOut(150)
-            });
-        }
+					$.each(data,
+						function(i, item) {
+							rows += '<tr>' +
+								'<td class="mod-tid" style="display: none">' + item.id + '</td>'+
+								'<td class="col-md-2"><input type="text" class="form-control" value= "' + item.tableInfo.tableName + '" readonly/></td>' +
+								'<td class="col-md-3"><input type="text" class="form-control" value= "' + item.dbColumnName + '" readonly/></td>' +
+								'<td class="col-md-2"><input type="text" class="form-control" value= "' + item.modelPropertyName + '" readonly/></td>' +
+								'<td class="col-md-2"><input type="text" class="form-control" value= "' + item.displayName + '" readonly/></td>' +
+								'<td class="col-md-2"><input type="text" class="form-control" value= "' + item.columnType.typeName + '" readonly/></td>' +
+								'<td class="col-md-1 align-self-center"> <input type="button" id="btnEditColumn_' + item.id +'" onclick="EditColumnInfo('+ item.columnTypeId +','+item.tableId+','+item.id+')" class="btn btn-info mod-edit-btn" value="Edit"/> </td>' +
+								'<td style="display: none">' + item.columnTypeId + '</td>'+
+								'</tr>';
+						});
+					$("#tblColumnInfoList").html(rows);
+					$('#txtTableName').val(tableName);
+					$('#txtTableName').prop('readonly', true);
+				}
+				else {
+					$("#tblColumnInfoList").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-warning" role="alert"> Sorry, No Data Found </div></td></tr>');
+				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				$("#tblColumnInfoList").html('<tr><td colspan="5" class="text-center text-red"><div class="alert alert-danger" role="alert"> Sorry! Something Went Wrong</div></td></tr>');
+			},
+			complete: $("#busy-indicator").fadeOut(150)
+		});
+	}
 
-        function EditColumnInfo(columnId) {
-            var buttonId = "btnEditColumn_"+ columnId +"_";
+	async function EditColumnInfo(columnTypeId,tableId,id) {
+		tabId=tableId;
+		tableColumnInfoId=id;
+		let titleArry=["Table Name","Column Name","Model Property Name","Display Name"];
+		let valueArry=[];
+		//var buttonId = "btnEditColumn_"+ columnId +"_";
+		let htmlElms= $(event.target).parent().parent()[0].children;
+		for(let i=1;i<htmlElms.length-1;i++){
+			let obj= htmlElms[i].children[0];
+			valueArry.push($(obj).val());
+		}
+		
+		//const myModalEl = document.getElementById('viewTableColumnModal');
+		//const firstModal = bootstrap.Modal.getInstance(myModalEl);
 
-            //alert(columnId);
-            //$('#buttonId').prop("value", "Update");
-        }
-    </script>
+		const myModal = new bootstrap.Modal(document.getElementById('editTableColumnMod'), {
+		  keyboard: true
+		});
+
+		//firstModal.hide();
+		//===Prepare Internal Html string for appending
+		let lastElmIndex=valueArry.length-1
+		let htmlString =`<input id="smod-tabid" type="hidden" value="${tableId}"/><input id="smod-mainid" type="hidden" value="${id}"/>`;
+		let cnt=0;
+		titleArry.forEach(x=>{
+			htmlString+=`<div class="mb-3 col-12">
+							<label class="form-label">${x}</label>
+							<input id="smod-${[cnt]}" class="form-control" value="${valueArry[cnt]}"/>
+						</div>`
+			cnt++;
+		})
+		$("#edit-tbl-col-mod").html(htmlString);
+		await AppendSelectListofColumnType(columnTypeId);
+		myModal.show();
+		
+	}
+
+	async function AppendSelectListofColumnType(colTypeId){
+		let htmlString =$("#edit-tbl-col-mod").html();
+		
+		let selectListString=`<div class="mb-3 col-12">
+								<label class="form-label">Column Type</label><select id="smod-coltypeId" class="form-control"><option value="">-- Select --</option>`;
+		$.ajax({
+			type: "GET",
+			url: `@Url.Action("TableColumnTypeList")`,
+			dataType: "json",
+			success: function (d){
+				$.each(d,
+					function(i, item) {
+						selectListString+=`<option value="${item.id}">${item.typeName}</option>`
+				})
+				htmlString=htmlString+selectListString+"</select>";
+				$("#edit-tbl-col-mod").html(htmlString);
+				$("#smod-coltypeId").val(colTypeId);
+			}
+		})
+	}
+
+	//=== Update columninfo into database
+
+	function UpdateTableColumnInfo(){
+		console.log($("#mod-tcolTypId").text());
+		$("#smod-coltypeId").val()
+		let form= {
+			"Id":tableColumnInfoId,
+			"TableId":tabId,
+			"DbColumnName":$("#smod-0").val(),
+			"ModelPropertyName":$("#smod-1").val(),
+			"DisplayName":$("#smod-2").val(),
+			"ColumnTypeId":$("#smod-coltypeId").val(),
+		}
+
+		$.ajax({
+			type: "POST",
+			url: `@Url.Action("UpdateTableColumnInfo")`,
+			dataType: "json",
+			data: { form },
+			before: $("#busy-indicator").fadeIn(150),
+			success: function (data){
+				if(data =="success"){
+					window.Swal.fire({
+						icon: "success",
+						title: "Information Updated Successfully",
+						showConfirmButton: false,
+						timer: 3000
+					});
+				}
+				else{
+					window.Swal.fire({
+						icon: "error",
+						title: "Failed to update",
+						showConfirmButton: false,
+						timer: 3000
+					});
+				}
+			},
+			complete:$("#busy-indicator").fadeOut(150)
+		})
+	}
+
+	//===Add ColumnInfo into the database
+	$("#btnSaveColumnInfo").click(()=>{
+		let form= {
+			"TableId":$("#hiddenTableId").val(),
+			"DbColumnName":$("#txtColumnName").val(),
+			"ModelPropertyName":$("#txtModelPropName").val(),
+			"DisplayName":$("#txtDisplayName").val(),
+			"ColumnTypeId":$("#ddlColumnType").val(),
+		}
+
+		$.ajax({
+			type: "POST",
+			url: `@Url.Action("AddTableColumnInfo")`,
+			dataType: "json",
+			data: { form },
+			before: $("#busy-indicator").fadeIn(150),
+			success: function (data){
+				if(data=="success"){
+					window.Swal.fire({
+						icon: "success",
+						title: "Information Updated",
+						showConfirmButton: false,
+						timer: 3000
+					});
+					setTimeout(()=>{
+						window.location.reload();
+					},2000);					
+				}
+				else{
+					window.Swal.fire({
+						icon: "error",
+						title: "Failed to update",
+						showConfirmButton: false,
+						timer: 3000
+					});
+				}
+			},
+			complete:$("#busy-indicator").fadeOut(150)
+		})
+	})
+
+</script>
 }
