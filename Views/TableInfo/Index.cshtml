@@ -173,12 +173,13 @@
 @section Scripts
 {
 <script type="text/javascript">
-	var tabId, tableColumnInfoId;
+	var tabId, tableColumnInfoId, tableName;
 	$(document).ready(function () {
 		$(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
 	});
 
 	function GetColumnInfoList(tableId, tableName) {
+		tableName=tableName;
 		const url = '@Url.Action("GetTableColumnList", "TableInfo")';
 		$("#hiddenTableId").val(tableId);
 		$.ajax({
@@ -305,6 +306,7 @@
 						showConfirmButton: false,
 						timer: 3000
 					});
+					ModalRefresh();
 				}
 				else{
 					window.Swal.fire({
@@ -313,6 +315,7 @@
 						showConfirmButton: false,
 						timer: 3000
 					});
+					ModalRefresh();
 				}
 			},
 			complete:$("#busy-indicator").fadeOut(150)
@@ -321,6 +324,7 @@
 
 	//===Add ColumnInfo into the database
 	$("#btnSaveColumnInfo").click(()=>{
+
 		let form= {
 			"TableId":$("#hiddenTableId").val(),
 			"DbColumnName":$("#txtColumnName").val(),
@@ -343,9 +347,7 @@
 						showConfirmButton: false,
 						timer: 3000
 					});
-					setTimeout(()=>{
-						window.location.reload();
-					},2000);					
+					ModalRefresh();					
 				}
 				else{
 					window.Swal.fire({
@@ -354,11 +356,18 @@
 						showConfirmButton: false,
 						timer: 3000
 					});
+					ModalRefresh();
 				}
 			},
 			complete:$("#busy-indicator").fadeOut(150)
 		})
 	})
+
+	//=== Modal Refresh Functionality
+	function ModalRefresh(){
+		$("#tblColumnInfoList").html("");
+		GetColumnInfoList(tableId, tableName);
+	}
 
 </script>
 }
