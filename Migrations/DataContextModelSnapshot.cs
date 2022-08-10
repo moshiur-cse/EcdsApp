@@ -583,6 +583,10 @@ namespace EcdsApp.Migrations
                         .HasColumnType("int")
                         .HasColumnName("population_density");
 
+                    b.Property<int?>("PopulationDensity2022")
+                        .HasColumnType("int")
+                        .HasColumnName("population_density_2022");
+
                     b.HasKey("Id");
 
                     b.ToTable("tbl_district_wise_population_density");
@@ -712,6 +716,42 @@ namespace EcdsApp.Migrations
                     b.ToTable("tbl_user_message");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryMauza", b =>
+                {
+                    b.Property<string>("MauzaGeoCode")
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("mauza_geo_code");
+
+                    b.Property<string>("MauzaName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)")
+                        .HasColumnName("mauza_name");
+
+                    b.Property<string>("MauzaNameBangla")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)")
+                        .HasColumnName("mauza_name_bangla");
+
+                    b.Property<string>("OldGeoCode")
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("old_geo_code");
+
+                    b.Property<string>("UnionGeoCode")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("varchar(13)")
+                        .HasColumnName("union_geo_code");
+
+                    b.HasKey("MauzaGeoCode");
+
+                    b.HasIndex("UnionGeoCode");
+
+                    b.ToTable("lkp_admin_boundary_mauza");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryUnion", b =>
                 {
                     b.Property<string>("UnionGeoCode")
@@ -759,6 +799,42 @@ namespace EcdsApp.Migrations
                     b.HasIndex("UpazilaGeoCode");
 
                     b.ToTable("lkp_admin_boundary_unions");
+                });
+
+            modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryVillage", b =>
+                {
+                    b.Property<string>("VillageGeoCode")
+                        .HasMaxLength(19)
+                        .HasColumnType("varchar(19)")
+                        .HasColumnName("village_geo_code");
+
+                    b.Property<string>("MauzaGeoCode")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("mauza_geo_code");
+
+                    b.Property<string>("OldGeoCode")
+                        .HasMaxLength(19)
+                        .HasColumnType("varchar(19)")
+                        .HasColumnName("old_geo_code");
+
+                    b.Property<string>("VillageName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)")
+                        .HasColumnName("village_name");
+
+                    b.Property<string>("VillageNameBangla")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)")
+                        .HasColumnName("village_name_bangla");
+
+                    b.HasKey("VillageGeoCode");
+
+                    b.HasIndex("MauzaGeoCode");
+
+                    b.ToTable("lkp_admin_boundary_village");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.SystemCommon.Chat", b =>
@@ -1672,6 +1748,37 @@ namespace EcdsApp.Migrations
                     b.ToTable("tbl_upazila_wise_exposure_data");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseLiteracyRate", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<int?>("LiteracyRateBoth")
+                        .HasColumnType("int")
+                        .HasColumnName("literacy_rate_both");
+
+                    b.Property<int?>("LiteracyRateFemale")
+                        .HasColumnType("int")
+                        .HasColumnName("literacy_rate_female");
+
+                    b.Property<int?>("LiteracyRateMale")
+                        .HasColumnType("int")
+                        .HasColumnName("literacy_rate_male");
+
+                    b.Property<string>("UpazilaGeoCode")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("varchar(8)")
+                        .HasColumnName("upz_geo_code");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UpazilaGeoCode");
+
+                    b.ToTable("tbl_upazila_wise_literacy_rate");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDensity", b =>
                 {
                     b.Property<int>("Id")
@@ -2380,6 +2487,17 @@ namespace EcdsApp.Migrations
                     b.Navigation("Status");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryMauza", b =>
+                {
+                    b.HasOne("EcdsApp.Models.RegionModels.AdminBoundaryUnion", "Union")
+                        .WithMany()
+                        .HasForeignKey("UnionGeoCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Union");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryUnion", b =>
                 {
                     b.HasOne("EcdsApp.Models.AdminBoundaryUpazila", "Upazila")
@@ -2389,6 +2507,17 @@ namespace EcdsApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Upazila");
+                });
+
+            modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryVillage", b =>
+                {
+                    b.HasOne("EcdsApp.Models.RegionModels.AdminBoundaryMauza", "Mauza")
+                        .WithMany()
+                        .HasForeignKey("MauzaGeoCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Mauza");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.TableColumnInfo", b =>
@@ -2632,6 +2761,17 @@ namespace EcdsApp.Migrations
                     b.Navigation("StormSurgeExposure");
 
                     b.Navigation("TsunamiExposure");
+
+                    b.Navigation("Upazila");
+                });
+
+            modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseLiteracyRate", b =>
+                {
+                    b.HasOne("EcdsApp.Models.AdminBoundaryUpazila", "Upazila")
+                        .WithMany()
+                        .HasForeignKey("UpazilaGeoCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Upazila");
                 });

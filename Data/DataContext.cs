@@ -45,6 +45,10 @@ namespace EcdsApp.Data
         public DbSet<AdminBoundaryDivision> AdminBoundaryDivisions { get; set; }
         public DbSet<AdminBoundaryUpazila> AdminBoundaryUpazilas { get; set; }
         public DbSet<AdminBoundaryUnion> AdminBoundaryUnions { get; set; }
+        public DbSet<AdminBoundaryMauza> AdminBoundaryMauzas { get; set; }
+        public DbSet<AdminBoundaryVillage> AdminBoundaryVillages { get; set; }
+
+
 
         public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Theme> Themes { get; set; }
@@ -68,6 +72,9 @@ namespace EcdsApp.Data
         public DbSet<UpazilaWisePoverty> UpazilaWisePoverties { get; set; }
         public DbSet<UpazilaWisePopulationDensity> UpazilaWisePopulationDensities { get; set; }
         public DbSet<UpazilaWisePopulationDistribution> UpazilaWisePopulationDistributions { get; set; }
+        public DbSet<UpazilaWiseLiteracyRate> UpazilaWiseLiteracyRates { get; set; }
+
+
 
         //District Wise
         public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }
