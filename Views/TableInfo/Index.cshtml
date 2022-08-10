@@ -48,8 +48,9 @@
 									{
 										<tr>
 											<td>
-												<a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="fas fa-pen-alt font-size-20"></i></a>
+												<a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="fas fa-pen-alt font-size-20"></i></a><a asp-action="Delete" asp-route-id="@item.Id" class="pe-3 text-danger"><i class="fas fa-trash-alt font-size-20"></i></a>
 											</td>
+											
 											<td>
 												<a onclick="GetColumnInfoList(@item.Id, '@item.TableName')" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl" class="px-3 text-primary"><i class="far fa-eye font-size-20"></i></a>
 											</td>
@@ -173,13 +174,18 @@
 @section Scripts
 {
 <script type="text/javascript">
-	var tabId, tableColumnInfoId, tableName;
+	var tabId=0, tableColumnInfoId=0, tableName="";
+	var myModal = new bootstrap.Modal(document.getElementById('editTableColumnMod'), {
+		keyboard: true
+	});
+
 	$(document).ready(function () {
 		$(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");
 	});
 
 	function GetColumnInfoList(tableId, tableName) {
 		tableName=tableName;
+		tabId=tableId;
 		const url = '@Url.Action("GetTableColumnList", "TableInfo")';
 		$("#hiddenTableId").val(tableId);
 		$.ajax({
@@ -201,7 +207,7 @@
 								'<td class="col-md-2"><input type="text" class="form-control" value= "' + item.modelPropertyName + '" readonly/></td>' +
 								'<td class="col-md-2"><input type="text" class="form-control" value= "' + item.displayName + '" readonly/></td>' +
 								'<td class="col-md-2"><input type="text" class="form-control" value= "' + item.columnType.typeName + '" readonly/></td>' +
-								'<td class="col-md-1 align-self-center"> <input type="button" id="btnEditColumn_' + item.id +'" onclick="EditColumnInfo('+ item.columnTypeId +','+item.tableId+','+item.id+')" class="btn btn-info mod-edit-btn" value="Edit"/> </td>' +
+								'<td class="col-md-1 align-self-center"> <input type="button" id="btnEditColumn_' + item.id +'" onclick="EditColumnInfo('+ item.columnTypeId +','+item.tableId+','+item.id+')" class="btn btn-info mod-edit-btn" value="Edit"/> <input type="button" id="btnDeleteColumn_' + item.id +'" onclick="DeleteColumn('+item.id+')" class="btn btn-danger ms-2" value="Delete"/></td>' +
 								'<td style="display: none">' + item.columnTypeId + '</td>'+
 								'</tr>';
 						});
@@ -235,9 +241,7 @@
 		//const myModalEl = document.getElementById('viewTableColumnModal');
 		//const firstModal = bootstrap.Modal.getInstance(myModalEl);
 
-		const myModal = new bootstrap.Modal(document.getElementById('editTableColumnMod'), {
-		  keyboard: true
-		});
+		
 
 		//firstModal.hide();
 		//===Prepare Internal Html string for appending
@@ -281,14 +285,15 @@
 	//=== Update columninfo into database
 
 	function UpdateTableColumnInfo(){
+		console.log(tableColumnInfoId);
 		console.log($("#mod-tcolTypId").text());
 		$("#smod-coltypeId").val()
 		let form= {
 			"Id":tableColumnInfoId,
 			"TableId":tabId,
-			"DbColumnName":$("#smod-0").val(),
-			"ModelPropertyName":$("#smod-1").val(),
-			"DisplayName":$("#smod-2").val(),
+			"DbColumnName":$("#smod-1").val(),
+			"ModelPropertyName":$("#smod-2").val(),
+			"DisplayName":$("#smod-3").val(),
 			"ColumnTypeId":$("#smod-coltypeId").val(),
 		}
 
@@ -363,10 +368,45 @@
 		})
 	})
 
+	//==== Delete Column Info Function
+
+	function DeleteColumn(id){
+		$.ajax({
+			type: "GET",
+			url: `@Url.Action("DeleteTableColumnInfo")`,
+			dataType: "json",
+			data: { id:id },
+			before: $("#busy-indicator").fadeIn(150),
+			success: function (data){
+				if(data=="success"){
+					window.Swal.fire({
+						icon: "success",
+						title: "Information Deleted Successfully",
+						showConfirmButton: false,
+						timer: 3000
+					});
+					ModalRefresh();					
+				}
+				else{
+					window.Swal.fire({
+						icon: "error",
+						title: "Failed to Delete Information",
+						showConfirmButton: false,
+						timer: 3000
+					});
+					ModalRefresh();
+				}
+			},
+			complete:$("#busy-indicator").fadeOut(150)
+		})
+	}
+
 	//=== Modal Refresh Functionality
 	function ModalRefresh(){
+		console.log(tabId, tableName);
+		myModal.hide();
 		$("#tblColumnInfoList").html("");
-		GetColumnInfoList(tableId, tableName);
+		GetColumnInfoList(tabId, tableName);
 	}
 
 </script>

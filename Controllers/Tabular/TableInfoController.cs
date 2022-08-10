@@ -90,10 +90,12 @@ namespace EcdsApp.Controllers.Tabular
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserAuthorization]
-        public async Task<IActionResult> Create([Bind("Id,SubThemeId,BoundaryId,TableName,TableModelName,DisplayName")] TableInfo tableInfo)
+        public async Task<IActionResult> Create([Bind("SubThemeId,BoundaryId,TableName,TableModelName,DisplayName")] TableInfo tableInfo)
         {
             if (ModelState.IsValid)
             {
+                var id = _context.TableInfos.Max(x => x.Id) + 1;
+                tableInfo.Id = id;
                 _context.Add(tableInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -164,6 +166,8 @@ namespace EcdsApp.Controllers.Tabular
         {
 			if (ModelState.IsValid)
 			{
+                var newDataId = _context.TableColumnInfos.Max(x=>x.Id)+1;
+                form.Id = newDataId;
                 _context.Add(form);
                 await _context.SaveChangesAsync();
                 return Json("success");
@@ -180,6 +184,25 @@ namespace EcdsApp.Controllers.Tabular
                 _context.Update(form);
                 await _context.SaveChangesAsync();
                 return Json("success");
+            }
+            return Json("failed");
+        }
+
+        [HttpGet]
+        //[UserAuthorization]
+        public async Task<IActionResult> DeleteTableColumnInfo(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var tabColInfo = await _context.TableColumnInfos.FindAsync(id);
+                if(tabColInfo != null)
+                {
+                    _context.Remove(tabColInfo);
+                    await _context.SaveChangesAsync();
+                    return Json("success");
+                }
+                
+                
             }
             return Json("failed");
         }

@@ -170,8 +170,11 @@
 
 
 .bg-grad {
-    background: linear-gradient(98deg, rgba(88,122,171,1) 0%, rgba(94,66,103,1) 100%);
+    background-image: linear-gradient(to top, #2B7E91, #09A1C4);
+    /* background: linear-gradient(98deg, rgba(88,122,171,1) 0%, rgba(94,66,103,1) 100%);*/
 }
+   
+
 .font-opensans {
     font-family: "Open Sans", sans-serif !important;
 }
