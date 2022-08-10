@@ -4,15 +4,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>    
+    .display-6{
+        font-size:1.7rem;
+    }
+</style>
+
 <div class="page-content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-body m-0">
+                    <div class="card-body m-0 d-flex justify-content-between">
                         <h3 class="display-6 mb-0">List of User</h3>
-                        <p class="card-title-desc">User Details Information</p>
-                        <a class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New User</a>
+                        @*<p class="card-title-desc">User Details Information</p>*@
+                        <a class="btn btn-info btn-rounded waves-effect waves-light w-lg" asp-area="Identity" asp-page="/Account/Register">Add New User</a>
                     </div>
                 </div>
                 <div class="table-responsive mb-4">

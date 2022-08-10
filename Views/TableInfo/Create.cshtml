@@ -1,57 +1,64 @@
 ﻿@model EcdsApp.Models.TabularModels.TableInfo
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Create";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>TableInfo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SubThemeId" class="control-label"></label>
-                <select asp-for="SubThemeId" class ="form-control" asp-items="ViewBag.SubThemeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="BoundaryId" class="control-label"></label>
-                <select asp-for="BoundaryId" class ="form-control" asp-items="ViewBag.BoundaryId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TableName" class="control-label"></label>
-                <input asp-for="TableName" class="form-control" />
-                <span asp-validation-for="TableName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TableModelName" class="control-label"></label>
-                <input asp-for="TableModelName" class="form-control" />
-                <span asp-validation-for="TableModelName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DisplayName" class="control-label"></label>
-                <input asp-for="DisplayName" class="form-control" />
-                <span asp-validation-for="DisplayName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="page-content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<h3 class="display-6 mb-0">Add Table Information</h3>
+						<form asp-action="Create">
+							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+							<div class="form-group mb-3 ">
+								<label asp-for="Id" class="control-label"></label>
+								<input asp-for="Id" class="form-control" />
+								<span asp-validation-for="Id" class="text-danger"></span>
+							</div>
+							<div class="form-group mb-3">
+								<label asp-for="SubThemeId" class="control-label"></label>
+								<select asp-for="SubThemeId" class="form-control" asp-items="ViewBag.SubThemeId"></select>
+							</div>
+							<div class="form-group mb-3">
+								<label asp-for="BoundaryId" class="control-label"></label>
+								<select asp-for="BoundaryId" class="form-control" asp-items="ViewBag.BoundaryId"></select>
+							</div>
+							<div class="form-group mb-3">
+								<label asp-for="TableName" class="control-label"></label>
+								<input asp-for="TableName" class="form-control" />
+								<span asp-validation-for="TableName" class="text-danger"></span>
+							</div>
+							<div class="form-group mb-3">
+								<label asp-for="TableModelName" class="control-label"></label>
+								<input asp-for="TableModelName" class="form-control" />
+								<span asp-validation-for="TableModelName" class="text-danger"></span>
+							</div>
+							<div class="form-group mb-3">
+								<label asp-for="DisplayName" class="control-label"></label>
+								<input asp-for="DisplayName" class="form-control" />
+								<span asp-validation-for="DisplayName" class="text-danger"></span>
+							</div>
+							<div class="form-group mb-3">
+								<input type="submit" value="Create" class="btn btn-primary" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+	<a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+	await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

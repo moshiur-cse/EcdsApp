@@ -11,6 +11,12 @@
 
 @section Styles{
 <style>
+	.prof-card{
+		box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+		padding:60px 30px;
+		border-radius:10px;
+
+	}
 	.vh90 {
 		min-height: 90vh;
 	}
@@ -19,22 +25,22 @@
 <div class="page-content bg-white vh90 d-flex justify-content-center align-items-center vh90">
 	<div class="container-fluid">
 		<div class="row justify-content-center align-items-center">
-			<div class="col-12 col-sm-10 col-md-8 col-lg-5">
+			<div class="col-12 col-sm-10 col-md-8 col-lg-6">
 				<h3 class="text-center fs-3 py-4">Update User Information</h3>
-				<form asp-action="UpdateProfile" class="mt-4 custom-validation" method="post" enctype="multipart/form-data">
+				<form asp-action="UpdateProfile" class="mt-2 mb-4 custom-validation prof-card" method="post" enctype="multipart/form-data">
 					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 					<input type="hidden" asp-for="Id" />
 
 					<div class="mb-3 row">
-						<label asp-for="FirstName" class="col-md-2 col-form-label"></label>
-						<div class="col-md-10">
+						<label asp-for="FirstName" class="col-md-3 col-form-label"></label>
+						<div class="col-md-9">
 							<input asp-for="FirstName" class="form-control" />
 							<span asp-validation-for="FirstName" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label asp-for="LastName" class="col-md-2 col-form-label"></label>
-						<div class="col-md-10">
+						<label asp-for="LastName" class="col-md-3 col-form-label"></label>
+						<div class="col-md-9">
 							<input asp-for="LastName" class="form-control" />
 							<span asp-validation-for="LastName" class="text-danger"></span>
 						</div>
@@ -43,15 +49,15 @@
 					@if (user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd")
 					{
 						<div class="mb-3 row">
-							<label asp-for="Email" class="col-md-2 col-form-label"></label>
-							<div class="col-md-10">
+							<label asp-for="Email" class="col-md-3 col-form-label"></label>
+							<div class="col-md-9">
 								<input asp-for="Email" class="form-control" />
 								<span asp-validation-for="Email" class="text-danger"></span>
 							</div>
 						</div>
 						<div class="mb-3 row">
-							<label asp-for="UserName" class="col-md-2 col-form-label"></label>
-							<div class="col-md-10">
+							<label asp-for="UserName" class="col-md-3 col-form-label"></label>
+							<div class="col-md-9">
 								<input asp-for="UserName" class="form-control" />
 								<span asp-validation-for="UserName" class="text-danger"></span>
 							</div>
@@ -59,46 +65,46 @@
 					}
 
 					<div class="mb-3 row">
-						<label asp-for="MobileNo" class="col-md-2 col-form-label"></label>
-						<div class="col-md-10">
+						<label asp-for="MobileNo" class="col-md-3 col-form-label"></label>
+						<div class="col-md-9">
 							<input asp-for="MobileNo" class="form-control" />
 							<span asp-validation-for="MobileNo" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label asp-for="DateOfBirth" class="col-md-2 col-form-label"></label>
-						<div class="col-md-10">
+						<label asp-for="DateOfBirth" class="col-md-3 col-form-label"></label>
+						<div class="col-md-9">
 							<input id="date-of-birth" asp-for="DateOfBirth" class="form-control" />
 							<span asp-validation-for="DateOfBirth" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label asp-for="Address" class="col-md-2 col-form-label"></label>
-						<div class="col-md-10">
+						<label asp-for="Address" class="col-md-3 col-form-label"></label>
+						<div class="col-md-9">
 							<input asp-for="Address" class="form-control" />
 							<span asp-validation-for="Address" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label asp-for="Organization" class="col-md-2 col-form-label"></label>
-						<div class="col-md-10">
+						<label asp-for="Organization" class="col-md-3 col-form-label"></label>
+						<div class="col-md-9">
 							<input asp-for="Organization" class="form-control" />
 							<span asp-validation-for="Organization" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label asp-for="Designation" class="col-md-2 col-form-label"></label>
-						<div class="col-md-10">
+						<label asp-for="Designation" class="col-md-3 col-form-label"></label>
+						<div class="col-md-9">
 							<input asp-for="Designation" class="form-control" />
 							<span asp-validation-for="Designation" class="text-danger"></span>
 						</div>
 					</div>
 
 					<div class="mb-3 row">
-						<label class="col-md-2 col-form-label">Profile Picture</label>
+						<label class="col-md-3 col-form-label">Profile Picture</label>
 
 
-						<div class="col-md-10">
+						<div class="col-md-9">
 							<input onchange="previewImage(event)" name="image" class="form-control" type="file" src="~/assets/profile_pics/@Model.ProfilePic" />
 							<div class="card card-body">
 								@if (Model.ProfilePic != null)
@@ -124,8 +130,10 @@
 						</div>
 					}
 					
-					<div class="d-flex justify-content-center align-items-center my-4">
-						<button type="submit" class="btn btn-dark px-4 py-2">Update</button>
+					<div class="d-flex justify-content-center justify-content-lg-end align-items-center my-4">
+						<button type="submit" class="btn btn-outline-danger px-4 py-2 me-3">Update</button>
+						<a class="btn btn-dark px-4 py-2" asp-action="Users">Back to List</a>
+
 					</div>
 
 				</form>

@@ -158,6 +158,37 @@ namespace EcdsApp.Controllers.Tabular
             return View(tableInfo);
         }
 
+        [HttpPost]
+        //[UserAuthorization]
+        public async Task<IActionResult> AddTableColumnInfo(TableColumnInfo form)
+        {
+			if (ModelState.IsValid)
+			{
+                _context.Add(form);
+                await _context.SaveChangesAsync();
+                return Json("success");
+			}
+            return Json("failed");
+        }
+
+        [HttpPost]
+        //[UserAuthorization]
+        public async Task<IActionResult> UpdateTableColumnInfo( TableColumnInfo form)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Update(form);
+                await _context.SaveChangesAsync();
+                return Json("success");
+            }
+            return Json("failed");
+        }
+
+        public async Task<IActionResult> TableColumnTypeList()
+		{
+            return Json(await _context.ColumnTypes.ToListAsync());
+		}
+
         // GET: TableInfo/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

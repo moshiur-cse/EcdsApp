@@ -65,7 +65,7 @@ namespace EcdsApp.Controllers.Theme
         {
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
             ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails, "LayerId", "LayerDisplayName");
-
+            ViewData["Themes"] = new SelectList(_context.Themes.ToList(), "ThemeId", "ThemeName");
             return View();
         }
 
