@@ -21,5 +21,10 @@ namespace EcdsApp.Models.DistrictWiseInfoModels
         [Column("population_density", TypeName = "int")]
         [Display(Name = "Population Density")]
         public int? PopulationDensity { get; set; }
+
+
+        [Column("population_density_2022", TypeName = "int")]
+        [Display(Name = "Population Density 2022")]
+        public int? PopulationDensity2022 { get; set; }
     }
 }
