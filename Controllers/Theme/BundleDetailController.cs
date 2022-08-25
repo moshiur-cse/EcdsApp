@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Theme
 {
-    //[Authorize]
+
     public class BundleDetailController : Controller
     {
         private readonly DataContext _context;

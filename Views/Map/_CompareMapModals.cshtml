@@ -14,12 +14,13 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+
                     <div class="col-xl-6">
                         <div class="card">
                             <div class="card-body">
-                               
+
                                 <h5> <i class="bx bxs-select-multiple"></i>First Map Layers</h5>
-                                
+
                                 <!--- Sidemenu -->
                                 <div id="sidebar-menu1">
                                     <!-- Left Menu Start -->
@@ -150,7 +151,12 @@
                         </div>
                     </div>
                 </div>
+                <div style="text-align:center">
+                    <input class="addAdminBoundary" type="checkbox" id="addDistrictBoundary" onclick="AddAdministrativeBoundary('addDistrictBoundary','district_line')" value=""><label for="addDistrictBoundary">District Boundary</label>
+                    <input class="addAdminBoundary" type="checkbox" id="addUpazilaBoundary" onclick="AddAdministrativeBoundary('addUpazilaBoundary','upazila_line')" value=""><label for="addUpazilaBoundary">Upazila Boundary</label>
+                </div>
             </div>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 @*<button type="button" class="btn btn-primary">Save changes</button>*@
@@ -172,7 +178,6 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-
                 </div>
             </div>
 
