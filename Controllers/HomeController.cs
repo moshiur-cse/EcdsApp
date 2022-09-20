@@ -27,60 +27,68 @@ namespace EcdsApp.Controllers
         }
         public async Task<IActionResult> Dashboard()
         {
-            var population = _context.DistrictWisePopulations
-                .Include(u => u.District.Division)
-                .OrderBy(u => u.Id)
-                .ToList();
-            ViewBag.LayerCount = _context.ThemeLayerDetails.Count();
-            var layerInfoList = _context.ThemeLayerDetails
-                .Include(t => t.SubThemes.Themes)
-                .Include(t => t.ThemeLayerTypes)
-                .Include(t => t.BoundaryInfo)
-                .Include(t => t.TableInfo)
-                .OrderByDescending(t => t.LayerId).Take(5)
-                .ToList();
-            var layerData = await _context.DistrictWisePoverties.ToListAsync();
-            var legendData = await _context.LayerLegendColors.Where(i => i.LayerId == 11).ToListAsync();
-            ViewBag.DistrictList = new SelectList(_context.AdminBoundaryDistricts.OrderBy(i => i.DistrictName), "DistrictGeoCode", "DistrictName");
+            try
+            {
+                var population = _context.DistrictWisePopulations
+                    .Include(u => u.District.Division)
+                    .OrderBy(u => u.Id)
+                    .ToList();
+                ViewBag.LayerCount = _context.ThemeLayerDetails.Count();
+                var layerInfoList = _context.ThemeLayerDetails
+                    .Include(t => t.SubThemes.Themes)
+                    .Include(t => t.ThemeLayerTypes)
+                    .Include(t => t.BoundaryInfo)
+                    .Include(t => t.TableInfo)
+                    .OrderByDescending(t => t.LayerId).Take(5)
+                    .ToList();
+                var layerData = await _context.DistrictWisePoverties.ToListAsync();
+                var legendData = await _context.LayerLegendColors.Where(i => i.LayerId == 11).ToListAsync();
+                ViewBag.DistrictList = new SelectList(_context.AdminBoundaryDistricts.OrderBy(i => i.DistrictName), "DistrictGeoCode", "DistrictName");
 
 
 
-            ChartDataVm chartData = new ChartDataVm();
+                ChartDataVm chartData = new ChartDataVm();
 
-            var dataList = _context.ThemeLayerDetails
-                       .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
-                        .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
-                        .Select(k => new
-                        {
-                            name = k.Key,
-                            children = k.GroupBy(i => i.SubThemes.SubThemeName)
-                                .Select(j => new
-                                {
-                                    name = j.Key,
-                                    children = j.GroupBy(j => j.LayerId).
-                                    Select(p => new
+                var dataList = _context.ThemeLayerDetails
+                           .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
+                            .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
+                            .Select(k => new
+                            {
+                                name = k.Key,
+                                children = k.GroupBy(i => i.SubThemes.SubThemeName)
+                                    .Select(j => new
                                     {
-                                        name = p.Select(i => i.LayerDisplayName).FirstOrDefault(),
-                                        value = p.Key
+                                        name = j.Key,
+                                        children = j.GroupBy(j => j.LayerId).
+                                        Select(p => new
+                                        {
+                                            name = p.Select(i => i.LayerDisplayName).FirstOrDefault(),
+                                            value = p.Key
 
+
+                                        }).ToList()
 
                                     }).ToList()
+                            }).ToList();
 
-                                }).ToList()
-                        }).ToList();
+                chartData.name = "dataList";
+                chartData.children = dataList;
 
-            chartData.name = "dataList";
-            chartData.children = dataList;
-
-            var dashboardModel = new DashboardVm
+                var dashboardModel = new DashboardVm
+                {
+                    DistrictWisePopulations = population,
+                    ThemeLayerDetails = layerInfoList,
+                    DistrictWisePoverties = layerData,
+                    LayerLegendColors = legendData,
+                    ChartDataVms = chartData
+                };
+                return View(dashboardModel);
+            }
+            catch (Exception e)
             {
-                DistrictWisePopulations = population,
-                ThemeLayerDetails = layerInfoList,
-                DistrictWisePoverties = layerData,
-                LayerLegendColors = legendData,
-                ChartDataVms = chartData
-            };
-            return View(dashboardModel);
+                return new RedirectToRouteResult(new { action = "UnAuthorizeActionResult", controller = "UserAccessManage", area = "" });
+            }
+
         }
         public JsonResult Data()
         {

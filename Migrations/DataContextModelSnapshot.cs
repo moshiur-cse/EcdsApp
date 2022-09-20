@@ -1125,6 +1125,10 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("additional_info_source_for_dataset");
 
+                    b.Property<int?>("ColumnId")
+                        .HasColumnType("int")
+                        .HasColumnName("column_id");
+
                     b.Property<string>("Completeness")
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)")
@@ -1168,6 +1172,11 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("quality");
 
+                    b.Property<string>("SubLayer")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)")
+                        .HasColumnName("sub_layer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -1181,6 +1190,8 @@ namespace EcdsApp.Migrations
                         .HasColumnName("type_of_dataset");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ColumnId");
 
                     b.HasIndex("LayerId");
 
@@ -2567,11 +2578,17 @@ namespace EcdsApp.Migrations
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.MetaDataDetail", b =>
                 {
+                    b.HasOne("EcdsApp.Models.TabularModels.TableColumnInfo", "TableColumnInfo")
+                        .WithMany()
+                        .HasForeignKey("ColumnId");
+
                     b.HasOne("EcdsApp.Models.ThemeModels.ThemeLayerDetail", "ThemeLayerDetails")
                         .WithMany()
                         .HasForeignKey("LayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("TableColumnInfo");
 
                     b.Navigation("ThemeLayerDetails");
                 });

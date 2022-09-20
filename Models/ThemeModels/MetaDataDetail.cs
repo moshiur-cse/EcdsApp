@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EcdsApp.Models.TabularModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcdsApp.Models.ThemeModels
@@ -18,6 +19,20 @@ namespace EcdsApp.Models.ThemeModels
         public int LayerId { get; set; }
         [ForeignKey("LayerId")]
         public virtual ThemeLayerDetail ThemeLayerDetails { get; set; }
+
+
+        [Column("column_id")]
+        [Display(Name = "Table Column Name")]
+        public int? ColumnId { get; set; }
+        [ForeignKey("ColumnId")]
+        public virtual TableColumnInfo TableColumnInfo { get; set; }
+
+
+
+        [Column("sub_layer")]
+        [StringLength(1000)]
+        [Display(Name = "Sub-Layer Name")]
+        public string SubLayer { get; set; }
 
         [Required]
         [Column("title")]

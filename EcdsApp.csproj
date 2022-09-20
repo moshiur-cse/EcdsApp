@@ -50,6 +50,7 @@
 		<Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\division\" />
 		<Folder Include="wwwroot\assets\js\map\map_data\administrative\administrative_boundary\upazila\" />
 		<Folder Include="wwwroot\assets\js\map\map_data\hazard_and_natural_disaster\geophysical_hazard\seismic_zone\" />
+		<Folder Include="wwwroot\assets\documents\" />
 		<Folder Include="wwwroot\zip\" />
 	</ItemGroup>
 

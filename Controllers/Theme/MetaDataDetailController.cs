@@ -23,8 +23,7 @@ namespace EcdsApp.Controllers.Theme
         [UserAuthorization]
         public async Task<IActionResult> Index()
         {
-            var dataContext = _context.MetaDataDetails
-                .Include(m => m.ThemeLayerDetails);
+            var dataContext = _context.MetaDataDetails.Include(m => m.ThemeLayerDetails).Include(m => m.TableColumnInfo);
 
             return View(await dataContext.ToListAsync());
         }
@@ -70,7 +69,7 @@ namespace EcdsApp.Controllers.Theme
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserAuthorization]
-        public async Task<IActionResult> Create([Bind("Id,LayerId,Title,Abstract,General,Quality,Completeness,HistoryOfTheDataSet,PurposeOfProduction,ProcessDescription," +
+        public async Task<IActionResult> Create([Bind("Id,LayerId,ColumnId,Title,Abstract,General,Quality,Completeness,HistoryOfTheDataSet,PurposeOfProduction,ProcessDescription," +
                "TypeOfDataSet,DataSetLanguage,AdditionalInfoSourceForDataSet")] MetaDataDetail metaDataDetail)
         {
             if (ModelState.IsValid)

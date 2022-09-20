@@ -20,7 +20,7 @@
                                 <label class="col-md-2 col-form-label required">Theme</label>
                                 <div class="col-md-10">
                                     <select id="ddlTheme" class="form-select" asp-items="ViewBag.ThemeId" required="" data-parsley-required-message="You must select at least one option.">
-                                        <option value="">Select</option>
+                                        <option value="">--Select--</option>
                                     </select>
                                 </div>
                             </div>
@@ -28,7 +28,7 @@
                                 <label class="col-md-2 col-form-label required">Sub-Theme</label>
                                 <div class="col-md-10">
                                     <select id="ddlSubTheme" class="form-select" required="" data-parsley-required-message="You must select at least one option.">
-                                        <option value="">Select</option>
+                                        <option value="">--Select--</option>
                                     </select>
                                 </div>
                             </div>
@@ -36,7 +36,16 @@
                                 <label class="col-md-2 col-form-label required">Layer</label>
                                 <div class="col-md-10">
                                     <select id="ddlLayer" class="form-select" asp-for="LayerId" data-parsley-min="1" required="" data-parsley-required-message="You must select at least one option.">
-                                        <option value="">Select</option>
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">Sub Layer</label>
+                                <div class="col-md-10">
+                                    <select id="ddlSubLayer" class="form-select" asp-for="ColumnId">
+                                        <option value="">--Select--</option>
                                     </select>
                                 </div>
                             </div>
@@ -138,7 +147,7 @@
             $('#ddlTheme').change(function () {
                 var items = '';
                 $('#ddlLayer').empty();
-                $('#ddlLayer').html("<option value=''>Select</option>");
+                $('#ddlLayer').html("<option value=''>--Select--</option>");
 
                 $.ajax({
                     type: 'GET',
@@ -147,7 +156,9 @@
                     data: { themeId: $('#ddlTheme').val() },
                     success: function (responseData) {
                         $('#ddlSubTheme').empty();
+                        $('#ddlSubLayer').empty();
                         $.each(responseData,
+                            
                             function (i, subTheme) {
                                 items += "<option value='" + subTheme.value + "'>" + subTheme.text + "</option>";
                             });
@@ -173,6 +184,7 @@
             $('#ddlSubTheme').change(function () {
                 var items = '';
 
+                $('#ddlLayer').html("<option value=''>--Select--</option>");
                 $.ajax({
                     type: 'GET',
                     url: '@Url.Action("GetLayerData", "ThemeLayerDetails")',
@@ -180,6 +192,7 @@
                     data: { subThemeId: $('#ddlSubTheme').val() },
                     success: function (responseData) {
                         $('#ddlLayer').empty();
+                        $('#ddlSubLayer').empty();
                         $.each(responseData,
                             function (i, themeLayer) {
                                 items += "<option value='" + themeLayer.value + "'>" + themeLayer.text + "</option>";
@@ -202,6 +215,42 @@
                 });
                 return false;
             });
+
+            $('#ddlLayer').change(function () {
+                var items = '';
+                $('#ddlSubLayer').html("<option value=''>--Select--</option>");
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSubLayer", "ThemeLayerDetails")',
+                    dataType: "json",
+                    data: { layerId: $('#ddlLayer').val() },
+                    success: function (responseData) {
+                        $('#ddlSubLayer').empty();
+                        $.each(responseData,
+                            function (i, themeLayer) {
+                                items += "<option value='" + themeLayer.value + "'>" + themeLayer.text + "</option>";
+                            });
+                        if (items !== "") {
+                            $('#ddlSubLayer').html(items);
+                        } else {
+                            $('#ddlSubLayer').html("<option value=''>No Sub-layer Available Under the Selected Layer</option> ");
+                        }
+                    },
+                    error: function (ex) {
+                        window.Swal.fire({
+                            title: "Error",
+                            text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                });
+                return false;
+            });
         });
+
+
     </script>
 }

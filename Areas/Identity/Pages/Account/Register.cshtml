@@ -4,119 +4,119 @@
     ViewData["Title"] = "Register";
 }
 @section Styles{
-<style>
-  .card {
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-    }
+    <style>
+        .card {
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+        }
     </style>
 }
-<div class="page-content my-5 bg-white">
+    <div class="page-content my-5 bg-white">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center mt-2">
                                 <h5 class="text-primary">Register Account</h5>
                                 <p class="text-muted">Get your ECDS Account Now.</p>
                             </div>
-                            
+
                             <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
                                 <h4>Create New Account</h4> <hr />
                                 <div asp-validation-summary="All" class="text-danger"></div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.FirstName">First Name</label>
-                                            <input class="form-control" asp-for="Input.FirstName" placeholder="Enter First Name">
-                                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.LastName">Last Name</label>
-                                            <input class="form-control" asp-for="Input.LastName" placeholder="Enter Last Name">
-                                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
-                                        </div>
-                                    </div>
+
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.FirstName">First Name</label>
+                                    <input class="form-control" asp-for="Input.FirstName" placeholder="Enter First Name">
+                                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.Email">Email</label>
-                                            <input type="email" class="form-control" asp-for="Input.Email" placeholder="Enter email">
-                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.MobileNo">Mobile No</label>
-                                            <input class="form-control" asp-for="Input.MobileNo" placeholder="Enter Mobile No">
-                                            <span asp-validation-for="Input.MobileNo" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.DateOfBirth">Date Of Birth</label>
-                                            <input id="date-of-birth" class="form-control" asp-for="Input.DateOfBirth">
-                                            <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.Address">Address</label>
-                                            <input class="form-control" asp-for="Input.Address" placeholder="Enter Address">
-                                            <span asp-validation-for="Input.Address" class="text-danger"></span>
-                                        </div>
-                                    </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.LastName">Last Name</label>
+                                    <input class="form-control" asp-for="Input.LastName" placeholder="Enter Last Name">
+                                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.Organization">Organization</label>
-                                            <input class="form-control" asp-for="Input.Organization" placeholder="Enter Organization Name">
-                                            <span asp-validation-for="Input.Organization" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.Designation">Designation</label>
-                                            <input class="form-control" asp-for="Input.Designation" placeholder="Enter Designation">
-                                            <span asp-validation-for="Input.Designation" class="text-danger"></span>
-                                        </div>
-                                    </div>
+
+
+
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.Email">Email</label>
+                                    <input type="email" class="form-control" asp-for="Input.Email" placeholder="Enter email">
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.UserName">UserName</label>
-                                            <input asp-for="Input.UserName" class="form-control" />
-                                            <span asp-validation-for="Input.UserName" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.Password">Password</label>
-                                            <input asp-for="Input.Password" class="form-control"/>
-                                            <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" asp-for="Input.ConfirmPassword"></label>
-                                            <input asp-for="Input.ConfirmPassword" class="form-control"/>
-                                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                                        </div>
-                                    </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.MobileNo">Mobile No</label>
+                                    <input class="form-control" asp-for="Input.MobileNo" placeholder="Enter Mobile No">
+                                    <span asp-validation-for="Input.MobileNo" class="text-danger"></span>
                                 </div>
 
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.DateOfBirth">Date Of Birth</label>
+                                    <input id="date-of-birth" class="form-control" asp-for="Input.DateOfBirth">
+                                    <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.Address">Address</label>
+                                    <input class="form-control" asp-for="Input.Address" placeholder="Enter Address">
+                                    <span asp-validation-for="Input.Address" class="text-danger"></span>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.Organization">Organization</label>
+                                    <input class="form-control" asp-for="Input.Organization" placeholder="Enter Organization Name">
+                                    <span asp-validation-for="Input.Organization" class="text-danger"></span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.Designation">Designation</label>
+                                    <input class="form-control" asp-for="Input.Designation" placeholder="Enter Designation">
+                                    <span asp-validation-for="Input.Designation" class="text-danger"></span>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.UserName">UserName</label>
+                                    <input asp-for="Input.UserName" class="form-control" />
+                                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.Password">Password</label>
+                                    <input type="password" asp-for="Input.Password" class="form-control showHidePassword" />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Input.ConfirmPassword"></label>
+                                    <input type="password" asp-for="Input.ConfirmPassword" class="form-control showHidePassword" />
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+
+                                    <label>
+                                        <input type="checkbox" onclick="showHidePassword()" />
+                                        Show Password
+                                    </label>
+
+                                </div>
                                 <div class="mt-2 text-end">
                                     <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">Register</button>
                                 </div>
@@ -159,27 +159,35 @@
             <!-- end row -->
         </div>
     </div>
-@*</div>*@
+    @*</div>*@
 
 
-@section Scripts {
+    @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-    //==display message sent from server
-    let message=$(".validation-summary-errors > ul > li").text();
-    if(message.length>0 && message.includes("Registered Successfully. ")){
-        console.log(message)
-		window.Swal.fire({
-			icon: "success",
-			title: "Successful",
-			text:message                    
-		})
-	}
-    //====date picker
-    $( "#date-of-birth" ).datepicker(
-        {
-            altFormat: "yyyy-mm-dd"
+        function showHidePassword() {
+            var x = $(".showHidePassword");
+            if (x.attr('type') === "password") {              
+                x.attr("type","text");
+            } else {
+                x.attr("type","password");
+            }
         }
-    );
+        //==display message sent from server
+        let message = $(".validation-summary-errors > ul > li").text();
+        if (message.length > 0 && message.includes("Registered Successfully. ")) {
+            console.log(message)
+            window.Swal.fire({
+                icon: "success",
+                title: "Successful",
+                text: message
+            })
+        }
+        //====date picker
+        $("#date-of-birth").datepicker(
+            {
+                altFormat: "yyyy-mm-dd"
+            }
+        );
     </script>
 }

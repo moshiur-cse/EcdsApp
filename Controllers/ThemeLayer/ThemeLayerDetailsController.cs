@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using EcdsApp.Data;
+using EcdsApp.Models.TabularModels;
 using EcdsApp.Models.ThemeModels;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels;
@@ -167,14 +168,14 @@ namespace EcdsApp.Controllers.ThemeLayer
         public JsonResult GetSubThemeData(int themeId)
         {
             var subThemeList = _context.SubThemes.Where(e => e.ThemeId == themeId).ToList();
-            //subThemeList.Insert(0, new SubTheme { SubThemeId = 0, SubThemeName = "Select" });
+            subThemeList.Insert(0, new SubTheme { SubThemeId = 0, SubThemeName = "--Select--" });
             return Json(new SelectList(subThemeList, "SubThemeId", "SubThemeName"));
         }
 
         public JsonResult GetLayerData(int subThemeId)
         {
             var layerList = _context.ThemeLayerDetails.Where(e => e.SubThemeId == subThemeId).ToList();
-            //layerList.Insert(0, new ThemeLayerDetail { LayerId = 0, LayerName = "Select" });
+            layerList.Insert(0, new ThemeLayerDetail { LayerId = 0, LayerDisplayName = "--Select--" });
 
             return Json(new SelectList(layerList, "LayerId", "LayerDisplayName"));
         }
@@ -182,9 +183,22 @@ namespace EcdsApp.Controllers.ThemeLayer
         public JsonResult GetTableInfoData(int subThemeId, int boundaryId)
         {
             var tableList = _context.TableInfos.Where(e => e.SubThemeId == subThemeId && e.BoundaryId == boundaryId).ToList();
-            //tableList.Insert(0, new TableInfo { Id = 0, DisplayName = "Select" });
+            tableList.Insert(0, new TableInfo { Id = 0, DisplayName = "--Select--" });
 
             return Json(new SelectList(tableList, "Id", "DisplayName"));
+        }
+
+        public JsonResult GetSubLayer(int layerId)
+        {
+            var getTableId = _context.ThemeLayerDetails.Where(i => i.LayerId == layerId).Select(i => i.TableInfoId).FirstOrDefault();
+            if (getTableId == null)
+            {
+                return Json(new SelectList("", ""));
+            }
+            var tableColumnList = _context.TableColumnInfos.Where(e => e.TableId == getTableId && e.ColumnTypeId == 2).ToList();
+            tableColumnList.Insert(0, new TableColumnInfo { Id = 0, DisplayName = "--Select--" });
+
+            return Json(new SelectList(tableColumnList, "Id", "DisplayName"));
         }
 
         // GET: ThemeLayerDetails/Edit/5

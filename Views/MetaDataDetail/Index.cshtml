@@ -21,16 +21,19 @@
 						<a asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light w-lg">Add New Record</a>
 					</div>
 				</div>
-				<div class="card">
-					<div class="card-body p-0">
-						<div class="table-responsive m-0">
-							<table class="table table-nowrap table-striped table-bordered">
+				
+					
+						<div class="table-responsive mb-4">
+							<table class="table datatable table-nowrap table-striped table-card-list">
 
 								<thead>
 									<tr class="bg-transparent">
 										<th>Action</th>
 										<th>
 											@Html.DisplayNameFor(model => model.LayerId)
+										</th>
+										<th>
+											Sub-Layer
 										</th>
 										<th>
 											@Html.DisplayNameFor(model => model.Title)
@@ -73,10 +76,15 @@
 										<tr>
 											<td>
 												<a asp-action="Edit" asp-route-id="@item.Id" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+												<a asp-action="Delete" asp-route-id="@item.Id" class="px-3 text-primary"><i class="bi bi-trash font-size-20"></i></a>
 											</td>
 											<td>
 												@Html.DisplayFor(modelItem => item.ThemeLayerDetails.LayerDisplayName)
 											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.TableColumnInfo.DisplayName)
+											</td>
+
 											<td>
 												@Html.DisplayFor(modelItem => item.Title)
 											</td>
@@ -115,8 +123,8 @@
 								</tbody>
 							</table>
 						</div>
-					</div>
-				</div>
+					
+				
 			</div>
 		</div>
 	</div>

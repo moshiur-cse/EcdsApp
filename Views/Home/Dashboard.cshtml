@@ -23,14 +23,13 @@
 
 }
 @section Styles{
-
     <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
     @*<link href="~/assets/libs/bootstrap/css/bootstrap-select.css" rel="stylesheet" />*@
 
     <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
     <style>
-        
+
         .legend_info {
             padding: 1px;
             background: rgba(255,255,255,0.8);
@@ -44,11 +43,9 @@
             /* resize: both;*/
             text-align: left;
         }
-
         .card {
             box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
         }
-
         .legend_info i {
             width: 20px;
             height: 15px;
@@ -57,16 +54,14 @@
             opacity: 0.7;
             font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
         }
-
         .legend_info p {
             padding: 0.2vw;
         }
-
         .mapLabel {
             height: auto !important;
             width: auto !important;
             /*font-weight: bold;
-                                                                                                                                            color: #025 line-height: 1;*/
+                                                                                                                                                            color: #025 line-height: 1;*/
             padding: 0.2rem 0.3rem;
             text-align: center;
             font-weight: bold;
@@ -76,11 +71,9 @@
             background: rgba(250,250,250,0.45);
             border-radius: 0.25rem;
         }
-
         .slice {
             cursor: pointer;
         }
-
             .slice .main-arc {
                 stroke: #fff;
                 stroke-width: 1px;
@@ -107,7 +100,6 @@
         }
     </style>
 }
-
 
 
     <div class="col-lg-12  d-none d-sm-block" style="position: relative; z-index: 9999;">
@@ -279,9 +271,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                @* <img class="w-100" src="~/assets/images/wsis_prize2022.jpeg" />
-                *@
-                <iframe class="w-100" height=500 src="https://www.youtube.com/embed/v1R-CB3e-pw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                @*<iframe class="w-100" showinfo=0 height=500 src="https://www.youtube.com/embed/YCxreOgY4N8?modestbranding=1&showinfo=0&fs=0" title="YouTube video player" frameborder="0"  ></iframe>
+            *@
+            <iframe class="w-100" height="500" src="https://www.youtube.com/embed/YCxreOgY4N8" title="Environment, Climate Change and Disaster Statistics Platform(ECDS)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -427,12 +419,12 @@
             }
             AppendTextInMarquee();
 
-            //        setTimeout(()=>{
-            //    const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
-            //    keyboard: false
-            //    })
-            //    myModal.show()
-            //},1000);
+            setTimeout(() => {
+                const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
+                    keyboard: false
+                })
+                myModal.show()
+            }, 1000);
 
 
             var dashboard_map;
@@ -563,8 +555,6 @@
                 function mapOnClickAction(e) {
                     var layer = e.target;
                     var popupContent = '<div style="width:120px;text-align:center;"><p>' + layer.feature.properties["District"] + " : " + layerMapData[layer.feature.properties["GeoCode"]] + ' (%)</p></div>';
-
-
                     layer.bindPopup(popupContent, L.popup({
                         //setLatLng: marker.getLatLng(),
                         closeOnClick: false,
@@ -591,7 +581,6 @@
             }
 
             function getColor(d) {
-
                 for (var i = 0; i < legend_data.length; i++) {
                     if (d >= legend_data[i].LayerMainAttribureValue && d < legend_data[i + 1].LayerMainAttribureValue) {
                         return legend_data[i].LayerLegendColorCode;
@@ -601,6 +590,7 @@
                     }
                 }
             }
+
             function getMapData() {
                 layer_Data = @Html.Raw(mapData);
                 for (var i = 0; i < layer_Data.length; i++) {

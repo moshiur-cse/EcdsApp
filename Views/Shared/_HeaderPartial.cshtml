@@ -144,6 +144,11 @@
                     <i class="uil-minus-path"></i>
                 </button>
             </div>
+             <div class="dropdown d-none d-lg-inline-block ms-1">
+                <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
+                    <i class="uil-minus-path"></i>
+                </button>
+            </div>
 
             @*<div class="dropdown d-inline-block">
                     <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
@@ -243,7 +248,7 @@
 
 
             <div class="dropdown d-inline-block">
-
+                
                 @if (!SignInManager.IsSignedIn(User))
                 {
 
@@ -288,6 +293,7 @@
                 <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
                     <i class="uil-cog"></i>
                 </button>
+               
             </div>
 
         </div>

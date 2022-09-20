@@ -7,247 +7,271 @@
 }
 
 @section Styles{
-<style>
-  .card {
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-    }
-    
-    .modal-btn:hover{
-        color:blue;
-        cursor:pointer;
-    }
-    a{
-        cursor:pointer;
-        transition:all 0.5s ease;
-        padding:10px 25px;
-        padding-right:10px;
-    }
-    a:hover{
-        background-color:#fff0f2;
-        color:white;
-    }
-    
+    <style>
+        .card {
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+        }
+
+        .modal-btn:hover {
+            color: blue;
+            cursor: pointer;
+        }
+
+        a {
+            cursor: pointer;
+            transition: all 0.5s ease;
+            padding: 10px 25px;
+            padding-right: 10px;
+        }
+
+            a:hover {
+                background-color: #fff0f2;
+                color: white;
+            }
     </style>
 }
 
-<div class="page-content my-5 bg-white">
-    <div class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-md-8 col-lg-6 col-xl-5">
-                <div class="card">
+    <div class="page-content my-5 bg-white">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card">
 
-                    <div class="card-body p-4">
-                        <div class="text-center mt-2">
-                            <h5 class="text-primary">Welcome Back !</h5>
-                            <p class="text-muted">Sign in to continue to ECDS.</p>
-                        </div>
-                        <div class="p-2 mt-4">
+                        <div class="card-body p-4">
+                            <div class="text-center mt-2">
+                                <h5 class="text-primary">Welcome Back !</h5>
+                                <p class="text-muted">Sign in to continue to ECDS.</p>
+                            </div>
+                            <div class="p-2 mt-4">
 
-                            <form id="account" method="post">
-                                <h4>Use a local account to log in.</h4>
-                                <hr />
-                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <form id="account" method="post">
+                                    <h4>Use a local account to log in.</h4>
+                                    <hr />
+                                    <div asp-validation-summary="All" class="text-danger"></div>
 
-                                <div class="form-group">
-                                    <label asp-for="Input.UserName"></label>
-                                    <input asp-for="Input.UserName" class="form-control" />
-                                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Input.Password"></label>
-                                    <input asp-for="Input.Password" class="form-control" />
-                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label asp-for="Input.RememberMe">
-                                            <input asp-for="Input.RememberMe" />
-                                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                                        </label>
+                                    <div class="form-group">
+                                        <label asp-for="Input.UserName"></label>
+                                        <input asp-for="Input.UserName" class="form-control" />
+                                        <span asp-validation-for="Input.UserName" class="text-danger"></span>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Log in</button>
-                                </div>
-                                <br/>
-                                <div class="form-group">
-                                    @*<p>
-                                        <a class="modal-btn" asp-action="GoogleLogin" asp-controller="UserAccessManage" >Sign in with Google</a>
+                                    <div class="form-group">
+
+                                        <label asp-for="Input.Password"></label>
+                                        <input id="password" type="password" asp-for="Input.Password" class="form-control" />
+                                        
+                                        @*<span class="input-group-text eye-icon">
+                                            <i class="fa fa-eye-slash" aria-hidden="true" onclick="showHidePassword()"></i>
+                                        </span>*@
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+
+                                    </div>
+
+                                    <div class="form-group">
+                                       
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="showPassword" onclick="showHidePassword()" />
+                                               Show Password
+                                            </label>
+                                            <label asp-for="Input.RememberMe">
+                                                <input asp-for="Input.RememberMe" />
+                                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Log in</button>
+                                    </div>
+                                    <br />
+                                    <div class="form-group">
+                                        @*<p>
+                                    <a class="modal-btn" asp-action="GoogleLogin" asp-controller="UserAccessManage" >Sign in with Google</a>
                                     </p>*@
-                                    <p>
-                                        <a class="modal-btn" id="forgot-password" data-bs-toggle="modal" data-bs-target="#mymodal">Forgot your password?</a>
-                                    </p>
-                                    <p>
-                                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                                    </p>
-                                    <p>
-                                        <a class="modal-btn" data-bs-toggle="modal" data-bs-target="#mymodal2">Resend email confirmation</a>
-                                    </p>
-                                </div>
-                            </form>
+                                        <p>
+                                            <a class="modal-btn" id="forgot-password" data-bs-toggle="modal" data-bs-target="#mymodal">Forgot your password?</a>
+                                        </p>
+                                        <p>
+                                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                                        </p>
+                                        <p>
+                                            <a class="modal-btn" data-bs-toggle="modal" data-bs-target="#mymodal2">Resend email confirmation</a>
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
+                            @*<div class="d-flex justify-content-center align-items-center">
+                        <a class="d-flex justify-content-center" asp-action="GoogleLogin" asp-controller="UserAccessManage" ><h5 class="fs-5 me-2">Login with Google</h5><i class="bx bxl-google-plus-circle fs-4 text-danger me-4"></i></a>
+                        </div>*@
                         </div>
-                        <div class="d-flex justify-content-center align-items-center">
-                            <a class="d-flex justify-content-center" asp-action="GoogleLogin" asp-controller="UserAccessManage" ><h5 class="fs-5 me-2">Login with Google</h5><i class="bx bxl-google-plus-circle fs-4 text-danger me-4"></i></a>
-                        </div>
+                    </div>
+
+                    @*<div class="mt-5 text-center">
+                <p>
+                ©
+                <script>document.write(new Date().getFullYear())</script> Minible. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
+                </p>
+                </div>*@
+
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <!--Start Forgot Pass Modal-->
+        <div class="modal fade bs-example-modal-lg show" role="dialog" id="mymodal">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body my-4">
+                        <h4 class="fs-4 text-center mb-4">Enter your registered email address to get a reset link</h4>
+                        <form>
+                            <div class="text-danger"></div>
+                            <div class="form-group">
+                                <input id="f-email" class="form-control" required placeholder="Email" />
+                                <span class="text-danger f-validation"></span>
+                            </div>
+                            <button type="button" class="btn btn-primary my-4" onclick="SubmitData('fp')">Submit</button>
+                        </form>
                     </div>
                 </div>
-
-                @*<div class="mt-5 text-center">
-                        <p>
-                            ©
-                            <script>document.write(new Date().getFullYear())</script> Minible. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
-                        </p>
-                    </div>*@
-
+                <!-- /.modal-content -->
             </div>
+            <!-- /.modal-dialog -->
         </div>
-        <!-- end row -->
+        <!--End Forgot Pass Modal-->
+        <!--Start Resend Confirmation Email Modal-->
+        <div class="modal fade bs-example-modal-lg show" role="dialog" id="mymodal2">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body my-4">
+                        <h4 class="fs-4 text-center mb-4">Enter your registered email address to get a confirmation link</h4>
+                        <form>
+                            <div class="text-danger"></div>
+                            <div class="form-group">
+                                <input id="c-email" class="form-control" required placeholder="Email" />
+                                <span class="text-danger c-validation"></span>
+                            </div>
+                            <button type="button" class="btn btn-primary my-4" onclick="SubmitData('ce')">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--End Resend Confirmation Email Modal-->
+
     </div>
-    <!--Start Forgot Pass Modal-->
-    <div class="modal fade bs-example-modal-lg show" role="dialog" id="mymodal">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-				</button>
-			</div>
-			<div class="modal-body my-4">
-                <h4 class="fs-4 text-center mb-4">Enter your registered email address to get a reset link</h4>
-				<form>
-                    <div class="text-danger"></div>
-                    <div class="form-group">
-                        <input id="f-email" class="form-control" required placeholder="Email"/>
-                        <span class="text-danger f-validation"></span>
-                    </div>
-                    <button type="button" class="btn btn-primary my-4" onclick="SubmitData('fp')">Submit</button>
-                </form>
-			</div>
-		</div>
-		<!-- /.modal-content -->
-	</div>
-	<!-- /.modal-dialog -->
-</div>
-    <!--End Forgot Pass Modal-->
-
-    <!--Start Resend Confirmation Email Modal-->
-    <div class="modal fade bs-example-modal-lg show" role="dialog" id="mymodal2">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-				</button>
-			</div>
-			<div class="modal-body my-4">
-                <h4 class="fs-4 text-center mb-4">Enter your registered email address to get a confirmation link</h4>
-				<form>
-                    <div class="text-danger"></div>
-                    <div class="form-group">
-                        <input id="c-email" class="form-control" required placeholder="Email"/>
-                        <span class="text-danger c-validation"></span>
-                    </div>
-                    <button type="button" class="btn btn-primary my-4" onclick="SubmitData('ce')">Submit</button>
-                </form>
-			</div>
-		</div>
-		<!-- /.modal-content -->
-	</div>
-	<!-- /.modal-dialog -->
-</div>
-    <!--End Resend Confirmation Email Modal-->
-
-</div>
 
     @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-        <script>
 
-            const myModal = new bootstrap.Modal(document.getElementById('mymodal'),{ keyboard: true })
-            const myModal2 = new bootstrap.Modal(document.getElementById('mymodal2'),{ keyboard: true })
-            //====display validation message on successfull email confirmation.
-            let msg="@message";
-            if(msg.includes("is confirmed successfully")){
-                window.Swal.fire({
-						icon: "success",
-						title: msg
-				})
-            }
-            else if(msg.includes("user already exits")){
-                window.Swal.fire({
-						icon: "error",
-						title: msg
-				})
-            }
+    <partial name="_ValidationScriptsPartial" />
+    <script>
 
-            //====Forgot password submit
-            const SubmitData =(type)=>{
-                let url=""
-                let data=""
-                let readyToSend=false
-                if(type ==="fp"){
-                    data=$("#f-email").val()
-                    //console.log(data.length)
-                    if(data.length==0){
-                        $(".f-validation").text("Email Field is required.")
-                        return false
-                    }
-                    else{
-                        $(".f-validation").text("")
-                        readyToSend=true
-                    }
-                    url='@Url.Action("ForgotPassword","UserAccessManage")'
-                    data={email:$("#f-email").val()}
+        function showHidePassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+
+        const myModal = new bootstrap.Modal(document.getElementById('mymodal'), { keyboard: true })
+        const myModal2 = new bootstrap.Modal(document.getElementById('mymodal2'), { keyboard: true })
+        //====display validation message on successfull email confirmation.
+        let msg = "@message";
+        if (msg.includes("is confirmed successfully")) {
+            window.Swal.fire({
+                icon: "success",
+                title: msg
+            })
+        }
+        else if (msg.includes("user already exits")) {
+            window.Swal.fire({
+                icon: "error",
+                title: msg
+            })
+        }
+
+        //====Forgot password submit
+        const SubmitData = (type) => {
+            let url = ""
+            let data = ""
+            let readyToSend = false
+            if (type === "fp") {
+                data = $("#f-email").val()
+                //console.log(data.length)
+                if (data.length == 0) {
+                    $(".f-validation").text("Email Field is required.")
+                    return false
                 }
-                else if(type ==="ce"){
-                    data=$("#c-email").val()
-                    //console.log(data.length)
-                    if(data.length==0){
-                        $(".c-validation").text("Email Field is required.")
-                        return false
-                    }
-                    else{
-                        $(".c-validation").text("")
-                        readyToSend=true
-                    }
-                    url='@Url.Action("SendConfirmationEmailLink","UserAccessManage")'
-                    data={email:$("#c-email").val()}
+                else {
+                    $(".f-validation").text("")
+                    readyToSend = true
                 }
-                if(readyToSend){
-                    $.ajax({
+                url = '@Url.Action("ForgotPassword","UserAccessManage")'
+                data = { email: $("#f-email").val() }
+            }
+            else if (type === "ce") {
+                data = $("#c-email").val()
+                //console.log(data.length)
+                if (data.length == 0) {
+                    $(".c-validation").text("Email Field is required.")
+                    return false
+                }
+                else {
+                    $(".c-validation").text("")
+                    readyToSend = true
+                }
+                url = '@Url.Action("SendConfirmationEmailLink","UserAccessManage")'
+                data = { email: $("#c-email").val() }
+            }
+            if (readyToSend) {
+                $.ajax({
                     type: "POST",
                     url: url,
                     data: data,
-                    success: function(d){
-                        if(d=="The Password reset link has been sent successfully. Please check your inbox."){
+                    success: function(d) {
+                        if (d == "The Password reset link has been sent successfully. Please check your inbox.") {
                             myModal.hide()
                             window.Swal.fire({
-						        icon: "success",
-						        title: d
-				            })
+                                icon: "success",
+                                title: d
+                            })
                         }
-                        else if(d=="The confirmation link has been sent successfully."){
+                        else if (d == "The confirmation link has been sent successfully.") {
                             myModal2.hide()
                             window.Swal.fire({
-						        icon: "success",
-						        title: d
-				            })
+                                icon: "success",
+                                title: d
+                            })
                         }
-                        else{
+                        else {
                             myModal.hide()
                             myModal2.hide()
                             window.Swal.fire({
-						        icon: "error",
-						        title: d
-				            })
+                                icon: "error",
+                                title: d
+                            })
 
                         }
                     },
                 });
-                }
-                
-                
             }
-            
-        </script>
+
+
+        }
+
+    </script>
     }
 
 
