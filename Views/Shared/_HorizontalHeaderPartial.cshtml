@@ -55,12 +55,12 @@
             
 
             <div class="dropdown d-inline-block" style="margin-right:60px">
-                <a href="~/assets/documents/user_manual.pdf" target="_blank" title="User Manual"><img class="rounded-circle header-profile-user" src="~/assets/images/info.jpg" alt="manual" /></a>
+
+               
                 @if (_signInManager.IsSignedIn(User))
                 {
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                         
                         @if(user!=null)
                         {
                             @if (user.ProfilePic != null)
@@ -78,9 +78,8 @@
                         <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                     </button>
 
-
-
                     <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="~/assets/documents/user_manual.pdf" target="_blank" title="User Manual"><i class="fas fa-info-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">User Manual</span></a>
                         @if(user != null)
                         {
                             <a class="dropdown-item" asp-action="ViewProfile" asp-controller="UserAccessManage"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">View Profile</span></a>
@@ -97,19 +96,19 @@
                      
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         
-                       
-
                         <img class="rounded-circle header-profile-user" src="~/assets/images/user_icon.png"
                          alt="Header Avatar">
                         <span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">User</span>
                         <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                     </button>
+
                     <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="~/assets/documents/user_manual.pdf" target="_blank" title="User Manual"><i class="fas fa-info-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">User Manual</span></a>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Login</span></a>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Register</span></a>
                     </div>
                 }
+                 
             </div>
         </div>
 
@@ -184,8 +183,7 @@
                                         <i class="uil-apps me-2"></i>Admin Panel<div class="arrow-down"></div>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="topnav-pages">
-                                        <a class="dropdown-item" href="~/assets/documents/user_manual_admin.pdf" target="_blank">Admin User Manual</a>
-                                        
+                                        <a class="dropdown-item" href="~/assets/documents/user_manual_admin.pdf" target="_blank">Admin User Manual</a>                                        
                                         <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Users">Users</a>
                                         <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Roles">User Roles</a>
                                         <a class="dropdown-item" asp-controller="TableInfo" asp-action="Index">Table & Column</a>
