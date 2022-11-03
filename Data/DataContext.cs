@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using EcdsApp.Models.HitCountAndLogModels;
+
 namespace EcdsApp.Data
 {
     //DbContext  //DataContext (JRCWebApp.Data)
@@ -129,7 +131,9 @@ namespace EcdsApp.Data
 
         public DbSet<EmailConfiguration> EmailConfigurations { get; set; }
         public DbSet<Chat> Chats { get; set; }
-
+        public DbSet<UserLog> UserLogs { get; set; }
+        public DbSet<LogType> LogTypes { get; set; }
+        public DbSet<ServerHitInfo> ServerHitInfos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
