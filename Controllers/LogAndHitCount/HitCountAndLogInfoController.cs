@@ -59,7 +59,7 @@ namespace EcdsApp.Controllers.LogAndHitCount
         public async Task<IActionResult> LogDetails()
         {
             var data = _context.UserLogs.Include(x=>x.LogType).ToListAsync();
-            return View(data);
+            return View();
         }
     }
 }
