@@ -35,7 +35,6 @@ namespace EcdsApp.Data
             //server = 202.53.173.179; userid = drip_admin; pwd =#UndP^drIp@2020;database=drip_undp_plancomm2;
             optionsBuilder.EnableSensitiveDataLogging();
         }
-
         public string GetConnectionString()
         {
             //return Database.GetDbConnection().ConnectionString = "server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;";
