@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EcdsApp.Models.UserManage;
 
 namespace EcdsApp.Models.HitCountAndLogModels
 {
@@ -15,6 +16,12 @@ namespace EcdsApp.Models.HitCountAndLogModels
         
         [ForeignKey("LogTypeId")]
         public virtual LogType LogType { get; set; }
+        
+        [Column("user_email", Order = 5)]
+        public string UserEmail { get; set; }
+        
+        [ForeignKey("UserEmail")]
+        public virtual ApplicationUser User { get; set; }
         
         [Required]
         [Column("ip_address", Order = 3, TypeName = "varchar(100)")]

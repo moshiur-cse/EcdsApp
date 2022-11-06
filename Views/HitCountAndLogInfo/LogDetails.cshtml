@@ -1,0 +1,38 @@
+﻿@model IEnumerable<EcdsApp.Models.HitCountAndLogModels.UserLog>
+
+@{
+    ViewData["Title"] = "Log Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 0;
+}
+<div class="page-content my-5 bg-white">
+<div class="container-fluid min-vh-75">
+    <div class="row">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Serial No.</th>
+                <th scope="col">Type of Log</th>
+                <th scope="col">IP Address</th>
+              <th scope="col">Generated At</th>
+              <th scope="col">Associated User & Email</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach (var item in Model)
+          {
+              <tr>
+                  <td>@count</td>
+                  <td>@item.LogType</td>
+                  <td>@item.IPAddress</td>
+                  <td>@item.GeneratedAt</td>
+                  <td>@item.GeneratedAt</td>
+              </tr>
+              count++;
+          }          
+
+          </tbody>
+        </table>
+    </div>
+</div>
+</div>

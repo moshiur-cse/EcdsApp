@@ -30,7 +30,7 @@ namespace EcdsApp.Controllers.LogAndHitCount
             weekMonthDateTime.LastDayOfLastMonth = monthStart.AddDays(-1);
             weekMonthDateTime.FirstDayOfLastWeek = DateTime.Today.AddDays(-8-today.Day);
             weekMonthDateTime.LastDayOfLastWeek = DateTime.Today.AddDays(-2-today.Day);
-            weekMonthDateTime.Yesterday = DateTime.Today.AddDays(-1);
+            //weekMonthDateTime.Yesterday = DateTime.Today.AddDays(-1);
             
             var groupbyList = hitInfos.GroupBy(x => x.RequestedAt.Date.Year).ToList();
             List<YearWiseCount> yearCountList = new();
@@ -49,11 +49,17 @@ namespace EcdsApp.Controllers.LogAndHitCount
                 incomingReq.TotalHitRequestLastWeek=hitInfos.Where(x =>
                     x.RequestedAt >= weekMonthDateTime.FirstDayOfLastWeek &&
                     x.RequestedAt <= weekMonthDateTime.LastDayOfLastWeek).Count();
-                incomingReq.TotalHitRequestYesterday=hitInfos.Where(x =>
-                    x.RequestedAt == weekMonthDateTime.Yesterday).Count();
+                incomingReq.TotalHitRequestUnique=hitInfos.GroupBy(x =>
+                    x.IPAddress).Count();
                 incomingReq.TotalHitRequest = hitInfos.Count;
                 incomingReq.YearWiseCountsInString = JsonConvert.SerializeObject(yearCountList);
                 return View(incomingReq);
+        }
+        
+        public async Task<IActionResult> LogDetails()
+        {
+            var data = _context.UserLogs.Include(x=>x.LogType).ToListAsync();
+            return View(data);
         }
     }
 }
