@@ -451,7 +451,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 {
                     //DataTable dt = this.GetCustomers().Tables[0];
                     DataTable dt = await data;
-                    wb.Worksheets.Add(dt, layerObj.LayerName.Trim());  //Sheet Name
+                    wb.Worksheets.Add(dt, layerObj.LayerName.Trim().Substring(0, 30));  //Sheet Name
                     using (MemoryStream stream = new MemoryStream())
                     {
                         wb.SaveAs(stream);

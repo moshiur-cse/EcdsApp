@@ -1,5 +1,6 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models;
+using EcdsApp.Models.HitCountAndLogModels;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels.Dashboard;
 using EcdsApp.Services;
@@ -12,9 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using EcdsApp.Models.HitCountAndLogModels;
 
 
 namespace EcdsApp.Controllers
@@ -87,11 +86,11 @@ namespace EcdsApp.Controllers
                     LayerLegendColors = legendData,
                     ChartDataVms = chartData
                 };
-                
-                
+
+
                 //=====Insert Server Hit Info in our system.
                 var ipaddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-                var countryOfOrigin =GetCountryOfOrginFromIPAddress(ipaddress);
+                var countryOfOrigin = GetCountryOfOrginFromIPAddress(ipaddress);
                 var serverRequest = new ServerHitInfo()
                 {
                     IPAddress = ipaddress,
@@ -100,11 +99,8 @@ namespace EcdsApp.Controllers
                 };
                 _context.Add(serverRequest);
                 _context.SaveChangesAsync();
-                
-                
+
                 return View(dashboardModel);
-                
-                
             }
             catch (Exception e)
             {
@@ -114,10 +110,7 @@ namespace EcdsApp.Controllers
         }
         public JsonResult Data()
         {
-
-
             ChartDataVm data = new ChartDataVm();
-
             var dataList = _context.ThemeLayerDetails
                        .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
                         .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
@@ -153,9 +146,6 @@ namespace EcdsApp.Controllers
 
         public JsonResult Data1()
         {
-
-
-
             var data = _context.ThemeLayerDetails
                        .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
                         .GroupBy(model => model.SubThemes.Themes.ThemeId).AsQueryable().ToList()
@@ -181,7 +171,6 @@ namespace EcdsApp.Controllers
                         }).ToList();
             return Json(data);
         }
-
         public IActionResult index()
         {
             return View();
@@ -200,15 +189,6 @@ namespace EcdsApp.Controllers
 
             return Json(data);
         }
-
-        //public IActionResult Login()
-        //{
-        //    return View();
-        //}
-        //public IActionResult Register()
-        //{
-        //    return View();
-        //}
 
         public IActionResult ContactUs()
         {
@@ -248,16 +228,15 @@ namespace EcdsApp.Controllers
         {
             return View();
         }
-
         private string GetCountryOfOrginFromIPAddress(string ipaddress)
         {
             //string url = "https://ipapi.co/" +ipaddress+ "/country/";
             //string url = "https://ipapi.co/" +"45.248.151.59"+ "/country/";
             if (ipaddress == "127.0.0.1")
                 return null;
-            string url="http://ip-api.com/json/"+ipaddress;
-            HttpWebRequest request   = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+            string url = "http://ip-api.com/json/" + ipaddress;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             var reader = new System.IO.StreamReader(response.GetResponseStream(), ASCIIEncoding.ASCII);
             string countryOfOrigin = reader.ReadToEnd();
