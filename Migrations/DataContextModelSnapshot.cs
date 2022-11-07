@@ -679,6 +679,39 @@ namespace EcdsApp.Migrations
                     b.ToTable("district_wise_mortality_rate_cdr");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.DownloadLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("GeneratedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("generated_at");
+
+                    b.Property<string>("IPAddress")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("ip_address");
+
+                    b.Property<int>("ThemeLayerId")
+                        .HasColumnType("int")
+                        .HasColumnName("theme_layer_id");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(767)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ThemeLayerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("download_log");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.LogType", b =>
                 {
                     b.Property<int>("Id")
@@ -719,39 +752,6 @@ namespace EcdsApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ServerHitInfos");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.UserLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("GeneratedAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("generated_at");
-
-                    b.Property<string>("IPAddress")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("ip_address");
-
-                    b.Property<int>("LogTypeId")
-                        .HasColumnType("int")
-                        .HasColumnName("log_type_id");
-
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("varchar(767)")
-                        .HasColumnName("user_email");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LogTypeId");
-
-                    b.HasIndex("UserEmail");
-
-                    b.ToTable("UserLogs");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.Message", b =>
@@ -2562,19 +2562,19 @@ namespace EcdsApp.Migrations
                     b.Navigation("District");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.UserLog", b =>
+            modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.DownloadLog", b =>
                 {
-                    b.HasOne("EcdsApp.Models.HitCountAndLogModels.LogType", "LogType")
+                    b.HasOne("EcdsApp.Models.ThemeModels.ThemeLayerDetail", "ThemeLayerDetail")
                         .WithMany()
-                        .HasForeignKey("LogTypeId")
+                        .HasForeignKey("ThemeLayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EcdsApp.Models.UserManage.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserEmail");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("LogType");
+                    b.Navigation("ThemeLayerDetail");
 
                     b.Navigation("User");
                 });

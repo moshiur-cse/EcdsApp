@@ -19,7 +19,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using EcdsApp.Models.HitCountAndLogModels;
 
 namespace EcdsApp.Controllers.ThemeLayer
 {
@@ -59,7 +61,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 .Where(tld => userPerComponents.Contains(tld.SubThemeId));
 
             ViewBag.IsPermittedToAddData = permToAddData;
-            ViewBag.IsPermittedToEditData = permToEditData;
+            ViewBag.IsPermittedToEditData = permToEditData;            
             return View(await dataContext.ToListAsync());
         }
 
@@ -498,8 +500,18 @@ namespace EcdsApp.Controllers.ThemeLayer
             if (finalResult == null || !finalResult.Any())
             {
                 throw new Exception(String.Format("Nothing found"));
-
             }
+            //=======  Add Download information to the user log table
+            
+            var userLog = new DownloadLog()
+            {
+                IPAddress = HttpContext.Connection.LocalIpAddress.ToString(),
+                ThemeLayerId = (int)id,
+                UserId = (await _userManager.GetUserAsync(User)).Id,
+                GeneratedAt = DateTime.Now
+            };
+            _context.Add(userLog);
+            await _context.SaveChangesAsync();
 
             return File(finalResult, "application/zip", fileName);
         }

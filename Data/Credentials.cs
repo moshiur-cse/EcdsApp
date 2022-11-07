@@ -9,6 +9,7 @@ namespace DRIPWebApp.Data
         public static string EmailSender = "test@cegisbd.com";
         public static string UserName = "test";
         public static string Password = "cegis@V25";
+        public static string DefaultEmailReceiver = "test@cegisbd.com";
         
     }
 }

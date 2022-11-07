@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClosedXML.Excel;
 using EcdsApp.Data;
 using EcdsApp.Models.ViewModels.HitCountLogInfo;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +10,11 @@ using Newtonsoft.Json;
 
 namespace EcdsApp.Controllers.LogAndHitCount
 {
-    public class HitCountAndLogInfoController : Controller
+    public class LogInfoController : Controller
     {
         private readonly DataContext _context;
 
-        public HitCountAndLogInfoController(DataContext context)
+        public LogInfoController(DataContext context)
         {
             _context = context;
         }
@@ -58,8 +57,8 @@ namespace EcdsApp.Controllers.LogAndHitCount
         
         public async Task<IActionResult> LogDetails()
         {
-            var data = _context.UserLogs.Include(x=>x.LogType).ToListAsync();
-            return View();
+            var data =  await _context.DownloadLogs.Include(x=>x.ThemeLayerDetail).Include(x=>x.User).ToListAsync();
+            return View(data);
         }
     }
 }

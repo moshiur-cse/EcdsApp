@@ -14,7 +14,9 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DRIPWebApp.Data;
 using EcdsApp.Models.HitCountAndLogModels;
+using Microsoft.AspNetCore.WebUtilities;
 
 
 namespace EcdsApp.Controllers
@@ -224,7 +226,7 @@ namespace EcdsApp.Controllers
                 bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
                 {
                     Subject = "Message from ECDS Contact form",
-                    To = "abrar.bd27@gmail.com",
+                    To = Credentials.DefaultEmailReceiver,
                     Msg = $"Dear Admin,<br/><br/>{message.Msg}<br/><br/>Best Wishes<br/>Name: {message.FullName}<br/>email: {message.Email}"
                 });
 
@@ -246,6 +248,31 @@ namespace EcdsApp.Controllers
 
         public IActionResult OurPolicies()
         {
+            return View();
+        }
+        
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                string tkn = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+                var result = await _userManager.ConfirmEmailAsync(user, tkn);
+                if (result.Succeeded)
+                {
+                    ViewBag.Message = "Success";
+                }
+            }
+            else
+            {
+                ViewBag.Message = "Failed";
+            }
+           
             return View();
         }
 
