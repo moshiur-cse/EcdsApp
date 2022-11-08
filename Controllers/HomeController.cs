@@ -222,7 +222,7 @@ namespace EcdsApp.Controllers
         {
             //string url = "https://ipapi.co/" +ipaddress+ "/country/";
             //string url = "https://ipapi.co/" +"45.248.151.59"+ "/country/";
-            if (ipaddress == "127.0.0.1")
+            if (ipaddress == "127.0.0.1"|| ipaddress =="::1")
                 return null;
             string url = "http://ip-api.com/json/" + ipaddress;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);

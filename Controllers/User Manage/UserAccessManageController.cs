@@ -356,13 +356,14 @@ namespace EcdsApp.Controllers.User_Manage
         public async Task<IActionResult> SendConfirmationEmailLink(string email, [FromServices] IEmailSender _emailSender)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { area = "Identity", userId = user.Id, code = code },
-                protocol: Request.Scheme);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            // var callbackUrl = Url.Page(
+            //     "/Account/ConfirmEmail",
+            //     pageHandler: null,
+            //     values: new { area = "Identity", userId = user.Id, code = code },
+            //     protocol: Request.Scheme);
+            var callbackUrl=Url.Action("ConfirmEmail", "Home", new { UserId = user.Id, token = token }, Request.Scheme);
 
             bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
             {
