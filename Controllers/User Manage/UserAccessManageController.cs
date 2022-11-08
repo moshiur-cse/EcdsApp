@@ -493,12 +493,22 @@ namespace EcdsApp.Controllers.User_Manage
                 user.Designation = appUser.Designation;
                 user.DateOfBirth = appUser.DateOfBirth;
                 user.Organization = appUser.Organization;
-                user.ProfilePic = appUser.ProfilePic;
+                if (image != null)
+                {
+                    user.ProfilePic = appUser.ProfilePic;
+                }
+                
                 await _userManager.UpdateAsync(user);
                 await _context.SaveChangesAsync();
+                if (applicationUser.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd")
+                {
+                    return RedirectToAction("Users");
+                }
                 return RedirectToAction("ViewProfile");
             }
+
             
+
             return View(applicationUser);
         }
 
