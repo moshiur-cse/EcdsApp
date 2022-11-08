@@ -1,8 +1,19 @@
-﻿using System;
+﻿using EcdsApp.Data;
+using EcdsApp.Models;
+using EcdsApp.Models.UserManage;
+using EcdsApp.Models.ViewModels.Dashboard;
+using EcdsApp.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using DRIPWebApp.Data;
+using EcdsApp.Models.HitCountAndLogModels;
 
 
 namespace EcdsApp.Controllers
