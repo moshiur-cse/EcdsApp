@@ -154,13 +154,15 @@ namespace EcdsApp.Areas.Identity.Pages.Account
 
                     _logger.LogInformation("User created a new account with password.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+                    
+                    // var callbackUrl = Url.Page(
+                    //     "/Account/ConfirmEmail",
+                    //     pageHandler: null,
+                    //     values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                    //     protocol: Request.Scheme);
+                    var callbackUrl=Url.Action("ConfirmEmail", "Home", new { UserId = user.Id, token = token }, Request.Scheme);
 
                     bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
                     {

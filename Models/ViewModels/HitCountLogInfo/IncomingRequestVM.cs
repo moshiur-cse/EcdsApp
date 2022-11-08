@@ -7,7 +7,7 @@ namespace EcdsApp.Models.ViewModels.HitCountLogInfo
     public class IncomingRequestVM
     {
         public int TotalHitRequest { get; set; }
-        public int TotalHitRequestYesterday { get; set; }
+        public int TotalHitRequestUnique { get; set; }
         public int TotalHitRequestLastWeek { get; set; }
         public int TotalHitRequestLastMonth { get; set; }
         public List<YearWiseCount> YearWiseCounts {get;set;}

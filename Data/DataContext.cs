@@ -131,9 +131,10 @@ namespace EcdsApp.Data
 
         public DbSet<EmailConfiguration> EmailConfigurations { get; set; }
         public DbSet<Chat> Chats { get; set; }
-        public DbSet<UserLog> UserLogs { get; set; }
+        
         public DbSet<LogType> LogTypes { get; set; }
         public DbSet<ServerHitInfo> ServerHitInfos { get; set; }
+        public DbSet<DownloadLog> DownloadLogs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClosedXML.Excel;
 using EcdsApp.Data;
 using EcdsApp.Models.ViewModels.HitCountLogInfo;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +10,11 @@ using Newtonsoft.Json;
 
 namespace EcdsApp.Controllers.LogAndHitCount
 {
-    public class HitCountAndLogInfoController : Controller
+    public class LogInfoController : Controller
     {
         private readonly DataContext _context;
 
-        public HitCountAndLogInfoController(DataContext context)
+        public LogInfoController(DataContext context)
         {
             _context = context;
         }
@@ -30,7 +29,7 @@ namespace EcdsApp.Controllers.LogAndHitCount
             weekMonthDateTime.LastDayOfLastMonth = monthStart.AddDays(-1);
             weekMonthDateTime.FirstDayOfLastWeek = DateTime.Today.AddDays(-8-today.Day);
             weekMonthDateTime.LastDayOfLastWeek = DateTime.Today.AddDays(-2-today.Day);
-            weekMonthDateTime.Yesterday = DateTime.Today.AddDays(-1);
+            //weekMonthDateTime.Yesterday = DateTime.Today.AddDays(-1);
             
             var groupbyList = hitInfos.GroupBy(x => x.RequestedAt.Date.Year).ToList();
             List<YearWiseCount> yearCountList = new();
@@ -49,11 +48,17 @@ namespace EcdsApp.Controllers.LogAndHitCount
                 incomingReq.TotalHitRequestLastWeek=hitInfos.Where(x =>
                     x.RequestedAt >= weekMonthDateTime.FirstDayOfLastWeek &&
                     x.RequestedAt <= weekMonthDateTime.LastDayOfLastWeek).Count();
-                incomingReq.TotalHitRequestYesterday=hitInfos.Where(x =>
-                    x.RequestedAt == weekMonthDateTime.Yesterday).Count();
+                incomingReq.TotalHitRequestUnique=hitInfos.GroupBy(x =>
+                    x.IPAddress).Count();
                 incomingReq.TotalHitRequest = hitInfos.Count;
                 incomingReq.YearWiseCountsInString = JsonConvert.SerializeObject(yearCountList);
                 return View(incomingReq);
+        }
+        
+        public async Task<IActionResult> LogDetails()
+        {
+            var data =  await _context.DownloadLogs.Include(x=>x.ThemeLayerDetail).Include(x=>x.User).ToListAsync();
+            return View(data);
         }
     }
 }

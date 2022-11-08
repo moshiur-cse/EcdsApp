@@ -1,15 +1,4 @@
-﻿using EcdsApp.Data;
-using EcdsApp.Models;
-using EcdsApp.Models.HitCountAndLogModels;
-using EcdsApp.Models.UserManage;
-using EcdsApp.Models.ViewModels.Dashboard;
-using EcdsApp.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -204,7 +193,7 @@ namespace EcdsApp.Controllers
                 bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
                 {
                     Subject = "Message from ECDS Contact form",
-                    To = "abrar.bd27@gmail.com",
+                    To = Credentials.DefaultEmailReceiver,
                     Msg = $"Dear Admin,<br/><br/>{message.Msg}<br/><br/>Best Wishes<br/>Name: {message.FullName}<br/>email: {message.Email}"
                 });
 
@@ -228,6 +217,7 @@ namespace EcdsApp.Controllers
         {
             return View();
         }
+
         private string GetCountryOfOrginFromIPAddress(string ipaddress)
         {
             //string url = "https://ipapi.co/" +ipaddress+ "/country/";

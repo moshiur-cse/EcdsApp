@@ -1,0 +1,100 @@
+﻿@model EcdsApp.Models.ViewModels.HitCountLogInfo.IncomingRequestVM
+@{
+    ViewData["Title"] = "Incoming Requests";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+    <style>
+        .count-num{
+        padding-left: 10px;
+        font-size: 24px;
+        color: red;
+        font-weight: 700;
+        }
+        b{
+            font-size: 18px;
+        }
+    </style>
+}
+<div class="page-content my-5 bg-white">
+    <div class="container-fluid min-vh-75">
+        <div class="row">
+            <h4 class="text-center my-4">Information about Incoming Requests</h4>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-6">
+                <div id="chart"></div>
+            </div>
+        </div>
+        <div class="row justify-content-center my-4">
+            <div class="col-12 row justify-content-center">
+                <div class="col-6 col-lg-3">
+                    <b>Total Hits:</b><span class="count-num">@Model.TotalHitRequest</span>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <b>Total Unique Hits:</b><span class="count-num">@Model.TotalHitRequestUnique</span>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <b>Total Hits (Last week):</b><span class="count-num">@Model.TotalHitRequestLastWeek</span>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <b>Total Hits (Last month):</b><span class="count-num">@Model.TotalHitRequestLastMonth</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+	 let list= JSON.parse('@Html.Raw(Model.YearWiseCountsInString)');
+	 let series=[],categories=[];
+	 for (let i=0;i<list.length;i++){
+         series.push(list[i].TotalSentRequests);
+         categories.push(list[i].Year);
+	 }
+     
+     //====Apex chart Load Data
+     let options = {
+               series: [{
+               data: series
+             }],
+               chart: {
+               height: 350,
+               type: 'bar',
+               events: {
+                 click: function(chart, w, e) {
+                   // console.log(chart, w, e)
+                 }
+               }
+             },
+             //colors: colors,
+             plotOptions: {
+               bar: {
+                 columnWidth: '45%',
+                 distributed: true,
+               }
+             },
+             dataLabels: {
+               enabled: false
+             },
+             legend: {
+               show: false
+             },
+             xaxis: {
+               categories: categories,
+               labels: {
+                 style: {
+                   //colors: colors,
+                   fontSize: '12px'
+                 }
+               }
+             }
+             };
+     
+             let chart = new ApexCharts(document.querySelector("#chart"), options);
+             chart.render();
+	</script>
+}
