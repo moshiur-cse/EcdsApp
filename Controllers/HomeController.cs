@@ -1,4 +1,17 @@
-﻿using System;
+﻿using DRIPWebApp.Data;
+using EcdsApp.Data;
+using EcdsApp.Models;
+using EcdsApp.Models.HitCountAndLogModels;
+using EcdsApp.Models.UserManage;
+using EcdsApp.Models.ViewModels.Dashboard;
+using EcdsApp.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -89,7 +102,10 @@ namespace EcdsApp.Controllers
                 _context.Add(serverRequest);
                 _context.SaveChangesAsync();
 
+
                 return View(dashboardModel);
+
+
             }
             catch (Exception e)
             {
@@ -99,7 +115,10 @@ namespace EcdsApp.Controllers
         }
         public JsonResult Data()
         {
+
+
             ChartDataVm data = new ChartDataVm();
+
             var dataList = _context.ThemeLayerDetails
                        .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
                         .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
@@ -135,6 +154,9 @@ namespace EcdsApp.Controllers
 
         public JsonResult Data1()
         {
+
+
+
             var data = _context.ThemeLayerDetails
                        .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
                         .GroupBy(model => model.SubThemes.Themes.ThemeId).AsQueryable().ToList()
@@ -160,6 +182,7 @@ namespace EcdsApp.Controllers
                         }).ToList();
             return Json(data);
         }
+
         public IActionResult index()
         {
             return View();
@@ -178,6 +201,15 @@ namespace EcdsApp.Controllers
 
             return Json(data);
         }
+
+        //public IActionResult Login()
+        //{
+        //    return View();
+        //}
+        //public IActionResult Register()
+        //{
+        //    return View();
+        //}
 
         public IActionResult ContactUs()
         {
@@ -218,11 +250,36 @@ namespace EcdsApp.Controllers
             return View();
         }
 
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                string tkn = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+                var result = await _userManager.ConfirmEmailAsync(user, tkn);
+                if (result.Succeeded)
+                {
+                    ViewBag.Message = "Success";
+                }
+            }
+            else
+            {
+                ViewBag.Message = "Failed";
+            }
+
+            return View();
+        }
+
         private string GetCountryOfOrginFromIPAddress(string ipaddress)
         {
             //string url = "https://ipapi.co/" +ipaddress+ "/country/";
             //string url = "https://ipapi.co/" +"45.248.151.59"+ "/country/";
-            if (ipaddress == "127.0.0.1"|| ipaddress =="::1")
+            if (ipaddress == "127.0.0.1" || ipaddress == "::1")
                 return null;
             string url = "http://ip-api.com/json/" + ipaddress;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
