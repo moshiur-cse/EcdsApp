@@ -90,7 +90,12 @@
 			</div>
 		</div>
 		<div class="row justify-content-lg-end justify-content-center align-items-center mt-2 mb-3">
-			<a class="col-2 btn btn-rounded btn-info w-lg" asp-action="Users" >Back to List</a>
+			@if (user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd"){			
+					<a class="col-2 btn btn-rounded btn-info w-lg" asp-action="Users">Back to List</a>
+			}
+			else{
+				<a class="col-2 btn btn-rounded btn-info w-lg" asp-controller="Home" asp-action="Dashboard">Back to Dashboard</a>
+			}			
 		</div>
 	</div>
 </div>

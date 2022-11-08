@@ -74,7 +74,7 @@
 					<div class="mb-3 row">
 						<label asp-for="DateOfBirth" class="col-md-3 col-form-label"></label>
 						<div class="col-md-9">
-							<input id="date-of-birth" asp-for="DateOfBirth" class="form-control" />
+							<input id="date-of-birth" asp-for="DateOfBirth" class="form-control"/>
 							<span asp-validation-for="DateOfBirth" class="text-danger"></span>
 						</div>
 					</div>
@@ -113,7 +113,7 @@
 								}
 								else
 								{
-									<img src="~/assets/profile_pics/user_icon.png" style="width:100px">
+									<img id="myImage" src="~/assets/profile_pics/user_icon.png" style="width:100px">
 								}
 							</div>
 						</div>
@@ -142,8 +142,8 @@
 	</div>
 </div>
 @section Scripts {
-<partial name="_ValidationScriptsPartial" />
-<script>
+	<partial name="_ValidationScriptsPartial"/>
+	<script>
 	 $( "#date-of-birth" ).datepicker(
 		 {
 			 altFormat: "dd-mm-yyyy"
@@ -157,10 +157,15 @@
 				 title: msg
 		 })
 	 }
-	const previewImage = e => {
-	   const reader = new FileReader();
-	   reader.readAsDataURL(e.target.files[0]);
-	   reader.onload = () => {
-		  const preview =
+	 const previewImage = e =>{
+		 let image = document.getElementById('myImage');
+         image.src = URL.createObjectURL(event.target.files[0]);
+	 }
+	// const previewImage = e => {
+	//    const reader = new FileReader();
+	//    reader.readAsDataURL(e.target.files[0]);
+	//    reader.onload = () => {
+	// }
+	//  }
 </script>
 }

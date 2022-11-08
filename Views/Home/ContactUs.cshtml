@@ -124,13 +124,13 @@
 		</div>
 	</div>
 	<!--Chat Panel-->
-	<partial name="_ChatPanel" />
+	@* <partial name="_ChatPanel" /> *@
 	<!--Chat Panel Ends-->
 </div>
 
 @section Scripts {
    @* @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
-		<script src="~/assets/js/chat/chat.js"></script>
+		<!--<script src="~/assets/js/chat/chat.js"></script> -->
 		<script>
 			let isLoggedIn='@userLoggedIn'
 			let message='@ViewBag.Message'
