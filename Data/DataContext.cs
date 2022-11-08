@@ -1,5 +1,6 @@
 ﻿using EcdsApp.Models;
 using EcdsApp.Models.DistrictWiseInfoModels;
+using EcdsApp.Models.HitCountAndLogModels;
 using EcdsApp.Models.RegionModels;
 using EcdsApp.Models.SystemCommon;
 using EcdsApp.Models.TabularModels;
@@ -19,7 +20,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using EcdsApp.Models.HitCountAndLogModels;
 
 namespace EcdsApp.Data
 {
@@ -41,7 +41,8 @@ namespace EcdsApp.Data
         {
             //return Database.GetDbConnection().ConnectionString = "server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;";
             //return Database.GetDbConnection().ConnectionString = "server=202.53.173.185;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;";
-            return Database.GetDbConnection().ConnectionString = "server=ims.cegisbd.com;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;SSL Mode=None";
+            //return Database.GetDbConnection().ConnectionString = "server=ims.cegisbd.com;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;SSL Mode=None";
+            return Database.GetDbConnection().ConnectionString = "server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;SSL Mode=None";
         }
 
         public DbSet<AdminBoundaryDistrict> AdminBoundaryDistricts { get; set; }

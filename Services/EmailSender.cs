@@ -4,7 +4,6 @@ using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
-using System;
 using System.Threading.Tasks;
 
 namespace EcdsApp.Services
@@ -45,13 +44,11 @@ namespace EcdsApp.Services
                 smtp.Disconnect(true);
                 return true;
             }
-            
-            
             catch
             {
                 return false;
             }
-            
+
         }
     }
 
