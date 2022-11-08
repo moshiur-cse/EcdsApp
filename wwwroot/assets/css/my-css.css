@@ -15,6 +15,10 @@
     .topnav .navbar-nav .nav-link {
         color: #fcfdff!important;
     }
+
+    .topnav .navbar-nav .dropdown-item {
+        color: #035 !important;
+    }
     /*.topnav .navbar-nav .nav-link.active {
         color: #5b73e8!important;
     }

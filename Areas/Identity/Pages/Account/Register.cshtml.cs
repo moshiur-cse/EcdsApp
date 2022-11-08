@@ -150,8 +150,6 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     //}
 
 
-
-
                     _logger.LogInformation("User created a new account with password.");
 
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -178,15 +176,12 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                         return Page();
                         //return RedirectToPage("Register", new { msg = msg });
                     }
-
-
                 }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }
