@@ -83,6 +83,7 @@ namespace EcdsApp.Controllers.Tabular
         {
             ViewData["BoundaryId"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
+            ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
             return View();
         }
 

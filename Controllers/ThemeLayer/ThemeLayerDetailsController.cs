@@ -61,8 +61,22 @@ namespace EcdsApp.Controllers.ThemeLayer
                 .Where(tld => userPerComponents.Contains(tld.SubThemeId));
 
             ViewBag.IsPermittedToAddData = permToAddData;
-            ViewBag.IsPermittedToEditData = permToEditData;            
+            ViewBag.IsPermittedToEditData = permToEditData;       
+            ViewBag.isSystemAdmin = user.UserRoleId != null && user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd" ? true:false;
             return View(await dataContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> ApproveDataByAdmin(int id)
+        {
+            var layer = await _context.ThemeLayerDetails.FindAsync(id);
+            if (layer != null)
+            {
+                layer.DataVerificationStateId = 1;
+                _context.Update(layer);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+            
         }
 
         // GET: ThemeLayerDetails/Details/5
@@ -259,6 +273,10 @@ namespace EcdsApp.Controllers.ThemeLayer
                 ViewData["TableList"] = new SelectList(_context.TableInfos.Where(e => e.SubThemeId == themeLayerDetail.SubThemeId), "Id", "DisplayName", themeLayerDetail.TableInfoId);
             }
 
+            ViewBag.DataStatusId =
+                new SelectList(await _context.DataVerificationStates.ToListAsync(), "Id", "StateName");
+            var user= await _userManager.GetUserAsync(User);
+            ViewBag.isSystemAdmin = user.UserRoleId != null && user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd" ? true:false;
             return View(themeLayerDetail);
         }
 
@@ -267,7 +285,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         [ValidateAntiForgeryToken]
         [UserAuthorization]
         public async Task<IActionResult> Edit(int id, [Bind("LayerId,SubThemeId,LayerDisplayName,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FileLatName,FileLongName," +
-            "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")]
+            "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId,DataVerificationStateId")]
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
             if (id != themeLayerDetail.LayerId)

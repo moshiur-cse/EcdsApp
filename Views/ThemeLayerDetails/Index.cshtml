@@ -3,7 +3,13 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@section Styles{
+<style>
+    h4{
+       font-weight: 300;
+    }
+</style>
+}
 
 <div class="page-content">
     <div class="container-fluid">
@@ -11,12 +17,14 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="display-6 mb-0">List of Theme Layer</h3>
-                        <p class="card-title-desc">Theme Layer Details Information</p>
-                        @if (ViewBag.IsPermittedToAddData == true)
-                        {
-                            <a id="btnAddNewLayer" asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Layer</a>
-                        }
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">List of Theme Layer</h4>                                                    
+                                @if (ViewBag.IsPermittedToAddData == true)
+                                {
+                                    <a id="btnAddNewLayer" asp-action="Create" class="btn btn-info btn-rounded waves-effect waves-light mb-2 w-lg">Add New Layer</a>
+                                }
+                        </div>
+                        
                     </div>
                 </div>
 
@@ -91,6 +99,7 @@
                                         <a asp-action="Edit" asp-route-id="@item.LayerId" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
                                     }
                                     <a asp-action="Download" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Download</a>
+                                                                       
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)

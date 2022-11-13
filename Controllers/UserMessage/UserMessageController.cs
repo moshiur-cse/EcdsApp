@@ -27,7 +27,7 @@ namespace EcdsApp.Controllers.UserMessage
 
         public async Task<IActionResult> Index()
         {
-            var data = await _context.Messages.Include(x => x.Status).ToListAsync();
+            var data = await _context.Messages.Include(x => x.Status).OrderByDescending(x=>x.CreatedAt).ThenBy(x=>x.ReplyStatusId).ToListAsync();
             return View(data);
         }
 
