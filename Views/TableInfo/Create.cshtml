@@ -15,15 +15,45 @@
 						<form asp-action="Create">
 							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 							<input type="hidden" asp-for="Id" class="form-control" value="" />
+							<div class="form-group mb-3">
+                                <label class="control-label required">Theme</label>
+								<select id="ddlTheme" class="form-select" asp-items="ViewBag.ThemeId" required="" data-parsley-required-message="You must select at least one option.">
+									<option value="">--Select--</option>
+									</select>
+                                
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="control-label required">Sub-Theme</label>
+	                            <select id="ddlSubTheme" class="form-select" asp-for="SubThemeId" required="" data-parsley-required-message="You must select at least one option.">
+                                        <option value="">--Select--</option>
+                                    </select>                               
+                            </div>
+                            @* <div class="mb-3 row"> *@
+                            @*     <label class="col-md-2 col-form-label required">Layer</label> *@
+                            @*     <div class="col-md-10"> *@
+                            @*         <select id="ddlLayer" class="form-select" asp-for="LayerId" data-parsley-min="1" required="" data-parsley-required-message="You must select at least one option."> *@
+                            @*             <option value="">--Select--</option> *@
+                            @*         </select> *@
+                            @*     </div> *@
+                            @* </div> *@
+                            @* *@
+                            @* <div class="mb-3 row"> *@
+                            @*     <label class="col-md-2 col-form-label">Sub Layer</label> *@
+                            @*     <div class="col-md-10"> *@
+                            @*         <select id="ddlSubLayer" class="form-select" asp-for="ColumnId"> *@
+                            @*             <option value="">--Select--</option> *@
+                            @*         </select> *@
+                            @*     </div> *@
+                            @* </div> *@
 							@*<div class="form-group mb-3 ">
 								<label asp-for="Id" class="control-label"></label>
 								
 								<span asp-validation-for="Id" class="text-danger"></span>
 							</div>*@
-							<div class="form-group mb-3">
-								<label asp-for="SubThemeId" class="control-label"></label>
-								<select asp-for="SubThemeId" class="form-control" asp-items="ViewBag.SubThemeId"></select>
-							</div>
+							@* <div class="form-group mb-3"> *@
+							@* 	<label asp-for="SubThemeId" class="control-label"></label> *@
+							@* 	<select asp-for="SubThemeId" class="form-control" asp-items="ViewBag.SubThemeId"></select> *@
+							@* </div> *@
 							<div class="form-group mb-3">
 								<label asp-for="BoundaryId" class="control-label"></label>
 								<select asp-for="BoundaryId" class="form-control" asp-items="ViewBag.BoundaryId"></select>
@@ -59,7 +89,45 @@
 </div>
 
 @section Scripts {
-    @{
-	await Html.RenderPartialAsync("_ValidationScriptsPartial");
-}
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+	<script>
+	$(document).ready(function() {
+		$('#ddlTheme').change(function () {
+			var items = '';
+			$('#ddlLayer').empty();
+			$('#ddlLayer').html("<option value=''>--Select--</option>");
+
+			$.ajax({
+				type: 'GET',
+				url: '@Url.Action("GetSubThemeData", "ThemeLayerDetails")',
+				dataType: "json",
+				data: { themeId: $('#ddlTheme').val() },
+				success: function (responseData) {
+					$('#ddlSubTheme').empty();
+					$('#ddlSubLayer').empty();
+					$.each(responseData,
+						
+						function (i, subTheme) {
+							items += "<option value='" + subTheme.value + "'>" + subTheme.text + "</option>";
+						});
+					if (items !== "") {
+						$('#ddlSubTheme').html(items);
+					} else {
+						$('#ddlSubTheme').html("<option value=''>No Data Available Under the Selected Theme</option> ");
+					}
+				},
+				error: function (ex) {
+					window.Swal.fire({
+						title: "Error",
+						text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+						icon: "error",
+						showConfirmButton: false,
+						timer: 2000
+					});
+				}
+			});
+			return false;
+		});
+	});
+	</script>
 }
