@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using EcdsApp.Data;
+using EcdsApp.Models.HitCountAndLogModels;
 using EcdsApp.Models.TabularModels;
 using EcdsApp.Models.ThemeModels;
 using EcdsApp.Models.UserManage;
@@ -19,9 +20,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using EcdsApp.Models.HitCountAndLogModels;
 
 namespace EcdsApp.Controllers.ThemeLayer
 {
@@ -61,7 +60,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 .Where(tld => userPerComponents.Contains(tld.SubThemeId));
 
             ViewBag.IsPermittedToAddData = permToAddData;
-            ViewBag.IsPermittedToEditData = permToEditData;            
+            ViewBag.IsPermittedToEditData = permToEditData;
             return View(await dataContext.ToListAsync());
         }
 
@@ -107,6 +106,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")]
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
+
             if (ModelState.IsValid)
             {
                 var newThemeLayerDetId = (_context.ThemeLayerDetails.Max(s => (int?)s.LayerId) ?? 0) + 1;
@@ -502,7 +502,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 throw new Exception(String.Format("Nothing found"));
             }
             //=======  Add Download information to the user log table
-            
+
             var userLog = new DownloadLog()
             {
                 IPAddress = HttpContext.Connection.LocalIpAddress.ToString(),
