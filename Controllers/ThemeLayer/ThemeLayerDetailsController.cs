@@ -48,7 +48,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             var userPerComponents = _context.RoleWiseComponents
                 .Where(r => r.UserRoleId == user.UserRoleId).Select(r => r.SubThemeId).ToList();
 
-            //var permToDeleteData = _utility.DoesHavePermissionToDeleteData(user.UserRoleId, "Delete");
+            var permToDeleteData = _utility.DoesHavePermissionToDeleteData(user.UserRoleId, "Delete");
             var permToAddData = _utility.DoesHavePermissionToAddData(user.UserRoleId, "Create");
             var permToEditData = _utility.DoesHavePermissionToEditData(user.UserRoleId, "Edit");
 
@@ -62,6 +62,7 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             ViewBag.IsPermittedToAddData = permToAddData;
             ViewBag.IsPermittedToEditData = permToEditData;       
+            ViewBag.IsPermittedToDeleteData = permToDeleteData;       
             ViewBag.isSystemAdmin = user.UserRoleId != null && user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd" ? true:false;
             return View(await dataContext.ToListAsync());
         }

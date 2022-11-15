@@ -100,6 +100,10 @@
                                     @if (ViewBag.IsPermittedToEditData == true)
                                     {
                                         <a asp-action="Edit" asp-route-id="@item.LayerId" class="px-2 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                        
+                                    }
+                                    @if (ViewBag.IsPermittedToDeleteData == true)
+                                    {
                                         <a href="#"class="px-2 text-primary" onclick="DeleteData(@item.LayerId)"><i class=" uil-trash-alt font-size-20"></i></a>
                                     }
                                     <a asp-action="Download" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Download</a>
