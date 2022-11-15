@@ -150,7 +150,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 {
                     var shapeFileExtList = shapeFile.Select(item => ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Value).Select(Path.GetExtension).ToList();
                     var jsonFileName = ContentDispositionHeaderValue.Parse(geoJsonFile[0].ContentDisposition).FileName.Value;
-                    
+
                     if (!(shapeFileExtList.Contains(".dbf") && shapeFileExtList.Contains(".prj") && shapeFileExtList.Contains(".shp") && shapeFileExtList.Contains(".shx") && Path.GetExtension(jsonFileName).Contains(".json")))
                     {
                         ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
@@ -176,7 +176,6 @@ namespace EcdsApp.Controllers.ThemeLayer
                         ViewData["missingFileErrMsg"] = $"Total size of all four shape files must be less than {allowedSize} MB.";
                         return View(themeLayerDetail);
                     }
-                    
 
                     var subThemeObj = _context.SubThemes
                         .Include(s => s.Themes)
@@ -312,8 +311,8 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             ViewBag.DataStatusId =
                 new SelectList(await _context.DataVerificationStates.ToListAsync(), "Id", "StateName");
-            var user= await _userManager.GetUserAsync(User);
-            ViewBag.isSystemAdmin = user.UserRoleId != null && user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd" ? true:false;
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.isSystemAdmin = user.UserRoleId != null && user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd" ? true : false;
             return View(themeLayerDetail);
         }
 
@@ -455,7 +454,6 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: ThemeLayerDetails/Delete/5
-        [HttpGet]
         [UserAuthorization]
         public async Task<IActionResult> Delete(int? id)
         {
