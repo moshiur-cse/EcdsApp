@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using EcdsApp.Models.HitCountAndLogModels;
 
@@ -49,6 +48,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             var userPerComponents = _context.RoleWiseComponents
                 .Where(r => r.UserRoleId == user.UserRoleId).Select(r => r.SubThemeId).ToList();
 
+            //var permToDeleteData = _utility.DoesHavePermissionToDeleteData(user.UserRoleId, "Delete");
             var permToAddData = _utility.DoesHavePermissionToAddData(user.UserRoleId, "Create");
             var permToEditData = _utility.DoesHavePermissionToEditData(user.UserRoleId, "Edit");
 
@@ -123,14 +123,33 @@ namespace EcdsApp.Controllers.ThemeLayer
         {
             if (ModelState.IsValid)
             {
+                //========= Set theme LayerName from layerDisplay Name by removing space with _;
+                themeLayerDetail.LayerName=themeLayerDetail.LayerDisplayName.Replace(" ", "_");
+                themeLayerDetail.LayerName = themeLayerDetail.LayerName.ToLower();
+                
                 var newThemeLayerDetId = (_context.ThemeLayerDetails.Max(s => (int?)s.LayerId) ?? 0) + 1;
                 themeLayerDetail.LayerId = newThemeLayerDetId;
-
+                
+                
+                //==== Check for the layer name if that is unique
+                bool isNotUnique = await _context.ThemeLayerDetails.AnyAsync(x => x.LayerName == themeLayerDetail.LayerName);
+                if (isNotUnique)
+                {
+                    ModelState.AddModelError("LayerName","The Layer name already exists.");
+                    ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
+                    ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
+                    ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
+                    ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
+                    ViewData["LegendColorOptionList"] = new SelectList(_context.LegendColorOptions, "Id", "OptionName");
+                    
+                    return View(themeLayerDetail);
+                }
+                
                 if (themeLayerDetail.LayerTypeId != AppStaticBase.LayerTypeTabular)
                 {
                     var shapeFileExtList = shapeFile.Select(item => ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Value).Select(Path.GetExtension).ToList();
                     var jsonFileName = ContentDispositionHeaderValue.Parse(geoJsonFile[0].ContentDisposition).FileName.Value;
-
+                    
                     if (!(shapeFileExtList.Contains(".dbf") && shapeFileExtList.Contains(".prj") && shapeFileExtList.Contains(".shp") && shapeFileExtList.Contains(".shx") && Path.GetExtension(jsonFileName).Contains(".json")))
                     {
                         ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
@@ -138,8 +157,25 @@ namespace EcdsApp.Controllers.ThemeLayer
                         ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
                         ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
                         ViewData["LegendColorOptionList"] = new SelectList(_context.LegendColorOptions, "Id", "OptionName");
+                        ViewData["missingFileErrMsg"] = "Please upload all four shape files with extension .dbf, .prj, .shp, .shx";
                         return View(themeLayerDetail);
                     }
+                    
+                    //=====Error on shape file size 
+                    long shapeFileSize=0;
+                    int allowedSize = 100;
+                    shapeFile.ForEach(x=>shapeFileSize+= x.Length);
+                    if ((float)shapeFileSize / 1000000 > allowedSize)
+                    {
+                        ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
+                        ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
+                        ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName", themeLayerDetail.LayerTypeId);
+                        ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
+                        ViewData["LegendColorOptionList"] = new SelectList(_context.LegendColorOptions, "Id", "OptionName");
+                        ViewData["missingFileErrMsg"] = $"Total size of all four shape files must be less than {allowedSize} MB.";
+                        return View(themeLayerDetail);
+                    }
+                    
 
                     var subThemeObj = _context.SubThemes
                         .Include(s => s.Themes)
@@ -418,24 +454,31 @@ namespace EcdsApp.Controllers.ThemeLayer
         }
 
         // GET: ThemeLayerDetails/Delete/5
+        [HttpGet]
         [UserAuthorization]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var themeLayerDetail = await _context.ThemeLayerDetails
-                .Include(t => t.SubThemes)
-                .Include(t => t.ThemeLayerTypes)
-                .FirstOrDefaultAsync(m => m.LayerId == id);
+            var themeLayerDetail = await _context.ThemeLayerDetails.FirstOrDefaultAsync(m => m.LayerId == id);
             if (themeLayerDetail == null)
             {
-                return NotFound();
+                return Json("Invalid Theme Layer");
             }
-
-            return View(themeLayerDetail);
+            
+            //==== Delete Folders from Desired Location
+            var subThemeObj = _context.SubThemes
+            .Include(s => s.Themes)
+            .FirstOrDefault(s => s.SubThemeId == themeLayerDetail.SubThemeId);
+            _context.Remove(themeLayerDetail);
+            await _context.SaveChangesAsync();
+            var folderDirectory = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{subThemeObj.Themes.ThemePath?.Trim()}\\{subThemeObj.SubThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}";
+            if(Directory.Exists(folderDirectory))
+                Directory.Delete(folderDirectory,true);
+            return Json("Theme Layer deleted successfully.");
         }
 
         public async Task<FileResult> Download(int? id)

@@ -38,6 +38,18 @@ namespace EcdsApp.Data
 
             return queryResult != null;
         }
+        
+        public bool DoesHavePermissionToDeleteData(string roleId, string actionName)
+        {
+            if (string.IsNullOrEmpty(roleId) || string.IsNullOrEmpty(actionName))
+                return false;
+
+            var queryResult = _context.RoleWisePermittedContents
+                .Include(r => r.UserPermittedContent)
+                .FirstOrDefault(r => r.UserRoleId == roleId && r.UserPermittedContent.ActionName == actionName);
+
+            return queryResult != null;
+        }
 
     }
 }

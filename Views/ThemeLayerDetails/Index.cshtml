@@ -8,6 +8,9 @@
     h4{
        font-weight: 300;
     }
+    .card-body{
+        padding:  0.75rem 1.25rem;
+    }
 </style>
 }
 
@@ -96,7 +99,8 @@
                                 <td>
                                     @if (ViewBag.IsPermittedToEditData == true)
                                     {
-                                        <a asp-action="Edit" asp-route-id="@item.LayerId" class="px-3 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                        <a asp-action="Edit" asp-route-id="@item.LayerId" class="px-2 text-primary"><i class="uil-pen font-size-20"></i></a>
+                                        <a href="#"class="px-2 text-primary" onclick="DeleteData(@item.LayerId)"><i class=" uil-trash-alt font-size-20"></i></a>
                                     }
                                     <a asp-action="Download" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Download</a>
                                                                        
@@ -175,6 +179,49 @@
 @section Scripts
 {
     <script type="text/javascript">
+        const DeleteData =(id)=>{
+            console.log(id);
+            swal.fire({
+                icon: "error",
+                title:"Are you sure ?",
+                confirmButtonText: 'Delete',
+                showCancelButton: true,
+                text:"Once the data is deleted you can't retrieve it. Do you want to delete it ?"                
+            }).then(res => {                
+                if (res.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("Delete")',
+                        data:{id},
+                        type: 'GET',
+                        dataType: 'json', // added data type
+                        success: function(res) {
+                            console.log(res);
+                            if (res =="Theme Layer deleted successfully."){
+                                swal.fire({
+                                    icon: "success",
+                                    title:"Successful",
+                                    confirmButtonText: 'Ok',
+                                    text:res                
+                                }).then(res => {                
+                                  if (res.isConfirmed) { 
+                                      window.location.reload();
+                                  }
+                                });
+                            }
+                            else{
+                                swal.fire({
+                                    icon: "error",
+                                    title:"Error",
+                                    confirmButtonText: 'Delete',
+                                    text:res                
+                                })
+                            }
+                            
+                        }
+                    });
+                }                  
+            })
+        }
         $(document).ready(function () {
 
             $(".datatable").DataTable(), $(".dataTables_length select").addClass("form-select form-select-sm");

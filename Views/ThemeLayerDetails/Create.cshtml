@@ -32,17 +32,18 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label required" asp-for="LayerName"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="LayerName" class="form-control" required="" />
-                                    <span asp-validation-for="LayerName" class="text-danger"></span>
-                                </div>
-                            </div>
+                            <input type="hidden" asp-for="LayerName" class="form-control" value="LayerName" />
+                            @* <div class="mb-3 row"> *@
+                            @*     <label class="col-md-2 col-form-label required" asp-for="LayerName"></label> *@
+                            @*     <div class="col-md-10"> *@
+                            @*         <input asp-for="LayerName" class="form-control" /> *@
+                            @*         <span asp-validation-for="LayerName" class="text-danger"></span> *@
+                            @*     </div> *@
+                            @* </div> *@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="LayerDisplayName"></label>
                                 <div class="col-md-10">
-                                    <input asp-for="LayerDisplayName" class="form-control" required="" />
+                                    <input asp-for="LayerDisplayName" class="form-control" />
                                     <span asp-validation-for="LayerDisplayName" class="text-danger"></span>
                                 </div>
                             </div>
@@ -74,46 +75,48 @@
                             </div>
 
                             <div id="otherLayerDiv">
-                                <div class="mb-3 row">
-                                    <label id="layerFileNameLbl" class="col-md-2 col-form-label required" asp-for="LayerFileName"></label>
-                                    <div class="col-md-10">
-                                        <input id="layerFileNameInput" asp-for="LayerFileName" class="form-control" required="" />
-                                        <span asp-validation-for="LayerFileName" class="text-danger"></span>
-                                    </div>
-                                </div>
+                                
+                                @* <div class="mb-3 row"> *@
+                                @*     <label id="layerFileNameLbl" class="col-md-2 col-form-label required" asp-for="LayerFileName"></label> *@
+                                @*     <div class="col-md-10"> *@
+                                @*         <input id="layerFileNameInput" asp-for="LayerFileName" class="form-control" /> *@
+                                @*         <span asp-validation-for="LayerFileName" class="text-danger"></span> *@
+                                @*     </div> *@
+                                @* </div> *@
+
                                 <div class="mb-3 row">
                                     <label class="col-md-2 col-form-label" asp-for="MainAttributeDisplayName"></label>
                                     <div class="col-md-10">
-                                        <input asp-for="MainAttributeDisplayName" class="form-control" />
+                                        <input asp-for="MainAttributeDisplayName" class="form-control"/>
                                         <span asp-validation-for="MainAttributeDisplayName" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label class="col-md-2 col-form-label" asp-for="MainAttributeName"></label>
                                     <div class="col-md-10">
-                                        <input asp-for="MainAttributeName" class="form-control" />
+                                        <input asp-for="MainAttributeName" class="form-control"/>
                                         <span asp-validation-for="MainAttributeName" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label class="col-md-2 col-form-label" asp-for="MainAttributeCode"></label>
                                     <div class="col-md-10">
-                                        <input asp-for="MainAttributeCode" class="form-control" />
+                                        <input asp-for="MainAttributeCode" class="form-control"/>
                                         <span asp-validation-for="MainAttributeCode" class="text-danger"></span>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-3 row">
                                     <label class="col-md-2 col-form-label" asp-for="FileLatName"></label>
                                     <div class="col-md-10">
-                                        <input asp-for="FileLatName" class="form-control" />
+                                        <input asp-for="FileLatName" class="form-control"/>
                                         <span asp-validation-for="FileLatName" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label class="col-md-2 col-form-label" asp-for="FileLongName"></label>
                                     <div class="col-md-10">
-                                        <input asp-for="FileLongName" class="form-control" />
+                                        <input asp-for="FileLongName" class="form-control"/>
                                         <span asp-validation-for="FileLongName" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -138,35 +141,35 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="LineColorCode"></label>
                                 <div class="col-md-10">
-                                    <input id="txtLineColorCode" asp-for="LineColorCode" required="" class="form-control" value="#" data-parsley-length="[7, 9]" />
+                                    <input id="txtLineColorCode" asp-for="LineColorCode" class="form-control" value="#000000" data-parsley-length="[7, 9]" />
                                     <span asp-validation-for="LineColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="FillColorCode"></label>
                                 <div class="col-md-10">
-                                    <input id="txtFillColorCode" asp-for="FillColorCode" required="" class="form-control" value="#" data-parsley-length="[7, 9]" />
+                                    <input id="txtFillColorCode" asp-for="FillColorCode" class="form-control" value="#000000" data-parsley-length="[7, 9]" />
                                     <span asp-validation-for="FillColorCode" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="Opacity"></label>
                                 <div class="col-md-10">
-                                    <input id="txtOpacity" asp-for="Opacity" required="" class="form-control" value="0.0" data-parsley-range="[0.0, 1.0]" />
+                                    <input id="txtOpacity" asp-for="Opacity" required="" class="form-control" value="1.0" data-parsley-range="[0.0, 1.0]" />
                                     <span asp-validation-for="Opacity" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="FillOpacity"></label>
                                 <div class="col-md-10">
-                                    <input id="txtFillOpacity" required="" asp-for="FillOpacity" class="form-control" value="0.0" />
+                                    <input id="txtFillOpacity" required="" asp-for="FillOpacity" class="form-control" value="1.0" />
                                     <span asp-validation-for="FillOpacity" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="LineWeight"></label>
                                 <div class="col-md-10">
-                                    <input id="txtLineWeight" required="" asp-for="LineWeight" class="form-control" value="0.0" />
+                                    <input id="txtLineWeight" required="" asp-for="LineWeight" class="form-control" value="1.0" />
                                     <span asp-validation-for="LineWeight" class="text-danger"></span>
                                 </div>
                             </div>
@@ -205,6 +208,9 @@
 
 <script type="text/javascript">
         $(document).ready(function () {
+            
+            //====set default legend color to random color
+            $("#ddlLegendColorOption").val(0);
 
             $('#ddlTheme').change(function () {
                 var items = '';
@@ -331,6 +337,15 @@
                     $("#txtLegendColorFieldName").prop("readonly", false);
                 }
             });
+            
+            // === Show alert based on missing file
+            if ("@ViewBag.missingFileErrMsg".length>0)
+            Swal.fire({
+                icon: "error",
+                title: "@ViewBag.missingFileErrMsg",
+                //confirmButtonText: 'Ok'
+            })
+            
 
         });
 </script>

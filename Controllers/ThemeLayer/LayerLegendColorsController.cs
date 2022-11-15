@@ -87,8 +87,9 @@ namespace EcdsApp.Controllers.ThemeLayer
                     fileStream.Flush();
                 }
                 formData.IconPath = fileToUpload;
-                formData.LayerLegendColorId = newLayerLegendColorId;
-            }            
+                
+            }    
+            formData.LayerLegendColorId = newLayerLegendColorId;
             _context.Add(formData);
             var response = _context.SaveChanges() > 0;
             result = response ? "Success" : "Error";
