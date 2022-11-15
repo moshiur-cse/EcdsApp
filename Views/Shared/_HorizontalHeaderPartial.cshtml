@@ -7,7 +7,7 @@
 @inject UserManager<ApplicationUser> _userManager
 @{
     var user = await _userManager.GetUserAsync(User);
-    if(user == null)
+    if (user == null)
     {
         var hasEmail = User.HasClaim(x => x.Value.Contains("@gmail.com"));
         if (hasEmail)
@@ -15,8 +15,8 @@
             var email = User.Claims.FirstOrDefault(c => c.Value.Contains("@gmail.com")).Value;
             user = await _userManager.FindByEmailAsync(email);
         }
-        
-        
+
+
     }
     var userRoleId = user?.UserRoleId;
     var dbContext = new DataContext();
@@ -52,22 +52,25 @@
                     <i class="uil-minus-path"></i>
                 </button>
             </div>
-            
+
 
             <div class="dropdown d-inline-block" style="margin-right:60px">
 
-               
+
                 @if (_signInManager.IsSignedIn(User))
                 {
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                         
-                        @if(user!=null)
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @if (user != null)
                         {
                             @if (user.ProfilePic != null)
                             {
                                 <img class="rounded-circle header-profile-user" src="~/assets/profile_pics/@user.ProfilePic" alt="Profile Pictures" />
                             }
-                            else {<img class="rounded-circle header-profile-user" src="~/assets/images/user_icon.png" alt="Profile Pictures">}
+                            else
+                            {
+                                <img class="rounded-circle header-profile-user" src="~/assets/images/user_icon.png" alt="Profile Pictures">
+                            }
                         }
                         else
                         {
@@ -80,7 +83,7 @@
 
                     <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item" href="~/assets/documents/user_manual.pdf" target="_blank" title="User Manual"><i class="fas fa-info-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">User Manual</span></a>
-                        @if(user != null)
+                        @if (user != null)
                         {
                             <a class="dropdown-item" asp-action="ViewProfile" asp-controller="UserAccessManage"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">View Profile</span></a>
                         }
@@ -93,7 +96,7 @@
                 }
                 else
                 {
-                     
+
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="rounded-circle header-profile-user" src="~/assets/images/user_icon.png"
@@ -103,12 +106,13 @@
                     </button>
 
                     <div class="dropdown-menu dropdown-menu-end">
+                        <button onclick="my_modal_show()" class="dropdown-item" title="Instructional Video"><i class="fas fa-info-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Instructional Video</span></button>
                         <a class="dropdown-item" href="~/assets/documents/user_manual.pdf" target="_blank" title="User Manual"><i class="fas fa-info-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">User Manual</span></a>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Login</span></a>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Register</span></a>
                     </div>
                 }
-                 
+
             </div>
         </div>
 
@@ -183,7 +187,7 @@
                                         <i class="uil-apps me-2"></i>Admin Panel<div class="arrow-down"></div>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="topnav-pages">
-                                        <a class="dropdown-item" href="~/assets/documents/user_manual_admin.pdf" target="_blank">Admin User Manual</a>                                        
+                                        <a class="dropdown-item" href="~/assets/documents/user_manual_admin.pdf" target="_blank">Admin User Manual</a>
                                         <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Users">Users</a>
                                         <a class="dropdown-item" asp-controller="UserAccessManage" asp-action="Roles">User Roles</a>
                                         <a class="dropdown-item" asp-controller="TableInfo" asp-action="Index">Table & Column</a>
@@ -206,10 +210,10 @@
                             </div>
 
                             @*<li class="nav-item">
-                                <a class="nav-link" asp-controller="Home" asp-action="Contact">
-                                <i class=" uil-comment-alt-message me-2"></i> Contact
-                                </a>
-                                </li>*@
+                            <a class="nav-link" asp-controller="Home" asp-action="Contact">
+                            <i class=" uil-comment-alt-message me-2"></i> Contact
+                            </a>
+                            </li>*@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="ContactUs">
                                 <i class="uil-envelope me-2"></i>   Contact Us
@@ -229,3 +233,5 @@
     </div>
     <img class="bd_logo" src="~/assets/images/bd_govt_logo.png" style="float:right">
 </header>
+
+
