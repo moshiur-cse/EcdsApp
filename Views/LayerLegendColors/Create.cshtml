@@ -178,7 +178,7 @@
     @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
 
 <script type="text/javascript">
-	var frmData=new FormData();
+	//var frmData=new FormData();
 	$(document).ready(function () {
 		var editSectionMode="txt";
 		
@@ -369,7 +369,9 @@
 
 			//};
 
-			frmData.append("formData.LayerId",layerId);
+			//frmData.append("formData.LayerId",layerId);
+			let frmData=new FormData();
+			frmData.append("formData.LayerId",$('#ddlLayerOption option:selected').val());
 			frmData.append("formData.LayerMainAttribureValue",$('#txtMainAttrValue').val());
 			frmData.append("formData.LayerLegendColorCode",$('#txtLegendColorCode').val());
 			frmData.append("formData.LayerLegendDisplayName",$('#txtLegendDisplayName').val());
@@ -428,15 +430,16 @@
 
 	$('#btnUpdateLegendColorInfo').click(function() {
 
-		//frmData= new FormData();
+		let frmData= new FormData();
 
-		var layerLegendColorId = $('#txtLayerLegendColorId').val(),
+		let layerLegendColorId = $('#txtLayerLegendColorId').val(),
 			layerId = $('#txtLayerId').val(),
 			mainAttrValue = $('#editTxtMainAttrValue').val(),
 			legendColorCode = $('#editTxtLegendColorCode').val(),
 			legendDisplayName = $('#editTxtLegendDisplayName').val(),
 			iconSize=$('#editIconSize').val(),
 			legendColumnName=$("#editTxtLegendColumnName").val();
+		console.log(layerLegendColorId,layerId,mainAttrValue,legendColorCode,legendDisplayName,iconSize,legendColumnName);
 
 			//===check for layerid main attribute and legend display name
 
@@ -501,15 +504,16 @@
 				}
 			}
 
-			frmData.append("formData.LayerId",layerId);
-			frmData.append("formData.LayerMainAttribureValue",mainAttrValue);
-			frmData.append("formData.LayerLegendColorCode",legendColorCode);
-			frmData.append("formData.LayerLegendDisplayName",legendDisplayName);
-			frmData.append("formData.LayerLegendColorId",layerLegendColorId);
-			iconSize=iconSize == ""? "0":iconSize;
+			frmData.append("formData.LayerId",$('#txtLayerId').val());
+			frmData.append("formData.LayerMainAttribureValue",$('#editTxtMainAttrValue').val());
+			frmData.append("formData.LayerLegendColorCode", $('#editTxtLegendColorCode').val());
+			frmData.append("formData.LayerLegendDisplayName",$('#editTxtLegendDisplayName').val());
+			frmData.append("formData.LayerLegendColorId",$('#txtLayerLegendColorId').val());
+			iconSize = iconSize == "" ? "0" : $('#editIconSize').val();
 			frmData.append("formData.IconSize",iconSize);
-			frmData.append("formData.LegendColumnName",legendColumnName);
+			frmData.append("formData.LegendColumnName",$("#editTxtLegendColumnName").val());
 			frmData.append("formData.IconPath",$("#editIconPath").val());
+
 
 			//===send data with ajax call
 
@@ -725,7 +729,8 @@
 
 
 	function GetSubThemeData(){
-		let items = '<option value=""> -- Select -- </option>';
+		//let items = '<option value=""> -- Select -- </option>';
+		let items = '';
 		$.ajax({
 				type: 'GET',
 				url: '@Url.Action("GetSubThemeData", "ThemeLayerDetails")',
@@ -756,7 +761,8 @@
 			return false;
 	}
 	function GetLayerData(){
-		let items = '<option value=""> -- Select -- </option>';
+		//let items = '<option value=""> -- Select -- </option>';
+		let items = '';
 		$.ajax({
 				type: 'GET',
 				url: '@Url.Action("GetLayerData", "ThemeLayerDetails")',
