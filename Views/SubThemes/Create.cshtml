@@ -18,7 +18,7 @@
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required">Theme</label>
                                 <div class="col-md-10">
-                                    <select class="form-select" asp-items="ViewBag.ThemeId" required="" data-parsley-required-message="You must select at least one option.">
+                                    <select asp-for="ThemeId" class="form-select" asp-items="ViewBag.ThemeId" required="" data-parsley-required-message="You must select at least one option.">
                                         <option value="">Select</option>
                                     </select>
                                 </div>

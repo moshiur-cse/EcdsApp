@@ -264,7 +264,7 @@
                     success: function(items) {
 
                         if (items.isLegendColor == 1) {
-                            map1_getUserDefinedColor(items.layerId, layerId, items.layerName);
+                            map1_getUserDefinedColor(items.layerId, layerId, items.layerName,"");
                         }
 
 
@@ -307,7 +307,7 @@
                                 //});
 
                                 jQuery.when(map1_getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function() {
-                                    jQuery.when(map1_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")")).then(function() {
+                                    jQuery.when(map1_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")",columnName)).then(function() {
                                         //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                         setTimeout(function() {
                                             map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
@@ -322,7 +322,7 @@
                         }
                         else {
                             jQuery.ajax({
-                                url: map1_getUserDefinedColor(items.layerId, layerId, items.layerName),
+                                url: map1_getUserDefinedColor(items.layerId, layerId, items.layerName,columnName),
                                 success: function() {
                                     map1_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.map1_legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                 }
@@ -387,7 +387,7 @@
                     success: function(items) {
 
                         if (items.isLegendColor == 1) {
-                            map2_getUserDefinedColor(items.layerId, layerId, items.layerName);
+                            map2_getUserDefinedColor(items.layerId, layerId, items.layerName,"");
                         }
 
 
@@ -433,7 +433,7 @@
                                 //});
 
                                 jQuery.when(map2_getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function() {
-                                    jQuery.when(map2_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")")).then(function() {
+                                    jQuery.when(map2_getUserDefinedColor(items.layerId, layerId, items.layerName + " (" + jQuery('#' + columnBindId + ' option:selected').text() + ")",columnName)).then(function() {
                                         //LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                         setTimeout(function() {
                                             map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.boundaryGeoNameColumnName, items.boundaryGeoCodeColumnName, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
@@ -449,7 +449,7 @@
                         }
                         else {
                             jQuery.ajax({
-                                url: map2_getUserDefinedColor(items.layerId, layerId, items.layerName),
+                                url: map2_getUserDefinedColor(items.layerId, layerId, items.layerName,columnName),
                                 success: function() {
                                     map2_LayerShowHide(items.layerId, layerId, path, items.mainAttDisName, items.mainAtt, items.mainAttCode, items.cLat, items.cLong, items.layerName, items.layerTypeId, items.isLegendColor, items.legendcolorField, admin_code_list, items.lineOpacity, items.fillOpacity, items.lineWeight, items.lineColorCode, items.boundaryId, items.tableId);
                                 },
@@ -715,7 +715,7 @@
             }
 
         }
-        function map1_getUserDefinedColor(layerUid, layerId, LegendName) {
+        function map1_getUserDefinedColor(layerUid, layerId, LegendName,columnName) {
 
 
             map1_userDefinedColorList[layerId] = {};
@@ -725,7 +725,7 @@
                 type: "POST",
                 url: "@Url.Action("GetUserDefinedLegendInfo")",
                 dataType: "json",
-                data: { layer_id: layerUid },
+                data: { layer_id: layerUid, columnName: columnName },
                 //before: jQuery("#busy-indicator").fadeIn(150),
                 success: function(items) {
 
@@ -1098,7 +1098,7 @@
 
 
 
-        function map2_getUserDefinedColor(layerUid, layerId, LegendName) {
+        function map2_getUserDefinedColor(layerUid, layerId, LegendName,columnName) {
 
 
             map2_userDefinedColorList[layerId] = {};
@@ -1108,7 +1108,7 @@
                 type: "POST",
                 url: "@Url.Action("GetUserDefinedLegendInfo")",
                 dataType: "json",
-                data: { layer_id: layerUid },
+                data: { layer_id: layerUid, columnName: columnName},
                 before: jQuery("#busy-indicator").fadeIn(150),
                 success: function(items) {
 

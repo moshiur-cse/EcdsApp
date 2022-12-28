@@ -49,9 +49,8 @@
 .bd_logo {
     width: auto;
     height: 7vw;
-    max-height: 115px;
-    min-height: 55px;
-    margin-top:-123px;
+    max-height: 120px;
+    margin-top: -127px;
     padding: 0;
     vertical-align: top;
 }

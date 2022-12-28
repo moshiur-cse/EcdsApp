@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221219091759_Add-district-models2")]
+    partial class Adddistrictmodels2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,68 +187,6 @@ namespace EcdsApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("lkp_data_verification_states");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistWiseLossAndDamageOfAgriculture", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("DistrictGeoCode")
-                        .HasMaxLength(4)
-                        .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
-
-                    b.Property<decimal?>("Fisheries")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("fisheries");
-
-                    b.Property<decimal?>("Fruits")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("fruits");
-
-                    b.Property<decimal?>("Jute")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("jute");
-
-                    b.Property<decimal?>("Livestock")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("livestock");
-
-                    b.Property<decimal?>("OtherCrop")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("other_crop");
-
-                    b.Property<decimal?>("Others")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("others");
-
-                    b.Property<decimal?>("Paddy")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("paddy");
-
-                    b.Property<decimal?>("Potato")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("potato");
-
-                    b.Property<decimal?>("PoultryOrBirds")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("poultry_birds");
-
-                    b.Property<decimal?>("Pulse")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("pulse");
-
-                    b.Property<decimal?>("Wheat")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("wheat");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistrictGeoCode");
-
-                    b.ToTable("dist_wise_loss_and_damage_of_agriculture");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseDisabilityDisabRate", b =>
@@ -752,24 +692,20 @@ namespace EcdsApp.Migrations
                         .HasColumnType("varchar(4)")
                         .HasColumnName("dist_geo_code");
 
-                    b.Property<decimal?>("Tk100kPlus")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("tk_100k_plus");
-
                     b.Property<decimal?>("Tk10kTo24999")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("tk_10k_to_24999");
 
                     b.Property<decimal?>("Tk1To9999")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("tk_1_to_9999");
 
                     b.Property<decimal?>("Tk25kTo49999")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("tk_25k_to_49999");
 
                     b.Property<decimal?>("Tk50kTo99999")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("tk_50k_to_99999");
 
                     b.HasKey("Id");
@@ -791,19 +727,19 @@ namespace EcdsApp.Migrations
                         .HasColumnName("dist_geo_code");
 
                     b.Property<decimal?>("Tk10kTo24999")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("tk_10k_to_24999");
 
                     b.Property<decimal?>("Tk1To9999")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("tk_1_to_9999");
 
                     b.Property<decimal?>("Tk25kTo49999")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("tk_25k_to_49999");
 
                     b.Property<decimal?>("Tk50kTo99999")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("tk_50k_to_99999");
 
                     b.HasKey("Id");
@@ -811,114 +747,6 @@ namespace EcdsApp.Migrations
                     b.HasIndex("DistrictGeoCode");
 
                     b.ToTable("household_received_loan_by_50k_to_10k");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedRehabilitationLoanByGovtOrg", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("DistrictGeoCode")
-                        .HasMaxLength(4)
-                        .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
-
-                    b.Property<decimal?>("LocalWelfareOrCorporateSupport")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("local_welfare_or_corporate_support");
-
-                    b.Property<decimal?>("SupportDuringOrAfterDisaster")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_during_or_after_disaster");
-
-                    b.Property<decimal?>("SupportFailureDuringOrAfterDisaster")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("Support_failure_during_or_after_disaster");
-
-                    b.Property<decimal?>("SupportFromBusinessEnterprise")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_business_enterprise");
-
-                    b.Property<decimal?>("SupportFromGovOrgs")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_gov_orgs");
-
-                    b.Property<decimal?>("SupportFromIntOrg")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_int_orgs");
-
-                    b.Property<decimal?>("SupportFromLocalPersons")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_local_persons");
-
-                    b.Property<decimal?>("SupportFromNGOs")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_ngos");
-
-                    b.Property<decimal?>("SupportFromOthers")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_others");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistrictGeoCode");
-
-                    b.ToTable("household_received_rehabilitation_loan_by_govt_org");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedRehabilitationLoanByNGO", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("DistrictGeoCode")
-                        .HasMaxLength(4)
-                        .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
-
-                    b.Property<decimal?>("LocalWelfareOrCorporateSupport")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("local_welfare_or_corporate_support");
-
-                    b.Property<decimal?>("SupportDuringOrAfterDisaster")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_during_or_after_disaster");
-
-                    b.Property<decimal?>("SupportFailureDuringOrAfterDisaster")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("Support_failure_during_or_after_disaster");
-
-                    b.Property<decimal?>("SupportFromBusinessEnterprise")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_business_enterprise");
-
-                    b.Property<decimal?>("SupportFromGovOrgs")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_gov_orgs");
-
-                    b.Property<decimal?>("SupportFromIntOrg")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_int_orgs");
-
-                    b.Property<decimal?>("SupportFromLocalPersons")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_local_persons");
-
-                    b.Property<decimal?>("SupportFromNGOs")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_ngos");
-
-                    b.Property<decimal?>("SupportFromOthers")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("support_from_others");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistrictGeoCode");
-
-                    b.ToTable("household_received_rehabilitation_loan_by_ngo");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentReceivedLoanPostDisasterPeriodGovtBank", b =>
@@ -933,39 +761,39 @@ namespace EcdsApp.Migrations
                         .HasColumnName("dist_geo_code");
 
                     b.Property<decimal?>("GovtBank")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("govt_bank");
 
                     b.Property<decimal?>("LocalMahajan")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("local_mahajan");
 
                     b.Property<decimal?>("LocalSociety")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("local_society");
 
                     b.Property<decimal?>("NotReceivedLoan")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("not_received_loan");
 
                     b.Property<decimal?>("Others")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("others");
 
                     b.Property<decimal?>("PrivateBank")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("private_bank");
 
                     b.Property<decimal?>("PrivateMicroLoan")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("private_micro_loan");
 
                     b.Property<decimal?>("Relatives")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("relatives");
 
                     b.Property<decimal?>("WelfareCooparativeSociety")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("welfare_cooparative_society");
 
                     b.HasKey("Id");
@@ -987,39 +815,39 @@ namespace EcdsApp.Migrations
                         .HasColumnName("dist_geo_code");
 
                     b.Property<decimal?>("GovtBank")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("govt_bank");
 
                     b.Property<decimal?>("LocalMahajan")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("local_mahajan");
 
                     b.Property<decimal?>("LocalSociety")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("local_society");
 
                     b.Property<decimal?>("NotReceivedLoan")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("not_received_loan");
 
                     b.Property<decimal?>("Others")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("others");
 
                     b.Property<decimal?>("PrivateBank")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("private_bank");
 
                     b.Property<decimal?>("PrivateMicroLoan")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("private_micro_loan");
 
                     b.Property<decimal?>("Relatives")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("relatives");
 
                     b.Property<decimal?>("WelfareCooparativeSociety")
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("welfare_cooparative_society");
 
                     b.HasKey("Id");
@@ -2813,15 +2641,6 @@ namespace EcdsApp.Migrations
                     b.Navigation("ThemeLayerDetails");
                 });
 
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistWiseLossAndDamageOfAgriculture", b =>
-                {
-                    b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
-                        .WithMany()
-                        .HasForeignKey("DistrictGeoCode");
-
-                    b.Navigation("District");
-                });
-
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseDisabilityDisabRate", b =>
                 {
                     b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
@@ -2931,24 +2750,6 @@ namespace EcdsApp.Migrations
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedLoanBy50kTo10K", b =>
-                {
-                    b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
-                        .WithMany()
-                        .HasForeignKey("DistrictGeoCode");
-
-                    b.Navigation("District");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedRehabilitationLoanByGovtOrg", b =>
-                {
-                    b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
-                        .WithMany()
-                        .HasForeignKey("DistrictGeoCode");
-
-                    b.Navigation("District");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedRehabilitationLoanByNGO", b =>
                 {
                     b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
                         .WithMany()

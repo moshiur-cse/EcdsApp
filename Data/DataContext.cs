@@ -100,6 +100,19 @@ namespace EcdsApp.Data
 
         public DbSet<DistrictWiseMotherHealthRisk> DistrictWiseMotherHealthRisk { get; set; }
 
+        public DbSet<HouseholdReceivedLoanBy10KPlus> HouseholdReceivedLoanBy10KPlus { get; set; }
+
+        public DbSet<HouseholdReceivedLoanBy50kTo10K> HouseholdReceivedLoanBy50kTo10K { get; set; }
+
+        public DbSet<RespondentReceivedLoanPostDisasterPeriodGovtBank> RespondentReceivedLoanPostDisasterPeriodGovtBank { get; set; }
+        public DbSet<RespondentReceivedLoanPostDisasterPeriodPrivateBank> RespondentReceivedLoanPostDisasterPeriodPrivateBank { get; set; }
+        public DbSet<HouseholdReceivedRehabilitationLoanByNGO> HouseholdReceivedRehabilitationLoanByNGO { get; set; }
+        public DbSet<HouseholdReceivedRehabilitationLoanByGovtOrg> HouseholdReceivedRehabilitationLoanByGovtOrg { get; set; }
+        public DbSet<DistWiseLossAndDamageOfAgriculture> DistWiseLossAndDamageOfAgriculture { get; set; }
+
+
+
+
         //Union Wise
         public DbSet<FutureProjectionRainfall4Point5> FutureProjectionRainfall4Point5s { get; set; }
         public DbSet<FutureProjectionRainfall8Point5> FutureProjectionRainfall8Point5s { get; set; }
@@ -131,7 +144,7 @@ namespace EcdsApp.Data
 
         public DbSet<EmailConfiguration> EmailConfigurations { get; set; }
         public DbSet<Chat> Chats { get; set; }
-        
+
         public DbSet<LogType> LogTypes { get; set; }
         public DbSet<ServerHitInfo> ServerHitInfos { get; set; }
         public DbSet<DownloadLog> DownloadLogs { get; set; }

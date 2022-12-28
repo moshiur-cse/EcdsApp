@@ -196,8 +196,12 @@ namespace EcdsApp.Controllers.Map
         [HttpPost]
         public JsonResult GetUserDefinedLegendInfo(int layer_id, string columnName)
         {
+            //var isColumnName = _context.LayerLegendColors.Find(columnName);
+
+            var ColumnNameList = _context.LayerLegendColors.Where(x => x.LegendColumnName.Contains(columnName)).Select(i => i.LegendColumnName).FirstOrDefault();
+
             //s.LegendColumnName == columnName &&
-            var data = _context.LayerLegendColors.Where(s => s.LayerId == layer_id).Select(sd => new
+            var data = _context.LayerLegendColors.Where(s => s.LayerId == layer_id && s.LegendColumnName.Contains(ColumnNameList == null ? "" : columnName)).Select(sd => new
             {
                 attCode = sd.LayerMainAttribureValue,
                 attName = sd.LayerLegendDisplayName,
