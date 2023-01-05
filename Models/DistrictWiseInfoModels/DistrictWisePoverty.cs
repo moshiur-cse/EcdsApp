@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EcdsApp.Models.DistrictWiseInfoModels
 {
@@ -26,4 +22,5 @@ namespace EcdsApp.Models.DistrictWiseInfoModels
         [Display(Name = "Poverty Rate (%)")]
         public decimal? PovertyRate { get; set; }
     }
+
 }

@@ -110,6 +110,11 @@ namespace EcdsApp.Data
         public DbSet<HouseholdReceivedRehabilitationLoanByGovtOrg> HouseholdReceivedRehabilitationLoanByGovtOrg { get; set; }
         public DbSet<DistWiseLossAndDamageOfAgriculture> DistWiseLossAndDamageOfAgriculture { get; set; }
 
+        public DbSet<AreaOfLandsInAcres> AreaOfLandsInAcres { get; set; }
+        public DbSet<DamageValueOfLandsMillions> DamageValueOfLandsMillions { get; set; }
+        public DbSet<LossAndDamageOfProperties> LossAndDamageOfProperties { get; set; }
+
+
 
 
 
