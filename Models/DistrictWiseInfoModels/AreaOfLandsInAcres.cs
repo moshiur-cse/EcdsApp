@@ -1,6 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcdsApp.Models.DistrictWiseInfoModels
 {
@@ -33,7 +33,7 @@ namespace EcdsApp.Models.DistrictWiseInfoModels
 
         [Column("pond/wetland", TypeName = "decimal(10,2)")]
         [Display(Name = "Pond/WetLand")]
-        public decimal? PondWetLand { get; set; }
+        public decimal? PondOrWetLand { get; set; }
 
         [Column("waste_or_otherland", TypeName = "decimal(10,2)")]
         [Display(Name = "Waste/OtherLand")]

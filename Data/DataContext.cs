@@ -1,5 +1,6 @@
 ﻿using EcdsApp.Models;
 using EcdsApp.Models.DistrictWiseInfoModels;
+using EcdsApp.Models.DivisionWiseInfoModels;
 using EcdsApp.Models.HitCountAndLogModels;
 using EcdsApp.Models.RegionModels;
 using EcdsApp.Models.SystemCommon;
@@ -69,6 +70,16 @@ namespace EcdsApp.Data
         public DbSet<TableColumnInfo> TableColumnInfos { get; set; }
         public DbSet<ColumnType> ColumnTypes { get; set; }
 
+
+        //Division Wise
+        public DbSet<HouseholdGotEarlyWarningByTypeOfMedia> HouseholdGotEarlyWarningByTypeOfMedia { get; set; }
+        public DbSet<HouseholdAffectedByNonWorkingDays> HouseholdAffectedByNonWorkingDays { get; set; }
+        public DbSet<HouseholdAffectedAndGotEarlyWarningFrom2015To2020> HouseholdAffectedAndGotEarlyWarningFrom2015To2020 { get; set; }
+
+
+
+
+
         //Upazila Wise
         public DbSet<ExposureCategory> ExposureCategories { get; set; }
         public DbSet<UpazilaWiseExposureData> UpazilaWiseExposureData { get; set; }
@@ -113,6 +124,10 @@ namespace EcdsApp.Data
         public DbSet<AreaOfLandsInAcres> AreaOfLandsInAcres { get; set; }
         public DbSet<DamageValueOfLandsMillions> DamageValueOfLandsMillions { get; set; }
         public DbSet<LossAndDamageOfProperties> LossAndDamageOfProperties { get; set; }
+        public DbSet<DisasterAffectedHouseholdFrom2015To2020> DisasterAffectedHouseholdFrom2015To2020 { get; set; }
+
+
+
 
 
 

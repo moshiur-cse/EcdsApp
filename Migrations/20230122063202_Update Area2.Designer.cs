@@ -3,14 +3,16 @@ using System;
 using EcdsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230122063202_Update Area2")]
+    partial class UpdateArea2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1207,124 +1209,6 @@ namespace EcdsApp.Migrations
                     b.HasIndex("DistrictGeoCode");
 
                     b.ToTable("respondent_received_loan_private_bank");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdAffectedAndGotEarlyWarningFrom2015To2020", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<int>("AffectedHousehold")
-                        .HasColumnType("int")
-                        .HasColumnName("affected_household");
-
-                    b.Property<string>("DivisionGeoCode")
-                        .HasMaxLength(2)
-                        .HasColumnType("varchar(2)")
-                        .HasColumnName("div_geo_code");
-
-                    b.Property<int>("GotEarlyWarning")
-                        .HasColumnType("int")
-                        .HasColumnName("got_early_warning");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DivisionGeoCode");
-
-                    b.ToTable("household_affected_and_got_early_warning_from_2015_to_2020");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdAffectedByNonWorkingDays", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<int>("Day16To30")
-                        .HasColumnType("int")
-                        .HasColumnName("day_16_to_30");
-
-                    b.Property<int>("Day1To7")
-                        .HasColumnType("int")
-                        .HasColumnName("day_1_to_7");
-
-                    b.Property<int>("Day31To45")
-                        .HasColumnType("int")
-                        .HasColumnName("day_31_to_45");
-
-                    b.Property<int>("Day46To60")
-                        .HasColumnType("int")
-                        .HasColumnName("day_46_to_60");
-
-                    b.Property<int>("Day61Plus")
-                        .HasColumnType("int")
-                        .HasColumnName("day_61_plus");
-
-                    b.Property<int>("Day8To15")
-                        .HasColumnType("int")
-                        .HasColumnName("day_8_to_15");
-
-                    b.Property<string>("DivisionGeoCode")
-                        .HasMaxLength(2)
-                        .HasColumnType("varchar(2)")
-                        .HasColumnName("div_geo_code");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DivisionGeoCode");
-
-                    b.ToTable("household_affected_by_non_working_days");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdGotEarlyWarningByTypeOfMedia", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<int>("Community")
-                        .HasColumnType("int")
-                        .HasColumnName("community");
-
-                    b.Property<string>("DivisionGeoCode")
-                        .HasMaxLength(2)
-                        .HasColumnType("varchar(2)")
-                        .HasColumnName("div_geo_code");
-
-                    b.Property<int>("InternetMedia")
-                        .HasColumnType("int")
-                        .HasColumnName("internet_media");
-
-                    b.Property<int>("LocalAdministration")
-                        .HasColumnType("int")
-                        .HasColumnName("local_administration");
-
-                    b.Property<int>("Making")
-                        .HasColumnType("int")
-                        .HasColumnName("making");
-
-                    b.Property<int>("MobileTelephoneOrSMS")
-                        .HasColumnType("int")
-                        .HasColumnName("mobile_telephone_or_sms");
-
-                    b.Property<int>("Others")
-                        .HasColumnType("int")
-                        .HasColumnName("others");
-
-                    b.Property<int>("Radio")
-                        .HasColumnType("int")
-                        .HasColumnName("radio");
-
-                    b.Property<int>("Television")
-                        .HasColumnType("int")
-                        .HasColumnName("television");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DivisionGeoCode");
-
-                    b.ToTable("household_got_early_warning_by_type_of_media");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.DownloadLog", b =>
@@ -3307,33 +3191,6 @@ namespace EcdsApp.Migrations
                         .HasForeignKey("DistrictGeoCode");
 
                     b.Navigation("District");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdAffectedAndGotEarlyWarningFrom2015To2020", b =>
-                {
-                    b.HasOne("EcdsApp.Models.AdminBoundaryDivision", "Division")
-                        .WithMany()
-                        .HasForeignKey("DivisionGeoCode");
-
-                    b.Navigation("Division");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdAffectedByNonWorkingDays", b =>
-                {
-                    b.HasOne("EcdsApp.Models.AdminBoundaryDivision", "Division")
-                        .WithMany()
-                        .HasForeignKey("DivisionGeoCode");
-
-                    b.Navigation("Division");
-                });
-
-            modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdGotEarlyWarningByTypeOfMedia", b =>
-                {
-                    b.HasOne("EcdsApp.Models.AdminBoundaryDivision", "Division")
-                        .WithMany()
-                        .HasForeignKey("DivisionGeoCode");
-
-                    b.Navigation("Division");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.DownloadLog", b =>

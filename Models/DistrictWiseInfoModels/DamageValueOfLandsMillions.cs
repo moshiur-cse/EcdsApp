@@ -19,7 +19,7 @@ namespace EcdsApp.Models.DistrictWiseInfoModels
         [ForeignKey("DistrictGeoCode")]
         public virtual AdminBoundaryDistrict District { get; set; }
 
-        
+
         [Column("homestead", TypeName = "decimal(10,2)")]
         [Display(Name = "Homestead")]
         public decimal? Homestead { get; set; }
@@ -34,7 +34,7 @@ namespace EcdsApp.Models.DistrictWiseInfoModels
 
         [Column("pond/wetland", TypeName = "decimal(10,2)")]
         [Display(Name = "Pond/WetLand")]
-        public decimal? PondWetLand { get; set; }
+        public decimal? PondOrWetLand { get; set; }
 
         [Column("waste_or_otherland", TypeName = "decimal(10,2)")]
         [Display(Name = "Waste/OtherLand")]
