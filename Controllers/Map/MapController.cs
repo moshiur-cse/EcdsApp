@@ -173,8 +173,8 @@ namespace EcdsApp.Controllers.Map
         {
             var dataList = _context.TableColumnInfos
                 .Where(sd => sd.TableId == tableId && sd.ColumnTypeId == 2)
-                .Select(sd => new { sd.DbColumnName, sd.DisplayName })
-                .OrderBy(sd => sd.DisplayName).ToList();
+                .Select(sd => new { sd.Id, sd.DbColumnName, sd.DisplayName })
+                .OrderBy(sd => sd.Id).ToList();
 
             return Json(new SelectList(dataList, "DbColumnName", "DisplayName"));
         }

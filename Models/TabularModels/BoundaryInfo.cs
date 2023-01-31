@@ -13,22 +13,22 @@ namespace EcdsApp.Models.TabularModels
 
         [Required]
         [Column("boundary_name")]
-        [StringLength(50)]
+        [StringLength(250)]
         [Display(Name = "Boundary Name")]
         public string BoundaryName { get; set; }
 
         [Column("attribute_name")]
-        [StringLength(50)]
+        [StringLength(250)]
         [Display(Name = "Attribute Name")]
         public string AttributeName { get; set; }
 
         [Column("attribute_value_name")]
-        [StringLength(50)]
+        [StringLength(250)]
         [Display(Name = "Attribute Value Name")]
         public string AttributeValueName { get; set; }
 
         [Column("boundary_path")]
-        [StringLength(100)]
+        [StringLength(250)]
         [Display(Name = "Boundary Path")]
         public string BoundaryPath { get; set; }
     }

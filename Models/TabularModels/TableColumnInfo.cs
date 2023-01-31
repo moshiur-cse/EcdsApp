@@ -20,19 +20,19 @@ namespace EcdsApp.Models.TabularModels
 
         [Required]
         [Column("db_column_name")]
-        [StringLength(50)]
+        [StringLength(250)]
         [Display(Name = "DB Column")]
         public string DbColumnName { get; set; }
 
         [Required]
         [Column("model_property_name")]
-        [StringLength(50)]
+        [StringLength(250)]
         [Display(Name = "Model Property Name")]
         public string ModelPropertyName { get; set; }
 
         [Required]
         [Column("display_name")]
-        [StringLength(100)]
+        [StringLength(250)]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
 

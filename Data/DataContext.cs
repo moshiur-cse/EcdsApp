@@ -75,7 +75,7 @@ namespace EcdsApp.Data
         public DbSet<HouseholdGotEarlyWarningByTypeOfMedia> HouseholdGotEarlyWarningByTypeOfMedia { get; set; }
         public DbSet<HouseholdAffectedByNonWorkingDays> HouseholdAffectedByNonWorkingDays { get; set; }
         public DbSet<HouseholdAffectedAndGotEarlyWarningFrom2015To2020> HouseholdAffectedAndGotEarlyWarningFrom2015To2020 { get; set; }
-
+        public DbSet<DisasterAffHHCatPreparednes2015To2020Div> DisasterAffHHCatPreparednes2015To2020Div { get; set; }
 
 
 
@@ -125,8 +125,28 @@ namespace EcdsApp.Data
         public DbSet<DamageValueOfLandsMillions> DamageValueOfLandsMillions { get; set; }
         public DbSet<LossAndDamageOfProperties> LossAndDamageOfProperties { get; set; }
         public DbSet<DisasterAffectedHouseholdFrom2015To2020> DisasterAffectedHouseholdFrom2015To2020 { get; set; }
+        public DbSet<DisasterAffNPreparednesHH2015To2020Dist> DisasterAffNPreparednesHH2015To2020Dist { get; set; }
 
 
+        public DbSet<RespondentPerceptionAboutDisasterManagement> RespondentPerceptionAboutDisasterManagement { get; set; }
+        public DbSet<RespondentPerceptionAboutImpactOfClimateChange> RespondentPerceptionAboutImpactOfClimateChange { get; set; }
+        public DbSet<RespondentsPerceptionAboutClimateChange> RespondentsPerceptionAboutClimateChange { get; set; }
+        public DbSet<RespondentsPerceptionaboutDisaster> RespondentsPerceptionaboutDisaster { get; set; }
+
+        public DbSet<BforDisSufferingsAccordingToCauseOfDisease> BforDisSufferingsAccordingToCauseOfDisease { get; set; }
+        public DbSet<BforDisSufferingsAccordingToTypeOfDisease> BforDisSufferingsAccordingToTypeOfDisease { get; set; }
+        public DbSet<DurDisSufferingsAccordingToCauseOfDisease> DurDisSufferingsAccordingToCauseOfDisease { get; set; }
+        public DbSet<DurDisSufferingsAccordingToTypeOfDisease> DurDisSufferingsAccordingToTypeOfDisease { get; set; }
+        public DbSet<IllDueDisNotSufferingAccordingToSex> IllDueDisNotSufferingAccordingToSex { get; set; }
+        public DbSet<IllDueDisSufferingAccordingToSexAge> IllDueDisSufferingAccordingToSexAge { get; set; }
+        public DbSet<IllDueDisSufferingAccordingToTypeOfDisease> IllDueDisSufferingAccordingToTypeOfDisease { get; set; }
+        public DbSet<PstDisSufferingsAccordingToCauseOfDisease> PstDisSufferingsAccordingToCauseOfDisease { get; set; }
+        public DbSet<PstDisSufferingsAccordingToTypeOfDisease> PstDisSufferingsAccordingToTypeOfDisease { get; set; }
+
+        public DbSet<DomesticWaterBySourceBfrDisaster> DomesticWaterBySourceBfrDisaster { get; set; }
+        public DbSet<DomesticWaterBySourceDurDisaster> DomesticWaterBySourceDurDisaster { get; set; }
+        public DbSet<DrinkingWaterBySourceDurDisaster> DrinkingWaterBySourceDurDisaster { get; set; }
+        public DbSet<TrtmentFacltiRcvByHHInsufficientWtrSply> TrtmentFacltiRcvByHHInsufficientWtrSply { get; set; }
 
 
 

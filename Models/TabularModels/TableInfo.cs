@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EcdsApp.Models.ThemeModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EcdsApp.Models.ThemeModels;
 
 namespace EcdsApp.Models.TabularModels
 {
@@ -27,19 +27,19 @@ namespace EcdsApp.Models.TabularModels
 
         [Required]
         [Column("table_name")]
-        [StringLength(50)]
+        [StringLength(250)]
         [Display(Name = "Table Name")]
         public string TableName { get; set; }
 
         [Required]
         [Column("table_model_name")]
-        [StringLength(50)]
+        [StringLength(250)]
         [Display(Name = "Table Model Name")]
         public string TableModelName { get; set; }
 
         [Required]
         [Column("display_name")]
-        [StringLength(50)]
+        [StringLength(250)]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
     }
