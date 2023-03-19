@@ -24,16 +24,22 @@ namespace EcdsApp.Controllers.Theme
         public async Task<IActionResult> Index()
         {
             var dataContext = _context.MetaDataDetails.Include(m => m.ThemeLayerDetails).Include(m => m.TableColumnInfo);
-
             return View(await dataContext.ToListAsync());
         }
 
-
-        public async Task<IActionResult> MetaData(int layerId, int isShowLayout = 0, int isShowAction = 0)
+        public async Task<IActionResult> MetaData(int layerId, string topLayerColumnName, int isShowLayout = 0, int isShowAction = 0)
         {
             ViewBag.LayerId = layerId;
             ViewBag.IsShowLayout = isShowLayout;
             ViewBag.IsShowAction = isShowAction;
+
+            if (topLayerColumnName != null)
+            {
+                var tableId = _context.ThemeLayerDetails.Where(i => i.LayerId == layerId).Select(i => i.TableInfoId).FirstOrDefault();
+                var columnId = _context.TableColumnInfos.Where(i => tableId == tableId && i.DbColumnName == topLayerColumnName).Select(i => i.Id).FirstOrDefault();
+                return View(await _context.MetaDataDetails.Include(a => a.ThemeLayerDetails.SubThemes.Themes).Where(i => i.LayerId == layerId && i.ColumnId == columnId).FirstOrDefaultAsync());
+            }
+
             return View(await _context.MetaDataDetails.Include(a => a.ThemeLayerDetails.SubThemes.Themes).Where(i => i.LayerId == layerId).FirstOrDefaultAsync());
         }
 
@@ -44,7 +50,6 @@ namespace EcdsApp.Controllers.Theme
             {
                 return NotFound();
             }
-
             var metaDataDetail = await _context.MetaDataDetails
                 .Include(m => m.ThemeLayerDetails)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -109,11 +114,12 @@ namespace EcdsApp.Controllers.Theme
 
             var themeId = metaDataDetail.ThemeLayerDetails.SubThemes.Themes.ThemeId;
             var subThemeId = metaDataDetail.ThemeLayerDetails.SubThemes.SubThemeId;
+            var columnId = metaDataDetail.ColumnId;
 
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName", themeId);
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes.Where(s => s.ThemeId == themeId), "SubThemeId", "SubThemeName", subThemeId);
             ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(tl => tl.SubThemeId == subThemeId), "LayerId", "LayerDisplayName", metaDataDetail.LayerId);
-
+            ViewData["ColumnId"] = new SelectList(_context.TableColumnInfos.Where(tl => tl.Id == columnId), "Id", "DisplayName", metaDataDetail.ColumnId);
             return View(metaDataDetail);
         }
 
@@ -121,7 +127,7 @@ namespace EcdsApp.Controllers.Theme
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserAuthorization]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LayerId,Title,Abstract,General,Quality,Completeness,HistoryOfTheDataSet,PurposeOfProduction,ProcessDescription," +
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LayerId,ColumnId,Title,Abstract,General,Quality,Completeness,HistoryOfTheDataSet,PurposeOfProduction,ProcessDescription," +
                      "TypeOfDataSet,DataSetLanguage,AdditionalInfoSourceForDataSet")] MetaDataDetail metaDataDetail)
         {
             if (id != metaDataDetail.Id)
@@ -150,11 +156,12 @@ namespace EcdsApp.Controllers.Theme
 
             var themeId = metaDataDetail.ThemeLayerDetails.SubThemes.Themes.ThemeId;
             var subThemeId = metaDataDetail.ThemeLayerDetails.SubThemes.SubThemeId;
-
             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName", themeId);
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes.Where(s => s.ThemeId == themeId), "SubThemeId", "SubThemeName", subThemeId);
             ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(tl => tl.SubThemeId == subThemeId), "LayerId", "LayerDisplayName", metaDataDetail.LayerId);
+            ViewData["ColumnId"] = new SelectList(_context.TableColumnInfos.Where(tl => tl.Id == metaDataDetail.ColumnId), "Id", "DisplayName", metaDataDetail.ColumnId);
             return View(metaDataDetail);
+
         }
 
         // GET: MetaDataDetail/Delete/5

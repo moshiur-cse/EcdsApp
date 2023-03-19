@@ -35,6 +35,24 @@
                                     <select id="ddlLayer" class="form-select" asp-for="LayerId" asp-items="ViewBag.LayerId" data-parsley-min="1" required="" data-parsley-required-message="You must select at least one option."></select>
                                 </div>
                             </div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">Sub-Layer</label>
+                                <div class="col-md-10">
+                                    <select id="ddlSubLayer" class="form-select" asp-for="ColumnId" asp-items="ViewBag.ColumnId" data-parsley-min="1"></select>
+                                </div>
+                            </div>
+
+                           @* <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label">Sub Layer</label>
+                                <div class="col-md-10">
+                                    <select id="ddlSubLayer" class="form-select" asp-for="ColumnId">
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+                            </div>*@
+
+
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label required" asp-for="Title"></label>
                                 <div class="col-md-10">
@@ -183,6 +201,39 @@
                             $('#ddlLayer').html(items);
                         } else {
                             $('#ddlLayer').html("<option value=''>No Data Available Under the Selected Sub-Theme</option> ");
+                        }
+                    },
+                    error: function (ex) {
+                        window.Swal.fire({
+                            title: "Error",
+                            text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                });
+                return false;
+            });
+            $('#ddlLayer').change(function () {
+                var items = '';
+                $('#ddlSubLayer').html("<option value=''>--Select--</option>");
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSubLayer", "ThemeLayerDetails")',
+                    dataType: "json",
+                    data: { layerId: $('#ddlLayer').val() },
+                    success: function (responseData) {
+                        $('#ddlSubLayer').empty();
+                        $.each(responseData,
+                            function (i, themeLayer) {
+                                items += "<option value='" + themeLayer.value + "'>" + themeLayer.text + "</option>";
+                            });
+                        if (items !== "") {
+                            $('#ddlSubLayer').html(items);
+                        } else {
+                            $('#ddlSubLayer').html("<option value=''>No Sub-layer Available Under the Selected Layer</option> ");
                         }
                     },
                     error: function (ex) {

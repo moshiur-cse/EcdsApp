@@ -340,6 +340,7 @@
 
         var g_opacity, g_fillOpacity, g_weight, g_color;
         var g_tableId, g_boundaryId;
+        var toLayerColummName;
 
         var mapLabels = L.layerGroup();
 
@@ -1098,6 +1099,8 @@
                             jQuery("#" + columnBindId).change(function() {
                                 var columnName = jQuery("#" + columnBindId).val();
 
+                                toLayerColummName=columnName;
+
 
 
                                 jQuery.when(getMapBindData(tableId, columnName, items.boundaryId, layerId)).then(function() {
@@ -1614,7 +1617,7 @@
                 type: "GET",
                 url: '@Url.Action("GetMetadata", "Map")',
                 dataType: "html",
-                data: { layerId: layerId },
+                data: { layerId: layerId,toLayerColummName:toLayerColummName },
                 before: $("#busy-indicator").fadeIn(150),
             }).done(function(compInfo) {
 

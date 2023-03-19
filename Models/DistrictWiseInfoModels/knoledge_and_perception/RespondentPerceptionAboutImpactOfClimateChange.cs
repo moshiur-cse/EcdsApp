@@ -41,5 +41,9 @@ namespace EcdsApp.Models.DistrictWiseInfoModels
         [Column("tidal_surge_or_cyclone_or_hurricane", TypeName = "int", Order = 7)]
         [Display(Name = "Tidal Surge or Cyclone or Hurricane")]
         public int TidalSurgeOrCycloneOrHurricane { get; set; }
+
+        [Column("do_not_know", TypeName = "int", Order = 8)]
+        [Display(Name = "Do Not Know")]
+        public int DoNotKnow { get; set; }
     }
 }

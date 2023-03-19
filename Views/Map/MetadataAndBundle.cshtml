@@ -1,5 +1,6 @@
 ﻿@{
     var LayerId = ViewBag.LayerId;
+    var TopLayerColumnName=ViewBag.TopLayerColumnName;
 
     var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1) ? 1 : 0;
     var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1) ? 1 : 0;
@@ -61,7 +62,8 @@
 <script type="text/javascript">
     var layerId = 1*"@LayerId",
         isShowLayout =1*"@isShowLayout",
-        isShowAction = 1*"@isShowAction";
+        isShowAction = 1*"@isShowAction",
+        topLayerColumnName = "@TopLayerColumnName";
 
 
 
@@ -88,7 +90,7 @@
 
         $("#busy-indicator").fadeIn(150);
 
-        ajax_load_data('@Url.Action("MetaData", "MetaDataDetail")', { layerId: layerId, isShowLayout: isShowLayout, isShowAction: isShowAction })
+        ajax_load_data('@Url.Action("MetaData", "MetaDataDetail")', { layerId: layerId, topLayerColumnName: topLayerColumnName, isShowLayout: isShowLayout, isShowAction: isShowAction })
             .done(function (compList) {
                 $("#comp_info_1").html(compList);
             }).always(function () {

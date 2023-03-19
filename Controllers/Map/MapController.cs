@@ -254,12 +254,17 @@ namespace EcdsApp.Controllers.Map
             ViewBag.IsShowAction = isShowAction;
             return View("MapComponents");
         }
-        public IActionResult GetMetadata(int layerId)
+        public IActionResult GetMetadata(int layerId, string toLayerColummName)
         {
             ViewBag.LayerId = layerId;
+            ViewBag.TopLayerColumnName = toLayerColummName;
+
             ViewBag.IsShowLayout = 0;
             ViewBag.IsShowAction = 0;
             return View("MetadataAndBundle");
+
+
+            //toLayerColummName
         }
 
 
