@@ -189,12 +189,14 @@
         const myModal2 = new bootstrap.Modal(document.getElementById('mymodal2'), { keyboard: true })
         //====display validation message on successfull email confirmation.
         let msg = "@message";
+
         if (msg.includes("is confirmed successfully")) {
             window.Swal.fire({
                 icon: "success",
                 title: msg
             })
         }
+
         else if (msg.includes("user already exits")) {
             window.Swal.fire({
                 icon: "error",
@@ -221,6 +223,7 @@
                 url = '@Url.Action("ForgotPassword","UserAccessManage")'
                 data = { email: $("#f-email").val() }
             }
+
             else if (type === "ce") {
                 data = $("#c-email").val()
                 //console.log(data.length)
@@ -235,6 +238,7 @@
                 url = '@Url.Action("SendConfirmationEmailLink","UserAccessManage")'
                 data = { email: $("#c-email").val() }
             }
+
             if (readyToSend) {
                 $.ajax({
                     type: "POST",
@@ -270,7 +274,6 @@
 
 
         }
-
     </script>
     }
 

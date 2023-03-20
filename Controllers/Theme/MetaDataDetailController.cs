@@ -35,9 +35,9 @@ namespace EcdsApp.Controllers.Theme
 
             if (topLayerColumnName != null)
             {
-                var tableId = _context.ThemeLayerDetails.Where(i => i.LayerId == layerId).Select(i => i.TableInfoId).FirstOrDefault();
-                var columnId = _context.TableColumnInfos.Where(i => tableId == tableId && i.DbColumnName == topLayerColumnName).Select(i => i.Id).FirstOrDefault();
-                return View(await _context.MetaDataDetails.Include(a => a.ThemeLayerDetails.SubThemes.Themes).Where(i => i.LayerId == layerId && i.ColumnId == columnId).FirstOrDefaultAsync());
+                //var tableId = _context.ThemeLayerDetails.Where(i => i.LayerId == layerId).Select(i => i.TableInfoId).SingleOrDefault();
+                //var columnId = _context.TableColumnInfos.Where(i => tableId == tableId && i.DbColumnName == topLayerColumnName).Select(i => i.Id).SingleOrDefault();
+                return View(await _context.MetaDataDetails.Include(a => a.ThemeLayerDetails.SubThemes.Themes).Include(a => a.TableColumnInfo).Where(i => i.LayerId == layerId && i.TableColumnInfo.DbColumnName == topLayerColumnName).SingleOrDefaultAsync());
             }
 
             return View(await _context.MetaDataDetails.Include(a => a.ThemeLayerDetails.SubThemes.Themes).Where(i => i.LayerId == layerId).FirstOrDefaultAsync());
