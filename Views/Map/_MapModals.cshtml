@@ -3,6 +3,7 @@
 @using EcdsApp.Models.ThemeModels
 @model IEnumerable<EcdsApp.Models.ThemeModels.ThemeLayerDetail>
 
+
 <div class="modal fade show" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -12,20 +13,26 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
+           
             <div class="modal-body">
                 <div class="row">
+
                     <div class="col-xl-12">
+
+
+
                         <div class="card">
                             <div class="card-body">
-                               
+ 
                                 <h5> <i class="bx bxs-select-multiple"></i>Select Map Layers</h5>
-                                
+                                 <div class="input-group rounded">
+                                        <input id="menu-list-search" type="search" class="form-control rounded" placeholder="Search Layers" aria-label="Search" aria-describedby="search-addon" />
+                                  
+                                </div>
                                 <!--- Sidemenu -->
                                 <div id="sidebar-menu">
                                     <!-- Left Menu Start -->
                                     <ul class="metismenu list-unstyled" id="side-menu">
-
-
                                         @foreach (ThemeList theme in ViewBag.LayerInfo)
                                         {
                                             <li>
@@ -50,7 +57,7 @@
 
                                                                         @if (subTheme.layerTypeIdList[i] == 4)
                                                                         {
-                                                                            <a>
+                                                                            <a >
                                                                                 <input class="layer_class" type="checkbox" id="@subTheme.layerNameList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerNameList[i]">@subTheme.layerDisplayNameList[i]</label>
                                                                                 <select class="form-control" id="columnList_@(subTheme.layerIdList[i])">
                                                                                     <option>--Select--</option>
@@ -86,12 +93,12 @@
                     </div>
 
                     @*<div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Metadata</h4>
+                    <div class="card">
+                    <div class="card-body">
+                    <h4 class="card-title">Metadata</h4>
 
-                            </div>
-                        </div>
+                    </div>
+                    </div>
                     </div>*@
                 </div>
             </div>
@@ -116,7 +123,6 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-
                 </div>
             </div>
 
@@ -127,6 +133,8 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+
+
 
 
 
