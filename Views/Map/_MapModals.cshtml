@@ -12,22 +12,15 @@
                 <h5 class="modal-title" id="exampleModalScrollableTitle">Map Layers</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
-            </div>
-           
+            </div>          
             <div class="modal-body">
                 <div class="row">
-
                     <div class="col-xl-12">
-
-
-
                         <div class="card">
                             <div class="card-body">
- 
                                 <h5> <i class="bx bxs-select-multiple"></i>Select Map Layers</h5>
                                  <div class="input-group rounded">
-                                        <input id="menu-list-search" type="search" class="form-control rounded" placeholder="Search Layers" aria-label="Search" aria-describedby="search-addon" />
-                                  
+                                        <input id="menu-list-search" type="search" class="form-control rounded" placeholder="Search Layers" aria-label="Search" aria-describedby="search-addon" />                                  
                                 </div>
                                 <!--- Sidemenu -->
                                 <div id="sidebar-menu">
@@ -37,7 +30,8 @@
                                         {
                                             <li>
                                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                                    <i class="bx bxs-plus-circle"></i>
+                                                    @*<i class="bx bxs-plus-circle"></i>*@
+                                                    <img class="rounded-circle" height="30" src="~/assets/images/themes/@(theme.themePath).png" />
                                                     <span>@theme.themeName</span>
                                                 </a>
                                                 @foreach (SubThemeList subTheme in theme.subThemeList)
@@ -45,7 +39,9 @@
                                                     <ul class="sub-menu" aria-expanded="true">
                                                         <li>
                                                             <a href="javascript: void(0);" class="has-arrow">
-                                                                <i class="bx bx-plus-circle"></i>
+                                                                @*<i class="bx bx-plus-circle"></i>*@
+                                                                
+                                                                <img src="~/assets/images/layer_bg.png" />
                                                                 <span> @subTheme.subThemeName</span>
                                                             </a>
 
@@ -53,8 +49,6 @@
                                                             {
                                                                 <ul class="sub-menu" aria-expanded="true">
                                                                     <li>
-
-
                                                                         @if (subTheme.layerTypeIdList[i] == 4)
                                                                         {
                                                                             <a >
@@ -63,26 +57,19 @@
                                                                                     <option>--Select--</option>
                                                                                 </select>
                                                                             </a>
-
                                                                         }
                                                                         else
                                                                         {
                                                                             <a><input class="layer_class" type="checkbox" id="@subTheme.layerNameList[i]" value="@(subTheme.layerIdList[i])"><label for="@subTheme.layerNameList[i]">@subTheme.layerDisplayNameList[i]</label></a>
                                                                         }
-
-
                                                                     </li>
-
                                                                 </ul>
                                                             }
                                                         </li>
-
                                                     </ul>
                                                 }
-
                                             </li>
                                         }
-
                                     </ul>
                                 </div>
                                 <!-- Sidebar -->

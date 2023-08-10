@@ -31,6 +31,7 @@ namespace EcdsApp.Controllers.Map
                 .Select(k => new ThemeList
                 {
                     themeName = k.Key,
+                    themePath = k.Select(g => g.SubThemes.Themes.ThemePath).FirstOrDefault(),
                     subThemeList = k.GroupBy(i => i.SubThemes.SubThemeName)
                         .Select(j => new SubThemeList
                         {

@@ -31,9 +31,11 @@ namespace EcdsApp.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseMySQL("server=localhost;userid=ecds_admin;pwd=Ecds#DbAdmin@2023$;database=ecds_db;Allow User Variables=True;");
-            //optionsBuilder.UseMySQL("server=server=130.180.3.146;userid=drip_admin;pwd=2022;database=ecds_db;Allow User Variables=True;");
-            //optionsBuilder.UseMySQL("server=202.53.173.179;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
+                //optionsBuilder.UseMySQL("server=localhost;userid=ecds_admin;pwd=Ecds#DbAdmin@2023$;database=ecds_db;Allow User Variables=True;");
+                //optionsBuilder.UseMySQL("server=server=130.180.3.146;userid=drip_admin;pwd=2022;database=ecds_db;Allow User Variables=True;");
+                //179 local IP->130.180.3.65
+
+                optionsBuilder.UseMySQL("server=130.180.3.65;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
             //optionsBuilder.UseMySQL("server=ims.cegisbd.com;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;SSL Mode=None");
 
             //server = 202.53.173.179; userid = drip_admin; pwd =#UndP^drIp@2020;database=drip_undp_plancomm2;
@@ -41,10 +43,10 @@ namespace EcdsApp.Data
         }
         public string GetConnectionString()
         {
-            //return Database.GetDbConnection().ConnectionString = "server=localhost;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;";
-            //return Database.GetDbConnection().ConnectionString = "server=202.53.173.185;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;";
+            return Database.GetDbConnection().ConnectionString = "server=130.180.3.65;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;";
+            //return Database.GetDbConnection().ConnectionString = "server=130.180.3.146;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True; SSL Mode=None";
             //return Database.GetDbConnection().ConnectionString = "server=ims.cegisbd.com;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;SSL Mode=None";
-            return Database.GetDbConnection().ConnectionString = "server=localhost;userid=ecds_admin;pwd=Ecds#DbAdmin@2023$;database=ecds_db;Allow User Variables=True;";
+            //return Database.GetDbConnection().ConnectionString = "server=localhost;userid=ecds_admin;pwd=Ecds#DbAdmin@2023$;database=ecds_db;Allow User Variables=True;";
         }
 
         public DbSet<AdminBoundaryDistrict> AdminBoundaryDistricts { get; set; }

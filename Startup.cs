@@ -49,7 +49,10 @@ namespace EcdsApp
             });
 
             services.AddMemoryCache(); //RMO
-            services.AddDbContext<DataContext>();
+            //services.AddDbContext<DataContext>();
+
+            services.AddDbContext<DataContext>(ServiceLifetime.Transient);
+
             _ = services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // User settings

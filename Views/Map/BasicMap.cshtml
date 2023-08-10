@@ -1663,15 +1663,28 @@
     $(".metismenu li").each(function() {
       if ($(this).text().toLowerCase().includes(filter)) {
         $(this).show();
+
+
+        //$(this).closest('li').attr("class", "mm-active");
+        //$(this).closest('a').attr("aria-expanded", true);
+        //$(this).closest('.metismenu').find('ul').attr("aria-expanded", true);
+        //$(this).closest('.metismenu').find('ul').attr("class", "mm-show");
+
+
+
       } else {
         $(this).hide();
+
+        //$(this).closest('li').attr("class", "");
+        //$(this).closest('a').attr("aria-expanded", false);
+        //$(this).closest('.metismenu').find('ul').attr("aria-expanded", false);
+        //$(this).closest('.metismenu').find('ul').attr("class", "");
       }
     });
     
     $(".sub-menu ul li").each(function() {
       if ($(this).text().toLowerCase().includes(filter)) {
         $(this).show();
-        //$(this).parents(".submenu").show();
       } else {
         $(this).hide();
       }

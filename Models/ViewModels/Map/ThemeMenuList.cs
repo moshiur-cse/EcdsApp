@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace EcdsApp.Models.ViewModels.Map
 {
@@ -18,6 +15,7 @@ namespace EcdsApp.Models.ViewModels.Map
     public class ThemeList
     {
         public string themeName { get; set; }
+        public string themePath { get; set; }
         public List<SubThemeList> subThemeList { get; set; }
     }
 }
