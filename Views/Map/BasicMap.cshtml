@@ -698,8 +698,6 @@
                         };
 
                     }
-
-
                 }
                 else if (isLegendColor == 0 && layerTypeId == 3) {
                     //alert(color);
@@ -713,6 +711,22 @@
                         fillOpacity: fillOpacity
                     };
                 }
+                //Random Color
+                else if (isLegendColor == 2 && layerTypeId == 3) {
+                    //alert(color);
+                    return {
+                        fillColor: getRandomColor(),
+                        weight: weight,
+                        opacity: opacity,
+                        /* transparent: true,*/
+                        color: color,
+                        /*dashArray: '1',*/
+                        fillOpacity: fillOpacity
+                    };
+                }
+
+
+
                 else {
                     return {
                         fillColor: '#ffffff00',

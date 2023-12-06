@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace EcdsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
@@ -14,45 +16,51 @@ namespace EcdsApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.13");
+                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("EcdsApp.Models.AdminBoundaryDistrict", b =>
                 {
                     b.Property<string>("DistrictGeoCode")
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("DistrictName")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("dist_name");
+                        .HasColumnName("dist_name")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("DistrictNameBangla")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("dist_name_bangla");
+                        .HasColumnName("dist_name_bangla")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("DivisionGeoCode")
                         .HasMaxLength(2)
                         .HasColumnType("varchar(2)")
-                        .HasColumnName("div_geo_code");
+                        .HasColumnName("div_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("OldGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("old_geo_code");
+                        .HasColumnName("old_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
-                        .HasColumnName("sorting_order");
+                        .HasColumnName("sorting_order")
+                        .HasColumnOrder(3);
 
                     b.HasKey("DistrictGeoCode");
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_districts");
+                    b.ToTable("lkp_admin_boundary_districts", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.AdminBoundaryDivision", b =>
@@ -80,11 +88,12 @@ namespace EcdsApp.Migrations
 
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
-                        .HasColumnName("sorting_order");
+                        .HasColumnName("sorting_order")
+                        .HasColumnOrder(2);
 
                     b.HasKey("DivisionGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_divisions");
+                    b.ToTable("lkp_admin_boundary_divisions", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.AdminBoundaryUpazila", b =>
@@ -92,48 +101,56 @@ namespace EcdsApp.Migrations
                     b.Property<string>("UpazilaGeoCode")
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)")
-                        .HasColumnName("upz_geo_code");
+                        .HasColumnName("upz_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("CityGeoCode")
                         .HasMaxLength(6)
                         .HasColumnType("varchar(6)")
-                        .HasColumnName("city_geo_code");
+                        .HasColumnName("city_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("CityName")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("city_name");
+                        .HasColumnName("city_name")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("OldGeoCode")
                         .HasMaxLength(6)
                         .HasColumnType("varchar(6)")
-                        .HasColumnName("old_geo_code");
+                        .HasColumnName("old_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
-                        .HasColumnName("sorting_order");
+                        .HasColumnName("sorting_order")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("UpazilaName")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("upz_name");
+                        .HasColumnName("upz_name")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("UpazilaNameBangla")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("upz_name_bangla");
+                        .HasColumnName("upz_name_bangla")
+                        .HasColumnOrder(1);
 
                     b.HasKey("UpazilaGeoCode");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_upazilas");
+                    b.ToTable("lkp_admin_boundary_upazilas", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.BundleDetail", b =>
@@ -167,7 +184,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("LayerId");
 
-                    b.ToTable("tbl_bundle_details");
+                    b.ToTable("tbl_bundle_details", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DataVerificationState", b =>
@@ -184,7 +201,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_data_verification_states");
+                    b.ToTable("lkp_data_verification_states", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.AreaOfLandsInAcres", b =>
@@ -222,139 +239,167 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("area_of_lands_in_acres");
+                    b.ToTable("area_of_lands_in_acres", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.BforDisSufferingsAccordingToCauseOfDisease", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("AirPollution")
                         .HasColumnType("int")
-                        .HasColumnName("air_pollution");
+                        .HasColumnName("air_pollution")
+                        .HasColumnOrder(5);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("DuringDisaster")
                         .HasColumnType("int")
-                        .HasColumnName("during_disaster");
+                        .HasColumnName("during_disaster")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("NotKnown")
                         .HasColumnType("int")
-                        .HasColumnName("not_known");
+                        .HasColumnName("not_known")
+                        .HasColumnOrder(8);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("TemperatureVariation")
                         .HasColumnType("int")
-                        .HasColumnName("temperature_variation");
+                        .HasColumnName("temperature_variation")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("UnplannedSanitation")
                         .HasColumnType("int")
-                        .HasColumnName("unplanned_sanitation");
+                        .HasColumnName("unplanned_sanitation")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("VariationInRain")
                         .HasColumnType("int")
-                        .HasColumnName("variation_in_rain");
+                        .HasColumnName("variation_in_rain")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("WaterPollution")
                         .HasColumnType("int")
-                        .HasColumnName("water_pollution");
+                        .HasColumnName("water_pollution")
+                        .HasColumnOrder(4);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("bfor_dis_sufferings_according_to_cause_of_disease");
+                    b.ToTable("bfor_dis_sufferings_according_to_cause_of_disease", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.BforDisSufferingsAccordingToTypeOfDisease", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("Asthma")
                         .HasColumnType("int")
-                        .HasColumnName("asthma");
+                        .HasColumnName("asthma")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("ChickenPox")
                         .HasColumnType("int")
-                        .HasColumnName("chicken_pox");
+                        .HasColumnName("chicken_pox")
+                        .HasColumnOrder(15);
 
                     b.Property<int>("Chikungunia")
                         .HasColumnType("int")
-                        .HasColumnName("chikungunia");
+                        .HasColumnName("chikungunia")
+                        .HasColumnOrder(13);
 
                     b.Property<int>("Cholera")
                         .HasColumnType("int")
-                        .HasColumnName("cholera");
+                        .HasColumnName("cholera")
+                        .HasColumnOrder(16);
 
                     b.Property<int>("ColdOrCough")
                         .HasColumnType("int")
-                        .HasColumnName("cold_or_cough");
+                        .HasColumnName("cold_or_cough")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("Dengue")
                         .HasColumnType("int")
-                        .HasColumnName("dengue");
+                        .HasColumnName("dengue")
+                        .HasColumnOrder(12);
 
                     b.Property<int>("Diarrhoea")
                         .HasColumnType("int")
-                        .HasColumnName("diarrhoea");
+                        .HasColumnName("diarrhoea")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Dysentery")
                         .HasColumnType("int")
-                        .HasColumnName("dysentery");
+                        .HasColumnName("dysentery")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("Fever")
                         .HasColumnType("int")
-                        .HasColumnName("fever");
+                        .HasColumnName("fever")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("Jaundice")
                         .HasColumnType("int")
-                        .HasColumnName("jaundice");
+                        .HasColumnName("jaundice")
+                        .HasColumnOrder(10);
 
                     b.Property<int>("Malaria")
                         .HasColumnType("int")
-                        .HasColumnName("malaria");
+                        .HasColumnName("malaria")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("MalnutritionRelated")
                         .HasColumnType("int")
-                        .HasColumnName("malnutrition_related");
+                        .HasColumnName("malnutrition_related")
+                        .HasColumnOrder(11);
 
                     b.Property<int>("MentalDisorder")
                         .HasColumnType("int")
-                        .HasColumnName("mental_disorder");
+                        .HasColumnName("mental_disorder")
+                        .HasColumnOrder(14);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(17);
 
                     b.Property<int>("SkinDisease")
                         .HasColumnType("int")
-                        .HasColumnName("skin_disease");
+                        .HasColumnName("skin_disease")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("Typhoid")
                         .HasColumnType("int")
-                        .HasColumnName("typhoid");
+                        .HasColumnName("typhoid")
+                        .HasColumnOrder(8);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("bfor_dis_sufferings_according_to_type_of_disease");
+                    b.ToTable("bfor_dis_sufferings_according_to_type_of_disease", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DamageValueOfLandsMillions", b =>
@@ -392,99 +437,117 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("damage_value_of_lands_millions");
+                    b.ToTable("damage_value_of_lands_millions", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DisasterAffNPreparednesHH2015To2020Dist", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("HouseholdNotPreparedness")
                         .HasColumnType("int")
-                        .HasColumnName("household_not_preparedness");
+                        .HasColumnName("household_not_preparedness")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("HouseholdPreparedness")
                         .HasColumnType("int")
-                        .HasColumnName("household_preparedness");
+                        .HasColumnName("household_preparedness")
+                        .HasColumnOrder(2);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("disaster_aff_n_preparednes_hh_2015_to_2020_dist");
+                    b.ToTable("disaster_aff_n_preparednes_hh_2015_to_2020_dist", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DisasterAffectedHouseholdFrom2015To2020", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("Cyclone")
                         .HasColumnType("int")
-                        .HasColumnName("cyclone");
+                        .HasColumnName("cyclone")
+                        .HasColumnOrder(5);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Drought")
                         .HasColumnType("int")
-                        .HasColumnName("drought");
+                        .HasColumnName("drought")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("Flood")
                         .HasColumnType("int")
-                        .HasColumnName("flood");
+                        .HasColumnName("flood")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("Hailstrom")
                         .HasColumnType("int")
-                        .HasColumnName("hailstrom");
+                        .HasColumnName("hailstrom")
+                        .HasColumnOrder(11);
 
                     b.Property<int>("Landslide")
                         .HasColumnType("int")
-                        .HasColumnName("landslide");
+                        .HasColumnName("landslide")
+                        .HasColumnOrder(10);
 
                     b.Property<int>("OtherDisasters")
                         .HasColumnType("int")
-                        .HasColumnName("other_disasters");
+                        .HasColumnName("other_disasters")
+                        .HasColumnOrder(12);
 
                     b.Property<int>("RiverOrCoastalErosion")
                         .HasColumnType("int")
-                        .HasColumnName("river_or_coastal_erosion");
+                        .HasColumnName("river_or_coastal_erosion")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("Salinity")
                         .HasColumnType("int")
-                        .HasColumnName("salinity");
+                        .HasColumnName("salinity")
+                        .HasColumnOrder(10);
 
                     b.Property<int>("StromOrTridalSurge")
                         .HasColumnType("int")
-                        .HasColumnName("strom_or_tridal_surge");
+                        .HasColumnName("strom_or_tridal_surge")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("ThunderstromOrLightning")
                         .HasColumnType("int")
-                        .HasColumnName("thunderstrom_or_lightning");
+                        .HasColumnName("thunderstrom_or_lightning")
+                        .HasColumnOrder(8);
 
                     b.Property<int>("Tornado")
                         .HasColumnType("int")
-                        .HasColumnName("tornado");
+                        .HasColumnName("tornado")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("WaterLogging")
                         .HasColumnType("int")
-                        .HasColumnName("water_logging");
+                        .HasColumnName("water_logging")
+                        .HasColumnOrder(4);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("disaster_affected_household_from_2015_to_2020");
+                    b.ToTable("disaster_affected_household_from_2015_to_2020", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistWiseLossAndDamageOfAgriculture", b =>
@@ -496,7 +559,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Fisheries")
                         .HasColumnType("decimal(10,2)")
@@ -546,7 +610,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("dist_wise_loss_and_damage_of_agriculture");
+                    b.ToTable("dist_wise_loss_and_damage_of_agriculture", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseDisabilityDisabRate", b =>
@@ -558,7 +622,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Year2016")
                         .HasColumnType("decimal(5,2)")
@@ -584,7 +649,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_disability_disab_rate");
+                    b.ToTable("district_wise_disability_disab_rate", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseFertilityRateCBR", b =>
@@ -596,7 +661,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Year2016")
                         .HasColumnType("decimal(5,2)")
@@ -622,7 +688,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_fertility_rate_cbr");
+                    b.ToTable("district_wise_fertility_rate_cbr", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseFertilityRateCPR", b =>
@@ -634,7 +700,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Year2016")
                         .HasColumnType("decimal(5,2)")
@@ -660,7 +727,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_fertility_rate_cpr");
+                    b.ToTable("district_wise_fertility_rate_cpr", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseFertilityRateGFR", b =>
@@ -672,7 +739,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Year2016")
                         .HasColumnType("decimal(5,2)")
@@ -698,7 +766,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_fertility_rate_gfr");
+                    b.ToTable("district_wise_fertility_rate_gfr", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseFertilityRateTFR", b =>
@@ -710,7 +778,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Year2016")
                         .HasColumnType("decimal(5,2)")
@@ -736,7 +805,70 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_fertility_rate_tfr");
+                    b.ToTable("district_wise_fertility_rate_tfr", (string)null);
+                });
+
+            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseHazardLevel", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("DistrictGeoCode")
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)")
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
+
+                    b.Property<int>("HazardLevelCyclone")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_cyclone");
+
+                    b.Property<int>("HazardLevelDroughtKharif")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_drought_kharif");
+
+                    b.Property<int>("HazardLevelDroughtPreKharif")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_drought_pre_kharif");
+
+                    b.Property<int>("HazardLevelEarthquake")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_earthquake");
+
+                    b.Property<int>("HazardLevelErosion")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_erosion");
+
+                    b.Property<int>("HazardLevelFlashFlood")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_flash_flood");
+
+                    b.Property<int>("HazardLevelFlood")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_flood");
+
+                    b.Property<int>("HazardLevelLandslide")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_landslide");
+
+                    b.Property<int>("HazardLevelSalinity")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_salinity");
+
+                    b.Property<int>("HazardLevelSeaLevelRise")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_sea_level_rise");
+
+                    b.Property<int>("HazardLevelStormSurge")
+                        .HasColumnType("int")
+                        .HasColumnName("hazard_level_storm_surge");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistrictGeoCode");
+
+                    b.ToTable("district_wise_hazard", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseLightening", b =>
@@ -747,11 +879,13 @@ namespace EcdsApp.Migrations
 
                     b.Property<string>("DistrictGeoCode")
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Latitude")
                         .HasColumnType("decimal(10, 8)")
-                        .HasColumnName("latitude");
+                        .HasColumnName("latitude")
+                        .HasColumnOrder(10);
 
                     b.Property<int?>("Lightening")
                         .HasColumnType("int")
@@ -759,11 +893,12 @@ namespace EcdsApp.Migrations
 
                     b.Property<decimal?>("Longitude")
                         .HasColumnType("decimal(10, 8)")
-                        .HasColumnName("longitude");
+                        .HasColumnName("longitude")
+                        .HasColumnOrder(11);
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_district_wise_lightening");
+                    b.ToTable("tbl_district_wise_lightening", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseMortalityRateIMR", b =>
@@ -775,7 +910,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Year2016")
                         .HasColumnType("decimal(5,2)")
@@ -801,7 +937,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_mortality_rate_imr");
+                    b.ToTable("district_wise_mortality_rate_imr", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseMortalityRateU5MR", b =>
@@ -813,7 +949,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Year2016")
                         .HasColumnType("decimal(5,2)")
@@ -839,7 +976,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_mortality_rate_u5mr");
+                    b.ToTable("district_wise_mortality_rate_u5mr", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseMotherHealthRisk", b =>
@@ -867,7 +1004,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("InstDeliv")
                         .HasColumnType("decimal(5,2)")
@@ -885,7 +1023,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("DistrictWiseMotherHealthRisk");
+                    b.ToTable("DistrictWiseMotherHealthRisk", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulation", b =>
@@ -897,7 +1035,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("Female")
                         .HasColumnType("int")
@@ -927,7 +1066,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("tbl_district_wise_population");
+                    b.ToTable("tbl_district_wise_population", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulationDensity", b =>
@@ -939,7 +1078,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<int?>("PopulationDensity")
                         .HasColumnType("int")
@@ -951,7 +1091,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_district_wise_population_density");
+                    b.ToTable("tbl_district_wise_population_density", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePoverty", b =>
@@ -963,7 +1103,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("PovertyRate")
                         .HasColumnType("decimal(5,2)")
@@ -973,7 +1114,70 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("tbl_district_wise_poverty");
+                    b.ToTable("tbl_district_wise_poverty", (string)null);
+                });
+
+            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseRiskLevel", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("DistrictGeoCode")
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)")
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
+
+                    b.Property<int>("RiskLevelCyclone")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_cyclone");
+
+                    b.Property<int>("RiskLevelDroughtKharif")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_drought_kharif");
+
+                    b.Property<int>("RiskLevelDroughtPreKharif")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_drought_pre_kharif");
+
+                    b.Property<int>("RiskLevelEarthquake")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_earthquake");
+
+                    b.Property<int>("RiskLevelErosion")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_erosion");
+
+                    b.Property<int>("RiskLevelFlashFlood")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_flash_flood");
+
+                    b.Property<int>("RiskLevelFlood")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_flood");
+
+                    b.Property<int>("RiskLevelLandslide")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_landslide");
+
+                    b.Property<int>("RiskLevelSalinity")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_salinity");
+
+                    b.Property<int>("RiskLevelSeaLevelRise")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_sea_level_rise");
+
+                    b.Property<int>("RiskLevelStormSurge")
+                        .HasColumnType("int")
+                        .HasColumnName("risk_level_storm_surge");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistrictGeoCode");
+
+                    b.ToTable("DistrictWiseRiskLevels", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseThunderstrom", b =>
@@ -984,15 +1188,18 @@ namespace EcdsApp.Migrations
 
                     b.Property<string>("DistrictGeoCode")
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Latitude")
                         .HasColumnType("decimal(10, 8)")
-                        .HasColumnName("latitude");
+                        .HasColumnName("latitude")
+                        .HasColumnOrder(10);
 
                     b.Property<decimal?>("Longitude")
                         .HasColumnType("decimal(10, 8)")
-                        .HasColumnName("longitude");
+                        .HasColumnName("longitude")
+                        .HasColumnOrder(11);
 
                     b.Property<int?>("Thunderstm")
                         .HasColumnType("int")
@@ -1000,7 +1207,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_district_wise_thunderstorm");
+                    b.ToTable("tbl_district_wise_thunderstorm", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictwiseMortalityRateCDR", b =>
@@ -1012,7 +1219,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Year2016")
                         .HasColumnType("decimal(5,2)")
@@ -1038,293 +1246,352 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_mortality_rate_cdr");
+                    b.ToTable("district_wise_mortality_rate_cdr", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DomesticWaterBySourceBfrDisaster", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("CanelOrRiver")
                         .HasColumnType("int")
-                        .HasColumnName("canel_or_river");
+                        .HasColumnName("canel_or_river")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("DeepTubeWell200FtOrMore")
                         .HasColumnType("int")
-                        .HasColumnName("deep_tube_well_200_ft_or_more");
+                        .HasColumnName("deep_tube_well_200_ft_or_more")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("PipeOrTap")
                         .HasColumnType("int")
-                        .HasColumnName("pipe_or_tap");
+                        .HasColumnName("pipe_or_tap")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("PondOrDighi")
                         .HasColumnType("int")
-                        .HasColumnName("pond_or_dighi");
+                        .HasColumnName("pond_or_dighi")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("RainfallOrWaterFall")
                         .HasColumnType("int")
-                        .HasColumnName("rainfall_or_water_fall");
+                        .HasColumnName("rainfall_or_water_fall")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("ShallowTubeWell199Ft")
                         .HasColumnType("int")
-                        .HasColumnName("shallow_tube_well_199_ft");
+                        .HasColumnName("shallow_tube_well_199_ft")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("Well")
                         .HasColumnType("int")
-                        .HasColumnName("well");
+                        .HasColumnName("well")
+                        .HasColumnOrder(8);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("domestic_water_by_source_bfr_disaster");
+                    b.ToTable("domestic_water_by_source_bfr_disaster", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DomesticWaterBySourceDurDisaster", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("CanelOrRiver")
                         .HasColumnType("int")
-                        .HasColumnName("canel_or_river");
+                        .HasColumnName("canel_or_river")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("DeepTubeWell200FtOrMore")
                         .HasColumnType("int")
-                        .HasColumnName("deep_tube_well_200_ft_or_more");
+                        .HasColumnName("deep_tube_well_200_ft_or_more")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("PipeOrTap")
                         .HasColumnType("int")
-                        .HasColumnName("pipe_or_tap");
+                        .HasColumnName("pipe_or_tap")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("PondOrDighi")
                         .HasColumnType("int")
-                        .HasColumnName("pond_or_dighi");
+                        .HasColumnName("pond_or_dighi")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("RainfallOrWaterFall")
                         .HasColumnType("int")
-                        .HasColumnName("rainfall_or_water_fall");
+                        .HasColumnName("rainfall_or_water_fall")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("ShallowTubeWell199Ft")
                         .HasColumnType("int")
-                        .HasColumnName("shallow_tube_well_199_ft");
+                        .HasColumnName("shallow_tube_well_199_ft")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("Well")
                         .HasColumnType("int")
-                        .HasColumnName("well");
+                        .HasColumnName("well")
+                        .HasColumnOrder(8);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("domestic_water_by_source_dur_disaster");
+                    b.ToTable("domestic_water_by_source_dur_disaster", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DrinkingWaterBySourceDurDisaster", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("BottleWater")
                         .HasColumnType("int")
-                        .HasColumnName("bottle_water");
+                        .HasColumnName("bottle_water")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("CanelOrRiver")
                         .HasColumnType("int")
-                        .HasColumnName("canel_or_river");
+                        .HasColumnName("canel_or_river")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("DeepTubeWell200FtOrMore")
                         .HasColumnType("int")
-                        .HasColumnName("deep_tube_well_200_ft_or_more");
+                        .HasColumnName("deep_tube_well_200_ft_or_more")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(10);
 
                     b.Property<int>("PipeOrTap")
                         .HasColumnType("int")
-                        .HasColumnName("pipe_or_tap");
+                        .HasColumnName("pipe_or_tap")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("PondOrDighi")
                         .HasColumnType("int")
-                        .HasColumnName("pond_or_dighi");
+                        .HasColumnName("pond_or_dighi")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("RainfallOrWaterFall")
                         .HasColumnType("int")
-                        .HasColumnName("rainfall_or_water_fall");
+                        .HasColumnName("rainfall_or_water_fall")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("ShallowTubeWell199Ft")
                         .HasColumnType("int")
-                        .HasColumnName("shallow_tube_well_199_ft");
+                        .HasColumnName("shallow_tube_well_199_ft")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("Well")
                         .HasColumnType("int")
-                        .HasColumnName("well");
+                        .HasColumnName("well")
+                        .HasColumnOrder(8);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("drinking_water_by_source_dur_disaster");
+                    b.ToTable("drinking_water_by_source_dur_disaster", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DurDisSufferingsAccordingToCauseOfDisease", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("AirPollution")
                         .HasColumnType("int")
-                        .HasColumnName("air_pollution");
+                        .HasColumnName("air_pollution")
+                        .HasColumnOrder(5);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("DuringDisaster")
                         .HasColumnType("int")
-                        .HasColumnName("during_disaster");
+                        .HasColumnName("during_disaster")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("NotKnown")
                         .HasColumnType("int")
-                        .HasColumnName("not_known");
+                        .HasColumnName("not_known")
+                        .HasColumnOrder(8);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("TemperatureVariation")
                         .HasColumnType("int")
-                        .HasColumnName("temperature_variation");
+                        .HasColumnName("temperature_variation")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("UnplannedSanitation")
                         .HasColumnType("int")
-                        .HasColumnName("unplanned_sanitation");
+                        .HasColumnName("unplanned_sanitation")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("VariationInRain")
                         .HasColumnType("int")
-                        .HasColumnName("variation_in_rain");
+                        .HasColumnName("variation_in_rain")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("WaterPollution")
                         .HasColumnType("int")
-                        .HasColumnName("water_pollution");
+                        .HasColumnName("water_pollution")
+                        .HasColumnOrder(4);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("dur_dis_sufferings_according_to_cause_of_disease");
+                    b.ToTable("dur_dis_sufferings_according_to_cause_of_disease", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DurDisSufferingsAccordingToTypeOfDisease", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("Asthma")
                         .HasColumnType("int")
-                        .HasColumnName("asthma");
+                        .HasColumnName("asthma")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("ChickenPox")
                         .HasColumnType("int")
-                        .HasColumnName("chicken_pox");
+                        .HasColumnName("chicken_pox")
+                        .HasColumnOrder(15);
 
                     b.Property<int>("Chikungunia")
                         .HasColumnType("int")
-                        .HasColumnName("chikungunia");
+                        .HasColumnName("chikungunia")
+                        .HasColumnOrder(13);
 
                     b.Property<int>("Cholera")
                         .HasColumnType("int")
-                        .HasColumnName("cholera");
+                        .HasColumnName("cholera")
+                        .HasColumnOrder(16);
 
                     b.Property<int>("ColdOrCough")
                         .HasColumnType("int")
-                        .HasColumnName("cold_or_cough");
+                        .HasColumnName("cold_or_cough")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("Dengue")
                         .HasColumnType("int")
-                        .HasColumnName("dengue");
+                        .HasColumnName("dengue")
+                        .HasColumnOrder(12);
 
                     b.Property<int>("Diarrhoea")
                         .HasColumnType("int")
-                        .HasColumnName("diarrhoea");
+                        .HasColumnName("diarrhoea")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Dysentery")
                         .HasColumnType("int")
-                        .HasColumnName("dysentery");
+                        .HasColumnName("dysentery")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("Fever")
                         .HasColumnType("int")
-                        .HasColumnName("fever");
+                        .HasColumnName("fever")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("Jaundice")
                         .HasColumnType("int")
-                        .HasColumnName("jaundice");
+                        .HasColumnName("jaundice")
+                        .HasColumnOrder(10);
 
                     b.Property<int>("Malaria")
                         .HasColumnType("int")
-                        .HasColumnName("malaria");
+                        .HasColumnName("malaria")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("MalnutritionRelated")
                         .HasColumnType("int")
-                        .HasColumnName("malnutrition_related");
+                        .HasColumnName("malnutrition_related")
+                        .HasColumnOrder(11);
 
                     b.Property<int>("MentalDisorder")
                         .HasColumnType("int")
-                        .HasColumnName("mental_disorder");
+                        .HasColumnName("mental_disorder")
+                        .HasColumnOrder(14);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(17);
 
                     b.Property<int>("SkinDisease")
                         .HasColumnType("int")
-                        .HasColumnName("skin_disease");
+                        .HasColumnName("skin_disease")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("Typhoid")
                         .HasColumnType("int")
-                        .HasColumnName("typhoid");
+                        .HasColumnName("typhoid")
+                        .HasColumnOrder(8);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("dur_dis_sufferings_according_to_type_of_disease");
+                    b.ToTable("dur_dis_sufferings_according_to_type_of_disease", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedLoanBy10KPlus", b =>
@@ -1336,7 +1603,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Tk100kPlus")
                         .HasColumnType("decimal(10,2)")
@@ -1362,7 +1630,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("household_received_loan_by_10k_plus");
+                    b.ToTable("household_received_loan_by_10k_plus", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedLoanBy50kTo10K", b =>
@@ -1374,7 +1642,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("Tk10kTo24999")
                         .HasColumnType("decimal(10,2)")
@@ -1396,7 +1665,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("household_received_loan_by_50k_to_10k");
+                    b.ToTable("household_received_loan_by_50k_to_10k", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedRehabilitationLoanByGovtOrg", b =>
@@ -1408,7 +1677,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("LocalWelfareOrCorporateSupport")
                         .HasColumnType("decimal(10,2)")
@@ -1450,7 +1720,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("household_received_rehabilitation_loan_by_govt_org");
+                    b.ToTable("household_received_rehabilitation_loan_by_govt_org", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedRehabilitationLoanByNGO", b =>
@@ -1462,7 +1732,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("LocalWelfareOrCorporateSupport")
                         .HasColumnType("decimal(10,2)")
@@ -1504,209 +1775,252 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("household_received_rehabilitation_loan_by_ngo");
+                    b.ToTable("household_received_rehabilitation_loan_by_ngo", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.IllDueDisNotSufferingAccordingToSex", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Female")
                         .HasColumnType("int")
-                        .HasColumnName("female");
+                        .HasColumnName("female")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("Male")
                         .HasColumnType("int")
-                        .HasColumnName("male");
+                        .HasColumnName("male")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("TotalPopulation")
                         .HasColumnType("int")
-                        .HasColumnName("total_population");
+                        .HasColumnName("total_population")
+                        .HasColumnOrder(2);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("ill_due_dis_not_suffering_according_to_sex");
+                    b.ToTable("ill_due_dis_not_suffering_according_to_sex", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.IllDueDisSufferingAccordingToSexAge", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("FemaleAge0to4")
                         .HasColumnType("int")
-                        .HasColumnName("female_age_0_to_4");
+                        .HasColumnName("female_age_0_to_4")
+                        .HasColumnOrder(15);
 
                     b.Property<int>("FemaleAge18to36")
                         .HasColumnType("int")
-                        .HasColumnName("female_age_18_to_36");
+                        .HasColumnName("female_age_18_to_36")
+                        .HasColumnOrder(17);
 
                     b.Property<int>("FemaleAge37to60")
                         .HasColumnType("int")
-                        .HasColumnName("female_age_37_to_60");
+                        .HasColumnName("female_age_37_to_60")
+                        .HasColumnOrder(18);
 
                     b.Property<int>("FemaleAge5to17")
                         .HasColumnType("int")
-                        .HasColumnName("female_age_5_to_17");
+                        .HasColumnName("female_age_5_to_17")
+                        .HasColumnOrder(16);
 
                     b.Property<int>("FemaleAge61Plus")
                         .HasColumnType("int")
-                        .HasColumnName("female_age_61_plus");
+                        .HasColumnName("female_age_61_plus")
+                        .HasColumnOrder(19);
 
                     b.Property<int>("HouseholdAge0to4")
                         .HasColumnType("int")
-                        .HasColumnName("household_age_0_to_4");
+                        .HasColumnName("household_age_0_to_4")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("HouseholdAge18to36")
                         .HasColumnType("int")
-                        .HasColumnName("household_age_18_to_36");
+                        .HasColumnName("household_age_18_to_36")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("HouseholdAge37to60")
                         .HasColumnType("int")
-                        .HasColumnName("household_age_37_to_60");
+                        .HasColumnName("household_age_37_to_60")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("HouseholdAge5to17")
                         .HasColumnType("int")
-                        .HasColumnName("household_age_5_to_17");
+                        .HasColumnName("household_age_5_to_17")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("HouseholdAge61Plus")
                         .HasColumnType("int")
-                        .HasColumnName("household_age_61_plus");
+                        .HasColumnName("household_age_61_plus")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("MaleAge0to4")
                         .HasColumnType("int")
-                        .HasColumnName("male_age_0_to_4");
+                        .HasColumnName("male_age_0_to_4")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("MaleAge18to36")
                         .HasColumnType("int")
-                        .HasColumnName("male_age_18_to_36");
+                        .HasColumnName("male_age_18_to_36")
+                        .HasColumnOrder(11);
 
                     b.Property<int>("MaleAge37to60")
                         .HasColumnType("int")
-                        .HasColumnName("male_age_37_to_60");
+                        .HasColumnName("male_age_37_to_60")
+                        .HasColumnOrder(12);
 
                     b.Property<int>("MaleAge5to17")
                         .HasColumnType("int")
-                        .HasColumnName("male_age_5_to_17");
+                        .HasColumnName("male_age_5_to_17")
+                        .HasColumnOrder(10);
 
                     b.Property<int>("MaleAge61Plus")
                         .HasColumnType("int")
-                        .HasColumnName("male_age_61_plus");
+                        .HasColumnName("male_age_61_plus")
+                        .HasColumnOrder(13);
 
                     b.Property<int>("TotalFemale")
                         .HasColumnType("int")
-                        .HasColumnName("total_female");
+                        .HasColumnName("total_female")
+                        .HasColumnOrder(14);
 
                     b.Property<int>("TotalHouseHold")
                         .HasColumnType("int")
-                        .HasColumnName("total_household");
+                        .HasColumnName("total_household")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("TotalMale")
                         .HasColumnType("int")
-                        .HasColumnName("total_male");
+                        .HasColumnName("total_male")
+                        .HasColumnOrder(8);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("ill_due_dis_suffering_according_to_sex_age");
+                    b.ToTable("ill_due_dis_suffering_according_to_sex_age", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.IllDueDisSufferingAccordingToTypeOfDisease", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("Asthma")
                         .HasColumnType("int")
-                        .HasColumnName("asthma");
+                        .HasColumnName("asthma")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("ChickenPox")
                         .HasColumnType("int")
-                        .HasColumnName("chicken_pox");
+                        .HasColumnName("chicken_pox")
+                        .HasColumnOrder(15);
 
                     b.Property<int>("Chikungunia")
                         .HasColumnType("int")
-                        .HasColumnName("chikungunia");
+                        .HasColumnName("chikungunia")
+                        .HasColumnOrder(13);
 
                     b.Property<int>("Cholera")
                         .HasColumnType("int")
-                        .HasColumnName("cholera");
+                        .HasColumnName("cholera")
+                        .HasColumnOrder(16);
 
                     b.Property<int>("ColdOrCough")
                         .HasColumnType("int")
-                        .HasColumnName("cold_or_cough");
+                        .HasColumnName("cold_or_cough")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("Dengue")
                         .HasColumnType("int")
-                        .HasColumnName("dengue");
+                        .HasColumnName("dengue")
+                        .HasColumnOrder(12);
 
                     b.Property<int>("Diarrhoea")
                         .HasColumnType("int")
-                        .HasColumnName("diarrhoea");
+                        .HasColumnName("diarrhoea")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Dysentery")
                         .HasColumnType("int")
-                        .HasColumnName("dysentery");
+                        .HasColumnName("dysentery")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("Fever")
                         .HasColumnType("int")
-                        .HasColumnName("fever");
+                        .HasColumnName("fever")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("Jaundice")
                         .HasColumnType("int")
-                        .HasColumnName("jaundice");
+                        .HasColumnName("jaundice")
+                        .HasColumnOrder(10);
 
                     b.Property<int>("Malaria")
                         .HasColumnType("int")
-                        .HasColumnName("malaria");
+                        .HasColumnName("malaria")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("MalnutritionRelated")
                         .HasColumnType("int")
-                        .HasColumnName("malnutrition_related");
+                        .HasColumnName("malnutrition_related")
+                        .HasColumnOrder(11);
 
                     b.Property<int>("MentalDisorder")
                         .HasColumnType("int")
-                        .HasColumnName("mental_disorder");
+                        .HasColumnName("mental_disorder")
+                        .HasColumnOrder(14);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(17);
 
                     b.Property<int>("SkinDisease")
                         .HasColumnType("int")
-                        .HasColumnName("skin_disease");
+                        .HasColumnName("skin_disease")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("Typhoid")
                         .HasColumnType("int")
-                        .HasColumnName("typhoid");
+                        .HasColumnName("typhoid")
+                        .HasColumnOrder(8);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("ill_due_dis_suffering_according_to_type_of_disease");
+                    b.ToTable("ill_due_dis_suffering_according_to_type_of_disease", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.LossAndDamageOfProperties", b =>
@@ -1744,219 +2058,262 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("loss_and_damage_of_properties");
+                    b.ToTable("loss_and_damage_of_properties", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.PstDisSufferingsAccordingToCauseOfDisease", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("AirPollution")
                         .HasColumnType("int")
-                        .HasColumnName("air_pollution");
+                        .HasColumnName("air_pollution")
+                        .HasColumnOrder(5);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("DuringDisaster")
                         .HasColumnType("int")
-                        .HasColumnName("during_disaster");
+                        .HasColumnName("during_disaster")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("NotKnown")
                         .HasColumnType("int")
-                        .HasColumnName("not_known");
+                        .HasColumnName("not_known")
+                        .HasColumnOrder(8);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("TemperatureVariation")
                         .HasColumnType("int")
-                        .HasColumnName("temperature_variation");
+                        .HasColumnName("temperature_variation")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("UnplannedSanitation")
                         .HasColumnType("int")
-                        .HasColumnName("unplanned_sanitation");
+                        .HasColumnName("unplanned_sanitation")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("VariationInRain")
                         .HasColumnType("int")
-                        .HasColumnName("variation_in_rain");
+                        .HasColumnName("variation_in_rain")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("WaterPollution")
                         .HasColumnType("int")
-                        .HasColumnName("water_pollution");
+                        .HasColumnName("water_pollution")
+                        .HasColumnOrder(4);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("pst_dis_sufferings_according_to_cause_of_disease");
+                    b.ToTable("pst_dis_sufferings_according_to_cause_of_disease", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.PstDisSufferingsAccordingToTypeOfDisease", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("Asthma")
                         .HasColumnType("int")
-                        .HasColumnName("asthma");
+                        .HasColumnName("asthma")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("ChickenPox")
                         .HasColumnType("int")
-                        .HasColumnName("chicken_pox");
+                        .HasColumnName("chicken_pox")
+                        .HasColumnOrder(15);
 
                     b.Property<int>("Chikungunia")
                         .HasColumnType("int")
-                        .HasColumnName("chikungunia");
+                        .HasColumnName("chikungunia")
+                        .HasColumnOrder(13);
 
                     b.Property<int>("Cholera")
                         .HasColumnType("int")
-                        .HasColumnName("cholera");
+                        .HasColumnName("cholera")
+                        .HasColumnOrder(16);
 
                     b.Property<int>("ColdOrCough")
                         .HasColumnType("int")
-                        .HasColumnName("cold_or_cough");
+                        .HasColumnName("cold_or_cough")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("Dengue")
                         .HasColumnType("int")
-                        .HasColumnName("dengue");
+                        .HasColumnName("dengue")
+                        .HasColumnOrder(12);
 
                     b.Property<int>("Diarrhoea")
                         .HasColumnType("int")
-                        .HasColumnName("diarrhoea");
+                        .HasColumnName("diarrhoea")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Dysentery")
                         .HasColumnType("int")
-                        .HasColumnName("dysentery");
+                        .HasColumnName("dysentery")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("Fever")
                         .HasColumnType("int")
-                        .HasColumnName("fever");
+                        .HasColumnName("fever")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("Jaundice")
                         .HasColumnType("int")
-                        .HasColumnName("jaundice");
+                        .HasColumnName("jaundice")
+                        .HasColumnOrder(10);
 
                     b.Property<int>("Malaria")
                         .HasColumnType("int")
-                        .HasColumnName("malaria");
+                        .HasColumnName("malaria")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("MalnutritionRelated")
                         .HasColumnType("int")
-                        .HasColumnName("malnutrition_related");
+                        .HasColumnName("malnutrition_related")
+                        .HasColumnOrder(11);
 
                     b.Property<int>("MentalDisorder")
                         .HasColumnType("int")
-                        .HasColumnName("mental_disorder");
+                        .HasColumnName("mental_disorder")
+                        .HasColumnOrder(14);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(17);
 
                     b.Property<int>("SkinDisease")
                         .HasColumnType("int")
-                        .HasColumnName("skin_disease");
+                        .HasColumnName("skin_disease")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("Typhoid")
                         .HasColumnType("int")
-                        .HasColumnName("typhoid");
+                        .HasColumnName("typhoid")
+                        .HasColumnOrder(8);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("pst_dis_sufferings_according_to_type_of_disease");
+                    b.ToTable("pst_dis_sufferings_according_to_type_of_disease", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentPerceptionAboutDisasterManagement", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("AssistOnlyAffectedPeople")
                         .HasColumnType("int")
-                        .HasColumnName("assist_only_affected_people");
+                        .HasColumnName("assist_only_affected_people")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("DoNotKnow")
                         .HasColumnType("int")
-                        .HasColumnName("do_not_know");
+                        .HasColumnName("do_not_know")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("ToReduceLossInASystematicManner")
                         .HasColumnType("int")
-                        .HasColumnName("to_reduce_loss_in_a_systematic_manner");
+                        .HasColumnName("to_reduce_loss_in_a_systematic_manner")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("ToStandBesideTheAffectedPeople")
                         .HasColumnType("int")
-                        .HasColumnName("to_stand_beside_the_affected_people");
+                        .HasColumnName("to_stand_beside_the_affected_people")
+                        .HasColumnOrder(4);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondent_perception_about_disaster_management");
+                    b.ToTable("respondent_perception_about_disaster_management", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentPerceptionAboutImpactOfClimateChange", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("DoNotKnow")
                         .HasColumnType("int")
-                        .HasColumnName("do_not_know");
+                        .HasColumnName("do_not_know")
+                        .HasColumnOrder(8);
 
                     b.Property<int>("DroughtOrDryness")
                         .HasColumnType("int")
-                        .HasColumnName("drought_or_dryness");
+                        .HasColumnName("drought_or_dryness")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("FloodOrWaterLogging")
                         .HasColumnType("int")
-                        .HasColumnName("flood_or_water_logging");
+                        .HasColumnName("flood_or_water_logging")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("Salinity")
                         .HasColumnType("int")
-                        .HasColumnName("salinity");
+                        .HasColumnName("salinity")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("SeaLevelRise")
                         .HasColumnType("int")
-                        .HasColumnName("sea_level_rise");
+                        .HasColumnName("sea_level_rise")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("StormOrTornadoOrHailstorm")
                         .HasColumnType("int")
-                        .HasColumnName("storm_or_tornado_or_hailstorm");
+                        .HasColumnName("storm_or_tornado_or_hailstorm")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("TidalSurgeOrCycloneOrHurricane")
                         .HasColumnType("int")
-                        .HasColumnName("tidal_surge_or_cyclone_or_hurricane");
+                        .HasColumnName("tidal_surge_or_cyclone_or_hurricane")
+                        .HasColumnOrder(7);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondent_perception_about_impact_climate_cng");
+                    b.ToTable("respondent_perception_about_impact_climate_cng", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentReceivedLoanPostDisasterPeriodGovtBank", b =>
@@ -1968,7 +2325,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("GovtBank")
                         .HasColumnType("decimal(10,2)")
@@ -2010,7 +2368,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondent_received_loan_govt_bank");
+                    b.ToTable("respondent_received_loan_govt_bank", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentReceivedLoanPostDisasterPeriodPrivateBank", b =>
@@ -2022,7 +2380,8 @@ namespace EcdsApp.Migrations
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(2);
 
                     b.Property<decimal?>("GovtBank")
                         .HasColumnType("decimal(10,2)")
@@ -2064,321 +2423,382 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondent_received_loan_private_bank");
+                    b.ToTable("respondent_received_loan_private_bank", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentsPerceptionAboutClimateChange", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("DoNotKnow")
                         .HasColumnType("int")
-                        .HasColumnName("do_not_know");
+                        .HasColumnName("do_not_know")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("ExtEvntCusLossHumanLifeNStruc")
                         .HasColumnType("int")
-                        .HasColumnName("ext_evnt_cus_loss_human_life_n_struc");
+                        .HasColumnName("ext_evnt_cus_loss_human_life_n_struc")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("LTCDueToNaturalOrHumanAct")
                         .HasColumnType("int")
-                        .HasColumnName("ltc_due_to_natural_or_human_act");
+                        .HasColumnName("ltc_due_to_natural_or_human_act")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("RegVariationInTempAndRainfall")
                         .HasColumnType("int")
-                        .HasColumnName("reg_variation_in_temp_and_rainfall");
+                        .HasColumnName("reg_variation_in_temp_and_rainfall")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondents_perception_about_climate_change");
+                    b.ToTable("respondents_perception_about_climate_change", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentsPerceptionaboutDisaster", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("CriticalSisByNatureOrHman")
                         .HasColumnType("int")
-                        .HasColumnName("critical_sis_by_nature_or_Hman");
+                        .HasColumnName("critical_sis_by_nature_or_Hman")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("DoNotKnow")
                         .HasColumnType("int")
-                        .HasColumnName("do_not_know");
+                        .HasColumnName("do_not_know")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("HappensWithoutAnyReason")
                         .HasColumnType("int")
-                        .HasColumnName("happens_without_any_reason");
+                        .HasColumnName("happens_without_any_reason")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("UsualProcessOccursTimeToTime")
                         .HasColumnType("int")
-                        .HasColumnName("usual_process_occurs_time_to_time");
+                        .HasColumnName("usual_process_occurs_time_to_time")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondents_perception_about_disaster");
+                    b.ToTable("respondents_perception_about_disaster", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.TrtmentFacltiRcvByHHInsufficientWtrSply", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("CommunityClinic")
                         .HasColumnType("int")
-                        .HasColumnName("community_clinic");
+                        .HasColumnName("community_clinic")
+                        .HasColumnOrder(10);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
-                        .HasColumnName("dist_geo_code");
+                        .HasColumnName("dist_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("DistrictGovernmentHospital")
                         .HasColumnType("int")
-                        .HasColumnName("district_government_hospital");
+                        .HasColumnName("district_government_hospital")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("DoNotDoAnything")
                         .HasColumnType("int")
-                        .HasColumnName("do_not_do_anything");
+                        .HasColumnName("do_not_do_anything")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("HomeoDoctor")
                         .HasColumnType("int")
-                        .HasColumnName("homeo_doctor");
+                        .HasColumnName("homeo_doctor")
+                        .HasColumnOrder(12);
 
                     b.Property<int>("KobirajOrOhja")
                         .HasColumnType("int")
-                        .HasColumnName("kobiraj_or_ohja");
+                        .HasColumnName("kobiraj_or_ohja")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("MbbsDoctor")
                         .HasColumnType("int")
-                        .HasColumnName("mbbs_doctor");
+                        .HasColumnName("mbbs_doctor")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("MedicineShopOrPharmacy")
                         .HasColumnType("int")
-                        .HasColumnName("medicine_shop_or_pharmacy");
+                        .HasColumnName("medicine_shop_or_pharmacy")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(13);
 
                     b.Property<int>("SelfTreatment")
                         .HasColumnType("int")
-                        .HasColumnName("self_treatment");
+                        .HasColumnName("self_treatment")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("UnionHealthAndFamilyWelfareClinic")
                         .HasColumnType("int")
-                        .HasColumnName("union_health_n_family_welfare_clinic");
+                        .HasColumnName("union_health_n_family_welfare_clinic")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("UpazilaHealthAndFamilyWelfareClinic")
                         .HasColumnType("int")
-                        .HasColumnName("upazila_health_n_family_welfare_clinic");
+                        .HasColumnName("upazila_health_n_family_welfare_clinic")
+                        .HasColumnOrder(8);
 
                     b.Property<int>("VillageDoctor")
                         .HasColumnType("int")
-                        .HasColumnName("village_doctor");
+                        .HasColumnName("village_doctor")
+                        .HasColumnOrder(11);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("trtment_faclti_rcv_by_hh_insufficient_wtr_sply");
+                    b.ToTable("trtment_faclti_rcv_by_hh_insufficient_wtr_sply", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.DisasterAffHHCatPreparednes2015To2020Div", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("BrickBuilt")
                         .HasColumnType("int")
-                        .HasColumnName("brick_built");
+                        .HasColumnName("brick_built")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("DivisionGeoCode")
                         .HasMaxLength(2)
                         .HasColumnType("varchar(2)")
-                        .HasColumnName("div_geo_code");
+                        .HasColumnName("div_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("ImprovedSanitation")
                         .HasColumnType("int")
-                        .HasColumnName("improved_sanitation");
+                        .HasColumnName("improved_sanitation")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("IncreasedSecurityForFamilyFoodStorage")
                         .HasColumnType("int")
-                        .HasColumnName("increased_security_for_family_food_storage");
+                        .HasColumnName("increased_security_for_family_food_storage")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(11);
 
                     b.Property<int>("RaiseRoadForCommunication")
                         .HasColumnType("int")
-                        .HasColumnName("raise_road_for_communication");
+                        .HasColumnName("raise_road_for_communication")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("RaisedHouse")
                         .HasColumnType("int")
-                        .HasColumnName("raised_house");
+                        .HasColumnName("raised_house")
+                        .HasColumnOrder(10);
 
                     b.Property<int>("SemiBrickBuilt")
                         .HasColumnType("int")
-                        .HasColumnName("semi_brick_built");
+                        .HasColumnName("semi_brick_built")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("SendSchoolGoingChildrenToSafePlace")
                         .HasColumnType("int")
-                        .HasColumnName("send_school_going_children_to_safe_place");
+                        .HasColumnName("send_school_going_children_to_safe_place")
+                        .HasColumnOrder(8);
 
                     b.Property<int>("StrengthenInfrastructure")
                         .HasColumnType("int")
-                        .HasColumnName("strengthen_infrastructure");
+                        .HasColumnName("strengthen_infrastructure")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("TubeWellForDrinkingWater")
                         .HasColumnType("int")
-                        .HasColumnName("tube_well_for_drinking_water");
+                        .HasColumnName("tube_well_for_drinking_water")
+                        .HasColumnOrder(5);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("disaster_aff_hh_cat_preparednes_2015_to_2020_div");
+                    b.ToTable("disaster_aff_hh_cat_preparednes_2015_to_2020_div", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdAffectedAndGotEarlyWarningFrom2015To2020", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("AffectedHousehold")
                         .HasColumnType("int")
-                        .HasColumnName("affected_household");
+                        .HasColumnName("affected_household")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("DivisionGeoCode")
                         .HasMaxLength(2)
                         .HasColumnType("varchar(2)")
-                        .HasColumnName("div_geo_code");
+                        .HasColumnName("div_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("GotEarlyWarning")
                         .HasColumnType("int")
-                        .HasColumnName("got_early_warning");
+                        .HasColumnName("got_early_warning")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("household_affected_and_got_early_warning_from_2015_to_2020");
+                    b.ToTable("household_affected_and_got_early_warning_from_2015_to_2020", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdAffectedByNonWorkingDays", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("Day16To30")
                         .HasColumnType("int")
-                        .HasColumnName("day_16_to_30");
+                        .HasColumnName("day_16_to_30")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("Day1To7")
                         .HasColumnType("int")
-                        .HasColumnName("day_1_to_7");
+                        .HasColumnName("day_1_to_7")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("Day31To45")
                         .HasColumnType("int")
-                        .HasColumnName("day_31_to_45");
+                        .HasColumnName("day_31_to_45")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("Day46To60")
                         .HasColumnType("int")
-                        .HasColumnName("day_46_to_60");
+                        .HasColumnName("day_46_to_60")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("Day61Plus")
                         .HasColumnType("int")
-                        .HasColumnName("day_61_plus");
+                        .HasColumnName("day_61_plus")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("Day8To15")
                         .HasColumnType("int")
-                        .HasColumnName("day_8_to_15");
+                        .HasColumnName("day_8_to_15")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("DivisionGeoCode")
                         .HasMaxLength(2)
                         .HasColumnType("varchar(2)")
-                        .HasColumnName("div_geo_code");
+                        .HasColumnName("div_geo_code")
+                        .HasColumnOrder(1);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("household_affected_by_non_working_days");
+                    b.ToTable("household_affected_by_non_working_days", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdGotEarlyWarningByTypeOfMedia", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("Community")
                         .HasColumnType("int")
-                        .HasColumnName("community");
+                        .HasColumnName("community")
+                        .HasColumnOrder(5);
 
                     b.Property<string>("DivisionGeoCode")
                         .HasMaxLength(2)
                         .HasColumnType("varchar(2)")
-                        .HasColumnName("div_geo_code");
+                        .HasColumnName("div_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("InternetMedia")
                         .HasColumnType("int")
-                        .HasColumnName("internet_media");
+                        .HasColumnName("internet_media")
+                        .HasColumnOrder(8);
 
                     b.Property<int>("LocalAdministration")
                         .HasColumnType("int")
-                        .HasColumnName("local_administration");
+                        .HasColumnName("local_administration")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("Making")
                         .HasColumnType("int")
-                        .HasColumnName("making");
+                        .HasColumnName("making")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("MobileTelephoneOrSMS")
                         .HasColumnType("int")
-                        .HasColumnName("mobile_telephone_or_sms");
+                        .HasColumnName("mobile_telephone_or_sms")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("Others")
                         .HasColumnType("int")
-                        .HasColumnName("others");
+                        .HasColumnName("others")
+                        .HasColumnOrder(9);
 
                     b.Property<int>("Radio")
                         .HasColumnType("int")
-                        .HasColumnName("radio");
+                        .HasColumnName("radio")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("Television")
                         .HasColumnType("int")
-                        .HasColumnName("television");
+                        .HasColumnName("television")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("household_got_early_warning_by_type_of_media");
+                    b.ToTable("household_got_early_warning_by_type_of_media", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.DownloadLog", b =>
@@ -2389,7 +2809,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime>("GeneratedAt")
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("generated_at");
 
                     b.Property<string>("IPAddress")
@@ -2402,7 +2822,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("theme_layer_id");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -2411,7 +2831,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("download_log");
+                    b.ToTable("download_log", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.LogType", b =>
@@ -2424,11 +2844,12 @@ namespace EcdsApp.Migrations
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("log_type");
+                        .HasColumnName("log_type")
+                        .HasColumnOrder(2);
 
                     b.HasKey("Id");
 
-                    b.ToTable("LogTypes");
+                    b.ToTable("LogTypes", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.ServerHitInfo", b =>
@@ -2440,20 +2861,23 @@ namespace EcdsApp.Migrations
 
                     b.Property<string>("CountryOfOrigin")
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("country_of_origin");
+                        .HasColumnName("country_of_origin")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("IPAddress")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("ip_address");
+                        .HasColumnName("ip_address")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("RequestedAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("requested_at");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("requested_at")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
-                    b.ToTable("ServerHitInfos");
+                    b.ToTable("ServerHitInfos", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.Message", b =>
@@ -2464,33 +2888,37 @@ namespace EcdsApp.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("email");
+                        .HasColumnName("email")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("full_name");
+                        .HasColumnName("full_name")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("Msg")
                         .IsRequired()
                         .HasColumnType("varchar(1000)")
-                        .HasColumnName("message");
+                        .HasColumnName("message")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("ReplyStatusId")
                         .HasColumnType("int")
-                        .HasColumnName("reply_status");
+                        .HasColumnName("reply_status")
+                        .HasColumnOrder(5);
 
                     b.HasKey("Id");
 
                     b.HasIndex("ReplyStatusId");
 
-                    b.ToTable("tbl_user_message");
+                    b.ToTable("tbl_user_message", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryMauza", b =>
@@ -2498,35 +2926,40 @@ namespace EcdsApp.Migrations
                     b.Property<string>("MauzaGeoCode")
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)")
-                        .HasColumnName("mauza_geo_code");
+                        .HasColumnName("mauza_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("MauzaName")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("mauza_name");
+                        .HasColumnName("mauza_name")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("MauzaNameBangla")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("mauza_name_bangla");
+                        .HasColumnName("mauza_name_bangla")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("OldGeoCode")
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)")
-                        .HasColumnName("old_geo_code");
+                        .HasColumnName("old_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("UnionGeoCode")
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("varchar(13)")
-                        .HasColumnName("union_geo_code");
+                        .HasColumnName("union_geo_code")
+                        .HasColumnOrder(4);
 
                     b.HasKey("MauzaGeoCode");
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_mauza");
+                    b.ToTable("lkp_admin_boundary_mauza", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryUnion", b =>
@@ -2534,37 +2967,44 @@ namespace EcdsApp.Migrations
                     b.Property<string>("UnionGeoCode")
                         .HasMaxLength(13)
                         .HasColumnType("varchar(13)")
-                        .HasColumnName("union_geo_code");
+                        .HasColumnName("union_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("MunicipalityGeoCode")
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)")
-                        .HasColumnName("municipality_geo_code");
+                        .HasColumnName("municipality_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("MunicipalityName")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("municipality_name");
+                        .HasColumnName("municipality_name")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("OldGeoCode")
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)")
-                        .HasColumnName("old_geo_code");
+                        .HasColumnName("old_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
-                        .HasColumnName("sorting_order");
+                        .HasColumnName("sorting_order")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("UnionName")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("union_name");
+                        .HasColumnName("union_name")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("UnionNameBangla")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("union_name_bangla");
+                        .HasColumnName("union_name_bangla")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("UpazilaGeoCode")
                         .IsRequired()
@@ -2575,7 +3015,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_unions");
+                    b.ToTable("lkp_admin_boundary_unions", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryVillage", b =>
@@ -2583,35 +3023,40 @@ namespace EcdsApp.Migrations
                     b.Property<string>("VillageGeoCode")
                         .HasMaxLength(19)
                         .HasColumnType("varchar(19)")
-                        .HasColumnName("village_geo_code");
+                        .HasColumnName("village_geo_code")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("MauzaGeoCode")
                         .IsRequired()
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)")
-                        .HasColumnName("mauza_geo_code");
+                        .HasColumnName("mauza_geo_code")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("OldGeoCode")
                         .HasMaxLength(19)
                         .HasColumnType("varchar(19)")
-                        .HasColumnName("old_geo_code");
+                        .HasColumnName("old_geo_code")
+                        .HasColumnOrder(1);
 
                     b.Property<string>("VillageName")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("village_name");
+                        .HasColumnName("village_name")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("VillageNameBangla")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("village_name_bangla");
+                        .HasColumnName("village_name_bangla")
+                        .HasColumnOrder(3);
 
                     b.HasKey("VillageGeoCode");
 
                     b.HasIndex("MauzaGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_village");
+                    b.ToTable("lkp_admin_boundary_village", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.SystemCommon.Chat", b =>
@@ -2624,20 +3069,23 @@ namespace EcdsApp.Migrations
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("varchar(500)")
-                        .HasColumnName("message");
+                        .HasColumnName("message")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("Receiver")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("receiver_email");
+                        .HasColumnName("receiver_email")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("Sender")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("sender_email");
+                        .HasColumnName("sender_email")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("SentAt")
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("sent_at");
 
                     b.HasKey("Id");
@@ -2646,7 +3094,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("Sender");
 
-                    b.ToTable("chats");
+                    b.ToTable("chats", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.SystemCommon.EmailConfiguration", b =>
@@ -2659,36 +3107,42 @@ namespace EcdsApp.Migrations
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("category");
+                        .HasColumnName("category")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("Host")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("host");
+                        .HasColumnName("host")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("password");
+                        .HasColumnName("password")
+                        .HasColumnOrder(7);
 
                     b.Property<string>("SenderEmail")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("sender_email");
+                        .HasColumnName("sender_email")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("username");
+                        .HasColumnName("username")
+                        .HasColumnOrder(6);
 
                     b.Property<string>("port")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
-                        .HasColumnName("port");
+                        .HasColumnName("port")
+                        .HasColumnOrder(5);
 
                     b.HasKey("Id");
 
-                    b.ToTable("email_configurations");
+                    b.ToTable("email_configurations", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.BoundaryInfo", b =>
@@ -2720,7 +3174,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_boundary_info");
+                    b.ToTable("lkp_boundary_info", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.ColumnType", b =>
@@ -2731,12 +3185,12 @@ namespace EcdsApp.Migrations
 
                     b.Property<string>("TypeName")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("type_name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_column_type");
+                    b.ToTable("lkp_column_type", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.TableColumnInfo", b =>
@@ -2777,7 +3231,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("tbl_table_column_info");
+                    b.ToTable("tbl_table_column_info", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.TableInfo", b =>
@@ -2818,7 +3272,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("SubThemeId");
 
-                    b.ToTable("tbl_table_info");
+                    b.ToTable("tbl_table_info", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.LayerLegendColor", b =>
@@ -2864,7 +3318,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("LayerId");
 
-                    b.ToTable("tbl_layer_legend_colors");
+                    b.ToTable("tbl_layer_legend_colors", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.LegendColorOption", b =>
@@ -2881,7 +3335,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_legend_color_option");
+                    b.ToTable("lkp_legend_color_option", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.MetaDataDetail", b =>
@@ -2972,7 +3426,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("LayerId");
 
-                    b.ToTable("tbl_metadata_details");
+                    b.ToTable("tbl_metadata_details", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.SubTheme", b =>
@@ -3001,7 +3455,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("ThemeId");
 
-                    b.ToTable("lkp_sub_themes");
+                    b.ToTable("lkp_sub_themes", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.Theme", b =>
@@ -3044,7 +3498,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("ThemeId");
 
-                    b.ToTable("lkp_themes");
+                    b.ToTable("lkp_themes", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.ThemeLayerDetail", b =>
@@ -3165,7 +3619,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("TableInfoId");
 
-                    b.ToTable("tbl_theme_layer_details");
+                    b.ToTable("tbl_theme_layer_details", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.ThemeLayerType", b =>
@@ -3182,7 +3636,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("LayerTypeId");
 
-                    b.ToTable("lkp_theme_layer_types");
+                    b.ToTable("lkp_theme_layer_types", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionRainfall4Point5", b =>
@@ -3217,7 +3671,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_rainfall_4_point_5");
+                    b.ToTable("tbl_future_projection_rainfall_4_point_5", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionRainfall8Point5", b =>
@@ -3252,7 +3706,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_rainfall_8_point_5");
+                    b.ToTable("tbl_future_projection_rainfall_8_point_5", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMax4Point5", b =>
@@ -3287,7 +3741,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_max_4_point_5");
+                    b.ToTable("tbl_future_projection_temperature_max_4_point_5", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMax8Point5", b =>
@@ -3322,7 +3776,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_max_8_point_5");
+                    b.ToTable("tbl_future_projection_temperature_max_8_point_5", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMean4Point5", b =>
@@ -3357,7 +3811,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_mean_4_point_5");
+                    b.ToTable("tbl_future_projection_temperature_mean_4_point_5", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMean8Point5", b =>
@@ -3392,7 +3846,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_mean_8_point_5");
+                    b.ToTable("tbl_future_projection_temperature_mean_8_point_5", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMin4Point5", b =>
@@ -3427,7 +3881,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_min_4_point_5");
+                    b.ToTable("tbl_future_projection_temperature_min_4_point_5", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMin8Point5", b =>
@@ -3462,7 +3916,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_min_8_point_5");
+                    b.ToTable("tbl_future_projection_temperature_min_8_point_5", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.ExposureCategory", b =>
@@ -3473,12 +3927,12 @@ namespace EcdsApp.Migrations
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("category_name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_exposure_category");
+                    b.ToTable("lkp_exposure_category", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseExposureData", b =>
@@ -3533,7 +3987,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_exposure_data");
+                    b.ToTable("tbl_upazila_wise_exposure_data", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseLiteracyRate", b =>
@@ -3564,7 +4018,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_literacy_rate");
+                    b.ToTable("tbl_upazila_wise_literacy_rate", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDensity", b =>
@@ -3585,7 +4039,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_upazila_wise_population_density");
+                    b.ToTable("tbl_upazila_wise_population_density", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDistribution", b =>
@@ -3608,7 +4062,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_population_distribution");
+                    b.ToTable("tbl_upazila_wise_population_distribution", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePoverty", b =>
@@ -3631,7 +4085,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_poverty");
+                    b.ToTable("tbl_upazila_wise_poverty", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseRiskIndex", b =>
@@ -3702,13 +4156,13 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_risk_index");
+                    b.ToTable("tbl_upazila_wise_risk_index", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.Property<int>("AccessFailedCount")
@@ -3722,7 +4176,7 @@ namespace EcdsApp.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("concurrency_stamp");
 
                     b.Property<string>("DateOfBirth")
@@ -3731,7 +4185,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("date_of_birth");
 
                     b.Property<DateTime?>("DateOfCreation")
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("date_of_creation");
 
                     b.Property<string>("Designation")
@@ -3763,7 +4217,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("last_modified_date");
 
                     b.Property<string>("LastName")
@@ -3776,7 +4230,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("lockout_enabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("lockout_end");
 
                     b.Property<string>("MobileNo")
@@ -3800,11 +4254,11 @@ namespace EcdsApp.Migrations
                         .HasColumnName("organization");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("password_hash");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("phone_number");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -3817,7 +4271,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("profile_picture");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("security_stamp");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -3834,7 +4288,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("user_name");
 
                     b.Property<string>("UserRoleId")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_role_id");
 
                     b.Property<string>("VerificationCode")
@@ -3853,7 +4307,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UserRoleId");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWiseComponent", b =>
@@ -3867,7 +4321,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("component_id");
 
                     b.Property<string>("UserRoleId")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("role_id");
 
                     b.HasKey("Id");
@@ -3876,7 +4330,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UserRoleId");
 
-                    b.ToTable("user_role_wise_components");
+                    b.ToTable("user_role_wise_components", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWisePermittedContent", b =>
@@ -3890,7 +4344,7 @@ namespace EcdsApp.Migrations
                         .HasColumnName("content_id");
 
                     b.Property<string>("UserRoleId")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("role_id");
 
                     b.HasKey("Id");
@@ -3899,7 +4353,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UserRoleId");
 
-                    b.ToTable("user_role_wise_permitted_contents");
+                    b.ToTable("user_role_wise_permitted_contents", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.UserPermittedContent", b =>
@@ -3938,7 +4392,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("ContentId");
 
-                    b.ToTable("user_permitted_contents");
+                    b.ToTable("user_permitted_contents", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserMessage.MessageReply", b =>
@@ -3949,24 +4403,26 @@ namespace EcdsApp.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("created_at");
 
                     b.Property<int>("MsgId")
                         .HasColumnType("int")
-                        .HasColumnName("message");
+                        .HasColumnName("message")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("RepliedMsg")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)")
-                        .HasColumnName("replied_message");
+                        .HasColumnName("replied_message")
+                        .HasColumnOrder(2);
 
                     b.HasKey("Id");
 
                     b.HasIndex("MsgId");
 
-                    b.ToTable("tbl_message_replys");
+                    b.ToTable("tbl_message_replys", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserMessage.Status", b =>
@@ -3979,22 +4435,23 @@ namespace EcdsApp.Migrations
                     b.Property<string>("MessageStatus")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("message_status");
+                        .HasColumnName("message_status")
+                        .HasColumnOrder(2);
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_reply_statuses");
+                    b.ToTable("tbl_reply_statuses", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("role_id");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("concurrency_stamp");
 
                     b.Property<string>("Name")
@@ -4013,7 +4470,7 @@ namespace EcdsApp.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("user_role_lists");
+                    b.ToTable("user_role_lists", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -4024,23 +4481,23 @@ namespace EcdsApp.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("claim_yype");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("claim_value");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("role_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("user_role_claims");
+                    b.ToTable("user_role_claims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -4051,89 +4508,89 @@ namespace EcdsApp.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("claim_type");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("claim_value");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_claims");
+                    b.ToTable("user_claims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("login_provider");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("provider_key");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("provider_display_name");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_logins");
+                    b.ToTable("user_logins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("role_id");
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("user_roles");
+                    b.ToTable("user_roles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("login_provider");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(767)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("name");
 
                     b.Property<string>("Value")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("value");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("user_tokens");
+                    b.ToTable("user_tokens", (string)null);
                 });
 
             modelBuilder.Entity("EcdsApp.Models.AdminBoundaryDistrict", b =>
@@ -4273,6 +4730,15 @@ namespace EcdsApp.Migrations
                     b.Navigation("District");
                 });
 
+            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseHazardLevel", b =>
+                {
+                    b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictGeoCode");
+
+                    b.Navigation("District");
+                });
+
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseMortalityRateIMR", b =>
                 {
                     b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
@@ -4310,6 +4776,15 @@ namespace EcdsApp.Migrations
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePoverty", b =>
+                {
+                    b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictGeoCode");
+
+                    b.Navigation("District");
+                });
+
+            modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseRiskLevel", b =>
                 {
                     b.HasOne("EcdsApp.Models.AdminBoundaryDistrict", "District")
                         .WithMany()

@@ -95,6 +95,11 @@ namespace EcdsApp.Data
 
 
         //District Wise
+
+        public DbSet<DistrictWiseRiskLevel> DistrictWiseRiskLevels { get; set; }
+        public DbSet<DistrictWiseHazardLevel> DistrictWiseHazardLevels { get; set; }
+        
+
         public DbSet<DistrictWisePoverty> DistrictWisePoverties { get; set; }
         public DbSet<DistrictWisePopulation> DistrictWisePopulations { get; set; }
         public DbSet<DistrictWiseLightening> DistrictWiseLightenings { get; set; }
@@ -239,6 +244,8 @@ namespace EcdsApp.Data
             modelBuilder.Entity<IdentityUserToken<string>>(entity => { entity.Property(p => p.Name).HasColumnName("name"); });
             modelBuilder.Entity<IdentityUserToken<string>>(entity => { entity.Property(p => p.Value).HasColumnName("value"); });
             modelBuilder.Entity<IdentityUserToken<string>>(entity => { entity.Property(p => p.LoginProvider).HasColumnName("login_provider"); });
+
+
 
         }
 
