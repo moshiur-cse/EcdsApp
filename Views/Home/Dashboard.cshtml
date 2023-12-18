@@ -181,7 +181,7 @@
                         </figure>*@
 
 
-                            <h4 class="card-title mb-4">Latest Five Layer List</h4>
+                        <h4 class="card-title mb-4">Recently added layers</h4>
                             <div class="table-responsive">
                                 <table id="tblLayerData" class="table table-centered table-nowrap mb-0">
                                     <thead class="table-light">
@@ -191,7 +191,7 @@
                                             <th>Layer Name</th>
                                             <th>Layer Type</th>
                                             @*<th>Boundary</th>*@
-                                            <th>Tabular Data</th>
+                                           @*  <th>Tabular Data</th> *@
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -212,11 +212,11 @@
 
                                             <td>@item.ThemeLayerTypes?.LayerTypeName</td>
                                             @*<td>@item.BoundaryInfo?.BoundaryName</td>*@
-                                            <td>
+                                           @*  <td>
                                                 <a class="badge bg-pill bg-soft-info font-size-14" target="_blank" asp-controller="@item.TableInfo?.TableModelName" asp-action="Index" style="color: #191c1e">
                                                     @Html.DisplayFor(modelItem => item.TableInfo.DisplayName)
                                                 </a>
-                                            </td>
+                                            </td> *@
 
 
                                         </tr>

@@ -28,7 +28,7 @@ namespace EcdsApp.Controllers
 
         public HomeController(DataContext context, UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _context = context; 
             _userManager = userManager;
         }
         public async Task<IActionResult> Dashboard()
@@ -88,7 +88,6 @@ namespace EcdsApp.Controllers
                     LayerLegendColors = legendData,
                     ChartDataVms = chartData
                 };
-
 
                 //=====Insert Server Hit Info in our system.
                 var ipaddress = HttpContext.Connection.RemoteIpAddress?.ToString();
@@ -188,6 +187,12 @@ namespace EcdsApp.Controllers
         }
 
         public IActionResult index()
+        {
+            return View();
+        }
+
+
+        public IActionResult ecds_main()
         {
             return View();
         }
