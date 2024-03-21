@@ -34,7 +34,6 @@ namespace EcdsApp.Data
                 //optionsBuilder.UseMySQL("server=localhost;userid=ecds_admin;pwd=Ecds#DbAdmin@2023$;database=ecds_db;Allow User Variables=True;");
                 //optionsBuilder.UseMySQL("server=server=130.180.3.146;userid=drip_admin;pwd=2022;database=ecds_db;Allow User Variables=True;");
                 //179 local IP->130.180.3.65
-
                 optionsBuilder.UseMySQL("server=130.180.3.65;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
             //optionsBuilder.UseMySQL("server=ims.cegisbd.com;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;SSL Mode=None");
 
@@ -81,8 +80,6 @@ namespace EcdsApp.Data
         public DbSet<DisasterAffHHCatPreparednes2015To2020Div> DisasterAffHHCatPreparednes2015To2020Div { get; set; }
 
 
-
-
         //Upazila Wise
         public DbSet<ExposureCategory> ExposureCategories { get; set; }
         public DbSet<UpazilaWiseExposureData> UpazilaWiseExposureData { get; set; }
@@ -91,8 +88,6 @@ namespace EcdsApp.Data
         public DbSet<UpazilaWisePopulationDensity> UpazilaWisePopulationDensities { get; set; }
         public DbSet<UpazilaWisePopulationDistribution> UpazilaWisePopulationDistributions { get; set; }
         public DbSet<UpazilaWiseLiteracyRate> UpazilaWiseLiteracyRates { get; set; }
-
-
 
         //District Wise
 

@@ -53,6 +53,8 @@ namespace EcdsApp.Controllers.LogAndHitCount
                 incomingReq.TotalHitRequest = hitInfos.Count;
                 incomingReq.YearWiseCountsInString = JsonConvert.SerializeObject(yearCountList);
                 return View(incomingReq);
+
+
         }
         
         // public async Task<IActionResult> IncomingRequestsJson()

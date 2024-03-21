@@ -10,6 +10,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+using System;
+using System.IO;
+using GeoAPI.Geometries;
+using NetTopologySuite.Features;
+using NetTopologySuite.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 namespace EcdsApp.Controllers
 {
     public class ChatController : Controller
@@ -106,12 +115,23 @@ namespace EcdsApp.Controllers
 
         //public IActionResult PersonalChat(string email)
         //{
-        //    if (!ModelState.IsValid)
+        //    // Replace "path/to/your/shapefile.shp" with the actual path to your shapefile
+        //    string shapefilePath = "path/to/your/shapefile.shp";
+
+        //    // Replace "path/to/your/output.geojson" with the desired output GeoJSON file path
+        //    string geojsonPath = "path/to/your/output.geojson";
+
+        //    try
         //    {
-        //       var chats = _context.Chats.Where(y => y.Sender == email).OrderByDescending(y => y.SentAt).Select(y=>new{y.Message,y.Sender,y.Receiver}).ToList();
-        //       return Json(chats);
+        //        var features = ReadShapefile(shapefilePath);
+        //        WriteGeoJson(features, geojsonPath);
+
+        //        Console.WriteLine("Conversion successful.");
         //    }
-        //    return Json("error");
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error: {ex.Message}");
+        //    }
         //}
     }
 }

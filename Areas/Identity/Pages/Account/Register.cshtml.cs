@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -149,6 +151,13 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     //    return Page();
                     //}
 
+                    try
+                    {
+                        await _userManager.AddToRoleAsync(user, "637d2f34-090d-424e-beb7-4b7e91cbda59");
+                    }
+                    catch (Exception)
+                    {
+                    }
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -160,8 +169,8 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     //     pageHandler: null,
                     //     values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                     //     protocol: Request.Scheme);
-                    var callbackUrl=Url.Action("ConfirmEmail", "Home", new { UserId = user.Id, token = token }, Request.Scheme);
 
+                    var callbackUrl=Url.Action("ConfirmEmail", "Home", new { UserId = user.Id, token = token }, Request.Scheme);
                     bool state = await _emailSender.SendEmailAsync(new Models.ViewModels.EmailModel()
                     {
                         Subject = "Confirm your email",
@@ -171,7 +180,6 @@ namespace EcdsApp.Areas.Identity.Pages.Account
                     if (state)
                     {
                         var msg = "Registered Successfully. Click the confirmation link from your email to activate your account.";
-
                         ModelState.AddModelError(string.Empty, msg);
                         return Page();
                         //return RedirectToPage("Register", new { msg = msg });

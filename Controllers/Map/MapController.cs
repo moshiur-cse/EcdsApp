@@ -1,5 +1,6 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.ViewModels.Map;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace EcdsApp.Controllers.Map
 {
+    [Authorize]
     public class MapController : Controller
     {
         private readonly DataContext _context;

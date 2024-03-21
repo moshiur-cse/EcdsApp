@@ -15,8 +15,6 @@
             var email = User.Claims.FirstOrDefault(c => c.Value.Contains("@gmail.com")).Value;
             user = await _userManager.FindByEmailAsync(email);
         }
-
-
     }
     var userRoleId = user?.UserRoleId;
     var dbContext = new DataContext();
@@ -36,10 +34,16 @@
                 <i class="fa fa-fw fa-bars"></i>
             </button>
 
-            <span class="title-txt d-none d-md-inline-block">
+            @* <span class="title-txt d-none d-md-inline-block">
                 <span class="title">Platform of Environment, Climate Change and Disaster Statistics <span>(ECDS)</span></span>
-
+            </span> *@
+            <span class="title-txt d-none d-md-inline-block">
+                <span style="color: rgb(240, 203, 135);font: 700 1.60vw/1.5 Roboto, Noto Sans, Helvetica, Arial, sans-serif">Platform of Environment Statistics <span>(ECDS)</span></span><br />
+                <span style="color: #d7ebf0;font: 700 1.20vw/1 Roboto, Noto Sans, Helvetica, Arial, sans-serif">Bangladesh Bureau of Statistics (BBS)</span>  <br>
+               @*  <span style="color:#111111;font: 700 .80vw/1 Roboto, Noto Sans, Helvetica, Arial, sans-serif">Ministry of Planning</span> *@
             </span>
+
+
             <span class="title-txt d-inline-block d-md-none text-center">
                 <span class="title title-sm m-2 ml-4">ECDS</span>
             </span>
@@ -53,10 +57,7 @@
                 </button>
             </div>
 
-
             <div class="dropdown d-inline-block" style="margin-right:60px">
-
-
                 @if (_signInManager.IsSignedIn(User))
                 {
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
@@ -80,7 +81,6 @@
                         <span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">@User.Identity?.Name</span>
                         <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                     </button>
-
                     <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item" href="~/assets/documents/user_manual.pdf" target="_blank" title="User Manual"><i class="fas fa-info-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">User Manual</span></a>
                         @if (user != null)
@@ -91,12 +91,10 @@
                         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new {area = ""})" method="post">
                             <button type="submit" class="dropdown-item"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">Sign out</span></button>
                         </form>
-
                     </div>
                 }
                 else
                 {
-
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="rounded-circle header-profile-user" src="~/assets/images/user_icon.png"
@@ -104,25 +102,20 @@
                         <span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">User</span>
                         <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                     </button>
-
                     <div class="dropdown-menu dropdown-menu-end">
                         <button onclick="my_modal_show()" class="dropdown-item" title="Instructional Video"><i class="fas fa-info-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Instructional Video</span></button>
                         <a class="dropdown-item" href="~/assets/documents/user_manual.pdf" target="_blank" title="User Manual"><i class="fas fa-info-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">User Manual</span></a>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Login</span></a>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register"><i class="uil uil-sign-out-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">Register</span></a>
                     </div>
-                }
 
+                }
             </div>
         </div>
-
     </div>
     <div class="container-fluid">
-
         <div class="topnav">
-
             <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
-
                 <div class="collapse navbar-collapse" id="topnav-menu-content">
                     <ul class="navbar-nav">
 
@@ -140,8 +133,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-pages">
                                     <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
-                                       role="button">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce" role="button">
                                             Admin Boundaries <div class="arrow-down"></div>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
@@ -198,7 +190,6 @@
                                 </li>
                             }
                         }
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
                                 <i class="uil-location-point me-2"></i>Map <div class="arrow-down"></div>
@@ -206,23 +197,21 @@
                             <div class="dropdown-menu" aria-labelledby="topnav-pages">
                                 <a class="dropdown-item" asp-controller="Map" asp-action="BasicMap">Map View</a>
                                 <a class="dropdown-item" asp-controller="Map" asp-action="MapComparison">Map Comparison</a>
-
                             </div>
                         </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
                                 <i class="uil-location-point me-2"></i>ECDS Applications <div class="arrow-down"></div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-pages">
-
-
-                                <a href="https://ecdsbbs.com" class="dropdown-item" target="_blank" title="Bangladesh Environmental Statistics Platform">BDRS</a>
-                                <a href="http://eper.ecdsbbs.com/" class="dropdown-item" target="_blank" title="Estimation of Environmental Protection Expenditure, Resources & Waste Management (Establishment) Survey">EPER & WM Survey - 2021</a>
-                                <a href="http://main.ecdsbbs.com/" class="dropdown-item" target="_blank">BDRS Main</a>                               
-                                <a href="http://list.ecdsbbs.com/" class="dropdown-item" target="_blank">BDRS List</a>
-                                <a href="https://play.google.com/store/apps/details?id=com.cegisbd.ecdsmobileapp" class="dropdown-item" target="_blank">Apps Download Link</a>
-
+                                <a href="https://ecdsbbs.com" class="dropdown-item" target="_blank" title="Bangladesh Environmental Statistics Platform">Compilation of Env. Stat.</a>
+                              
+                                <a href="http://list.ecdsbbs.com/" class="dropdown-item" target="_blank">BDRS Listing</a>
+                                <a href="http://main.ecdsbbs.com/" class="dropdown-item" target="_blank">BDRS Main Survey</a>  
+                                <a href="http://eper.ecdsbbs.com/" class="dropdown-item" target="_blank" title="Estimation of Environmental Protection Expenditure, Resources & Waste Management (Establishment) Survey">EPER & MWM Survey</a>
                                 
+                                <a href="https://play.google.com/store/apps/details?id=com.cegisbd.ecdsmobileapp" class="dropdown-item" target="_blank">Apps Download Link</a>                           
                             </div>
                         </li>
                         <li class="nav-item">
@@ -235,8 +224,6 @@
                                 <i class="uil-book-alt me-2"></i>   About
                             </a>
                         </li>
-
-
                     </ul>
                 </div>
             </nav>

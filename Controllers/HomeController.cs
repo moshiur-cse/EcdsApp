@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +57,7 @@ namespace EcdsApp.Controllers
 
                 ChartDataVm chartData = new ChartDataVm();
 
-                var dataList = _context.ThemeLayerDetails
+                var dataList = await _context.ThemeLayerDetails
                            .Include(s => s.SubThemes.Themes).AsQueryable().ToList()
                             .GroupBy(model => model.SubThemes.Themes.ThemeName).AsQueryable().ToList()
                             .Select(k => new
@@ -75,7 +77,7 @@ namespace EcdsApp.Controllers
                                         }).ToList()
 
                                     }).ToList()
-                            }).ToList();
+                            }).ToDynamicListAsync();
 
                 chartData.name = "dataList";
                 chartData.children = dataList;
@@ -99,15 +101,15 @@ namespace EcdsApp.Controllers
                     CountryOfOrigin = countryOfOrigin
                 };
                 _context.Add(serverRequest);
-                _context.SaveChangesAsync();
-
-
+                await _context.SaveChangesAsync();
+               
                 return View(dashboardModel);
 
 
             }
             catch (Exception e)
             {
+                
                 return new RedirectToRouteResult(new { action = "UnAuthorizeActionResult", controller = "UserAccessManage", area = "" });
             }
 
