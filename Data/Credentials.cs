@@ -11,4 +11,5 @@
         public static string DefaultEmailReceiver = "test@cegisbd.com";
 
     }
+
 }

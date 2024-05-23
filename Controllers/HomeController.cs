@@ -5,6 +5,7 @@ using EcdsApp.Models.HitCountAndLogModels;
 using EcdsApp.Models.UserManage;
 using EcdsApp.Models.ViewModels.Dashboard;
 using EcdsApp.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,11 +14,18 @@ using Microsoft.EntityFrameworkCore;
 using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using OfficeOpenXml;
+using OfficeOpenXml.Core.ExcelPackage;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.Security.Claims;
 
 
 namespace EcdsApp.Controllers
@@ -27,16 +35,15 @@ namespace EcdsApp.Controllers
         private readonly DataContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-
-        public HomeController(DataContext context, UserManager<ApplicationUser> userManager)
+            public HomeController(DataContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context; 
             _userManager = userManager;
         }
         public async Task<IActionResult> Dashboard()
         {
-            try
-            {
+            //try
+            //{
                 var population = _context.DistrictWisePopulations
                     .Include(u => u.District.Division)
                     .OrderBy(u => u.Id)
@@ -91,27 +98,39 @@ namespace EcdsApp.Controllers
                     ChartDataVms = chartData
                 };
 
-                //=====Insert Server Hit Info in our system.
-                var ipaddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-                var countryOfOrigin = GetCountryOfOrginFromIPAddress(ipaddress);
-                var serverRequest = new ServerHitInfo()
-                {
-                    IPAddress = ipaddress,
-                    RequestedAt = DateTime.Now,
-                    CountryOfOrigin = countryOfOrigin
-                };
-                _context.Add(serverRequest);
-                await _context.SaveChangesAsync();
-               
+
+                hitCount();
                 return View(dashboardModel);
-
-
-            }
-            catch (Exception e)
-            {
+            //}
+            //catch (Exception e)
+            //{
                 
-                return new RedirectToRouteResult(new { action = "UnAuthorizeActionResult", controller = "UserAccessManage", area = "" });
-            }
+            //    return new RedirectToRouteResult(new { action = "UnAuthorizeActionResult", controller = "UserAccessManage", area = "" });
+            //}
+        }
+
+
+        void   hitCount()
+        {
+            //=====Insert Server Hit Info in our system.
+            var ipaddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var countryOfOrigin = "";
+            //try
+            //{
+            //     countryOfOrigin = GetCountryOfOrginFromIPAddress(ipaddress);
+            //}
+            //catch {
+            //    countryOfOrigin = "";
+            //}
+            var serverRequest = new ServerHitInfo()
+            {
+                IPAddress = ipaddress,
+                RequestedAt = DateTime.Now,
+                CountryOfOrigin = countryOfOrigin
+            };
+            _context.Add(serverRequest);
+            _context.SaveChangesAsync();
+
 
         }
         public JsonResult Data()
@@ -300,7 +319,84 @@ namespace EcdsApp.Controllers
             string countryOfOrigin = reader.ReadToEnd();
             countryOfOrigin = (countryOfOrigin.Split("country").ToList())[1].Substring(3);
             countryOfOrigin = countryOfOrigin.Remove(countryOfOrigin.Length - 3);
+
             return countryOfOrigin;
+        }
+
+        [Authorize]
+        public IActionResult UploadExcelData()
+        {
+            ViewBag.message = "";
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public  IActionResult Upload(IFormFile fileUpload)
+        {
+
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            string username = "";
+            string userId = "";
+            if (identity != null)
+            {
+                // Get the user's username
+                 username = identity.FindFirst(ClaimTypes.Name)?.Value;
+
+                // You can also access other claims if needed
+                string email = identity.FindFirst(ClaimTypes.Email)?.Value;
+                userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                // Do something with the user's information
+            }
+            else
+            {
+                // User is not authenticated
+                // Handle accordingly
+            }
+
+
+
+           
+            if (fileUpload != null && fileUpload.Length > 0)
+            {
+                try
+                {
+                    // Specify the folder where you want to save the file
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+
+                    // Create the folder if it doesn't exist
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    // Generate a unique file name to avoid overwriting existing files
+                    string uniqueFileName = username +"_"+ Guid.NewGuid().ToString() + "_" + fileUpload.FileName;
+
+                    // Combine the folder path and file name to get the full path
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    // Save the uploaded file to the specified path
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        fileUpload.CopyTo(stream);
+                    }
+
+                    ViewBag.message = "Upload Successfully";
+                    return RedirectToAction("UploadExcelData"); // Redirect back to the upload page
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+            }
+            else
+            {
+                // Handle case when no file is uploaded
+                return BadRequest("No file uploaded.");
+            }
         }
 
 

@@ -190,13 +190,14 @@
                                             <th>Sub-theme Name</th>
                                             <th>Layer Name</th>
                                             <th>Layer Type</th>
-                                            @*<th>Boundary</th>*@
-                                           @*  <th>Tabular Data</th> *@
+                                            <th>Uploaded Date</th>
+                                        <th>Organization</th>
+                                           <th>Uploaded By</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in Model.ThemeLayerDetails)
-                                    {
+                                            {
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.SubThemes.Themes.ThemeName)
@@ -211,7 +212,9 @@
                                             </td>
 
                                             <td>@item.ThemeLayerTypes?.LayerTypeName</td>
-                                            @*<td>@item.BoundaryInfo?.BoundaryName</td>*@
+                                            <td>@item.GeneratedAt</td>
+                                            <td>@item.User?.Id</td>
+                                            <td>@item.User?.UserName</td>
                                            @*  <td>
                                                 <a class="badge bg-pill bg-soft-info font-size-14" target="_blank" asp-controller="@item.TableInfo?.TableModelName" asp-action="Index" style="color: #191c1e">
                                                     @Html.DisplayFor(modelItem => item.TableInfo.DisplayName)

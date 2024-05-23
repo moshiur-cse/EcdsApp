@@ -10,11 +10,15 @@ namespace EcdsApp.Models.HitCountAndLogModels
     [Table("download_log")]
     public class DownloadLog
     {
-        [Key] [Column("id")] public int Id { get; set; }
+        [Key] [Column("id")] 
+        public int Id { get; set; }
 
-        [Column("user_id")] public string UserId { get; set; }
 
-        [ForeignKey("UserId")] public virtual ApplicationUser User { get; set; }
+        [Column("user_id")] 
+        public string UserId { get; set; }
+        [ForeignKey("UserId")] 
+        public virtual ApplicationUser User { get; set; }
+
 
         [Required]
         [Column("ip_address", TypeName = "varchar(100)")]

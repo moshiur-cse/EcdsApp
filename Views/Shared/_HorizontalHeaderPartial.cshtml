@@ -1,11 +1,17 @@
 ﻿ddTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using EcdsApp.Models.ThemeModels;
 @using EcdsApp.Models.UserManage
 @using EcdsApp.Models.ViewModels
 @using EcdsApp.Data
 @using Microsoft.EntityFrameworkCore
 @inject SignInManager<ApplicationUser> _signInManager
 @inject UserManager<ApplicationUser> _userManager
+
+@* @inject DbSet<ThemeLayerDetail> layers *@
 @{
+
+
+
     var user = await _userManager.GetUserAsync(User);
     if (user == null)
     {
@@ -22,6 +28,10 @@
         .Include(r => r.UserPermittedContent)
         .Where(r => r.UserRoleId == userRoleId).ToList();
 
+
+    var countLayers = dbContext.ThemeLayerDetails.Count(i => i.ReadStatus == false);
+
+    var layerInfoes = dbContext.ThemeLayerDetails.Where(i => i.ReadStatus == false).ToList(); 
 }
 
 <header id="page-topbar">
@@ -55,6 +65,78 @@
                 <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
                     <i class="uil-minus-path"></i>
                 </button>
+            </div>
+
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="uil-bell"></i>
+                    <span class="badge bg-danger rounded-pill">@countLayers</span>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
+                    <div class="p-3">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="m-0 font-size-16"> Notifications </h5>
+                            </div>
+                          @*   @if (userRoleId == AppStaticBase.SystemAdministrator)
+                            {
+                                <div class="col-auto">
+                                    <a href="#!" class="small"> Mark all as read</a>
+                                </div>
+                            } *@
+                        </div>
+                    </div>
+                    <div data-simplebar style="max-height: 230px;">
+
+                        
+                        @if(countLayers>0){
+                            foreach (var item in layerInfoes)
+                            {
+                                <a asp-controller="ThemeLayerDetails" asp-action="Edit" asp-route-id="@item.LayerId" class="text-dark notification-item">
+                                @* <a href="javascript:void(0);" class="text-dark notification-item"> *@
+                                    <div class="d-flex align-items-start">
+                                         <div class="flex-shrink-0 me-3">
+                                            @* <div class="avatar-xs">
+                                                <span class="avatar-title bg-primary rounded-circle font-size-16">
+                                                    <i class="btn_map_layers"></i>
+                                                </span>
+                                            </div> *@
+                                        </div> 
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">@item.LayerDisplayName | @item.GeneratedAt</h6>
+                                            @* <div class="font-size-12 text-muted">
+                                                <p class="mb-1">If several languages coalesce the grammar</p>
+                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago</p>
+                                            </div>  *@
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <a href="javascript:void(0);" class="text-dark notification-item">
+                                <div class="d-flex align-items-start">                                    
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">No New Layer Added</h6>                                     
+                                    </div>
+                                </div>
+                            </a>
+                            
+                        }
+
+                        
+                    </div>
+                   @*  <div class="p-2 border-top">
+                        <div class="d-grid">
+                            <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+                                <i class="uil-arrow-circle-right me-1"></i> View More..
+                            </a>
+                        </div>
+                    </div> *@
+                </div>
             </div>
 
             <div class="dropdown d-inline-block" style="margin-right:60px">
@@ -211,9 +293,49 @@
                                 <a href="http://main.ecdsbbs.com/" class="dropdown-item" target="_blank">BDRS Main Survey</a>  
                                 <a href="http://eper.ecdsbbs.com/" class="dropdown-item" target="_blank" title="Estimation of Environmental Protection Expenditure, Resources & Waste Management (Establishment) Survey">EPER & MWM Survey</a>
                                 
-                                <a href="https://play.google.com/store/apps/details?id=com.cegisbd.ecdsmobileapp" class="dropdown-item" target="_blank">Apps Download Link</a>                           
+                                @* <a href="https://play.google.com/store/apps/details?id=com.cegisbd.ecdsmobileapp" class="dropdown-item" target="_blank">Apps Download Link</a>
+ *@
+                                <a href="~/assets/documents/APK/hbes.apk" class="dropdown-item" target="_blank">HBES Data Listing App</a>
+                                
+                                <a href="~/assets/documents/apk/hbes_application_manual.pdf" class="dropdown-item" target="_blank">User Manual</a>
+                                <a href="~/assets/documents/apk/hbes_user_video_manual.mp4" class="dropdown-item" target="_blank">Video Tutorial</a>
+
+                                
+                               @*  <a href="~/assets/documents/APK/HES2024ForTesting.apk" class="dropdown-item" target="_blank">HBES Data Listing App</a>
+
+ *@
+                               
+                                <a class="dropdown-item" asp-controller="Home" asp-action="UploadExcelData">Forest and Land Account</a>
+                                @* <div class="dropdown">
+                                    <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce" role="button">
+                                        Forest Account <div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
+                                        <a class="dropdown-item" asp-controller="Home" asp-action="UploadExcelData">Forest Account (Timber)</a>
+                                        <a class="dropdown-item" asp-controller="" asp-action="">Forest and Other Wooded Land Account</a>
+                                      
+                                    </div>
+                                </div>
+
+                                <div class="dropdown">
+                                    <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce" role="button">
+                                        Land Account <div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
+                                        <a class="dropdown-item" asp-controller="" asp-action="">Land Cover of Bangladesh</a>
+                                        <a class="dropdown-item" asp-controller="" asp-action="">Land Use of Bangladesh</a>
+
+                                    </div>
+                                </div> *@
+                            
                             </div>
+
+                            
                         </li>
+
+
+
+
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="ContactUs">
                                 <i class="uil-envelope me-2"></i>   Contact Us
@@ -231,5 +353,8 @@
     </div>
     <img class="bd_logo" src="~/assets/images/bd_govt_logo.png" style="float:right">
 </header>
+
+
+
 
 

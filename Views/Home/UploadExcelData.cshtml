@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <h1>Download Load File Format</h1>
+                    <a class="btn btn-info" href="~/assets/documents/Excel/Forest_Account_Timber.xlsx" target="_blank">Forest Account (Timber)</a>
+                    <a class="btn btn-info" href="~/assets/documents/Excel/Forest_and_Other_Wooded_Land_Account_Bangladesh.xlsx" target="_blank">Forest and Other Wooded Land Account Bangladesh</a>
+                    <a class="btn btn-info" href="~/assets/documents/Excel/Land_Cover_Account_Bangladesh.xlsx" target="_blank">Land Cover Account Bangladesh</a>
+                    <a class="btn btn-info" href="~/assets/documents/Excel/Land_Use_Account_Bangladesh.xlsx" target="_blank">Land Use Account Bangladesh</a>
+                   
+                </div>
+
+                @ViewBag.message;
+
+                <div class="col-md-12">
+                    <h1>Upload Files</h1>
+                    <form asp-action="Upload" method="post" name="fileUpload" enctype="multipart/form-data">
+                            <label for="fileUpload">Select Excel File:</label>
+                            <input type="file" id="fileUpload" name="fileUpload" class="form-control-file">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

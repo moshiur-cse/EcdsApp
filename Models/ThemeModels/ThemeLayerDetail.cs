@@ -1,4 +1,6 @@
 ﻿using EcdsApp.Models.TabularModels;
+using EcdsApp.Models.UserManage;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -134,6 +136,20 @@ namespace EcdsApp.Models.ThemeModels
         [Column("sorting_order")]
         [Display(Name = "Sorting Order")]
         public int? SortingOrder { get; set; }
+
+
+        [Column("user_id")]
+        public string? UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
+
+        [Column("generated_at")]
+        [Display(Name = "Generated At")]
+        public DateTime? GeneratedAt { get; set; }
+
+        [Column("read_status")]
+        [Display(Name = "Read Status")]
+        public bool ReadStatus { get; set; }
 
     }
 }

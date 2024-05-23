@@ -17,19 +17,19 @@ namespace EcdsApp.Models.RegionModels
         [Display(Name = "Union Geo-Code")]
         public string UnionGeoCode { get; set; }
 
-        [Column("old_geo_code", Order = 0, TypeName = "varchar(10)")]
+        [Column("old_geo_code", Order = 1, TypeName = "varchar(10)")]
         [StringLength(10,MinimumLength =10, ErrorMessage = "The value must be 10 characters.")]
         [Display(Name = "Old Geo-Code")]
         public string OldGeoCode { get; set; }
 
         [Required(ErrorMessage = "Union Name field is mandatory")]
-        [Column("union_name", Order = 1, TypeName = "nvarchar(250)")]
+        [Column("union_name", Order = 2, TypeName = "nvarchar(250)")]
         [StringLength(250)]
         [Display(Name = "Union Name")]
         public string UnionName { get; set; }
 
         //[Required]
-        [Column("union_name_bangla", Order = 1, TypeName = "nvarchar(250)")]
+        [Column("union_name_bangla", Order = 3, TypeName = "nvarchar(250)")]
         [StringLength(250)]
         [Display(Name = "Union Name (Bangla)")]
         public string UnionNameBangla { get; set; }

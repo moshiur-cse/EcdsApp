@@ -21,6 +21,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using EcdsApp.Models.HitCountAndLogModels;
+using DocumentFormat.OpenXml.Drawing;
+using EcdsApp.Models.ViewModels.Map;
+using EcdsApp.Models.ThemeModels;
 
 namespace EcdsApp.Controllers.ThemeLayer
 {
@@ -58,7 +61,9 @@ namespace EcdsApp.Controllers.ThemeLayer
                 .Include(t => t.LegendColorOption)
                 .Include(t => t.BoundaryInfo)
                 .Include(t => t.TableInfo)
+                .Include(t => t.User)
                 .Where(tld => userPerComponents.Contains(tld.SubThemeId));
+
 
             ViewBag.IsPermittedToAddData = permToAddData;
             ViewBag.IsPermittedToEditData = permToEditData;       
@@ -66,6 +71,7 @@ namespace EcdsApp.Controllers.ThemeLayer
             ViewBag.isSystemAdmin = user.UserRoleId != null && user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd" ? true:false;
             return View(await dataContext.ToListAsync());
         }
+
 
         public async Task<IActionResult> ApproveDataByAdmin(int id)
         {
@@ -101,11 +107,23 @@ namespace EcdsApp.Controllers.ThemeLayer
             return View(themeLayerDetail);
         }
 
+
+
+
         // GET: ThemeLayerDetails/Create
         [UserAuthorization]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
+            var user = await _userManager.GetUserAsync(User);
+            var userPerComponents = _context.RoleWiseComponents
+                .Where(r => r.UserRoleId == user.UserRoleId).Select(r => r.SubThemeId).ToList();
+            var ThemeList = _context.SubThemes.Where(e => userPerComponents.Contains(e.SubThemeId)).Select(k => new
+            {
+                ThemeId = k.ThemeId,
+                ThemeName = k.Themes.ThemeName
+            }).Distinct().ToList();
+
+            ViewData["ThemeId"] = new SelectList(ThemeList, "ThemeId", "ThemeName");
             ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName");
             ViewData["LayerTypeId"] = new SelectList(_context.ThemeLayerTypes, "LayerTypeId", "LayerTypeName");
             ViewData["BoundaryList"] = new SelectList(_context.BoundaryInfos, "Id", "BoundaryName");
@@ -119,19 +137,19 @@ namespace EcdsApp.Controllers.ThemeLayer
         [DisableRequestSizeLimit]
         [UserAuthorization]
         public async Task<IActionResult> Create([Bind("LayerId,SubThemeId,LayerDisplayName,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FileLatName,FileLongName," +
-            "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId")]
+            "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId,GeneratedAt,UserId,ReadStatus")]
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
             if (ModelState.IsValid)
             {
+
                 //========= Set theme LayerName from layerDisplay Name by removing space with _;
                 themeLayerDetail.LayerName=themeLayerDetail.LayerDisplayName.Replace(" ", "_");
                 themeLayerDetail.LayerName = themeLayerDetail.LayerName.ToLower();
                 
                 var newThemeLayerDetId = (_context.ThemeLayerDetails.Max(s => (int?)s.LayerId) ?? 0) + 1;
                 themeLayerDetail.LayerId = newThemeLayerDetId;
-                
-                
+                              
                 //==== Check for the layer name if that is unique
                 bool isNotUnique = await _context.ThemeLayerDetails.AnyAsync(x => x.LayerName == themeLayerDetail.LayerName);
                 if (isNotUnique)
@@ -148,10 +166,10 @@ namespace EcdsApp.Controllers.ThemeLayer
                 
                 if (themeLayerDetail.LayerTypeId != AppStaticBase.LayerTypeTabular)
                 {
-                    var shapeFileExtList = shapeFile.Select(item => ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Value).Select(Path.GetExtension).ToList();
+                    var shapeFileExtList = shapeFile.Select(item => ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Value).Select(System.IO.Path.GetExtension).ToList();
                     var jsonFileName = ContentDispositionHeaderValue.Parse(geoJsonFile[0].ContentDisposition).FileName.Value;
 
-                    if (!(shapeFileExtList.Contains(".dbf") && shapeFileExtList.Contains(".prj") && shapeFileExtList.Contains(".shp") && shapeFileExtList.Contains(".shx") && Path.GetExtension(jsonFileName).Contains(".json")))
+                    if (!(shapeFileExtList.Contains(".dbf") && shapeFileExtList.Contains(".prj") && shapeFileExtList.Contains(".shp") && shapeFileExtList.Contains(".shx") && System.IO.Path.GetExtension(jsonFileName).Contains(".json")))
                     {
                         ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
                         ViewData["SubThemeId"] = new SelectList(_context.SubThemes, "SubThemeId", "SubThemeName", themeLayerDetail.SubThemeId);
@@ -183,7 +201,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                     var themePath = subThemeObj?.Themes.ThemePath;
                     var subThemePath = subThemeObj?.SubThemePath;
 
-                    var jsonFileFinalName = themeLayerDetail.LayerName + Path.GetExtension(jsonFileName);
+                    var jsonFileFinalName = themeLayerDetail.LayerName + System.IO.Path.GetExtension(jsonFileName);
                     var jsonFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}\\{jsonFileFinalName}";
                     Directory.CreateDirectory(Directory.GetParent(jsonFilePath).FullName);
                     await using var output = System.IO.File.Create(jsonFilePath);
@@ -191,7 +209,7 @@ namespace EcdsApp.Controllers.ThemeLayer
 
                     foreach (var file in shapeFile)
                     {
-                        var shapeFileName = themeLayerDetail.LayerName + Path.GetExtension(file.FileName);
+                        var shapeFileName = themeLayerDetail.LayerName + System.IO.Path.GetExtension(file.FileName);
                         var shapeFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}\\{shapeFileName}";
 
                         Directory.CreateDirectory(Directory.GetParent(shapeFilePath).FullName);
@@ -201,7 +219,9 @@ namespace EcdsApp.Controllers.ThemeLayer
 
                     themeLayerDetail.LayerFileName = jsonFileFinalName;
                 }
-
+                themeLayerDetail.GeneratedAt = DateTime.Now;
+                themeLayerDetail.UserId = (await _userManager.GetUserAsync(User)).Id;
+                themeLayerDetail.ReadStatus = false;
                 _context.Add(themeLayerDetail);
                 await _context.SaveChangesAsync();
 
@@ -216,12 +236,18 @@ namespace EcdsApp.Controllers.ThemeLayer
 
             return View(themeLayerDetail);
         }
+        //RMO
 
-        public JsonResult GetSubThemeData(int themeId)
+        //[UserAuthorization]
+        public async Task<JsonResult> GetSubThemeData(int themeId)
         {
-            var subThemeList = _context.SubThemes.Where(e => e.ThemeId == themeId).ToList();
+            var user =  await _userManager.GetUserAsync(User);
+            var userPerComponents = _context.RoleWiseComponents
+                .Where(r => r.UserRoleId == user.UserRoleId).Select(r => r.SubThemeId).ToList();
+            var subThemeList =  _context.SubThemes.Where(e => e.ThemeId == themeId && userPerComponents.Contains(e.SubThemeId)).ToList();
+
             subThemeList.Insert(0, new SubTheme { SubThemeId = 0, SubThemeName = "--Select--" });
-            return Json(new SelectList(subThemeList, "SubThemeId", "SubThemeName"));
+            return  Json(new SelectList(subThemeList, "SubThemeId", "SubThemeName"));
         }
 
         public JsonResult GetLayerData(int subThemeId)
@@ -309,8 +335,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 ViewData["TableList"] = new SelectList(_context.TableInfos.Where(e => e.SubThemeId == themeLayerDetail.SubThemeId), "Id", "DisplayName", themeLayerDetail.TableInfoId);
             }
 
-            ViewBag.DataStatusId =
-                new SelectList(await _context.DataVerificationStates.ToListAsync(), "Id", "StateName");
+            ViewBag.DataStatusId =new SelectList(await _context.DataVerificationStates.ToListAsync(), "Id", "StateName");
             var user = await _userManager.GetUserAsync(User);
             ViewBag.isSystemAdmin = user.UserRoleId != null && user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd" ? true : false;
             return View(themeLayerDetail);
@@ -321,7 +346,7 @@ namespace EcdsApp.Controllers.ThemeLayer
         [ValidateAntiForgeryToken]
         [UserAuthorization]
         public async Task<IActionResult> Edit(int id, [Bind("LayerId,SubThemeId,LayerDisplayName,LayerName,LayerFileName,LayerTypeId,MainAttributeDisplayName,MainAttributeName,MainAttributeCode,FileLatName,FileLongName," +
-            "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId,DataVerificationStateId")]
+            "LegendColorOptionId,LegendColorFieldName,LineColorCode,FillColorCode,Opacity,FillOpacity,LineWeight,BoundaryInfoId,TableInfoId,DataVerificationStateId,,GeneratedAt,UserId,ReadStatus")]
             ThemeLayerDetail themeLayerDetail, List<IFormFile> geoJsonFile, List<IFormFile> shapeFile)
         {
             if (id != themeLayerDetail.LayerId)
@@ -345,7 +370,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                     var folderPathDirectory = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}";
                     if (shapeFile.Count > 0)
                     {
-                        var shapeFileExtList = shapeFile.Select(item => ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Value).Select(Path.GetExtension).ToList();
+                        var shapeFileExtList = shapeFile.Select(item => ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Value).Select(System.IO.Path.GetExtension).ToList();
                         if (!(shapeFileExtList.Contains(".dbf") && shapeFileExtList.Contains(".prj") && shapeFileExtList.Contains(".shp") && shapeFileExtList.Contains(".shx")))
                         {
                             ViewData["ThemeId"] = new SelectList(_context.Themes, "ThemeId", "ThemeName");
@@ -373,7 +398,7 @@ namespace EcdsApp.Controllers.ThemeLayer
 
                         foreach (var file in shapeFile)
                         {
-                            var shapeFileName = themeLayerDetail.LayerName + Path.GetExtension(file.FileName);
+                            var shapeFileName = themeLayerDetail.LayerName + System.IO.Path.GetExtension(file.FileName);
                             var shapeFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}\\{shapeFileName}";
 
                             Directory.CreateDirectory(Directory.GetParent(shapeFilePath).FullName);
@@ -404,7 +429,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                             return View(themeLayerDetail);
                         }
 
-                        var jsonFileFinalName = themeLayerDetail.LayerName + Path.GetExtension(jsonFileName);
+                        var jsonFileFinalName = themeLayerDetail.LayerName + System.IO.Path.GetExtension(jsonFileName);
                         var jsonFilePath = $"{_hostEnvironment.WebRootPath}\\assets\\js\\map\\map_data\\{themePath?.Trim()}\\{subThemePath?.Trim()}\\{themeLayerDetail.LayerName.Trim()}\\{jsonFileFinalName}";
                         Directory.CreateDirectory(Directory.GetParent(jsonFilePath).FullName);
                         await using var output = System.IO.File.Create(jsonFilePath);
@@ -532,7 +557,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 var files = Directory.EnumerateFiles(folderPathDirectory, "*", SearchOption.AllDirectories);
                 foreach (string filePath in files)
                 {
-                    ZipEntry entry = new ZipEntry(Path.GetFileName(filePath));
+                    ZipEntry entry = new ZipEntry(System.IO.Path.GetFileName(filePath));
                     entry.DateTime = DateTime.Now;
                     entry.IsUnicodeText = true;
                     IzipOutputStream.PutNextEntry(entry);
@@ -594,5 +619,15 @@ namespace EcdsApp.Controllers.ThemeLayer
         {
             return _context.ThemeLayerDetails.Any(e => e.LayerId == id);
         }
+
+        public JsonResult GetNotification(int themeId)
+        {
+            var ThemeLayerDetails = _context.ThemeLayerDetails.Where(e => e.ReadStatus == false).ToList();
+
+            return Json(ThemeLayerDetails);
+        }
+
+
+        
     }
 }

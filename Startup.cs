@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReflectionIT.Mvc.Paging;
 using System;
+using System.Collections.Generic;
 
 
 namespace EcdsApp
@@ -181,6 +183,18 @@ namespace EcdsApp
             //app.UseForwardedHeaders(); //For Ip Get
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = new FileExtensionContentTypeProvider(new Dictionary<string, string>
+                {
+                    { ".apk","application/vnd.android.package-archive"}
+                })
+            });
+
+
+
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

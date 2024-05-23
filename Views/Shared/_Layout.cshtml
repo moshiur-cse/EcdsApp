@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@*     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self';"> *@
     <title>ECDS :: @ViewData["Title"]</title>
 
     <!-- App favicon -->
@@ -168,6 +169,29 @@
 
     @await RenderSectionAsync("Scripts", required: false)
      <script>
+
+
+        // $.ajax({
+        //     type: 'GET',
+        //     url: '@Url.Action("GetNotification", "ThemeLayerDetails")',
+        //     dataType: "json",
+        //     //data: { themeId: $('#ddlTheme').val() },
+        //     success: function (responseData) {
+        //         console.log(responseData);
+
+        //     },
+        //     error: function (ex) {
+        //         window.Swal.fire({
+        //             title: "Error",
+        //             text: "Failed to Load Sub-Theme Data!" + ex.responseText,
+        //             icon: "error",
+        //             showConfirmButton: false,
+        //             timer: 2000
+        //         });
+        //     }
+        // });
+
+
     function my_modal_show() {
                 const myModal = new bootstrap.Modal(document.getElementById('mymodal'), {
                     keyboard: false

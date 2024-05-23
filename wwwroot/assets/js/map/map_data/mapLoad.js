@@ -1,4 +1,11 @@
-﻿var boundary;
+﻿/* 
+ * @license
+ * This JS is proprietary and protected by copyright law.
+ * Unauthorized copying of this file, via any medium, is strictly prohibited.
+ */
+
+
+var boundary;
 var geojson;
 var mymap; /*= L.map('mapid').setView([cLat, cLong], mapZoom);*/
 var cLat = 23.777176;

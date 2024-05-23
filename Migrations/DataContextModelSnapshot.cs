@@ -31,36 +31,36 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("dist_name")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(2);
 
                     b.Property<string>("DistrictNameBangla")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("dist_name_bangla")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.Property<string>("DivisionGeoCode")
                         .HasMaxLength(2)
                         .HasColumnType("varchar(2)")
                         .HasColumnName("div_geo_code")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(4);
 
                     b.Property<string>("OldGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
                         .HasColumnName("old_geo_code")
-                        .HasColumnOrder(0);
+                        .HasColumnOrder(1);
 
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
                         .HasColumnName("sorting_order")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(5);
 
                     b.HasKey("DistrictGeoCode");
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_districts", (string)null);
+                    b.ToTable("lkp_admin_boundary_districts");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.AdminBoundaryDivision", b =>
@@ -93,7 +93,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("DivisionGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_divisions", (string)null);
+                    b.ToTable("lkp_admin_boundary_divisions");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.AdminBoundaryUpazila", b =>
@@ -108,49 +108,49 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("varchar(6)")
                         .HasColumnName("city_geo_code")
-                        .HasColumnOrder(0);
+                        .HasColumnOrder(4);
 
                     b.Property<string>("CityName")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("city_name")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(5);
 
                     b.Property<string>("DistrictGeoCode")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)")
                         .HasColumnName("dist_geo_code")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(6);
 
                     b.Property<string>("OldGeoCode")
                         .HasMaxLength(6)
                         .HasColumnType("varchar(6)")
                         .HasColumnName("old_geo_code")
-                        .HasColumnOrder(0);
+                        .HasColumnOrder(1);
 
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
                         .HasColumnName("sorting_order")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(7);
 
                     b.Property<string>("UpazilaName")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("upz_name")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(2);
 
                     b.Property<string>("UpazilaNameBangla")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("upz_name_bangla")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.HasKey("UpazilaGeoCode");
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_upazilas", (string)null);
+                    b.ToTable("lkp_admin_boundary_upazilas");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.BundleDetail", b =>
@@ -184,7 +184,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("LayerId");
 
-                    b.ToTable("tbl_bundle_details", (string)null);
+                    b.ToTable("tbl_bundle_details");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DataVerificationState", b =>
@@ -201,7 +201,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_data_verification_states", (string)null);
+                    b.ToTable("lkp_data_verification_states");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.AreaOfLandsInAcres", b =>
@@ -239,7 +239,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("area_of_lands_in_acres", (string)null);
+                    b.ToTable("area_of_lands_in_acres");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.BforDisSufferingsAccordingToCauseOfDisease", b =>
@@ -299,7 +299,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("bfor_dis_sufferings_according_to_cause_of_disease", (string)null);
+                    b.ToTable("bfor_dis_sufferings_according_to_cause_of_disease");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.BforDisSufferingsAccordingToTypeOfDisease", b =>
@@ -399,7 +399,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("bfor_dis_sufferings_according_to_type_of_disease", (string)null);
+                    b.ToTable("bfor_dis_sufferings_according_to_type_of_disease");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DamageValueOfLandsMillions", b =>
@@ -437,7 +437,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("damage_value_of_lands_millions", (string)null);
+                    b.ToTable("damage_value_of_lands_millions");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DisasterAffNPreparednesHH2015To2020Dist", b =>
@@ -467,7 +467,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("disaster_aff_n_preparednes_hh_2015_to_2020_dist", (string)null);
+                    b.ToTable("disaster_aff_n_preparednes_hh_2015_to_2020_dist");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DisasterAffectedHouseholdFrom2015To2020", b =>
@@ -547,7 +547,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("disaster_affected_household_from_2015_to_2020", (string)null);
+                    b.ToTable("disaster_affected_household_from_2015_to_2020");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistWiseLossAndDamageOfAgriculture", b =>
@@ -610,7 +610,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("dist_wise_loss_and_damage_of_agriculture", (string)null);
+                    b.ToTable("dist_wise_loss_and_damage_of_agriculture");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseDisabilityDisabRate", b =>
@@ -649,7 +649,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_disability_disab_rate", (string)null);
+                    b.ToTable("district_wise_disability_disab_rate");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseFertilityRateCBR", b =>
@@ -688,7 +688,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_fertility_rate_cbr", (string)null);
+                    b.ToTable("district_wise_fertility_rate_cbr");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseFertilityRateCPR", b =>
@@ -727,7 +727,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_fertility_rate_cpr", (string)null);
+                    b.ToTable("district_wise_fertility_rate_cpr");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseFertilityRateGFR", b =>
@@ -766,7 +766,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_fertility_rate_gfr", (string)null);
+                    b.ToTable("district_wise_fertility_rate_gfr");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseFertilityRateTFR", b =>
@@ -805,7 +805,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_fertility_rate_tfr", (string)null);
+                    b.ToTable("district_wise_fertility_rate_tfr");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseHazardLevel", b =>
@@ -868,7 +868,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_hazard", (string)null);
+                    b.ToTable("district_wise_hazard");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseLightening", b =>
@@ -898,7 +898,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_district_wise_lightening", (string)null);
+                    b.ToTable("tbl_district_wise_lightening");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseMortalityRateIMR", b =>
@@ -937,7 +937,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_mortality_rate_imr", (string)null);
+                    b.ToTable("district_wise_mortality_rate_imr");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseMortalityRateU5MR", b =>
@@ -976,7 +976,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_mortality_rate_u5mr", (string)null);
+                    b.ToTable("district_wise_mortality_rate_u5mr");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseMotherHealthRisk", b =>
@@ -1023,7 +1023,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("DistrictWiseMotherHealthRisk", (string)null);
+                    b.ToTable("DistrictWiseMotherHealthRisk");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulation", b =>
@@ -1066,7 +1066,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("tbl_district_wise_population", (string)null);
+                    b.ToTable("tbl_district_wise_population");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePopulationDensity", b =>
@@ -1091,7 +1091,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_district_wise_population_density", (string)null);
+                    b.ToTable("tbl_district_wise_population_density");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWisePoverty", b =>
@@ -1114,7 +1114,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("tbl_district_wise_poverty", (string)null);
+                    b.ToTable("tbl_district_wise_poverty");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseRiskLevel", b =>
@@ -1177,7 +1177,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("DistrictWiseRiskLevels", (string)null);
+                    b.ToTable("DistrictWiseRiskLevels");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictWiseThunderstrom", b =>
@@ -1207,7 +1207,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_district_wise_thunderstorm", (string)null);
+                    b.ToTable("tbl_district_wise_thunderstorm");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DistrictwiseMortalityRateCDR", b =>
@@ -1246,7 +1246,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("district_wise_mortality_rate_cdr", (string)null);
+                    b.ToTable("district_wise_mortality_rate_cdr");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DomesticWaterBySourceBfrDisaster", b =>
@@ -1306,7 +1306,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("domestic_water_by_source_bfr_disaster", (string)null);
+                    b.ToTable("domestic_water_by_source_bfr_disaster");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DomesticWaterBySourceDurDisaster", b =>
@@ -1366,7 +1366,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("domestic_water_by_source_dur_disaster", (string)null);
+                    b.ToTable("domestic_water_by_source_dur_disaster");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DrinkingWaterBySourceDurDisaster", b =>
@@ -1431,7 +1431,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("drinking_water_by_source_dur_disaster", (string)null);
+                    b.ToTable("drinking_water_by_source_dur_disaster");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DurDisSufferingsAccordingToCauseOfDisease", b =>
@@ -1491,7 +1491,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("dur_dis_sufferings_according_to_cause_of_disease", (string)null);
+                    b.ToTable("dur_dis_sufferings_according_to_cause_of_disease");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.DurDisSufferingsAccordingToTypeOfDisease", b =>
@@ -1591,7 +1591,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("dur_dis_sufferings_according_to_type_of_disease", (string)null);
+                    b.ToTable("dur_dis_sufferings_according_to_type_of_disease");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedLoanBy10KPlus", b =>
@@ -1630,7 +1630,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("household_received_loan_by_10k_plus", (string)null);
+                    b.ToTable("household_received_loan_by_10k_plus");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedLoanBy50kTo10K", b =>
@@ -1665,7 +1665,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("household_received_loan_by_50k_to_10k", (string)null);
+                    b.ToTable("household_received_loan_by_50k_to_10k");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedRehabilitationLoanByGovtOrg", b =>
@@ -1720,7 +1720,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("household_received_rehabilitation_loan_by_govt_org", (string)null);
+                    b.ToTable("household_received_rehabilitation_loan_by_govt_org");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.HouseholdReceivedRehabilitationLoanByNGO", b =>
@@ -1775,7 +1775,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("household_received_rehabilitation_loan_by_ngo", (string)null);
+                    b.ToTable("household_received_rehabilitation_loan_by_ngo");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.IllDueDisNotSufferingAccordingToSex", b =>
@@ -1810,7 +1810,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("ill_due_dis_not_suffering_according_to_sex", (string)null);
+                    b.ToTable("ill_due_dis_not_suffering_according_to_sex");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.IllDueDisSufferingAccordingToSexAge", b =>
@@ -1920,7 +1920,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("ill_due_dis_suffering_according_to_sex_age", (string)null);
+                    b.ToTable("ill_due_dis_suffering_according_to_sex_age");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.IllDueDisSufferingAccordingToTypeOfDisease", b =>
@@ -2020,7 +2020,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("ill_due_dis_suffering_according_to_type_of_disease", (string)null);
+                    b.ToTable("ill_due_dis_suffering_according_to_type_of_disease");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.LossAndDamageOfProperties", b =>
@@ -2058,7 +2058,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("loss_and_damage_of_properties", (string)null);
+                    b.ToTable("loss_and_damage_of_properties");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.PstDisSufferingsAccordingToCauseOfDisease", b =>
@@ -2118,7 +2118,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("pst_dis_sufferings_according_to_cause_of_disease", (string)null);
+                    b.ToTable("pst_dis_sufferings_according_to_cause_of_disease");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.PstDisSufferingsAccordingToTypeOfDisease", b =>
@@ -2218,7 +2218,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("pst_dis_sufferings_according_to_type_of_disease", (string)null);
+                    b.ToTable("pst_dis_sufferings_according_to_type_of_disease");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentPerceptionAboutDisasterManagement", b =>
@@ -2258,7 +2258,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondent_perception_about_disaster_management", (string)null);
+                    b.ToTable("respondent_perception_about_disaster_management");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentPerceptionAboutImpactOfClimateChange", b =>
@@ -2313,7 +2313,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondent_perception_about_impact_climate_cng", (string)null);
+                    b.ToTable("respondent_perception_about_impact_climate_cng");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentReceivedLoanPostDisasterPeriodGovtBank", b =>
@@ -2368,7 +2368,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondent_received_loan_govt_bank", (string)null);
+                    b.ToTable("respondent_received_loan_govt_bank");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentReceivedLoanPostDisasterPeriodPrivateBank", b =>
@@ -2423,7 +2423,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondent_received_loan_private_bank", (string)null);
+                    b.ToTable("respondent_received_loan_private_bank");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentsPerceptionAboutClimateChange", b =>
@@ -2468,7 +2468,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondents_perception_about_climate_change", (string)null);
+                    b.ToTable("respondents_perception_about_climate_change");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.RespondentsPerceptionaboutDisaster", b =>
@@ -2508,7 +2508,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("respondents_perception_about_disaster", (string)null);
+                    b.ToTable("respondents_perception_about_disaster");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DistrictWiseInfoModels.TrtmentFacltiRcvByHHInsufficientWtrSply", b =>
@@ -2588,7 +2588,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DistrictGeoCode");
 
-                    b.ToTable("trtment_faclti_rcv_by_hh_insufficient_wtr_sply", (string)null);
+                    b.ToTable("trtment_faclti_rcv_by_hh_insufficient_wtr_sply");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.DisasterAffHHCatPreparednes2015To2020Div", b =>
@@ -2658,7 +2658,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("disaster_aff_hh_cat_preparednes_2015_to_2020_div", (string)null);
+                    b.ToTable("disaster_aff_hh_cat_preparednes_2015_to_2020_div");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdAffectedAndGotEarlyWarningFrom2015To2020", b =>
@@ -2688,7 +2688,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("household_affected_and_got_early_warning_from_2015_to_2020", (string)null);
+                    b.ToTable("household_affected_and_got_early_warning_from_2015_to_2020");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdAffectedByNonWorkingDays", b =>
@@ -2738,7 +2738,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("household_affected_by_non_working_days", (string)null);
+                    b.ToTable("household_affected_by_non_working_days");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.DivisionWiseInfoModels.HouseholdGotEarlyWarningByTypeOfMedia", b =>
@@ -2798,7 +2798,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("DivisionGeoCode");
 
-                    b.ToTable("household_got_early_warning_by_type_of_media", (string)null);
+                    b.ToTable("household_got_early_warning_by_type_of_media");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.DownloadLog", b =>
@@ -2831,7 +2831,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("download_log", (string)null);
+                    b.ToTable("download_log");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.LogType", b =>
@@ -2849,7 +2849,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LogTypes", (string)null);
+                    b.ToTable("LogTypes");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.HitCountAndLogModels.ServerHitInfo", b =>
@@ -2877,7 +2877,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ServerHitInfos", (string)null);
+                    b.ToTable("ServerHitInfos");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.Message", b =>
@@ -2918,7 +2918,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("ReplyStatusId");
 
-                    b.ToTable("tbl_user_message", (string)null);
+                    b.ToTable("tbl_user_message");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryMauza", b =>
@@ -2959,7 +2959,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_mauza", (string)null);
+                    b.ToTable("lkp_admin_boundary_mauza");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryUnion", b =>
@@ -2986,7 +2986,7 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)")
                         .HasColumnName("old_geo_code")
-                        .HasColumnOrder(0);
+                        .HasColumnOrder(1);
 
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
@@ -2998,13 +2998,13 @@ namespace EcdsApp.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("union_name")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(2);
 
                     b.Property<string>("UnionNameBangla")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("union_name_bangla")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.Property<string>("UpazilaGeoCode")
                         .IsRequired()
@@ -3015,7 +3015,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_unions", (string)null);
+                    b.ToTable("lkp_admin_boundary_unions");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.RegionModels.AdminBoundaryVillage", b =>
@@ -3056,7 +3056,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("MauzaGeoCode");
 
-                    b.ToTable("lkp_admin_boundary_village", (string)null);
+                    b.ToTable("lkp_admin_boundary_village");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.SystemCommon.Chat", b =>
@@ -3094,7 +3094,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("Sender");
 
-                    b.ToTable("chats", (string)null);
+                    b.ToTable("chats");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.SystemCommon.EmailConfiguration", b =>
@@ -3142,7 +3142,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("email_configurations", (string)null);
+                    b.ToTable("email_configurations");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.BoundaryInfo", b =>
@@ -3174,7 +3174,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_boundary_info", (string)null);
+                    b.ToTable("lkp_boundary_info");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.ColumnType", b =>
@@ -3190,7 +3190,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_column_type", (string)null);
+                    b.ToTable("lkp_column_type");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.TableColumnInfo", b =>
@@ -3231,7 +3231,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("tbl_table_column_info", (string)null);
+                    b.ToTable("tbl_table_column_info");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.TabularModels.TableInfo", b =>
@@ -3272,7 +3272,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("SubThemeId");
 
-                    b.ToTable("tbl_table_info", (string)null);
+                    b.ToTable("tbl_table_info");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.LayerLegendColor", b =>
@@ -3318,7 +3318,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("LayerId");
 
-                    b.ToTable("tbl_layer_legend_colors", (string)null);
+                    b.ToTable("tbl_layer_legend_colors");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.LegendColorOption", b =>
@@ -3335,7 +3335,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_legend_color_option", (string)null);
+                    b.ToTable("lkp_legend_color_option");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.MetaDataDetail", b =>
@@ -3426,7 +3426,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("LayerId");
 
-                    b.ToTable("tbl_metadata_details", (string)null);
+                    b.ToTable("tbl_metadata_details");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.SubTheme", b =>
@@ -3455,7 +3455,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("ThemeId");
 
-                    b.ToTable("lkp_sub_themes", (string)null);
+                    b.ToTable("lkp_sub_themes");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.Theme", b =>
@@ -3498,7 +3498,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("ThemeId");
 
-                    b.ToTable("lkp_themes", (string)null);
+                    b.ToTable("lkp_themes");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.ThemeLayerDetail", b =>
@@ -3533,6 +3533,10 @@ namespace EcdsApp.Migrations
                     b.Property<decimal>("FillOpacity")
                         .HasColumnType("decimal(4, 2)")
                         .HasColumnName("fill_opacity");
+
+                    b.Property<DateTime?>("GeneratedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("generated_at");
 
                     b.Property<string>("LayerDisplayName")
                         .IsRequired()
@@ -3593,6 +3597,10 @@ namespace EcdsApp.Migrations
                         .HasColumnType("decimal(4, 2)")
                         .HasColumnName("opacity");
 
+                    b.Property<bool>("ReadStatus")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("read_status");
+
                     b.Property<int?>("SortingOrder")
                         .HasColumnType("int")
                         .HasColumnName("sorting_order");
@@ -3604,6 +3612,10 @@ namespace EcdsApp.Migrations
                     b.Property<int?>("TableInfoId")
                         .HasColumnType("int")
                         .HasColumnName("table_info_id");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("user_id");
 
                     b.HasKey("LayerId");
 
@@ -3619,7 +3631,9 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("TableInfoId");
 
-                    b.ToTable("tbl_theme_layer_details", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("tbl_theme_layer_details");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.ThemeModels.ThemeLayerType", b =>
@@ -3636,7 +3650,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("LayerTypeId");
 
-                    b.ToTable("lkp_theme_layer_types", (string)null);
+                    b.ToTable("lkp_theme_layer_types");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionRainfall4Point5", b =>
@@ -3671,7 +3685,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_rainfall_4_point_5", (string)null);
+                    b.ToTable("tbl_future_projection_rainfall_4_point_5");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionRainfall8Point5", b =>
@@ -3706,7 +3720,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_rainfall_8_point_5", (string)null);
+                    b.ToTable("tbl_future_projection_rainfall_8_point_5");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMax4Point5", b =>
@@ -3741,7 +3755,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_max_4_point_5", (string)null);
+                    b.ToTable("tbl_future_projection_temperature_max_4_point_5");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMax8Point5", b =>
@@ -3776,7 +3790,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_max_8_point_5", (string)null);
+                    b.ToTable("tbl_future_projection_temperature_max_8_point_5");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMean4Point5", b =>
@@ -3811,7 +3825,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_mean_4_point_5", (string)null);
+                    b.ToTable("tbl_future_projection_temperature_mean_4_point_5");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMean8Point5", b =>
@@ -3846,7 +3860,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_mean_8_point_5", (string)null);
+                    b.ToTable("tbl_future_projection_temperature_mean_8_point_5");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMin4Point5", b =>
@@ -3881,7 +3895,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_min_4_point_5", (string)null);
+                    b.ToTable("tbl_future_projection_temperature_min_4_point_5");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionTemperatureMin8Point5", b =>
@@ -3916,7 +3930,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UnionGeoCode");
 
-                    b.ToTable("tbl_future_projection_temperature_min_8_point_5", (string)null);
+                    b.ToTable("tbl_future_projection_temperature_min_8_point_5");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.ExposureCategory", b =>
@@ -3932,7 +3946,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_exposure_category", (string)null);
+                    b.ToTable("lkp_exposure_category");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseExposureData", b =>
@@ -3987,7 +4001,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_exposure_data", (string)null);
+                    b.ToTable("tbl_upazila_wise_exposure_data");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseLiteracyRate", b =>
@@ -4018,7 +4032,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_literacy_rate", (string)null);
+                    b.ToTable("tbl_upazila_wise_literacy_rate");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDensity", b =>
@@ -4039,7 +4053,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_upazila_wise_population_density", (string)null);
+                    b.ToTable("tbl_upazila_wise_population_density");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePopulationDistribution", b =>
@@ -4062,7 +4076,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_population_distribution", (string)null);
+                    b.ToTable("tbl_upazila_wise_population_distribution");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWisePoverty", b =>
@@ -4085,7 +4099,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_poverty", (string)null);
+                    b.ToTable("tbl_upazila_wise_poverty");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UpazilaWiseInfoModels.UpazilaWiseRiskIndex", b =>
@@ -4156,7 +4170,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UpazilaGeoCode");
 
-                    b.ToTable("tbl_upazila_wise_risk_index", (string)null);
+                    b.ToTable("tbl_upazila_wise_risk_index");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.ApplicationUser", b =>
@@ -4330,7 +4344,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UserRoleId");
 
-                    b.ToTable("user_role_wise_components", (string)null);
+                    b.ToTable("user_role_wise_components");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.RoleWisePermittedContent", b =>
@@ -4353,7 +4367,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("UserRoleId");
 
-                    b.ToTable("user_role_wise_permitted_contents", (string)null);
+                    b.ToTable("user_role_wise_permitted_contents");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserManage.UserPermittedContent", b =>
@@ -4392,7 +4406,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("ContentId");
 
-                    b.ToTable("user_permitted_contents", (string)null);
+                    b.ToTable("user_permitted_contents");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserMessage.MessageReply", b =>
@@ -4422,7 +4436,7 @@ namespace EcdsApp.Migrations
 
                     b.HasIndex("MsgId");
 
-                    b.ToTable("tbl_message_replys", (string)null);
+                    b.ToTable("tbl_message_replys");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UserMessage.Status", b =>
@@ -4440,7 +4454,7 @@ namespace EcdsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_reply_statuses", (string)null);
+                    b.ToTable("tbl_reply_statuses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -5200,6 +5214,10 @@ namespace EcdsApp.Migrations
                         .WithMany()
                         .HasForeignKey("TableInfoId");
 
+                    b.HasOne("EcdsApp.Models.UserManage.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("BoundaryInfo");
 
                     b.Navigation("DataVerificationState");
@@ -5211,6 +5229,8 @@ namespace EcdsApp.Migrations
                     b.Navigation("TableInfo");
 
                     b.Navigation("ThemeLayerTypes");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EcdsApp.Models.UnionWiseInfoModels.FutureProjectionRainfall4Point5", b =>

@@ -168,6 +168,22 @@
                                     <span asp-validation-for="LineWeight" class="text-danger"></span>
                                 </div>
                             </div>
+
+                            
+
+                            <div class="mb-3 row" hidden>
+                                <label class="col-md-2 col-form-label required" asp-for="GeneratedAt"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="GeneratedAt" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="mb-3 row" hidden>
+                                <label class="col-md-2 col-form-label required" asp-for="UserId"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="UserId" class="form-control"  />
+                                  
+                                </div>
+                            </div>
                             
                             @if (ViewBag.LayerType != AppStaticBase.LayerTypeTabular)
                             {
@@ -210,6 +226,22 @@
                                         <span asp-validation-for="LineWeight" class="text-danger"></span>
                                     </div>
                                 </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-md-2  required" asp-for="ReadStatus"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="ReadStatus" class="form-check-input" />
+
+                                    </div>
+                                </div>
+                            }else{
+                                <div class="mb-3 row" hidden>
+                                    <label class="col-md-2 col-form-label required" asp-for="ReadStatus"></label>
+                                    <div class="col-md-10">
+                                        <input asp-for="ReadStatus" class="form-control" />
+
+                                    </div>
+                                </div>
                             }
 
                             <div class="mt-4 text-right">
@@ -229,8 +261,8 @@
     @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
 
 <script type="text/javascript">
-console.log("@ViewBag.isSystemAdmin");
-console.log("@Model.DataVerificationStateId");
+    console.log("@ViewBag.isSystemAdmin");
+    console.log("@Model.DataVerificationStateId");
         $(document).ready(function() {
             //$('#ddlLayerType option:not(:selected)').attr('disabled', 'disabled');
 

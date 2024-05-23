@@ -90,6 +90,13 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.LineWeight)
                                 </th>
+
+                                <th>
+                                   Uploaded Organization
+
+                                <th>
+                                   Uploaded Person
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -170,6 +177,12 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.LineWeight)
                                 </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.User.Organization)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.User.FirstName)
+                                    </td>
                             </tr>
                             }
                         </tbody>

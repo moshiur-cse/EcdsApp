@@ -1,13 +1,17 @@
 ﻿using EcdsApp.Data;
 using EcdsApp.Models.ThemeModels;
+using EcdsApp.Models.UserManage;
 using EcdsApp.Security;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,13 +25,16 @@ namespace EcdsApp.Controllers.ThemeLayer
     {
         private readonly DataContext _context;
         private readonly IHostEnvironment _env;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LayerLegendColorsController(DataContext context, IHostEnvironment env)
+        public LayerLegendColorsController(DataContext context, IHostEnvironment env, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _env = env;
+            _userManager = userManager;
         }
 
+        
         // GET: LayerLegendColors
         [UserAuthorization]
         public async Task<IActionResult> Index()
@@ -57,10 +64,21 @@ namespace EcdsApp.Controllers.ThemeLayer
 
         // GET: LayerLegendColors/Create
         [UserAuthorization]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var user = await _userManager.GetUserAsync(User);
+            var userPerComponents = _context.RoleWiseComponents
+                .Where(r => r.UserRoleId == user.UserRoleId).Select(r => r.SubThemeId).ToList();
+            var ThemeList = _context.SubThemes.Where(e => userPerComponents.Contains(e.SubThemeId)).Select(k => new
+            {
+                ThemeId = k.ThemeId,
+                ThemeName = k.Themes.ThemeName
+            }).Distinct().ToList();
+
+
             //ViewData["LayerId"] = new SelectList(_context.ThemeLayerDetails.Where(t => t.LegendColorOptionId == 1), "LayerId", "LayerDisplayName");
-            ViewData["Themes"] = new SelectList(_context.Themes.ToList(), "ThemeId", "ThemeName");
+            //ViewData["Themes"] = new SelectList(_context.Themes.ToList(), "ThemeId", "ThemeName");
+            ViewData["Themes"] = new SelectList(ThemeList, "ThemeId", "ThemeName");
             return View();
         }
 
