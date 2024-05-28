@@ -36,12 +36,16 @@
                         <thead>
                             <tr class="bg-transparent">
                                 <th>Action</th>
+                                <th>Status</th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubThemes.Themes.ThemeName)
+                                </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.SubThemeId)
                                 </th>
-                                <th>
+                                @* <th>
                                     @Html.DisplayNameFor(model => model.LayerName)
-                                </th>
+                                </th> *@
                                 <th>
                                     @Html.DisplayNameFor(model => model.LayerDisplayName)
                                 </th>
@@ -53,7 +57,7 @@
                                 </th>
                                 <th>Boundary</th>
                                 <th>Table Name</th>
-                                <th>
+                                @* <th>
                                     @Html.DisplayNameFor(model => model.MainAttributeDisplayName)
                                 </th>
                                 <th>
@@ -89,7 +93,7 @@
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.LineWeight)
-                                </th>
+                                </th> *@
 
                                 <th>
                                    Uploaded Organization
@@ -97,6 +101,7 @@
                                 <th>
                                    Uploaded Person
                                 </th>
+                                <th>Uploaded Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -116,12 +121,18 @@
                                     <a asp-action="Download" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Download</a>
                                                                        
                                 </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DataVerificationState.StateName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubThemes.Themes.ThemeName)
+                                    </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.SubThemes.SubThemeName)
                                 </td>
-                                <td>
+                                @* <td>
                                     @Html.DisplayFor(modelItem => item.LayerName)
-                                </td>
+                                </td> *@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.LayerDisplayName)
                                 </td>
@@ -140,7 +151,7 @@
                                         @Html.DisplayFor(modelItem => item.TableInfo.DisplayName)
                                     </a>
                                 </td>
-                                <td>
+                                @* <td>
                                     @Html.DisplayFor(modelItem => item.MainAttributeDisplayName)
                                 </td>
                                 <td>
@@ -176,12 +187,15 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.LineWeight)
-                                </td>
+                                </td> *@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.User.Organization)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.User.FirstName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.GeneratedAt)
                                     </td>
                             </tr>
                             }

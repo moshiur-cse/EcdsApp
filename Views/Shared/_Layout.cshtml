@@ -170,6 +170,10 @@
     @await RenderSectionAsync("Scripts", required: false)
      <script>
 
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        }, false);
+
 
         // $.ajax({
         //     type: 'GET',

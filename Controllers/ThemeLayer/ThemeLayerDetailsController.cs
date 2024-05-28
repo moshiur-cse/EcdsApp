@@ -62,6 +62,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 .Include(t => t.BoundaryInfo)
                 .Include(t => t.TableInfo)
                 .Include(t => t.User)
+                .Include(t => t.DataVerificationState)
                 .Where(tld => userPerComponents.Contains(tld.SubThemeId));
 
 
