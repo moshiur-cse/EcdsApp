@@ -125,7 +125,16 @@
                                 </td>
 
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.DataVerificationState.StateName)
+
+                                        @if (item.DataVerificationStateId == 1 || item.DataVerificationStateId == 2){
+                                            
+                                            @Html.DisplayFor(modelItem => item.DataVerificationState.StateName)
+                                       }else
+                                        {
+
+                                            <a asp-action="DataVarification" asp-route-id="@item.LayerId" class="btn btn-success">Not Varify</a>
+                                        
+                                        }
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.SubThemes.Themes.ThemeName)

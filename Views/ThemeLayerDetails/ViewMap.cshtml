@@ -67,10 +67,10 @@
 @section Scripts {
     <script src="~/assets/libs/leaflet/leaflet.js"></script>
     <script type="text/javascript">
+
         var top_height = $('#page-topbar').height();
         var footer_height = $('.footer').height();
         $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
-
 
 
         $(window).resize(function () {
@@ -80,26 +80,10 @@
 
         });
 
-        var dashboard_map;
-        var legend = L.control({ position: 'topright' });
-        var legend_div = L.DomUtil.create('div', 'legend_info');
-        var mapLabels = L.layerGroup();
-        var legendcolorField = "GeoCode";
-
-        var legend_data = [];
-        var layer_Data = [];
-        var layerMapData = {};
-
-        var dist = [];
-        var male = [];
-        var female = [];
-        var total = [];
-        var optionsChart = {};
-
-        
-            jQuery.when(mapInit()).then(function () {
-                setTimeout(function () { addLayer() }, 500);
-            });
+         var dashboard_map;
+         jQuery.when(mapInit()).then(function () {
+             setTimeout(function () { addLayer() }, 500);
+         });
         
         
         function mapInit() {

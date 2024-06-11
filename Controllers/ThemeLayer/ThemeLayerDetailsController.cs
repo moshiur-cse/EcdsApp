@@ -24,6 +24,7 @@ using EcdsApp.Models.HitCountAndLogModels;
 using DocumentFormat.OpenXml.Drawing;
 using EcdsApp.Models.ViewModels.Map;
 using EcdsApp.Models.ThemeModels;
+//using AspNetCore;
 
 namespace EcdsApp.Controllers.ThemeLayer
 {
@@ -224,6 +225,7 @@ namespace EcdsApp.Controllers.ThemeLayer
                 }
                 themeLayerDetail.GeneratedAt = DateTime.Now;
                 themeLayerDetail.UserId = (await _userManager.GetUserAsync(User)).Id;
+                //themeLayerDetail.DataVerificationStateId = 3;  //Data Not varified means 3
                 themeLayerDetail.ReadStatus = false;
                 _context.Add(themeLayerDetail);
                 await _context.SaveChangesAsync();
@@ -643,7 +645,18 @@ namespace EcdsApp.Controllers.ThemeLayer
             return Json(ThemeLayerDetails);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DataVarification(int id)
+        {
+            var ThemeLayerDetails = await _context.ThemeLayerDetails.Where(e => e.LayerId == id).FirstOrDefaultAsync();
+            ThemeLayerDetails.DataVerificationStateId = 2;
+            _context.Update(ThemeLayerDetails);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("index");
+        }
 
-        
+
+
+
     }
 }
