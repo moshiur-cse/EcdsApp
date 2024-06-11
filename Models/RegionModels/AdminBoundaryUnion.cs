@@ -43,18 +43,18 @@ namespace EcdsApp.Models.RegionModels
         public virtual AdminBoundaryUpazila Upazila { get; set; }
 
 
-        [Column("municipality_geo_code", Order = 0, TypeName = "varchar(10)")]
+        [Column("municipality_geo_code", Order = 4, TypeName = "varchar(10)")]
         [StringLength(10, MinimumLength = 10, ErrorMessage = "The value must be 10 characters.")]
         [Display(Name = "Municipality Geo-Code")]
         public string MunicipalityGeoCode { get; set; }
 
-        [Column("municipality_name", Order = 1, TypeName = "nvarchar(250)")]
+        [Column("municipality_name", Order = 5, TypeName = "nvarchar(250)")]
         [StringLength(250,ErrorMessage = "The value must be less than 250 characters.")]
         [Display(Name = "Municipality Name")]
         public string MunicipalityName { get; set; }
 
 
-        [Column("sorting_order", Order = 3, TypeName = "int")]
+        [Column("sorting_order", Order =6, TypeName = "int")]
         [DataType(DataType.Text)]
         [Display(Name = "Sorting Order")]
         public int? SortingOrder { get; set; }

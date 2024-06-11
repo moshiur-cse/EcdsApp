@@ -475,7 +475,7 @@ namespace EcdsApp.Controllers.User_Manage
                     if (appUser.Email != user.Email)
                     {
                         user.Email = appUser.Email;
-                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+						var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         await _userManager.ChangeEmailAsync(user, appUser.Email, token);
                     }
                         
@@ -484,7 +484,8 @@ namespace EcdsApp.Controllers.User_Manage
                         user.UserName = appUser.UserName;
                     }
                     user.EmailConfirmed = appUser.EmailConfirmed;
-                }
+					user.IsOrganizationalSuperuser = appUser.IsOrganizationalSuperuser;
+				}
 
                 user.FirstName = appUser.FirstName;
                 user.LastName = appUser.LastName;
@@ -493,7 +494,8 @@ namespace EcdsApp.Controllers.User_Manage
                 user.Designation = appUser.Designation;
                 user.DateOfBirth = appUser.DateOfBirth;
                 user.Organization = appUser.Organization;
-                if (image != null)
+				
+				if (image != null)
                 {
                     user.ProfilePic = appUser.ProfilePic;
                 }

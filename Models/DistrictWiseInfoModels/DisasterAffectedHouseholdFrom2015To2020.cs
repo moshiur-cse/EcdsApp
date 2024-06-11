@@ -53,15 +53,15 @@ namespace EcdsApp.Models.DistrictWiseInfoModels
         [Display(Name = "Landslide")]
         public int Landslide { get; set; }
 
-        [Column("salinity", TypeName = "int", Order = 10)]
+        [Column("salinity", TypeName = "int", Order = 11)]
         [Display(Name = "Salinity")]
         public int Salinity { get; set; }
 
-        [Column("hailstrom", TypeName = "int", Order = 11)]
+        [Column("hailstrom", TypeName = "int", Order = 12)]
         [Display(Name = "Hailstrom")]
         public int Hailstrom { get; set; }
 
-        [Column("other_disasters", TypeName = "int", Order = 12)]
+        [Column("other_disasters", TypeName = "int", Order = 13)]
         [Display(Name = "Other Disasters")]
         public int OtherDisasters { get; set; }
     }

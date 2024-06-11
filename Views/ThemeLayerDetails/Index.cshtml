@@ -119,8 +119,11 @@
                                         <a href="#"class="px-2 text-primary" onclick="DeleteData(@item.LayerId)"><i class=" uil-trash-alt font-size-20"></i></a>
                                     }
                                     <a asp-action="Download" asp-route-id="@item.LayerId" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Download</a>
+
+                                    <a asp-action="ViewMap" asp-route-id="@item.LayerId" target="_blank" class="btn btn-danger btn-rounded btn-soft-danger waves-effect waves-light">Preview Map</a>
                                                                        
                                 </td>
+
                                     <td>
                                         @Html.DisplayFor(modelItem => item.DataVerificationState.StateName)
                                     </td>

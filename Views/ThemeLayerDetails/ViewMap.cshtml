@@ -1,0 +1,222 @@
+﻿@model EcdsApp.Models.ThemeModels.ThemeLayerDetail
+@{
+    ViewData["Title"] = "ViewMap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@section Styles {
+    <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/mapstyle.css" rel="stylesheet" />
+    <style>
+        .legend_info {
+            padding: 1px;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            /*font-size: 1vw;*/
+            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+            /*overflow: scroll;*/
+            min-height: 100px;
+            max-height: 400px;
+            /* resize: both;*/
+            text-align: left;
+        }
+
+        .card {
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+        }
+
+        .legend_info i {
+            width: 20px;
+            height: 15px;
+            float: left;
+            margin-right: 10px;
+            opacity: 0.7;
+            font: 400 14px/1.0 Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .legend_info p {
+            padding: 0.2vw;
+        }
+
+        .mapLabel {
+            height: auto !important;
+            width: auto !important;
+            /*font-weight: bold;
+                                                                                                                                                                    color: #025 line-height: 1;*/
+            padding: 0.2rem 0.3rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.5rem;
+            color: #000000;
+            text-shadow: 0 0 1px #aaa;
+            background: rgba(250,250,250,0.45);
+            border-radius: 0.25rem;
+        }
+    </style>
+}
+
+
+
+<div id="dashboard_map" class="leaflet-map page-content"></div>
+
+
+
+
+@section Scripts {
+    <script src="~/assets/libs/leaflet/leaflet.js"></script>
+    <script type="text/javascript">
+        var top_height = $('#page-topbar').height();
+        var footer_height = $('.footer').height();
+        $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+
+
+
+        $(window).resize(function () {
+            top_height = $('#page-topbar').height();
+            footer_height = $('.footer').height();
+            $('.leaflet-map').css("height", ($(window).height() - top_height - footer_height));
+
+        });
+
+        var dashboard_map;
+        var legend = L.control({ position: 'topright' });
+        var legend_div = L.DomUtil.create('div', 'legend_info');
+        var mapLabels = L.layerGroup();
+        var legendcolorField = "GeoCode";
+
+        var legend_data = [];
+        var layer_Data = [];
+        var layerMapData = {};
+
+        var dist = [];
+        var male = [];
+        var female = [];
+        var total = [];
+        var optionsChart = {};
+
+        
+            jQuery.when(mapInit()).then(function () {
+                setTimeout(function () { addLayer() }, 500);
+            });
+        
+        
+        function mapInit() {
+            var openstreet = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { id: 'MapID', minZoom: 0, maxZoom: 25 }),
+                blank = L.tileLayer("../images/blank.png", { id: 'MapID', minZoom: 0, maxZoom: 25 }
+                );
+
+
+            dashboard_map = new L.Map("dashboard_map",
+                {
+                    center: new L.LatLng(23.737777, 90.537777),
+                    fullscreenControl: false,
+                    zoomControl: false,
+                    maxZoom: 20,
+                    minZoom: 2,
+                    zoom: 6.0,
+                    layers: [openstreet],
+                });
+            dashboard_map.setView([23.837777, 90.347777], 7.0);
+            L.control.zoom({
+                position: 'bottomleft'
+            }).addTo(dashboard_map);
+        }
+
+        function addLayer() {
+            //var layerPath = "../assets/js/map/map_data/administrative/administrative_boundary/division/division.json";
+            //alert(@ViewBag.filePath);
+            var layerPath = window.origin + "/assets/js/map/map_data/" + "@ViewBag.filePath";
+            console.log(layerPath);
+            var layerData = L.geoJson(null, {
+                style: style,
+                onEachFeature: onEachFeature,
+                pointToLayer: pointToLayer,
+            });
+
+            $.getJSON(layerPath, function (LayerInfo) {
+                if (!LayerInfo) return;
+                layerData.addData(LayerInfo);
+            }).done(function (e) {
+                dashboard_map.addLayer(layerData);
+            });
+
+            function style(feature) {
+                //var color = getColor(layerMapData[feature.properties[legendcolorField]]);
+                return {
+                    //fillColor: color,
+                    weight: "@Model.LineWeight",
+                    opacity: @Model.Opacity,
+                    /* transparent: true,*/
+                    //color: color,
+                    fillColor: "@Model.FillColorCode",
+                    color: "@Model.LineColorCode",
+                    /*dashArray: '1',*/
+                    fillOpacity: 0.9
+                };
+
+            }
+
+            function onEachFeature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: mapOnClickAction
+                });
+
+               
+            }
+
+            function highlightFeature(e) {
+                var layer = e.target;
+
+                    var popupContent = "";
+               
+                    var mainContent = '';
+                    for (var i = 0; i < Object.getOwnPropertyNames(layer.feature.properties).length; i++) {
+                        if (Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLat" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLong" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "LegendId" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "GeoCode" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "Geocode") {
+                            continue;
+                        }
+                        mainContent += '<tr><th>' + Object.getOwnPropertyNames(layer.feature.properties)[i] + '</th><td>' + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]] + '</td></tr>';
+                    }
+                    popupContent = '<table class="table table-border">' + mainContent + '</table>';            
+                    layer.bindPopup(popupContent).openPopup(e.latlng);
+            }
+
+            function mapOnClickAction(e) {
+                var layer = e.target;
+
+                var popupContent = "";
+
+                var mainContent = '';
+                for (var i = 0; i < Object.getOwnPropertyNames(layer.feature.properties).length; i++) {
+                    if (Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLat" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "CntLong" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "LegendId" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "GeoCode" || Object.getOwnPropertyNames(layer.feature.properties)[i] == "Geocode") {
+                        continue;
+                    }
+                    mainContent += '<tr><th>' + Object.getOwnPropertyNames(layer.feature.properties)[i] + '</th><td>' + layer.feature.properties[Object.getOwnPropertyNames(layer.feature.properties)[i]] + '</td></tr>';
+                }
+                popupContent = '<table class="table table-border">' + mainContent + '</table>';
+                layer.bindPopup(popupContent, L.popup({
+                    //setLatLng: marker.getLatLng(),
+                    closeOnClick: false,
+                    autoClose: false,
+                    closeButton: true,
+                }).setLatLng(e.latlng).setContent(popupContent).openOn(dashboard_map)).openPopup(e.latlng);
+            }
+
+            function resetHighlight(e) {
+                dashboard_map.closePopup();
+                layerData.resetStyle(e.target);
+            }
+
+            function pointToLayer(feature, latlng) {
+                return L.marker(latlng, { icon: L.icon({ iconUrl: window.origin + '/assets/images/marker_icon.png', iconSize: [30, 30] }) });
+            }
+           
+        }
+
+    </script>
+}
+
+

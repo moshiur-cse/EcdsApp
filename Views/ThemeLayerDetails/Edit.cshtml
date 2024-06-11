@@ -215,15 +215,15 @@
                                                                         
                                 </div>
                             }
-                        @if ( ViewBag.isSystemAdmin == true)
+                            @if (ViewBag.isSystemAdmin == true)
                             {
                                 <div class="mb-3 row">
-                                    <label class="col-md-2 col-form-label required" asp-for="LineWeight">Verification State</label>
+                                    <label class="col-md-2 col-form-label required" asp-for="DataVerificationStateId">Verification State</label>
                                     <div class="col-md-10">
                                         <select class="form-select" asp-for="DataVerificationStateId" asp-items="@ViewBag.DataStatusId" required="">
                                             <option value=""> -- Select -- </option>
                                         </select>
-                                        <span asp-validation-for="LineWeight" class="text-danger"></span>
+                                        <span asp-validation-for="DataVerificationStateId" class="text-danger"></span>
                                     </div>
                                 </div>
 
@@ -234,6 +234,20 @@
 
                                     </div>
                                 </div>
+                            @if (ViewBag.isOrgAdmin == true)
+                             {
+                                    <div class="mb-3 row">
+                                        <label class="col-md-2 col-form-label required" asp-for="DataVerificationStateId">Verification State</label>
+                                        <div class="col-md-10">
+                                            <select class="form-select" asp-for="DataVerificationStateId" asp-items="@ViewBag.DataStatusId" required="">
+                                                <option value=""> -- Select -- </option>
+                                            </select>
+                                            <span asp-validation-for="DataVerificationStateId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    
+                             }
+
                             }else{
                                 <div class="mb-3 row" hidden>
                                     <label class="col-md-2 col-form-label required" asp-for="ReadStatus"></label>

@@ -49,6 +49,10 @@ namespace EcdsApp.Models.UserManage
         [StringLength(50)]
         public string Designation { get; set; }
 
+        [Column("is_org_superuser")]
+        [Display(Name = "Is Organization Superuser")]
+        public bool IsOrganizationalSuperuser { get; set; }
+
         //[Required]
         [Column("user_activation_status_id")]
         [Display(Name = "User Activation Status Id")]

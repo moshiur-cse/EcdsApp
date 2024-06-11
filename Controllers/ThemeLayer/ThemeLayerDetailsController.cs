@@ -69,7 +69,9 @@ namespace EcdsApp.Controllers.ThemeLayer
             ViewBag.IsPermittedToAddData = permToAddData;
             ViewBag.IsPermittedToEditData = permToEditData;       
             ViewBag.IsPermittedToDeleteData = permToDeleteData;       
+
             ViewBag.isSystemAdmin = user.UserRoleId != null && user.UserRoleId == "f3b152e7-5e27-4d94-8101-5994faef8fdd" ? true:false;
+            ViewBag.isOrgAdmin = user.IsOrganizationalSuperuser;
             return View(await dataContext.ToListAsync());
         }
 
@@ -506,6 +508,17 @@ namespace EcdsApp.Controllers.ThemeLayer
             return Json("Theme Layer deleted successfully.");
         }
 
+        public async Task<IActionResult> ViewMap(int? id)
+        {
+            var layerObj = await _context.ThemeLayerDetails.Include(t => t.SubThemes.Themes).FirstOrDefaultAsync(m => m.LayerId == id);
+            var themePath = layerObj?.SubThemes.Themes.ThemePath;
+            var subThemePath = layerObj?.SubThemes.SubThemePath;
+            var folderPathDirectory = themePath?.Trim()+"/"+subThemePath?.Trim()+"/"+layerObj.LayerName.Trim()+"/"+ layerObj.LayerFileName;
+
+            ViewBag.filePath = folderPathDirectory;
+            return  View(layerObj);
+        }
+
         public async Task<FileResult> Download(int? id)
         {
 
@@ -549,6 +562,8 @@ namespace EcdsApp.Controllers.ThemeLayer
 
                 //return File("", "application/zip", fileName);
             }
+
+
 
             using (ZipOutputStream IzipOutputStream = new ZipOutputStream(System.IO.File.Create(tempOutput)))
             {
