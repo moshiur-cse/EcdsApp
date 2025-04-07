@@ -35,8 +35,11 @@ namespace EcdsApp.Data
             //optionsBuilder.UseMySQL("server=localhost;userid=root;pwd=Ecds#DbAdmin@2023$;database=ecds_db;Allow User Variables=True;");
             //optionsBuilder.UseMySQL("server=server=130.180.3.146;userid=drip_admin;pwd=2022;database=ecds_db;Allow User Variables=True;");
             //179 local IP->55.5.0.65
-             optionsBuilder.UseMySQL("server=www.cegisbd.com;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
-            //optionsBuilder.UseMySQL("server=ims.cegisbd.com;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;SSL Mode=None");
+            optionsBuilder.UseMySQL("server=www.cegisbd.com;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;");
+
+
+
+            //optionsBuilder.UseMySQL("server=localhost;userid=root;pwd=7MxtNEN6NM;database=ecds_db;Allow User Variables=True;SSL Mode=None");
 
             //server = 202.53.173.179; userid = drip_admin; pwd =#UndP^drIp@2020;database=drip_undp_plancomm2;
             optionsBuilder.EnableSensitiveDataLogging();
@@ -44,6 +47,7 @@ namespace EcdsApp.Data
         public string GetConnectionString()
         {
             return Database.GetDbConnection().ConnectionString = "server=www.cegisbd.com;userid=drip_admin;pwd=#UndP^drIp@2020;database=ecds_db;Allow User Variables=True;";
+            //return Database.GetDbConnection().ConnectionString = "server=localhost;userid=root;pwd=7MxtNEN6NM;database=ecds_db;Allow User Variables=True;";
             //return Database.GetDbConnection().ConnectionString = "server=130.180.3.146;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True; SSL Mode=None";
             //return Database.GetDbConnection().ConnectionString = "server=ims.cegisbd.com;userid=rmo;pwd=RMO@2022;database=ecds_db;Allow User Variables=True;SSL Mode=None";
             //return Database.GetDbConnection().ConnectionString = "server=localhost;userid=root;pwd=Ecds#DbAdmin@2023$;database=ecds_db;Allow User Variables=True;";

@@ -111,8 +111,7 @@
         function addLayer() {
             //var layerPath = "../assets/js/map/map_data/administrative/administrative_boundary/division/division.json";
             //alert(@ViewBag.filePath);
-            var layerPath = window.origin + "/assets/js/map/map_data/" + "@ViewBag.filePath";
-            console.log(layerPath);
+            var layerPath = window.origin + "/ecds/assets/js/map/map_data/" + "@ViewBag.filePath";
             var layerData = L.geoJson(null, {
                 style: style,
                 onEachFeature: onEachFeature,
@@ -195,7 +194,7 @@
             }
 
             function pointToLayer(feature, latlng) {
-                return L.marker(latlng, { icon: L.icon({ iconUrl: window.origin + '/assets/images/marker_icon.png', iconSize: [30, 30] }) });
+                return L.marker(latlng, { icon: L.icon({ iconUrl: window.origin + '/ecds/assets/images/marker_icon.png', iconSize: [30, 30] }) });
             }
            
         }
