@@ -1,4 +1,5 @@
 # Environment, Climate Change and Disaster Statistics (ECDS) Platform
+Live URL: https://ims.cegisbd.com/ecds/
 
 A web-based GIS platform for the integration of geospatial data and information on environment, climate change, natural resources, and disasters in Bangladesh — developed under the **Strengthening Environment, Climate Change and Disaster Statistics (ECDS) Project**, Bangladesh Bureau of Statistics (BBS), Ministry of Planning.
 
